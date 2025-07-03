@@ -23,11 +23,17 @@ export default function GifMakerTool() {
   })
 
   // Handle file or URL upload
+  // Accepts files or an array of URLs
   const handleFileUpload = useCallback((files, urlInput = null) => {
     setErrorMessage(null)
     setResultUrl(null)
     if (uploadMethod === 'url' && urlInput) {
-      setMediaUrls([urlInput])
+      // urlInput can be a string (single) or array (multi)
+      if (Array.isArray(urlInput)) {
+        setMediaUrls(urlInput)
+      } else {
+        setMediaUrls([urlInput])
+      }
       setMediaFiles([])
     } else if (files && files.length > 0) {
       setMediaFiles(Array.from(files))
@@ -194,12 +200,15 @@ export default function GifMakerTool() {
                   uploadMethod={uploadMethod}
                   setUploadMethod={setUploadMethod}
                   onFileSelect={(files) => handleFileUpload(files)}
-                  onUrlSubmit={(url) => handleFileUpload(null, url)}
+                  onUrlSubmit={(urls) => handleFileUpload(null, urls)}
                   isProcessing={isProcessing}
                   supportedFormats="Supported formats: JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, PDF"
                   accept="image/*"
                   isMultiple={true}
+                  isMultipleUrl={true}
                   toolName="Image"
+                  urlList={mediaUrls}
+                  setUrlList={setMediaUrls}
                 />
               </CardContent>
             </Card>

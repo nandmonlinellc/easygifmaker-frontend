@@ -53,12 +53,16 @@ export default function FileUploadSection({
   isProcessing,
   supportedFormats,
   isMultiple = false,
+  isMultipleUrl = false, // NEW PROP
   accept,
-  toolName = 'File'
+  toolName = 'File',
+  urlList = [], // NEW PROP: for controlled multi-url
+  setUrlList = null // NEW PROP: for controlled multi-url
 }) {
   const [urlInput, setUrlInput] = useState('')
   const [error, setError] = useState(null)
 
+  // For single URL
   const handleUrlButtonClick = () => {
     setError(null)
     if (!urlInput) return
@@ -67,6 +71,21 @@ export default function FileUploadSection({
       return
     }
     onUrlSubmit(urlInput)
+  }
+
+  // For multiple URLs (textarea, comma/newline separated)
+  const handleMultiUrlSubmit = () => {
+    setError(null)
+    if (!urlInput) return
+    // Split by newlines or commas, trim, filter empty
+    const urls = urlInput.split(/\n|,/).map(u => u.trim()).filter(Boolean)
+    const unsupported = urls.filter(url => !isUrlSupported(url, toolName))
+    if (unsupported.length > 0) {
+      setError(`Unsupported URLs: ${unsupported.join(', ')}. Allowed: ${getAcceptedExtensions(toolName).join(', ').toUpperCase()}`)
+      return
+    }
+    if (setUrlList) setUrlList(urls)
+    onUrlSubmit(urls)
   }
 
   const handleFileChange = (e) => {
@@ -86,7 +105,7 @@ export default function FileUploadSection({
     <Tabs value={uploadMethod} onValueChange={setUploadMethod}>
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="file">Upload {isMultiple ? 'Files' : 'File'}</TabsTrigger>
-        <TabsTrigger value="url">From URL</TabsTrigger>
+        <TabsTrigger value="url">From URL{isMultipleUrl ? 's' : ''}</TabsTrigger>
       </TabsList>
       <TabsContent value="file" className="space-y-4">
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
@@ -118,22 +137,54 @@ export default function FileUploadSection({
       <TabsContent value="url" className="space-y-4">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="url-input">Enter {toolName} URL:</Label>
-            <div className="flex gap-2 mt-2">
-              <Input
-                id="url-input"
-                type="url"
-                placeholder={`https://example.com/${toolName.toLowerCase()}.${getAcceptedExtensions(toolName)[0] || 'gif'}`}
-                value={urlInput}
-                onChange={(e) => setUrlInput(e.target.value)}
-                disabled={isProcessing}
-              />
-              <Button 
-                onClick={handleUrlButtonClick}
-                disabled={isProcessing || !urlInput}
-              >
-                {isProcessing ? 'Loading...' : 'Load'}
-              </Button>
+            <Label htmlFor="url-input">Enter {toolName} URL{isMultipleUrl ? 's' : ''}:</Label>
+            <div className="flex flex-col gap-2 mt-2">
+              {isMultipleUrl ? (
+                <>
+                  <textarea
+                    id="url-input"
+                    rows={4}
+                    placeholder={`Paste one URL per line or separate by comma`}
+                    value={urlInput}
+                    onChange={e => setUrlInput(e.target.value)}
+                    disabled={isProcessing}
+                    className="w-full border rounded px-2 py-1"
+                  />
+                  <Button 
+                    onClick={handleMultiUrlSubmit}
+                    disabled={isProcessing || !urlInput}
+                  >
+                    {isProcessing ? 'Loading...' : 'Load URLs'}
+                  </Button>
+                  {urlList && urlList.length > 0 && (
+                    <div className="mt-2 text-xs text-gray-600">
+                      <strong>Loaded URLs:</strong>
+                      <ul className="list-disc pl-4">
+                        {urlList.map((url, idx) => (
+                          <li key={idx}>{url}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex gap-2">
+                  <Input
+                    id="url-input"
+                    type="url"
+                    placeholder={`https://example.com/${toolName.toLowerCase()}.${getAcceptedExtensions(toolName)[0] || 'gif'}`}
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    disabled={isProcessing}
+                  />
+                  <Button 
+                    onClick={handleUrlButtonClick}
+                    disabled={isProcessing || !urlInput}
+                  >
+                    {isProcessing ? 'Loading...' : 'Load'}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           {error && (
