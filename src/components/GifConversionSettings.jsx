@@ -69,7 +69,16 @@ export default function GifConversionSettings({
         />
       </div>
 
-      <div className="pt-4 border-t">
+      <div className="flex items-center gap-2 pt-4 border-t">
+        <input
+          id="include-audio"
+          type="checkbox"
+          checked={!!videoSettings.includeAudio}
+          onChange={e => onSettingChange('includeAudio', e.target.checked)}
+        />
+        <Label htmlFor="include-audio">Include Audio (output as .mp4 with audio, in addition to GIF)</Label>
+      </div>
+      <div className="pt-2">
         <div className="text-sm text-gray-600">
           <p><strong>Segment:</strong> {videoSettings.duration.toFixed(1)}s</p>
           <p><strong>Start:</strong> {videoSettings.startTime.toFixed(1)}s</p>

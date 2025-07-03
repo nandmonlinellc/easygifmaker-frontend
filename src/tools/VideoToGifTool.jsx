@@ -22,7 +22,8 @@ export default function VideoToGifTool() {
     fps: 15,
     width: 480,
     height: 360,
-    quality: 'medium'
+    quality: 'medium',
+    includeAudio: false
   })
   // State for video timeline segment range, controlled by VideoToGifTool
   const [segmentRangeState, setSegmentRange] = useState([0, 10])
@@ -99,6 +100,7 @@ export default function VideoToGifTool() {
       formData.append('width', videoSettings.width.toString())
       formData.append('height', videoSettings.height.toString())
       formData.append('quality', videoSettings.quality)
+      formData.append('include_audio', videoSettings.includeAudio ? 'true' : 'false')
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
       const response = await fetch(`${apiUrl}/api/video-to-gif`, {
         method: 'POST',
@@ -125,8 +127,12 @@ export default function VideoToGifTool() {
           await new Promise(res => setTimeout(res, 1000))
         }
         if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-          const downloadUrl = `${apiUrl}/api/download/${result}`
-          setResultUrl(downloadUrl)
+          // If result is an object with gif/mp4, show both download links
+          if (typeof result === 'object' && result.gif) {
+            setResultUrl({ gif: `${apiUrl}/api/download/${result.gif}`, mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}` : null })
+          } else {
+            setResultUrl(`${apiUrl}/api/download/${result}`)
+          }
           setWorkflowState('result')
         } else {
           throw new Error('GIF conversion timed out. Please try again.')
@@ -155,7 +161,8 @@ export default function VideoToGifTool() {
       fps: 15,
       width: 480,
       height: 360,
-      quality: 'medium'
+      quality: 'medium',
+      includeAudio: false
     })
     setSegmentRange([0, 10])
   }
@@ -202,7 +209,7 @@ export default function VideoToGifTool() {
                   onFileSelect={(files) => handleFileUpload(files)}
                   onUrlSubmit={(url) => handleFileUpload(null, url)}
                   isProcessing={isProcessing}
-                  supportedFormats="Supported formats: MP4, WebM, AVI, MOV, YouTube URLs"
+                  supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Only direct video file links are accepted. YouTube, Facebook, TikTok, and similar links are not supported."
                   accept="video/*"
                   toolName="Video"
                 />
@@ -289,10 +296,11 @@ export default function VideoToGifTool() {
           {workflowState === 'result' && resultUrl && (
             <ResultSection
               title="Your GIF is Ready!"
-              description=""
-              imageUrl={resultUrl}
+              description={resultUrl.mp4 ? "You can download both the GIF and the .mp4 with audio." : ""}
+              imageUrl={resultUrl.gif || resultUrl}
               downloadFileName="converted.gif"
               onReset={resetWorkflow}
+              extraDownload={resultUrl.mp4 ? { url: resultUrl.mp4, label: 'Download MP4 with Audio' } : null}
             />
           )}
         </div>
