@@ -121,6 +121,15 @@ export default function GifMakerTool() {
             const gifBlob = await downloadResp.blob()
             const url = URL.createObjectURL(new Blob([gifBlob], { type: 'image/gif' }))
             setResultUrl(url)
+            // Fire Google Ads conversion event after GIF is created
+            if (window.gtag) {
+              window.gtag('event', 'conversion', {
+                'send_to': 'AW-355581212/jpJHCIiCqI8DEJz6xqkB',
+                'value': 1.0,
+                'currency': 'USD',
+                'transaction_id': ''
+              });
+            }
             setWorkflowState('result')
           } else {
             throw new Error('Timed out waiting for processing.')
