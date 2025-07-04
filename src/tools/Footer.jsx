@@ -16,10 +16,20 @@ export default function Footer() {
     { title: 'Contact', path: '/contact' }
   ]
 
+  // Tool links for footer
+  const toolLinks = [
+    { title: 'Video to GIF', path: '/video-to-gif' },
+    { title: 'GIF Maker', path: '/gif-maker' },
+    { title: 'Resize GIF', path: '/resize' },
+    { title: 'Crop GIF', path: '/crop' },
+    { title: 'Optimize GIF', path: '/optimize' },
+    { title: 'Add Text to GIF', path: '/add-text' }
+  ]
+
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
@@ -36,7 +46,22 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Help Links */}
+          {/* Tool Links */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">GIF Tools</h3>
+            <ul className="space-y-2">
+              {toolLinks.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div>
             <h3 className="text-sm font-semibold text-gray-900 mb-4">Help & Support</h3>
             <ul className="space-y-2">
