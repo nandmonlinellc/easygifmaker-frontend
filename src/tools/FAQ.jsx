@@ -11,7 +11,7 @@ export default function FAQ() {
       <h2 className="text-xl font-semibold mt-6 mb-2">Can I use EasyGIFMaker on mobile?</h2>
       <p className="mb-2">Yes, our website is mobile-friendly and works on all modern devices.</p>
       <h2 className="text-xl font-semibold mt-6 mb-2">Who can I contact for support?</h2>
-      <p>Contact us at <a href="mailto:support@easygifmaker.com" className="text-blue-600 underline">support@easygifmaker.com</a>.</p>
+      <p>Contact us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 underline">nandmonlinellc@gmail.com</a>.</p>
     </div>
   );
 }

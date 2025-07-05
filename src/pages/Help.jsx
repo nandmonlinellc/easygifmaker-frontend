@@ -18,7 +18,7 @@ export default function Help() {
       <h2 className="text-xl font-semibold mt-6 mb-2">What formats are supported?</h2>
       <p className="mb-2">We support popular video formats (MP4, MOV, AVI, etc.) and image formats (JPG, PNG, GIF, etc.).</p>
       <h2 className="text-xl font-semibold mt-6 mb-2">Need more help?</h2>
-      <p>Contact us at <a href="mailto:support@easygifmaker.com" className="text-blue-600 underline">support@easygifmaker.com</a>.</p>
+      <p>Contact us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 underline">nandmonlinellc@gmail.com</a>.</p>
     </div>
   );
 }

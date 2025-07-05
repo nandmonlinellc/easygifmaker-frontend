@@ -8,7 +8,7 @@ export default function Terms() {
       <h2 className="text-xl font-semibold mt-6 mb-2">Disclaimer</h2>
       <p className="mb-2">EasyGIFMaker is provided as-is without warranty. We are not responsible for any loss or damage resulting from the use of this service.</p>
       <h2 className="text-xl font-semibold mt-6 mb-2">Contact</h2>
-      <p>For questions about these terms, contact us at <a href="mailto:legal@easygifmaker.com" className="text-blue-600 underline">legal@easygifmaker.com</a>.</p>
+      <p>For questions about these terms, contact us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 underline">nandmonlinellc@gmail.com</a>.</p>
     </div>
   );
 }

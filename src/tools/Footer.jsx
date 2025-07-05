@@ -104,10 +104,10 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="mailto:support@easygifmaker.com"
+                href="mailto:nandmonlinellc@gmail.com"
                 className="text-xs text-gray-500 hover:text-blue-600 transition-colors"
               >
-                support@easygifmaker.com
+                nandmonlinellc@gmail.com
               </a>
             </div>
           </div>
