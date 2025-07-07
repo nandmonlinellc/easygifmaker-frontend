@@ -165,8 +165,8 @@ export default function AddTextTool() {
         />
         <link rel="canonical" href="https://easygifmaker.com/add-text" />
       </Helmet>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -174,13 +174,20 @@ export default function AddTextTool() {
                 <Type className="w-6 h-6 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
               Add Text to GIF - Interactive Text Overlay Tool
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Add custom text, captions, and watermarks to your GIFs and images with live preview. 
-              Drag to position, customize fonts, colors, and see changes in real-time.
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+              Add custom text, captions, and watermarks to your GIFs and images with live preview. Drag to position, customize fonts, colors, and see changes in real-time. No registration required.
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
+              <strong>How to use:</strong>
+              <ol className="list-decimal pl-5 mt-2 space-y-1">
+                <li>Upload your GIF or image file, or paste a direct URL.</li>
+                <li>Enter your text and customize font, color, and position.</li>
+                <li>Click "Add Text" and download your new GIF instantly.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Upload State */}

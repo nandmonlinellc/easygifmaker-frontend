@@ -130,8 +130,8 @@ export default function OptimizeTool() {
         <link rel="canonical" href="https://easygifmaker.com/optimize" />
       </Helmet>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -139,13 +139,20 @@ export default function OptimizeTool() {
                 <Zap className="w-6 h-6 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
               Optimize GIF - Compress and Reduce File Size
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Reduce your GIF file sizes without sacrificing quality. Perfect for web optimization, 
-              faster loading times, and easier sharing across platforms.
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+              Reduce your GIF file sizes without sacrificing quality. Perfect for web optimization, faster loading times, and easier sharing across platforms. No registration required.
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
+              <strong>How to use:</strong>
+              <ol className="list-decimal pl-5 mt-2 space-y-1">
+                <li>Upload your GIF file or paste a direct GIF URL.</li>
+                <li>Adjust optimization settings (quality, colors, lossy) as needed.</li>
+                <li>Click "Optimize" and download your smaller GIF instantly.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Upload State */}

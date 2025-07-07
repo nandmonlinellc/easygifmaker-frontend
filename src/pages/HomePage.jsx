@@ -93,25 +93,32 @@ export default function HomePage() {
         <link rel="canonical" href="https://easygifmaker.com" />
       </Helmet>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <section className="relative text-center mb-16">
+          <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
+            <div className="w-full h-48 bg-gradient-to-b from-blue-100/60 via-white/0 to-white/0 blur-2xl rounded-b-3xl"></div>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-blue-700 mb-4 drop-shadow-sm tracking-tight">
             Free Online GIF Maker & Video to GIF Converter
           </h1>
-          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
-            Create, edit, and optimize GIFs online with our powerful tools. Convert videos to GIF, 
-            resize, crop, add text, and more. No registration required, completely free.
+          <p className="text-2xl text-gray-700 mb-8 max-w-2xl mx-auto font-medium">
+            Create, edit, and optimize GIFs online with our powerful, privacy-focused tools. No registration required—completely free.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 text-base text-blue-700 font-semibold mb-6">
             {features.map((feature, index) => (
-              <span key={index} className="flex items-center">
+              <span key={index} className="flex items-center px-4 py-2 bg-blue-50 rounded-full shadow-sm border border-blue-100">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                 {feature}
               </span>
             ))}
           </div>
-        </div>
+          <div className="flex justify-center mt-6">
+            <Link to="/gif-maker" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition-colors text-lg">
+              Get Started
+            </Link>
+          </div>
+        </section>
 
         {/* Tools Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

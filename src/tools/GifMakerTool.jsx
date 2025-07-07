@@ -172,8 +172,8 @@ export default function GifMakerTool() {
         <link rel="canonical" href="https://easygifmaker.com/gif-maker" />
       </Helmet>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -181,13 +181,21 @@ export default function GifMakerTool() {
                 <Image className="w-6 h-6 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
               GIF Maker - Create Animated GIFs from Images
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Upload multiple images and create stunning animated GIFs with custom timing and loop settings. 
-              Perfect for creating memes, animations, and visual stories.
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+              Upload multiple images and create stunning animated GIFs with custom timing and loop settings. Perfect for memes, animations, and visual stories. No registration required.
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
+              <strong>How to use:</strong>
+              <ol className="list-decimal pl-5 mt-2 space-y-1">
+                <li>Upload your images or paste image URLs.</li>
+                <li>Arrange the order and preview your GIF.</li>
+                <li>Adjust frame duration and loop count as needed.</li>
+                <li>Click "Create GIF" and download your animation instantly.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Upload State */}

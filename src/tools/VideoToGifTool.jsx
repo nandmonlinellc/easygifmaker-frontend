@@ -182,11 +182,23 @@ export default function VideoToGifTool() {
         />
         <link rel="canonical" href="https://easygifmaker.com/video-to-gif" />
       </Helmet>
-      <div className="py-10">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-extrabold text-center mb-8">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 text-center mb-4">
             Video to GIF Converter
           </h1>
+          <p className="text-lg text-gray-700 text-center mb-6 max-w-2xl mx-auto">
+            Easily convert your videos to high-quality GIFs. Upload your video, select the segment, and download your animated GIF in seconds. No registration required, works with MP4, MOV, WebM, and more.
+          </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8 max-w-2xl mx-auto text-sm text-blue-900">
+            <strong>How to use:</strong>
+            <ol className="list-decimal pl-5 mt-2 space-y-1">
+              <li>Upload your video file or paste a direct video URL.</li>
+              <li>Select the segment you want to convert using the timeline.</li>
+              <li>Adjust settings (size, FPS, quality, audio) as needed.</li>
+              <li>Click "Convert" and download your GIF instantly.</li>
+            </ol>
+          </div>
 
           {/* Upload State */}
           {workflowState === 'upload' && (

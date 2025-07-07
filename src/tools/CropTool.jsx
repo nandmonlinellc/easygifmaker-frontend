@@ -141,8 +141,8 @@ export default function CropTool() {
         />
         <link rel="canonical" href="https://easygifmaker.com/crop" />
       </Helmet>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -150,13 +150,20 @@ export default function CropTool() {
                 <Crop className="w-6 h-6 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
               Crop GIF - Trim and Cut GIFs with Precision
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Crop your GIFs with pixel-perfect precision. Choose custom dimensions, 
-              aspect ratios, or free-form cropping to focus on what matters most.
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+              Crop your GIFs with pixel-perfect precision. Choose custom dimensions, aspect ratios, or free-form cropping to focus on what matters most. No registration required.
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
+              <strong>How to use:</strong>
+              <ol className="list-decimal pl-5 mt-2 space-y-1">
+                <li>Upload your GIF file or paste a direct GIF URL.</li>
+                <li>Select the crop area using the interactive tool.</li>
+                <li>Click "Crop" and download your new GIF instantly.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Upload State */}

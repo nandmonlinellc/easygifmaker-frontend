@@ -128,8 +128,8 @@ export default function ResizeTool() {
         />
         <link rel="canonical" href="https://easygifmaker.com/resize" />
       </Helmet>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -137,13 +137,20 @@ export default function ResizeTool() {
                 <RotateCw className="w-6 h-6 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
               Resize GIF - Change GIF Dimensions
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Resize your GIFs to any dimensions while maintaining quality. Perfect for social media, 
-              websites, or any platform with specific size requirements.
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
+              Instantly resize your GIFs to any dimensions while maintaining quality. Perfect for social media, websites, or any platform with specific size requirements. No registration needed.
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
+              <strong>How to use:</strong>
+              <ol className="list-decimal pl-5 mt-2 space-y-1">
+                <li>Upload your GIF file or paste a direct GIF URL.</li>
+                <li>Enter the desired width and height, or keep aspect ratio.</li>
+                <li>Click "Resize" and download your new GIF instantly.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Upload State */}
