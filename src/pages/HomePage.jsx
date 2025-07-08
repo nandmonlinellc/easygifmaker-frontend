@@ -151,41 +151,6 @@ export default function HomePage() {
             )
           })}
         </div>
-
-        {/* SEO Content Section (moved below main content) */}
-        <div className="bg-gray-50 rounded-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Choose EasyGIFMaker?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Powerful GIF Creation Tools</h3>
-              <p className="text-gray-600 mb-4">
-                Our comprehensive suite of GIF tools lets you create professional-quality animated GIFs from videos, 
-                images, or URLs. Convert MP4 to GIF, YouTube videos to GIF, or create GIFs from image sequences 
-                with full control over timing, quality, and dimensions.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Video to GIF converter with YouTube support</li>
-                <li>• Multi-image GIF maker with custom timing</li>
-                <li>• Advanced cropping and resizing tools</li>
-                <li>• Text overlay and watermark features</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Privacy & Performance</h3>
-              <p className="text-gray-600 mb-4">
-                We prioritize your privacy and don't store your files. All processing happens securely in your browser 
-                or on our servers temporarily. Files are automatically deleted after processing, ensuring your content 
-                remains private and secure.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• No file storage or data collection</li>
-                <li>• Fast processing and high-quality output</li>
-                <li>• Support for large files up to 200MB</li>
-                <li>• Mobile-optimized interface</li>
-              </ul>
-            </div>
-          </div>
-        </div>
         {/* How it Works, Use Cases, etc. (moved below main content) */}
         <div className="text-left bg-blue-50 border border-blue-200 rounded-xl p-8 shadow mb-12">
           <h2 className="text-2xl font-bold text-blue-700 mb-3">How EasyGIFMaker Works</h2>
@@ -231,6 +196,40 @@ export default function HomePage() {
                 {keyword}
               </span>
             ))}
+          </div>
+        </div>
+        {/* SEO Content Section (moved below main content) */}
+        <div className="bg-gray-50 rounded-lg p-8 mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Choose EasyGIFMaker?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Powerful GIF Creation Tools</h3>
+              <p className="text-gray-600 mb-4">
+                Our comprehensive suite of GIF tools lets you create professional-quality animated GIFs from videos, 
+                images, or URLs. Convert MP4 to GIF, YouTube videos to GIF, or create GIFs from image sequences 
+                with full control over timing, quality, and dimensions.
+              </p>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• Video to GIF converter with YouTube support</li>
+                <li>• Multi-image GIF maker with custom timing</li>
+                <li>• Advanced cropping and resizing tools</li>
+                <li>• Text overlay and watermark features</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Privacy & Performance</h3>
+              <p className="text-gray-600 mb-4">
+                We prioritize your privacy and don't store your files. All processing happens securely in your browser 
+                or on our servers temporarily. Files are automatically deleted after processing, ensuring your content 
+                remains private and secure.
+              </p>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>• No file storage or data collection</li>
+                <li>• Fast processing and high-quality output</li>
+                <li>• Support for large files up to 200MB</li>
+                <li>• Mobile-optimized interface</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
