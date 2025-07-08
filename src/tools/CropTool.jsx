@@ -143,28 +143,31 @@ export default function CropTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                <Crop className="w-6 h-6 text-white" />
-              </div>
+          {/* Unique Publisher Content for AdSense/SEO */}
+          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+            <div className="flex items-center gap-4 mb-4">
+              <Crop size={40} className="text-white drop-shadow" />
+              <h1 className="text-3xl font-extrabold tracking-tight">Crop GIF</h1>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
-              Crop GIF - Trim and Cut GIFs with Precision
-            </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
-              Crop your GIFs with pixel-perfect precision. Choose custom dimensions, aspect ratios, or free-form cropping to focus on what matters most. No registration required.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
-              <strong>How to use:</strong>
-              <ol className="list-decimal pl-5 mt-2 space-y-1">
-                <li>Upload your GIF file or paste a direct GIF URL.</li>
-                <li>Select the crop area using the interactive tool.</li>
-                <li>Click "Crop" and download your new GIF instantly.</li>
-              </ol>
-            </div>
-          </div>
+            <p className="text-lg font-medium mb-2">Crop your GIFs with pixel-perfect precision using our easy-to-use Crop GIF tool. Select the exact area you want to keep, preview the result in real time, and download your cropped GIF instantly. Whether you want to focus on a key moment, remove unwanted borders, or create a square GIF for social media, our tool gives you full creative control. No software to install—just upload, crop, and go!</p>
+            <ul className="list-disc pl-6 text-base mt-2">
+              <li>✂️ Drag to select the area you want to keep—perfect for memes, reactions, and highlights</li>
+              <li>🔍 Real-time preview so you can see exactly what you’ll get</li>
+              <li>⚡ Fast, high-quality cropping with no loss of animation</li>
+              <li>🌐 Works with GIF, APNG, and other animated formats</li>
+            </ul>
+          </section>
+          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips & FAQs</h2>
+            <ul className="list-disc pl-6 text-blue-900">
+              <li><b>Tip:</b> Use the preview to make sure you’re not cutting off important parts of your GIF.</li>
+              <li><b>Tip:</b> Cropping to a square or vertical format is great for Instagram, TikTok, and other social platforms.</li>
+              <li><b>Tip:</b> You can crop animated GIFs, APNGs, and more—just upload and start editing.</li>
+              <li><b>FAQ:</b> <b>Will cropping affect the animation?</b> No, our tool preserves the animation and quality of your GIF.</li>
+              <li><b>FAQ:</b> <b>Can I undo a crop?</b> Yes, simply re-upload your original GIF or adjust the crop area before downloading.</li>
+              <li><b>FAQ:</b> <b>What file types are supported?</b> GIF, APNG, and many other animated formats are accepted.</li>
+            </ul>
+          </section>
 
           {/* Upload State */}
           {workflowState === 'upload' && (

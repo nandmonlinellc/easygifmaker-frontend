@@ -167,28 +167,7 @@ export default function AddTextTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
-                <Type className="w-6 h-6 text-white" />
-              </div>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
-              Add Text to GIF - Interactive Text Overlay Tool
-            </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
-              Add custom text, captions, and watermarks to your GIFs and images with live preview. Drag to position, customize fonts, colors, and see changes in real-time. No registration required.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
-              <strong>How to use:</strong>
-              <ol className="list-decimal pl-5 mt-2 space-y-1">
-                <li>Upload your GIF or image file, or paste a direct URL.</li>
-                <li>Enter your text and customize font, color, and position.</li>
-                <li>Click "Add Text" and download your new GIF instantly.</li>
-              </ol>
-            </div>
-          </div>
+          
 
           {/* Upload State */}
           {workflowState === 'upload' && (
@@ -307,6 +286,32 @@ export default function AddTextTool() {
               onReset={resetWorkflow}
             />
           )}
+
+          {/* Unique Publisher Content for AdSense/SEO */}
+          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+            <div className="flex items-center gap-4 mb-4">
+              <Type size={40} className="text-white drop-shadow" />
+              <h1 className="text-3xl font-extrabold tracking-tight">Add Text to GIF</h1>
+            </div>
+            <p className="text-lg font-medium mb-2">Add animated or static text overlays to your GIFs with full creative control. Our Add Text tool lets you customize font, color, size, and position, and see your changes live before downloading. Perfect for captions, memes, branding, or just having fun—no design skills required! Choose from a variety of fonts and styles to make your GIFs stand out on social media, websites, or anywhere you share them.</p>
+            <ul className="list-disc pl-6 text-base mt-2">
+              <li>📝 Add captions, memes, or branding to any GIF</li>
+              <li>🎨 Customize font, color, size, and position</li>
+              <li>🔍 Live preview to see your edits in real time</li>
+              <li>🌐 Works with GIF, APNG, and other animated formats</li>
+            </ul>
+          </section>
+          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips & FAQs</h2>
+            <ul className="list-disc pl-6 text-blue-900">
+              <li><b>Tip:</b> Use the live preview to position your text exactly where you want it on the GIF.</li>
+              <li><b>Tip:</b> Try different fonts and colors to match your brand or style.</li>
+              <li><b>Tip:</b> Animated text can make your GIFs more eye-catching for social media.</li>
+              <li><b>FAQ:</b> <b>Can I use custom fonts?</b> We support a variety of fonts and styles for maximum creativity.</li>
+              <li><b>FAQ:</b> <b>Will the text be animated?</b> You can choose static or animated text overlays depending on your needs.</li>
+              <li><b>FAQ:</b> <b>What file types are supported?</b> GIF, APNG, and many other animated formats are accepted.</li>
+            </ul>
+          </section>
         </div>
       </div>
     </>

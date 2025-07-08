@@ -103,7 +103,8 @@ export default function HomePage() {
             Free Online GIF Maker & Video to GIF Converter
           </h1>
           <p className="text-2xl text-gray-700 mb-8 max-w-2xl mx-auto font-medium">
-            Create, edit, and optimize GIFs online with our powerful, privacy-focused tools. No registration required—completely free.
+            Create, edit, and optimize GIFs online with our powerful, privacy-focused tools. No registration required—completely free.<br/>
+            <span className="block mt-2 text-lg text-blue-800 font-semibold">Turn your videos, images, and ideas into stunning animated GIFs in seconds!</span>
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-base text-blue-700 font-semibold mb-6">
             {features.map((feature, index) => (
@@ -151,7 +152,7 @@ export default function HomePage() {
           })}
         </div>
 
-        {/* SEO Content Section */}
+        {/* SEO Content Section (moved below main content) */}
         <div className="bg-gray-50 rounded-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Choose EasyGIFMaker?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -183,6 +184,31 @@ export default function HomePage() {
                 <li>• Mobile-optimized interface</li>
               </ul>
             </div>
+          </div>
+        </div>
+        {/* How it Works, Use Cases, etc. (moved below main content) */}
+        <div className="text-left bg-blue-50 border border-blue-200 rounded-xl p-8 shadow mb-12">
+          <h2 className="text-2xl font-bold text-blue-700 mb-3">How EasyGIFMaker Works</h2>
+          <ol className="list-decimal pl-6 text-lg text-blue-900 space-y-2 mb-4">
+            <li><b>Upload</b> your video, images, or paste a URL from YouTube, Dailymotion, and more.</li>
+            <li><b>Edit</b> with our interactive timeline, cropping, resizing, and text overlay tools.</li>
+            <li><b>Preview</b> your GIF in real time and adjust settings for quality, size, and animation speed.</li>
+            <li><b>Download</b> your optimized GIF or MP4 instantly—ready to share anywhere!</li>
+          </ol>
+          <h3 className="text-xl font-semibold text-blue-700 mt-6 mb-2">Why Use EasyGIFMaker?</h3>
+          <ul className="list-disc pl-6 text-blue-900 space-y-1">
+            <li>Perfect for social media, marketing, memes, tutorials, and more</li>
+            <li>Supports 15+ formats including MP4, GIF, WebP, APNG, and YouTube links</li>
+            <li>Advanced privacy—your files are never stored or shared</li>
+            <li>Mobile-friendly and blazing fast, even for large files up to 200MB</li>
+            <li>SEO-optimized, ad-friendly, and trusted by creators worldwide</li>
+          </ul>
+          <div className="mt-6 text-blue-800 text-base">
+            <b>Popular Use Cases:</b> <br/>
+            <span className="block mt-1">• Create viral memes and reaction GIFs for Twitter, Instagram, and TikTok</span>
+            <span className="block">• Convert YouTube highlights to GIFs for sharing in blogs and chats</span>
+            <span className="block">• Make animated banners, tutorials, and product demos for your website</span>
+            <span className="block">• Add captions, watermarks, or branding to your GIFs in seconds</span>
           </div>
         </div>
 

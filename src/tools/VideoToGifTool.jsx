@@ -167,6 +167,48 @@ export default function VideoToGifTool() {
     setSegmentRange([0, 10])
   }
 
+  // --- Unique Publisher Content for AdSense/SEO ---
+  const heroSection = (
+    <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+      <div className="flex items-center gap-4 mb-4">
+        <Video size={40} className="text-white drop-shadow" />
+        <h1 className="text-3xl font-extrabold tracking-tight">Video to GIF Converter</h1>
+      </div>
+      <p className="text-lg font-medium mb-2">Convert any video segment into a GIF or MP4 with our interactive timeline. Select the exact start and end points, preview your selection, and choose whether to include audio (MP4 output). Supports YouTube, Dailymotion, and direct video URLs—perfect for highlights, reactions, or tutorials.<br/>
+      <span className='block mt-2'>Our tool is ideal for content creators, educators, marketers, and anyone who wants to capture the best moments from videos and share them as GIFs or short clips. No software to install—just upload, edit, and download in seconds.</span></p>
+      <ul className="list-disc pl-6 text-base mt-2">
+        <li>🎬 Interactive timeline for precise segment selection and trimming</li>
+        <li>🔊 Option to include audio and download as MP4 if available</li>
+        <li>🌐 Supports YouTube, Dailymotion, and direct video links</li>
+        <li>⚡ Fast, high-quality GIF and MP4 generation for all major formats</li>
+        <li>📱 Mobile-friendly and optimized for large files up to 200MB</li>
+      </ul>
+      <div className="mt-6 text-blue-100 text-base">
+        <b>Popular Use Cases:</b> <br/>
+        <span className="block mt-1">• Capture and share the best moments from YouTube, TikTok, or Instagram videos</span>
+        <span className="block">• Create reaction GIFs, highlight reels, or tutorial snippets for blogs and social media</span>
+        <span className="block">• Convert webinars, lectures, or meetings into shareable GIFs for your team</span>
+        <span className="block">• Make animated previews or teasers for your own video content</span>
+      </div>
+    </section>
+  )
+
+  const tipsAndFaq = (
+    <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+      <h2 className="text-xl font-bold text-blue-700 mb-2">Tips, FAQs & Best Practices</h2>
+      <ul className="list-disc pl-6 text-blue-900">
+        <li><b>Tip:</b> Use the timeline to select only the part you want—shorter GIFs load faster and are easier to share.</li>
+        <li><b>Tip:</b> Try different FPS and quality settings for the best balance of size and smoothness.</li>
+        <li><b>Tip:</b> For best results, trim your video to the most interesting or relevant segment before converting.</li>
+        <li><b>Tip:</b> Use the preview to check your GIF or MP4 before downloading—make adjustments as needed!</li>
+        <li><b>FAQ:</b> <b>Why is my MP4 with audio not available?</b> If your video has no audio track, only a GIF will be generated.</li>
+        <li><b>FAQ:</b> <b>Can I use YouTube or Dailymotion links?</b> Yes! Paste the video URL and we’ll handle the rest.</li>
+        <li><b>FAQ:</b> <b>What video formats are supported?</b> MP4, MOV, WebM, AVI, MKV, FLV, and more.</li>
+        <li><b>FAQ:</b> <b>Is there a file size limit?</b> Yes, up to 200MB per video for fast, reliable processing.</li>
+      </ul>
+    </section>
+  )
+
   // --- Render ---
   return (
     <>
@@ -184,21 +226,8 @@ export default function VideoToGifTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 text-center mb-4">
-            Video to GIF Converter
-          </h1>
-          <p className="text-lg text-gray-700 text-center mb-6 max-w-2xl mx-auto">
-            Easily convert your videos to high-quality GIFs. Upload your video, select the segment, and download your animated GIF in seconds. No registration required, works with MP4, MOV, WebM, and more.
-          </p>
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8 max-w-2xl mx-auto text-sm text-blue-900">
-            <strong>How to use:</strong>
-            <ol className="list-decimal pl-5 mt-2 space-y-1">
-              <li>Upload your video file or paste a direct video URL.</li>
-              <li>Select the segment you want to convert using the timeline.</li>
-              <li>Adjust settings (size, FPS, quality, audio) as needed.</li>
-              <li>Click "Convert" and download your GIF instantly.</li>
-            </ol>
-          </div>
+          {heroSection}
+          {tipsAndFaq}
 
           {/* Upload State */}
           {workflowState === 'upload' && (

@@ -9,7 +9,7 @@ export default function Header() {
   const location = useLocation()
 
   const tools = [
-    { id: 'gif-maker', title: 'GIF Maker', icon: Image, path: '/' },
+    { id: 'gif-maker', title: 'GIF Maker', icon: Image, path: '/gif-maker' },
     { id: 'video-to-gif', title: 'Video to GIF', icon: Video, path: '/video-to-gif' },
     { id: 'resize', title: 'Resize', icon: RotateCw, path: '/resize' },
     { id: 'crop', title: 'Crop', icon: Crop, path: '/crop' },

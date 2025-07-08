@@ -132,28 +132,31 @@ export default function OptimizeTool() {
 
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
+          {/* Unique Publisher Content for AdSense/SEO */}
+          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+            <div className="flex items-center gap-4 mb-4">
+              <Zap size={40} className="text-white drop-shadow" />
+              <h1 className="text-3xl font-extrabold tracking-tight">Optimize GIF</h1>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
-              Optimize GIF - Compress and Reduce File Size
-            </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
-              Reduce your GIF file sizes without sacrificing quality. Perfect for web optimization, faster loading times, and easier sharing across platforms. No registration required.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
-              <strong>How to use:</strong>
-              <ol className="list-decimal pl-5 mt-2 space-y-1">
-                <li>Upload your GIF file or paste a direct GIF URL.</li>
-                <li>Adjust optimization settings (quality, colors, lossy) as needed.</li>
-                <li>Click "Optimize" and download your smaller GIF instantly.</li>
-              </ol>
-            </div>
-          </div>
+            <p className="text-lg font-medium mb-2">Compress and optimize your GIFs without sacrificing quality. Our Optimize GIF tool uses advanced algorithms to reduce file size, making your GIFs load faster on websites, social media, and messaging apps. Choose from multiple optimization levels to find the perfect balance between quality and size. Great for sharing, embedding, or saving bandwidth—no expertise required!</p>
+            <ul className="list-disc pl-6 text-base mt-2">
+              <li>⚡ Multiple optimization levels for maximum flexibility</li>
+              <li>📉 Reduce file size for faster loading and sharing</li>
+              <li>🔍 Preview your optimized GIF before downloading</li>
+              <li>🌐 Works with GIF, APNG, and other animated formats</li>
+            </ul>
+          </section>
+          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips & FAQs</h2>
+            <ul className="list-disc pl-6 text-blue-900">
+              <li><b>Tip:</b> Try different optimization levels to find the best balance between file size and visual quality.</li>
+              <li><b>Tip:</b> Lowering the number of colors can dramatically reduce file size with minimal impact on simple GIFs.</li>
+              <li><b>Tip:</b> Use the preview to compare the original and optimized GIF before downloading.</li>
+              <li><b>FAQ:</b> <b>Will optimization affect animation?</b> No, your GIF’s animation will remain smooth and intact.</li>
+              <li><b>FAQ:</b> <b>Can I optimize very large GIFs?</b> Yes, files up to 200MB are supported, but larger files may take longer to process.</li>
+              <li><b>FAQ:</b> <b>What formats are supported?</b> GIF, APNG, and many other animated formats are accepted.</li>
+            </ul>
+          </section>
 
           {/* Upload State */}
           {workflowState === 'upload' && (

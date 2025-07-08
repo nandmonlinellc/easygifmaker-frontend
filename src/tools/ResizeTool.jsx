@@ -130,28 +130,31 @@ export default function ResizeTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
-                <RotateCw className="w-6 h-6 text-white" />
-              </div>
+          {/* Unique Publisher Content for AdSense/SEO */}
+          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+            <div className="flex items-center gap-4 mb-4">
+              <RotateCw size={40} className="text-white drop-shadow" />
+              <h1 className="text-3xl font-extrabold tracking-tight">Resize GIF</h1>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">
-              Resize GIF - Change GIF Dimensions
-            </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6">
-              Instantly resize your GIFs to any dimensions while maintaining quality. Perfect for social media, websites, or any platform with specific size requirements. No registration needed.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 max-w-2xl mx-auto text-sm text-blue-900">
-              <strong>How to use:</strong>
-              <ol className="list-decimal pl-5 mt-2 space-y-1">
-                <li>Upload your GIF file or paste a direct GIF URL.</li>
-                <li>Enter the desired width and height, or keep aspect ratio.</li>
-                <li>Click "Resize" and download your new GIF instantly.</li>
-              </ol>
-            </div>
-          </div>
+            <p className="text-lg font-medium mb-2">Easily resize your GIFs with aspect ratio presets or custom dimensions. Whether you need to shrink a GIF for faster loading, fit a specific social media format, or enlarge for presentations, our Resize GIF tool gives you full control. Maintain quality while reducing file size for seamless sharing and web performance. No technical skills required—just upload, adjust, and preview your GIF in real time.</p>
+            <ul className="list-disc pl-6 text-base mt-2">
+              <li>📏 Choose from popular aspect ratio presets or enter custom width and height</li>
+              <li>🔍 Real-time preview to ensure your GIF looks perfect before downloading</li>
+              <li>⚡ Fast, high-quality resizing with minimal loss of detail</li>
+              <li>🌐 Optimized for web, social media, and messaging apps</li>
+            </ul>
+          </section>
+          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips & FAQs</h2>
+            <ul className="list-disc pl-6 text-blue-900">
+              <li><b>Tip:</b> Use the preview window to check your resized GIF before downloading. This helps you avoid unwanted cropping or stretching.</li>
+              <li><b>Tip:</b> For best results, keep the "Maintain Aspect Ratio" option enabled to prevent distortion.</li>
+              <li><b>Tip:</b> Smaller GIFs load faster and are ideal for sharing on social media or embedding in emails.</li>
+              <li><b>FAQ:</b> <b>Can I resize very large GIFs?</b> Yes, our tool supports files up to 200MB, but resizing very large GIFs may take a bit longer.</li>
+              <li><b>FAQ:</b> <b>Will resizing reduce the quality of my GIF?</b> Our advanced algorithms minimize quality loss, but extreme downsizing may affect clarity. Use the preview to find the best balance.</li>
+              <li><b>FAQ:</b> <b>What formats are supported?</b> You can upload GIF, APNG, and many other popular animated image formats.</li>
+            </ul>
+          </section>
 
           {/* Upload State */}
           {workflowState === 'upload' && (
