@@ -8,7 +8,8 @@ export default function ResultSection({
   description,
   imageUrl,
   downloadFileName,
-  onReset
+  onReset,
+  extraDownload
 }) {
   if (!imageUrl) return null
 
@@ -24,12 +25,19 @@ export default function ResultSection({
       <CardContent>
         <div className="text-center">
           <img src={imageUrl} alt={title} className="max-w-full h-auto mx-auto mb-4 rounded-lg" />
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center flex-wrap">
             <Button asChild>
               <a href={imageUrl} download={downloadFileName}>
-                Download
+                Download GIF
               </a>
             </Button>
+            {extraDownload && extraDownload.url && (
+              <Button asChild variant="secondary">
+                <a href={extraDownload.url} download>
+                  {extraDownload.label || 'Download Extra'}
+                </a>
+              </Button>
+            )}
             {onReset && (
               <Button onClick={onReset} variant="outline">
                 Create Another

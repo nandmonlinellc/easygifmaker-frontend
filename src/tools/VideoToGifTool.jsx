@@ -306,14 +306,20 @@ export default function VideoToGifTool() {
 
           {/* Result State */}
           {workflowState === 'result' && resultUrl && (
-            <ResultSection
-              title="Your GIF is Ready!"
-              description={resultUrl.mp4 ? "You can download both the GIF and the .mp4 with audio." : ""}
-              imageUrl={resultUrl.gif || resultUrl}
-              downloadFileName="converted.gif"
-              onReset={resetWorkflow}
-              extraDownload={resultUrl.mp4 ? { url: resultUrl.mp4, label: 'Download MP4 with Audio' } : null}
-            />
+            <>
+              <ResultSection
+                title="Your GIF is Ready!"
+                description={resultUrl.mp4
+                  ? "You can download both the GIF and the .mp4 with audio."
+                  : videoSettings.includeAudio
+                    ? "No audio was found in your video, so only a GIF was generated."
+                    : ""}
+                imageUrl={resultUrl.gif || resultUrl}
+                downloadFileName="converted.gif"
+                onReset={resetWorkflow}
+                extraDownload={resultUrl.mp4 ? { url: resultUrl.mp4, label: 'Download MP4 with Audio' } : null}
+              />
+            </>
           )}
         </div>
       </div>
