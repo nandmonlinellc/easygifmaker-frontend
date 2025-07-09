@@ -174,42 +174,6 @@ export default function GifMakerTool() {
 
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          {/* Unique Publisher Content for AdSense/SEO */}
-          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
-            <div className="flex items-center gap-4 mb-4">
-              <Image size={40} className="text-white drop-shadow" />
-              <h1 className="text-3xl font-extrabold tracking-tight">GIF Maker</h1>
-            </div>
-            <p className="text-lg font-medium mb-2">Create GIFs from multiple images in seconds. Our GIF Maker lets you upload, arrange, and preview your images before generating a high-quality animated GIF. Whether you’re making memes, tutorials, or fun social posts, EasyGIFMaker ensures your GIFs are crisp, optimized, and ready to share. <br/>
-            <span className='block mt-2'>With our drag-and-drop interface, you can quickly reorder images, set custom frame durations, and preview your animation before downloading. Perfect for content creators, marketers, teachers, and anyone who wants to bring ideas to life with animation.</span></p>
-            <ul className="list-disc pl-6 text-base mt-2">
-              <li>🖼️ Drag-and-drop interface for quick reordering and creative control</li>
-              <li>⚡ Fast, high-quality GIF generation with support for large image sets</li>
-              <li>🔧 Advanced optimization settings for smaller file sizes and faster sharing</li>
-              <li>🔄 Live preview lets you see your GIF before you download</li>
-              <li>🌐 Supports JPG, PNG, GIF, WebP, APNG, and more</li>
-            </ul>
-            <div className="mt-6 text-blue-100 text-base">
-              <b>Popular Use Cases:</b> <br/>
-              <span className="block mt-1">• Make animated memes and social posts for Instagram, Twitter, and TikTok</span>
-              <span className="block">• Create step-by-step tutorials and how-to GIFs for blogs and help centers</span>
-              <span className="block">• Design fun birthday, holiday, or event GIFs to share with friends</span>
-              <span className="block">• Build product demos, banners, and marketing visuals for your business</span>
-            </div>
-          </section>
-          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips, FAQs & Best Practices</h2>
-            <ul className="list-disc pl-6 text-blue-900">
-              <li><b>Tip:</b> Use the drag-and-drop interface to quickly reorder your images for the perfect animation.</li>
-              <li><b>Tip:</b> Try the optimization settings to reduce file size without losing quality.</li>
-              <li><b>Tip:</b> Set a lower frame duration for faster, more energetic GIFs, or a higher value for slower animations.</li>
-              <li><b>Tip:</b> Use the live preview to check your animation before downloading—make adjustments as needed!</li>
-              <li><b>FAQ:</b> <b>Can I preview my GIF before downloading?</b> Yes! Use the live preview to see your animation before saving.</li>
-              <li><b>FAQ:</b> <b>What image formats are supported?</b> JPG, PNG, GIF, WebP, APNG, and more.</li>
-              <li><b>FAQ:</b> <b>How many images can I upload?</b> You can upload dozens of images at once—great for long animations or slideshows.</li>
-              <li><b>FAQ:</b> <b>Is there a file size limit?</b> Yes, up to 200MB per GIF for fast, reliable processing.</li>
-            </ul>
-          </section>
 
           {/* Upload State */}
           {workflowState === 'upload' && (
@@ -356,6 +320,43 @@ export default function GifMakerTool() {
               onReset={resetWorkflow}
             />
           )}
+
+        {/* Unique Publisher Content for AdSense/SEO */}
+          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
+            <div className="flex items-center gap-4 mb-4">
+              <Image size={40} className="text-white drop-shadow" />
+              <h1 className="text-3xl font-extrabold tracking-tight">GIF Maker</h1>
+            </div>
+            <p className="text-lg font-medium mb-2">Create GIFs from multiple images in seconds. Our GIF Maker lets you upload, arrange, and preview your images before generating a high-quality animated GIF. Whether you’re making memes, tutorials, or fun social posts, EasyGIFMaker ensures your GIFs are crisp, optimized, and ready to share. <br/>
+            <span className='block mt-2'>With our drag-and-drop interface, you can quickly reorder images, set custom frame durations, and preview your animation before downloading. Perfect for content creators, marketers, teachers, and anyone who wants to bring ideas to life with animation.</span></p>
+            <ul className="list-disc pl-6 text-base mt-2">
+              <li>🖼️ Drag-and-drop interface for quick reordering and creative control</li>
+              <li>⚡ Fast, high-quality GIF generation with support for large image sets</li>
+              <li>🔧 Advanced optimization settings for smaller file sizes and faster sharing</li>
+              <li>🔄 Live preview lets you see your GIF before you download</li>
+              <li>🌐 Supports JPG, PNG, GIF, WebP, APNG, and more</li>
+            </ul>
+            <div className="mt-6 text-blue-100 text-base">
+              <b>Popular Use Cases:</b> <br/>
+              <span className="block mt-1">• Make animated memes and social posts for Instagram, Twitter, and TikTok</span>
+              <span className="block">• Create step-by-step tutorials and how-to GIFs for blogs and help centers</span>
+              <span className="block">• Design fun birthday, holiday, or event GIFs to share with friends</span>
+              <span className="block">• Build product demos, banners, and marketing visuals for your business</span>
+            </div>
+          </section>
+          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips, FAQs & Best Practices</h2>
+            <ul className="list-disc pl-6 text-blue-900">
+              <li><b>Tip:</b> Use the drag-and-drop interface to quickly reorder your images for the perfect animation.</li>
+              <li><b>Tip:</b> Try the optimization settings to reduce file size without losing quality.</li>
+              <li><b>Tip:</b> Set a lower frame duration for faster, more energetic GIFs, or a higher value for slower animations.</li>
+              <li><b>Tip:</b> Use the live preview to check your animation before downloading—make adjustments as needed!</li>
+              <li><b>FAQ:</b> <b>Can I preview my GIF before downloading?</b> Yes! Use the live preview to see your animation before saving.</li>
+              <li><b>FAQ:</b> <b>What image formats are supported?</b> JPG, PNG, GIF, WebP, APNG, and more.</li>
+              <li><b>FAQ:</b> <b>How many images can I upload?</b> You can upload dozens of images at once—great for long animations or slideshows.</li>
+              <li><b>FAQ:</b> <b>Is there a file size limit?</b> Yes, up to 200MB per GIF for fast, reliable processing.</li>
+            </ul>
+          </section>
         </div>
       </div>
     </>

@@ -252,7 +252,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
   )
 }
 
-// Helper function to calculate absolute X/Y based on alignment and offsets
+// Helper function to calculate absolute X/Y based on alignment and offsets, using actual canvas size
 const calculateAbsolutePosition = (settings, canvasSize) => {
   const { text, fontSize, horizontalAlign, verticalAlign, offsetX, offsetY } = settings
   const { width: canvasWidth, height: canvasHeight } = canvasSize
@@ -260,11 +260,15 @@ const calculateAbsolutePosition = (settings, canvasSize) => {
   let newX = 0
   let newY = 0
 
-  // Estimate text width/height for centering. This is a rough estimate.
-  // For precise centering, you'd need to measure text on a hidden canvas.
-  // A common approximation is 0.6em per character for width.
-  const estimatedTextWidth = text.length * (fontSize * 0.6)
-  const estimatedTextHeight = fontSize // Assuming font size is roughly text height
+  // Use a canvas to measure actual text width for more accurate alignment
+  let estimatedTextWidth = text.length * (fontSize * 0.6)
+  if (typeof window !== 'undefined' && window.document) {
+    const tempCanvas = document.createElement('canvas')
+    const ctx = tempCanvas.getContext('2d')
+    ctx.font = `${fontSize || 24}px Arial`
+    estimatedTextWidth = ctx.measureText(text).width
+  }
+  const estimatedTextHeight = fontSize
 
   switch (horizontalAlign) {
     case 'left':

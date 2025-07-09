@@ -1,23 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-// Helper to get position based on alignment
-function getAlignedPosition(alignment, canvasSize, textSize, margin = 10) {
-  const { width, height } = canvasSize
-  const { width: tW, height: tH } = textSize
-  switch (alignment) {
-    case 'top':
-      return { x: (width - tW) / 2, y: margin }
-    case 'bottom':
-      return { x: (width - tW) / 2, y: height - tH - margin }
-    case 'left':
-      return { x: margin, y: (height - tH) / 2 }
-    case 'right':
-      return { x: width - tW - margin, y: (height - tH) / 2 }
-    case 'center':
-    default:
-      return { x: (width - tW) / 2, y: (height - tH) / 2 }
-  }
-}
+
 
 export default function InteractiveCanvas({ 
   imageUrl, 
@@ -79,7 +62,7 @@ export default function InteractiveCanvas({
     }
   }, [imageLoaded, text, textSettings, canvasSize])
 
-  // Draw text with alignment
+  // Draw text at x/y position from settings
   const drawText = (ctx, textContent, settings, canvasWidth, canvasHeight, tSize) => {
     if (!textContent || !textContent.trim()) return
     const {
@@ -88,28 +71,20 @@ export default function InteractiveCanvas({
       color = '#ffffff',
       strokeColor = '#000000',
       strokeWidth = 2,
-      alignment,
-      x,
-      y
+      x = 0,
+      y = 0
     } = settings
     ctx.font = `${fontSize}px ${fontFamily}`
     ctx.textAlign = 'left'
     ctx.textBaseline = 'top'
-    // Use custom position if alignment is 'custom', otherwise use aligned position
-    let pos
-    if (alignment === 'custom') {
-      pos = { x, y }
-    } else {
-      pos = getAlignedPosition(alignment || 'center', { width: canvasWidth, height: canvasHeight }, tSize)
-    }
     // Draw stroke
     if (strokeWidth > 0) {
       ctx.strokeStyle = strokeColor
       ctx.lineWidth = strokeWidth
-      ctx.strokeText(textContent, pos.x, pos.y)
+      ctx.strokeText(textContent, x, y)
     }
     ctx.fillStyle = color
-    ctx.fillText(textContent, pos.x, pos.y)
+    ctx.fillText(textContent, x, y)
   }
 
   return (
