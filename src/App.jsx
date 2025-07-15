@@ -10,6 +10,10 @@ import FAQ from './pages/FAQ'
 import Help from './pages/Help'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import Terms from './pages/Terms'
+import Blog from './pages/Blog'
+import HowToMakeGifsFromVideos from './pages/blog/HowToMakeGifsFromVideos'
+import Top5GifOptimizationTips from './pages/blog/Top5GifOptimizationTips'
+import AddTextToGifsGuide from './pages/blog/AddTextToGifsGuide'
 import GifMakerTool from './tools/GifMakerTool'
 import VideoToGifTool from './tools/VideoToGifTool'
 import ResizeTool from './tools/ResizeTool'
@@ -31,6 +35,10 @@ function App() {
             <Route path="crop" element={<CropTool />} />
             <Route path="optimize" element={<OptimizeTool />} />
             <Route path="add-text" element={<AddTextTool />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/how-to-make-gifs-from-videos" element={<HowToMakeGifsFromVideos />} />
+            <Route path="blog/top-5-gif-optimization-tips" element={<Top5GifOptimizationTips />} />
+            <Route path="blog/add-text-to-gifs-guide" element={<AddTextToGifsGuide />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="cookie-policy" element={<CookiePolicy />} />

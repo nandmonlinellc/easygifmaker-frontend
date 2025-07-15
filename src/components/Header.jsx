@@ -18,6 +18,7 @@ export default function Header() {
   ]
 
   const staticPages = [
+    { title: 'Blog', path: '/blog' },
     { title: 'About', path: '/about' },
     { title: 'Help', path: '/help' },
     { title: 'Contact', path: '/contact' }
