@@ -166,7 +166,7 @@ export default function AddTextTool() {
         <link rel="canonical" href="https://easygifmaker.com/add-text" />
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
+        <div className="w-full max-w-7xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
           
 
           {/* Upload State */}
