@@ -30,7 +30,7 @@ export default function HowToMakeGifsFromVideos() {
             Start by visiting our <Link to="/video-to-gif" className="text-blue-600 underline font-semibold">Video to GIF Converter</Link>.
             This tool supports all major video formats (MP4, MOV, AVI, WebM, and more) and works right in your browser—no downloads required.
           </p>
-          <img src="/blog/how-to-make-gifs-from-videos.png" alt="EasyGIFMaker Video to GIF Tool Screenshot" className="rounded-xl border border-blue-100 shadow mb-8 mt-8 w-full" style={{ maxWidth: 700 }} />
+          <img src="/blog/how-to-make-gifs-from-videos2.png" alt="EasyGIFMaker Video to GIF Tool Screenshot" className="rounded-xl border border-blue-100 shadow mb-8 mt-8 w-full" style={{ maxWidth: 700 }} />
           <h2 className="mt-8"><b>Step 2: Upload Your Video</b></h2>
           <ul>
             <li>Click <b>Upload Video</b> or drag and drop your file into the upload area.</li>
