@@ -130,7 +130,17 @@ export default function ResizeTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <RotateCw size={40} className="text-blue-600 drop-shadow" />
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
+                Resize GIF
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Resize GIFs online for free. Change GIF dimensions, maintain aspect ratio, and optimize for web or social media. Fast and easy GIF resizer tool.
+            </p>
+            </div>
           {/* Upload State */}
           {workflowState === 'upload' && (
             <Card>

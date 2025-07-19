@@ -174,7 +174,17 @@ export default function GifMakerTool() {
 
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <Image size={40} className="text-blue-600 drop-shadow" />
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
+                GIF Maker
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly.
+            </p>
+          </div>
           {/* Upload State */}
           {workflowState === 'upload' && (
             <Card>

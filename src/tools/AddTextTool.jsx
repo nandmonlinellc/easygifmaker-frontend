@@ -167,7 +167,17 @@ export default function AddTextTool() {
       </Helmet>
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-7xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <Type size={40} className="text-blue-600 drop-shadow" />
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
+                Add Text to GIF
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Add custom text, captions, and watermarks to your GIFs and images. Interactive text editor with live preview, custom fonts, colors, and positioning.
+            </p>
+          </div>
 
           {/* Upload State */}
           {workflowState === 'upload' && (

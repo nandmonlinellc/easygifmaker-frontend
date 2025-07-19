@@ -132,7 +132,18 @@ export default function OptimizeTool() {
 
       <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <Zap size={40} className="text-blue-600 drop-shadow" />
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
+                Optimize GIF
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Compress and reduce GIF file size online for free. Reduce file size while maintaining quality, perfect for web use and faster loading times.
+            </p>
+          </div>
+          
           {/* Upload State */}
           {workflowState === 'upload' && (
             <Card>
@@ -335,7 +346,7 @@ export default function OptimizeTool() {
           <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
             <div className="flex items-center gap-4 mb-4">
               <Zap size={40} className="text-white drop-shadow" />
-              <h1 className="text-3xl font-extrabold tracking-tight">Optimize GIF</h1>
+              <h2 className="text-3xl font-extrabold tracking-tight">Why Optimize Your GIF?</h2>
             </div>
             <p className="text-lg font-medium mb-2">Compress and optimize your GIFs without sacrificing quality. Our Optimize GIF tool uses advanced algorithms to reduce file size, making your GIFs load faster on websites, social media, and messaging apps. Choose from multiple optimization levels to find the perfect balance between quality and size. Great for sharing, embedding, or saving bandwidth—no expertise required!</p>
             <ul className="list-disc pl-6 text-base mt-2">
