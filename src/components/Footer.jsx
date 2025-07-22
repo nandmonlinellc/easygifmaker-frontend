@@ -11,7 +11,8 @@ export default function Footer() {
   ]
 
   const helpLinks = [
-    { title: 'Help & FAQ', path: '/help' },
+    { title: 'Help', path: '/help' },
+    {title:'FAQ', path: '/faq'},
     { title: 'About', path: '/about' },
     { title: 'Contact', path: '/contact' }
   ]
