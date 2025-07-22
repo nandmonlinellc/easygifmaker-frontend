@@ -11,6 +11,7 @@ import FileUploadSection from '../components/FileUploadSection'
 export default function AddTextTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
   const [uploadMethod, setUploadMethod] = useState('file')
+  const [sourceFile, setSourceFile] = useState(null) // To hold the original file
   const [mediaUrl, setMediaUrl] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [resultUrl, setResultUrl] = useState(null)
@@ -38,9 +39,11 @@ export default function AddTextTool() {
     setErrorMessage(null)
     setResultUrl(null)
     let url
-    if (uploadMethod === 'url' && urlInput) {
+    if (uploadMethod === 'url' && urlInput) { // URL upload
       url = urlInput
-    } else {
+      setSourceFile(null)
+    } else { // File upload
+      setSourceFile(files[0])
       url = URL.createObjectURL(files[0])
     }
     setMediaUrl(url)
@@ -59,6 +62,7 @@ export default function AddTextTool() {
   // Reset workflow to upload state
   const resetWorkflow = () => {
     setWorkflowState('upload')
+    setSourceFile(null)
     setMediaUrl(null)
     setErrorMessage(null)
     setResultUrl(null)
@@ -90,9 +94,7 @@ export default function AddTextTool() {
       if (uploadMethod === 'url') {
         formData.append('url', mediaUrl)
       } else {
-        const response = await fetch(mediaUrl)
-        const blob = await response.blob()
-        formData.append('file', blob, 'image.png')
+        formData.append('file', sourceFile, sourceFile.name)
       }
       formData.append('text', textSettings.text)
       formData.append('font_family', textSettings.fontFamily)

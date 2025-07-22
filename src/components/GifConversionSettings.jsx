@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Label } from '@/components/ui/label.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 
-export default function GifConversionSettings({
+const GifConversionSettings = ({
   videoSettings,
-  onSettingChange
-}) {
+  onSettingChange,
+}) => {
   return (
     <div className="space-y-4">
       <div>
@@ -89,3 +89,4 @@ export default function GifConversionSettings({
   )
 }
 
+export default memo(GifConversionSettings)

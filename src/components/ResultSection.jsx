@@ -24,7 +24,7 @@ export default function ResultSection({
       </CardHeader>
       <CardContent>
         <div className="text-center">
-          <img src={imageUrl} alt={title} className="max-w-full h-auto mx-auto mb-4 rounded-lg" />
+          <img src={imageUrl} alt={title} className="max-w-full h-auto mx-auto mb-4 rounded-lg" loading="lazy" />
           <div className="flex gap-4 justify-center flex-wrap">
             <Button asChild>
               <a href={imageUrl} download={downloadFileName}>
