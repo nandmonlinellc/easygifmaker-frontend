@@ -16,7 +16,10 @@ export default function AddTextToGifsGuide() {
         </nav>
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">Adding Text and Captions to GIFs: A Complete Guide</h1>
         <p className="text-gray-700 mb-6">Published on July 5, 2025 by EasyGIFMaker Team</p>
-        <img src="/blog/add-text-to-gifs-guide.png" alt="Adding text to a GIF with EasyGIFMaker" className="rounded-xl border border-blue-100 shadow mb-8 w-full" loading="lazy" />
+        <picture>
+          <source srcSet="/blog/add-text-to-gifs-guide.webp" type="image/webp" />
+          <img src="/blog/add-text-to-gifs-guide.png" alt="Adding text to a GIF with EasyGIFMaker" className="rounded-xl border border-blue-100 shadow mb-8 w-full" loading="lazy" />
+        </picture>
         <article className="prose prose-blue max-w-none mb-8">
           <p>
             Text overlays and captions can transform a simple GIF into a powerful communication tool. Whether you're creating a viral meme, branding content for social media, or adding context to a reaction GIF, text is key. This guide will walk you through how to add text to your GIFs effortlessly using EasyGIFMaker.
