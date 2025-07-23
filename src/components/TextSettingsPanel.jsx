@@ -120,11 +120,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
             <Label>Horizontal Alignment</Label>
             <RadioGroup
               value={settings.horizontalAlign}
-              onValueChange={(value) => {
-                const newSettings = { ...settings, horizontalAlign: value }
-                const { x, y } = calculateAbsolutePosition(newSettings, canvasSize)
-                setSettings({ ...newSettings, x, y })
-              }}
+              onValueChange={(value) => setSettings({ ...settings, horizontalAlign: value })}
               className="flex space-x-4 mt-2"
             >
               <div className="flex items-center space-x-2">
@@ -147,11 +143,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
             <Label>Vertical Alignment</Label>
             <RadioGroup
               value={settings.verticalAlign}
-              onValueChange={(value) => {
-                const newSettings = { ...settings, verticalAlign: value }
-                const { x, y } = calculateAbsolutePosition(newSettings, canvasSize)
-                setSettings({ ...newSettings, x, y })
-              }}
+              onValueChange={(value) => setSettings({ ...settings, verticalAlign: value })}
               className="flex space-x-4 mt-2"
             >
               <div className="flex items-center space-x-2">
@@ -177,11 +169,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
                 id="offset-x"
                 type="number"
                 value={settings.offsetX}
-                onChange={(e) => {
-                  const newSettings = { ...settings, offsetX: parseInt(e.target.value) || 0 }
-                  const { x, y } = calculateAbsolutePosition(newSettings, canvasSize)
-                  setSettings({ ...newSettings, x, y })
-                }}
+                onChange={(e) => setSettings({ ...settings, offsetX: parseInt(e.target.value) || 0 })}
               />
             </div>
             <div>
@@ -190,11 +178,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
                 id="offset-y"
                 type="number"
                 value={settings.offsetY}
-                onChange={(e) => {
-                  const newSettings = { ...settings, offsetY: parseInt(e.target.value) || 0 }
-                  const { x, y } = calculateAbsolutePosition(newSettings, canvasSize)
-                  setSettings({ ...newSettings, x, y })
-                }}
+                onChange={(e) => setSettings({ ...settings, offsetY: parseInt(e.target.value) || 0 })}
               />
             </div>
           </div>
@@ -211,7 +195,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
             variant="outline" 
             size="sm" 
             className="w-full justify-start"
-            onClick={() => setSettings({ ...settings, fontFamily: 'Impact', fontSize: 36, color: '#ffffff', strokeColor: '#000000', strokeWidth: 3, horizontalAlign: 'center', verticalAlign: 'middle', offsetX: 0, offsetY: 0, x: 0, y: 0 })}
+            onClick={() => setSettings({ ...settings, fontFamily: 'Impact', fontSize: 36, color: '#ffffff', strokeColor: '#000000', strokeWidth: 3, horizontalAlign: 'center', verticalAlign: 'middle', offsetX: 0, offsetY: 0 })}
           >
             Meme Style
           </Button>
@@ -219,7 +203,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
             variant="outline" 
             size="sm" 
             className="w-full justify-start"
-            onClick={() => setSettings({ ...settings, fontFamily: 'Arial', fontSize: 18, color: '#000000', strokeColor: '#ffffff', strokeWidth: 1, horizontalAlign: 'left', verticalAlign: 'top', offsetX: 10, offsetY: 10, x: 0, y: 0 })}
+            onClick={() => setSettings({ ...settings, fontFamily: 'Arial', fontSize: 18, color: '#000000', strokeColor: '#ffffff', strokeWidth: 1, horizontalAlign: 'left', verticalAlign: 'top', offsetX: 10, offsetY: 10 })}
           >
             Subtitle Style
           </Button>
@@ -227,7 +211,7 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
             variant="outline" 
             size="sm" 
             className="w-full justify-start"
-            onClick={() => setSettings({ ...settings, fontFamily: 'Georgia', fontSize: 24, color: '#333333', strokeColor: '#ffffff', strokeWidth: 0, horizontalAlign: 'center', verticalAlign: 'bottom', offsetX: 0, offsetY: -20, x: 0, y: 0 })}
+            onClick={() => setSettings({ ...settings, fontFamily: 'Georgia', fontSize: 24, color: '#333333', strokeColor: '#ffffff', strokeWidth: 0, horizontalAlign: 'center', verticalAlign: 'bottom', offsetX: 0, offsetY: -20 })}
           >
             Clean Text
           </Button>
@@ -250,54 +234,4 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onTextSett
       </Card>
     </>
   )
-}
-
-// Helper function to calculate absolute X/Y based on alignment and offsets, using actual canvas size
-const calculateAbsolutePosition = (settings, canvasSize) => {
-  const { text, fontSize, horizontalAlign, verticalAlign, offsetX, offsetY } = settings
-  const { width: canvasWidth, height: canvasHeight } = canvasSize
-
-  let newX = 0
-  let newY = 0
-
-  // Use a canvas to measure actual text width for more accurate alignment
-  let estimatedTextWidth = text.length * (fontSize * 0.6)
-  if (typeof window !== 'undefined' && window.document) {
-    const tempCanvas = document.createElement('canvas')
-    const ctx = tempCanvas.getContext('2d')
-    ctx.font = `${fontSize || 24}px Arial`
-    estimatedTextWidth = ctx.measureText(text).width
-  }
-  const estimatedTextHeight = fontSize
-
-  switch (horizontalAlign) {
-    case 'left':
-      newX = 0
-      break
-    case 'center':
-      newX = (canvasWidth / 2) - (estimatedTextWidth / 2)
-      break
-    case 'right':
-      newX = canvasWidth - estimatedTextWidth
-      break
-    default:
-      newX = 0
-  }
-
-  switch (verticalAlign) {
-    case 'top':
-      newY = 0
-      break
-    case 'middle':
-      newY = (canvasHeight / 2) - (estimatedTextHeight / 2)
-      break
-    case 'bottom':
-      newY = canvasHeight - estimatedTextHeight
-      break
-    default:
-      newY = 0
-  }
-
-  // Apply offsets and ensure positions are not negative
-  return { x: Math.max(0, newX + offsetX), y: Math.max(0, newY + offsetY) }
 }

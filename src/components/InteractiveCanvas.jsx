@@ -64,27 +64,61 @@ export default function InteractiveCanvas({
 
   // Draw text at x/y position from settings
   const drawText = (ctx, textContent, settings, canvasWidth, canvasHeight, tSize) => {
-    if (!textContent || !textContent.trim()) return
+    if (!textContent || !textContent.trim()) return;
     const {
       fontSize = 24,
       fontFamily = 'Arial',
       color = '#ffffff',
       strokeColor = '#000000',
       strokeWidth = 2,
-      x = 0,
-      y = 0
-    } = settings
-    ctx.font = `${fontSize}px ${fontFamily}`
-    ctx.textAlign = 'left'
-    ctx.textBaseline = 'top'
+      horizontalAlign = 'center', // 'left', 'center', 'right'
+      verticalAlign = 'middle',   // 'top', 'middle', 'bottom'
+      offsetX = 0,
+      offsetY = 0,
+    } = settings;
+
+    ctx.font = `${fontSize}px ${fontFamily}`;
+
+    // Horizontal alignment
+    let x;
+    if (horizontalAlign === 'left') {
+      ctx.textAlign = 'left';
+      x = 0 + offsetX;
+    } else if (horizontalAlign === 'center') {
+      ctx.textAlign = 'center';
+      x = canvasWidth / 2 + offsetX;
+    } else if (horizontalAlign === 'right') {
+      ctx.textAlign = 'right';
+      x = canvasWidth + offsetX;
+    } else {
+      ctx.textAlign = 'center';
+      x = canvasWidth / 2 + offsetX;
+    }
+
+    // Vertical alignment
+    let y;
+    if (verticalAlign === 'top') {
+      ctx.textBaseline = 'top';
+      y = 0 + offsetY;
+    } else if (verticalAlign === 'middle') {
+      ctx.textBaseline = 'middle';
+      y = canvasHeight / 2 + offsetY;
+    } else if (verticalAlign === 'bottom') {
+      ctx.textBaseline = 'bottom';
+      y = canvasHeight + offsetY;
+    } else {
+      ctx.textBaseline = 'middle';
+      y = canvasHeight / 2 + offsetY;
+    }
+
     // Draw stroke
     if (strokeWidth > 0) {
-      ctx.strokeStyle = strokeColor
-      ctx.lineWidth = strokeWidth
-      ctx.strokeText(textContent, x, y)
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = strokeWidth;
+      ctx.strokeText(textContent, x, y);
     }
-    ctx.fillStyle = color
-    ctx.fillText(textContent, x, y)
+    ctx.fillStyle = color;
+    ctx.fillText(textContent, x, y);
   }
 
   return (
