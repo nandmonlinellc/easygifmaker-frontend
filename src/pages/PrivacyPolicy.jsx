@@ -4,21 +4,23 @@ import { Link } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Privacy Policy">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
       <Helmet>
         <title>Privacy Policy | EasyGIFMaker</title>
         <meta name="description" content="Read the Privacy Policy for EasyGIFMaker. Learn how we protect your data and privacy when using our GIF and video editing tools." />
         <link rel="canonical" href="https://easygifmaker.com/privacy-policy" />
       </Helmet>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Privacy Policy</h1>
-        <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
+        <header aria-label="Privacy Policy Header">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Privacy Policy</h1>
+          <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
+        </header>
+        <section className="space-y-8 text-gray-800" aria-label="Privacy Policy Content">
         
         <p className="mb-6 text-gray-700">
           Welcome to EasyGIFMaker. Your privacy is critically important to us. This Privacy Policy outlines how we handle your information when you use our website and services. Our core privacy principle is simple: we do not store your files. All processing is done in real-time, and your uploaded content is deleted from our servers shortly after processing is complete.
         </p>
 
-        <div className="space-y-8 text-gray-800">
           <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">1. Information We Collect</h2>
             <h3 className="text-lg font-semibold text-gray-800 mb-1">a. Files You Upload</h3>
@@ -88,8 +90,8 @@ export default function PrivacyPolicy() {
               <li>By email: <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline">nandmonlinellc@gmail.com</a></li>
             </ul>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

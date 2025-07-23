@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Image, Video, Crop, RotateCw, Type, Zap, ArrowRight } from 'lucide-react'
+import FeatureCard from '@/components/FeatureCard';
+import TestimonialSection from '@/components/TestimonialSection';
 
 export default function HomePage() {
   const tools = [
@@ -92,8 +94,7 @@ export default function HomePage() {
         <meta name="twitter:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <link rel="canonical" href="https://easygifmaker.com" />
       </Helmet>
-
-      <div className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12" aria-label="Main content">
         {/* Hero Section */}
         <section className="relative text-center mb-16">
           <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
@@ -115,43 +116,47 @@ export default function HomePage() {
             ))}
           </div>
           <div className="flex justify-center mt-6">
-            <Link to="/gif-maker" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition-colors text-lg">
+            <Link to="/gif-maker" aria-label="Get Started with GIF Maker" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition-colors text-lg">
               Get Started
             </Link>
           </div>
         </section>
-
-        {/* Tools Grid */}
+        {/* Tools Grid using FeatureCard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {tools.map((tool) => {
-            const IconComponent = tool.icon
+            const IconComponent = tool.icon;
             return (
-              <Link key={tool.id} to={tool.path} className="group">
-                <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 border-2 hover:border-blue-200">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-12 h-12 ${tool.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}>
-                        <IconComponent className="w-6 h-6 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">
-                          {tool.title}
-                        </CardTitle>
-                      </div>
-                      <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-200" />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-600">
-                      {tool.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
+              <Link key={tool.id} to={tool.path} aria-label={tool.title} className="group">
+                <FeatureCard
+                  icon={<IconComponent className="w-6 h-6 text-white" />}
+                  title={tool.title}
+                  description={tool.description}
+                  bgColor={tool.color}
+                />
               </Link>
-            )
+            );
           })}
         </div>
-        {/* How it Works, Use Cases, etc. (moved below main content) */}
+        {/* Blog Highlights Section */}
+        <section className="mb-12" aria-label="Latest Blog Posts">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">Latest from Our Blog</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Example blog highlights, replace with dynamic data if available */}
+            <Link to="/blog/how-to-make-gifs-from-videos" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
+              <h3 className="font-semibold text-blue-700 mb-2">How to Make GIFs from Videos Instantly</h3>
+              <p className="text-gray-600 text-sm">Step-by-step guide for beginners to convert videos to GIFs.</p>
+            </Link>
+            <Link to="/blog/top-5-gif-optimization-tips" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
+              <h3 className="font-semibold text-blue-700 mb-2">Top 5 Tips for Optimizing GIFs for Social Media</h3>
+              <p className="text-gray-600 text-sm">Best practices for fast-loading, high-quality GIFs.</p>
+            </Link>
+            <Link to="/blog/add-text-to-gifs-guide" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
+              <h3 className="font-semibold text-blue-700 mb-2">Adding Text and Captions to GIFs: A Complete Guide</h3>
+              <p className="text-gray-600 text-sm">Make your GIFs more engaging with custom text overlays.</p>
+            </Link>
+          </div>
+        </section>
+        {/* How it Works, Use Cases, etc. */}
         <div className="text-left bg-blue-50 border border-blue-200 rounded-xl p-8 shadow mb-12">
           <h2 className="text-2xl font-bold text-blue-700 mb-3">How EasyGIFMaker Works</h2>
           <ol className="list-decimal pl-6 text-lg text-blue-900 space-y-2 mb-4">
@@ -198,7 +203,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        {/* SEO Content Section (moved below main content) */}
+        {/* SEO Content Section */}
         <div className="bg-gray-50 rounded-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Choose EasyGIFMaker?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -232,7 +237,9 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </div>
+        {/* Testimonials Section */}
+        <TestimonialSection />
+      </main>
     </>
   )
 }

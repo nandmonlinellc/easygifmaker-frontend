@@ -24,22 +24,20 @@ export default function Help() {
   ];
 
   return (
-    <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Help & Support">
       <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
       <Helmet>
         <title>Help & Support | EasyGIFMaker</title>
         <meta name="description" content="Get help and support for using EasyGIFMaker's GIF and video editing tools. Find step-by-step guides and troubleshooting tips." />
         <link rel="canonical" href="https://easygifmaker.com/help" />
       </Helmet>
-
-        <div className="text-center">
+        <header className="text-center" aria-label="Help Header">
           <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 mb-4">Help & Support</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Welcome to EasyGIFMaker! Here’s a quick guide to get you started. If you have more questions, check out our FAQ or contact us directly.
           </p>
-        </div>
-
-        <div className="my-12">
+        </header>
+        <section className="my-12" aria-label="Getting Started Steps">
           <h2 className="text-3xl font-bold text-blue-700 text-center mb-8">Getting Started in 3 Easy Steps</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {gettingStartedSteps.map((step, index) => (
@@ -52,9 +50,8 @@ export default function Help() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+        </section>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center" aria-label="Help Options">
           <div className="p-6 bg-blue-50 border border-blue-200 rounded-lg">
             <HelpCircle className="h-10 w-10 text-blue-600 mx-auto mb-4" />
             <h3 className="text-2xl font-semibold text-gray-900 mb-2">Have More Questions?</h3>
@@ -75,8 +72,8 @@ export default function Help() {
               <Link to="/contact">Contact Us</Link>
             </Button>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

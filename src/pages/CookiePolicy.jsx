@@ -4,21 +4,18 @@ import { Link } from 'react-router-dom';
 
 export default function CookiePolicy() {
   return (
-    <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Cookie Policy">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
       <Helmet>
         <title>Cookie Policy | EasyGIFMaker</title>
         <meta name="description" content="Read the Cookie Policy for EasyGIFMaker. Learn how we use cookies to enhance your experience with our GIF and video editing tools." />
         <link rel="canonical" href="https://easygifmaker.com/cookie-policy" />
       </Helmet>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Cookie Policy</h1>
-        <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
-
-        <p className="mb-6 text-gray-700">
-          This Cookie Policy explains how EasyGIFMaker ("we," "us," or "our") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.
-        </p>
-
-        <div className="space-y-8 text-gray-800">
+        <header aria-label="Cookie Policy Header">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Cookie Policy</h1>
+          <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
+        </header>
+        <section className="space-y-8 text-gray-800" aria-label="Cookie Policy Content">
           <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">1. What Are Cookies?</h2>
             <p>Cookies are small data files that are placed on your computer or mobile device when you visit a website. They are widely used by website owners to make their websites work, or to work more efficiently, as well as to provide reporting information.</p>
@@ -74,8 +71,8 @@ export default function CookiePolicy() {
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">5. Contact Us</h2>
             <p>If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline">nandmonlinellc@gmail.com</a>.</p>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

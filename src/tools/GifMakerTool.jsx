@@ -230,12 +230,12 @@ export default function GifMakerTool() {
                   <CardContent className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
                     {uploadMethod === 'file' && mediaFiles && mediaFiles.length > 0 && (
                       mediaFiles.map((file, idx) => (
-                        <img key={idx} src={URL.createObjectURL(file)} alt={file.name} className="rounded-lg object-cover aspect-square" />
+                        <img key={idx} src={URL.createObjectURL(file)} alt={file.name} className="rounded-lg object-cover aspect-square" loading="lazy" />
                       ))
                     )}
                     {uploadMethod === 'url' && mediaUrls && mediaUrls.length > 0 && (
                       mediaUrls.map((url, idx) => (
-                        <img key={idx} src={url} alt={`URL #${idx + 1}`} className="rounded-lg object-cover aspect-square" />
+                        <img key={idx} src={url} alt={`URL #${idx + 1}`} className="rounded-lg object-cover aspect-square" loading="lazy" />
                       ))
                     )}
                   </CardContent>

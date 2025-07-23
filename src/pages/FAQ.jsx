@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 
 export default function FAQ() {
   return (
-    <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
+    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="FAQ - Frequently Asked Questions">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
       <Helmet>
         <title>FAQ | EasyGIFMaker Frequently Asked Questions</title>
         <meta name="description" content="Find answers to common questions about EasyGIFMaker's GIF and video editing tools, features, and troubleshooting." />
         <link rel="canonical" href="https://easygifmaker.com/faq" />
       </Helmet>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-8 text-center">Frequently Asked Questions</h1>
-        
-        <div className="space-y-8 text-gray-800">
+        <header className="text-center" aria-label="FAQ Header">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-8">Frequently Asked Questions</h1>
+        </header>
+        <section className="space-y-8 text-gray-800" aria-label="FAQ Content">
           {/* General Questions */}
           <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-4 border-b pb-2">General Questions</h2>
@@ -81,8 +82,8 @@ export default function FAQ() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

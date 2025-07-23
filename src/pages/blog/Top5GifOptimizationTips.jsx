@@ -16,7 +16,7 @@ export default function Top5GifOptimizationTips() {
         </nav>
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">Top 5 Tips for Optimizing GIFs for Social Media</h1>
         <p className="text-gray-700 mb-6">Published on July 10, 2025 by EasyGIFMaker Team</p>
-        <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" />
+        <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" loading="lazy" />
         <article className="prose prose-blue max-w-none mb-8">
           <p>
             Want your GIFs to look great and load fast on every platform? A well-optimized GIF can make the difference between a viral hit and a slow-loading dud. Here are our top 5 tips for optimizing your GIFs for social media, complete with tool recommendations to get the job done right.
@@ -29,7 +29,7 @@ export default function Top5GifOptimizationTips() {
           <p>
             The single most important step is to compress your GIF. A smaller file size means faster loading, which is crucial for user experience. Our <Link to="/optimize" className="text-blue-600 underline font-semibold">GIF Optimizer</Link> uses advanced techniques like lossy compression and color reduction to shrink your GIFs without a noticeable drop in quality.
           </p>
-          <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" />
+          <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" loading="lazy" />
           <h2 className="mt-8"><b>3. Choose the Right Dimensions</b></h2>
           <p>
             A GIF that's too large will be downscaled by social media platforms, often poorly. A GIF that's too small will look pixelated. It's best to create your GIF with the right dimensions from the start.

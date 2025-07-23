@@ -183,7 +183,7 @@ export default function OptimizeTool() {
                     <CardTitle>Preview</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <img src={mediaUrl} alt="Preview" className="max-w-full h-auto mx-auto rounded-lg" />
+                    <img src={mediaUrl} alt="Preview" className="max-w-full h-auto mx-auto rounded-lg" loading="lazy" />
                     <div className="mt-4 flex gap-4">
                       <Button onClick={resetWorkflow} variant="outline">
                         Upload Different GIF
