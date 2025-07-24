@@ -1,90 +1,16 @@
-import React from 'react'
-import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Image, Video, Crop, RotateCw, Type, Zap, ArrowRight } from 'lucide-react'
-import FeatureCard from '@/components/FeatureCard';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { Image, Video, Crop, RotateCw, Type, Zap, Users, Shield, Rocket, Smile, ArrowRight, BookOpen, Upload, Edit3, Download } from 'lucide-react';
 import TestimonialSection from '@/components/TestimonialSection';
 
 export default function HomePage() {
-  const tools = [
-    {
-      id: 'gif-maker',
-      title: 'GIF Maker',
-      description: 'Create animated GIFs from multiple images with custom timing and loop settings',
-      icon: Image,
-      color: 'bg-blue-500',
-      path: '/gif-maker',
-      keywords: 'make gif, create gif, gif maker, images to gif'
-    },
-    {
-      id: 'video-to-gif',
-      title: 'Video to GIF',
-      description: 'Convert videos from YouTube, MP4, and other formats into high-quality GIFs',
-      icon: Video,
-      color: 'bg-green-500',
-      path: '/video-to-gif',
-      keywords: 'video to gif, mp4 to gif, youtube to gif, convert video'
-    },
-    {
-      id: 'resize',
-      title: 'Resize GIF',
-      description: 'Resize your GIFs to any dimensions while maintaining quality',
-      icon: RotateCw,
-      color: 'bg-purple-500',
-      path: '/resize',
-      keywords: 'resize gif, gif resizer, change gif size'
-    },
-    {
-      id: 'crop',
-      title: 'Crop GIF',
-      description: 'Crop GIFs with precision using custom dimensions or aspect ratios',
-      icon: Crop,
-      color: 'bg-orange-500',
-      path: '/crop',
-      keywords: 'crop gif, gif cropper, trim gif'
-    },
-    {
-      id: 'optimize',
-      title: 'Optimize GIF',
-      description: 'Reduce GIF file size and compress for faster loading and sharing',
-      icon: Zap,
-      color: 'bg-yellow-500',
-      path: '/optimize',
-      keywords: 'optimize gif, compress gif, reduce gif size, gif optimizer'
-    },
-    {
-      id: 'add-text',
-      title: 'Add Text to GIF',
-      description: 'Add custom text, captions, and watermarks to your GIFs',
-      icon: Type,
-      color: 'bg-red-500',
-      path: '/add-text',
-      keywords: 'add text to gif, gif text, gif captions, gif watermark'
-    }
-  ]
-
-  const features = [
-    'Free online GIF tools',
-    'No registration required',
-    'Privacy-focused - files not stored',
-    'Support for multiple formats',
-    'High-quality output',
-    'Mobile-friendly interface'
-  ]
-
   return (
     <>
       <Helmet>
         <title>EasyGIFMaker - Free Online GIF Maker, Video to GIF Converter & Editor</title>
-        <meta 
-          name="description" 
-          content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. Support for MP4, YouTube, and all major formats. No registration required." 
-        />
-        <meta 
-          name="keywords" 
-          content="gif maker, video to gif, mp4 to gif, gif converter, gif editor, youtube to gif, make gif, create gif, gif tools, online gif maker, free gif maker" 
-        />
+        <meta name="description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. Support for MP4, YouTube, and all major formats. No registration required." />
+        <meta name="keywords" content="gif maker, video to gif, mp4 to gif, gif converter, gif editor, youtube to gif, make gif, create gif, gif tools, online gif maker, free gif maker" />
         <meta property="og:title" content="EasyGIFMaker - Free Online GIF Maker & Video to GIF Converter" />
         <meta property="og:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <meta property="og:type" content="website" />
@@ -94,153 +20,150 @@ export default function HomePage() {
         <meta name="twitter:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <link rel="canonical" href="https://easygifmaker.com" />
       </Helmet>
-      <main className="container mx-auto px-4 py-12" aria-label="Main content">
+      <main className="from-blue-50 to-purple-100 min-h-screen">
         {/* Hero Section */}
-        <section className="relative text-center mb-16">
-          <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-            <div className="w-full h-48 bg-gradient-to-b from-blue-100/60 via-white/0 to-white/0 blur-2xl rounded-b-3xl"></div>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-blue-700 mb-4 drop-shadow-sm tracking-tight">
-            Free Online GIF Maker & Video to GIF Converter
-          </h1>
-          <p className="text-2xl text-gray-700 mb-8 max-w-2xl mx-auto font-medium">
-            Create, edit, and optimize GIFs online with our powerful, privacy-focused tools. No registration required—completely free.<br/>
-            <span className="block mt-2 text-lg text-blue-800 font-semibold">Turn your videos, images, and ideas into stunning animated GIFs in seconds!</span>
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 text-base text-blue-700 font-semibold mb-6">
-            {features.map((feature, index) => (
-              <span key={index} className="flex items-center px-4 py-2 bg-blue-50 rounded-full shadow-sm border border-blue-100">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                {feature}
-              </span>
-            ))}
-          </div>
-          <div className="flex justify-center mt-6">
-            <Link to="/gif-maker" aria-label="Get Started with GIF Maker" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition-colors text-lg">
-              Get Started
-            </Link>
+        <section className="relative text-center py-20 bg-gradient-to-br from-blue-500 to-purple-500 text-white overflow-hidden">
+          {/* Background GIF */}
+          <img src="/blog/magical-gif.gif" alt="Magical Animation" className="absolute inset-0 w-full h-full object-cover opacity-40 z-0" style={{ pointerEvents: 'none' }} />
+          {/* Overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/80 to-purple-400/80 z-0" />
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Create GIFs Instantly</h1>
+            <p className="text-2xl mb-4">Turn your videos and images into stunning GIFs in seconds. Free, fast, and privacy-focused.</p>
+            <p className="mb-8 text-lg text-blue-100">EasyGIFMaker is your all-in-one solution for making, editing, and optimizing GIFs. No registration, no watermarks, and your files are never stored. Join thousands of creators and marketers who trust us for their GIF needs!</p>
+            <div className="flex justify-center mb-8">
+              <Video className="w-24 h-24 text-white bg-blue-500 rounded-full p-4 shadow-lg" />
+            </div>
+            <Link to="/gif-maker" className="px-8 py-4 bg-white text-blue-700 font-bold rounded-full shadow-lg hover:bg-blue-100 transition">Try GIF Maker</Link>
           </div>
         </section>
-        {/* Tools Grid using FeatureCard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {tools.map((tool) => {
-            const IconComponent = tool.icon;
-            return (
-              <Link key={tool.id} to={tool.path} aria-label={tool.title} className="group">
-                <FeatureCard
-                  icon={<IconComponent className="w-6 h-6 text-white" />}
-                  title={tool.title}
-                  description={tool.description}
-                  bgColor={tool.color}
-                />
-              </Link>
-            );
-          })}
-        </div>
-        {/* Blog Highlights Section */}
-        <section className="mb-12" aria-label="Latest Blog Posts">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4">Latest from Our Blog</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Example blog highlights, replace with dynamic data if available */}
-            <Link to="/blog/how-to-make-gifs-from-videos" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
-              <h3 className="font-semibold text-blue-700 mb-2">How to Make GIFs from Videos Instantly</h3>
-              <p className="text-gray-600 text-sm">Step-by-step guide for beginners to convert videos to GIFs.</p>
-            </Link>
-            <Link to="/blog/top-5-gif-optimization-tips" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
-              <h3 className="font-semibold text-blue-700 mb-2">Top 5 Tips for Optimizing GIFs for Social Media</h3>
-              <p className="text-gray-600 text-sm">Best practices for fast-loading, high-quality GIFs.</p>
-            </Link>
-            <Link to="/blog/add-text-to-gifs-guide" className="block bg-white border border-blue-100 rounded-lg p-4 shadow hover:shadow-lg transition">
-              <h3 className="font-semibold text-blue-700 mb-2">Adding Text and Captions to GIFs: A Complete Guide</h3>
-              <p className="text-gray-600 text-sm">Make your GIFs more engaging with custom text overlays.</p>
-            </Link>
-          </div>
-        </section>
-        {/* How it Works, Use Cases, etc. */}
-        <div className="text-left bg-blue-50 border border-blue-200 rounded-xl p-8 shadow mb-12">
-          <h2 className="text-2xl font-bold text-blue-700 mb-3">How EasyGIFMaker Works</h2>
-          <ol className="list-decimal pl-6 text-lg text-blue-900 space-y-2 mb-4">
-            <li><b>Upload</b> your video, images, or paste a URL from YouTube, Dailymotion, and more.</li>
-            <li><b>Edit</b> with our interactive timeline, cropping, resizing, and text overlay tools.</li>
-            <li><b>Preview</b> your GIF in real time and adjust settings for quality, size, and animation speed.</li>
-            <li><b>Download</b> your optimized GIF or MP4 instantly—ready to share anywhere!</li>
-          </ol>
-          <h3 className="text-xl font-semibold text-blue-700 mt-6 mb-2">Why Use EasyGIFMaker?</h3>
-          <ul className="list-disc pl-6 text-blue-900 space-y-1">
-            <li>Perfect for social media, marketing, memes, tutorials, and more</li>
-            <li>Supports 15+ formats including MP4, GIF, WebP, APNG, and YouTube links</li>
-            <li>Advanced privacy—your files are never stored or shared</li>
-            <li>Mobile-friendly and blazing fast, even for large files up to 200MB</li>
-            <li>SEO-optimized, ad-friendly, and trusted by creators worldwide</li>
-          </ul>
-          <div className="mt-6 text-blue-800 text-base">
-            <b>Popular Use Cases:</b> <br/>
-            <span className="block mt-1">• Create viral memes and reaction GIFs for Twitter, Instagram, and TikTok</span>
-            <span className="block">• Convert YouTube highlights to GIFs for sharing in blogs and chats</span>
-            <span className="block">• Make animated banners, tutorials, and product demos for your website</span>
-            <span className="block">• Add captions, watermarks, or branding to your GIFs in seconds</span>
-          </div>
-        </div>
 
-        {/* Popular Keywords Section */}
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Popular GIF Tools & Converters</h2>
-          <p className="text-gray-600 mb-6">
-            Discover our most popular tools for creating and editing GIFs online
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 text-sm">
-            {[
-              'MP4 to GIF', 'Video to GIF', 'YouTube to GIF', 'GIF Maker', 'GIF Converter',
-              'Resize GIF', 'Crop GIF', 'Optimize GIF', 'Add Text to GIF', 'GIF Editor',
-              'Make GIF', 'Create GIF', 'GIF Tools', 'Free GIF Maker', 'Online GIF Converter'
-            ].map((keyword, index) => (
-              <span 
-                key={index} 
-                className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200 transition-colors cursor-pointer"
-              >
-                {keyword}
-              </span>
-            ))}
-          </div>
-        </div>
-        {/* SEO Content Section */}
-        <div className="bg-gray-50 rounded-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Why Choose EasyGIFMaker?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Powerful GIF Creation Tools</h3>
-              <p className="text-gray-600 mb-4">
-                Our comprehensive suite of GIF tools lets you create professional-quality animated GIFs from videos, 
-                images, or URLs. Convert MP4 to GIF, YouTube videos to GIF, or create GIFs from image sequences 
-                with full control over timing, quality, and dimensions.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Video to GIF converter with YouTube support</li>
-                <li>• Multi-image GIF maker with custom timing</li>
-                <li>• Advanced cropping and resizing tools</li>
-                <li>• Text overlay and watermark features</li>
-              </ul>
+        {/* Tools Showcase */}
+        <section className="py-16 container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-700">Our GIF Tools</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <Image className="w-16 h-16 text-blue-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">GIF Maker</h3>
+              <p className="text-gray-600 mb-4 text-center">Combine multiple images or video clips to create animated GIFs with custom timing, looping, and effects. Perfect for memes, tutorials, and social media posts. No design skills needed!</p>
+              <Link to="/gif-maker" className="mt-auto px-6 py-2 bg-blue-600 text-white rounded-full font-bold shadow hover:bg-blue-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Privacy & Performance</h3>
-              <p className="text-gray-600 mb-4">
-                We prioritize your privacy and don't store your files. All processing happens securely in your browser 
-                or on our servers temporarily. Files are automatically deleted after processing, ensuring your content 
-                remains private and secure.
-              </p>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• No file storage or data collection</li>
-                <li>• Fast processing and high-quality output</li>
-                <li>• Support for large files up to 200MB</li>
-                <li>• Mobile-optimized interface</li>
-              </ul>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <Video className="w-16 h-16 text-green-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Video to GIF</h3>
+              <p className="text-gray-600 mb-4 text-center">Convert any video (MP4, YouTube, and more) into a high-quality GIF. Trim, crop, and adjust settings to capture the perfect moment. Great for sharing highlights, reactions, and more.</p>
+              <Link to="/video-to-gif" className="mt-auto px-6 py-2 bg-green-600 text-white rounded-full font-bold shadow hover:bg-green-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <RotateCw className="w-16 h-16 text-purple-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Resize GIF</h3>
+              <p className="text-gray-600 mb-4 text-center">Easily change the dimensions of your GIFs while maintaining quality. Optimize for different platforms, reduce file size, or fit your GIF to any space—no technical knowledge required.</p>
+              <Link to="/resize" className="mt-auto px-6 py-2 bg-purple-600 text-white rounded-full font-bold shadow hover:bg-purple-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <Crop className="w-16 h-16 text-orange-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Crop GIF</h3>
+              <p className="text-gray-600 mb-4 text-center">Crop your GIFs to focus on what matters. Use custom dimensions or aspect ratios to remove unwanted areas and highlight the best parts of your animation.</p>
+              <Link to="/crop" className="mt-auto px-6 py-2 bg-orange-600 text-white rounded-full font-bold shadow hover:bg-orange-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <Zap className="w-16 h-16 text-yellow-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Optimize GIF</h3>
+              <p className="text-gray-600 mb-4 text-center">Reduce GIF file size and compress for faster loading and sharing. Our optimizer uses advanced techniques to keep your GIFs looking great while saving bandwidth.</p>
+              <Link to="/optimize" className="mt-auto px-6 py-2 bg-yellow-500 text-white rounded-full font-bold shadow hover:bg-yellow-600 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
+              <Type className="w-16 h-16 text-red-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Add Text to GIF</h3>
+              <p className="text-gray-600 mb-4 text-center">Add custom text, captions, and watermarks to your GIFs. Personalize your animations, create memes, or add branding in just a few clicks.</p>
+              <Link to="/add-text" className="mt-auto px-6 py-2 bg-red-500 text-white rounded-full font-bold shadow hover:bg-red-600 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* How It Works */}
+        <section className="py-16 bg-blue-50">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-700">How It Works</h2>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-10">
+            <div className="flex flex-col items-center max-w-xs">
+              <Upload className="w-16 h-16 text-blue-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">1. Upload</h4>
+              <p className="text-gray-700 text-center">
+                Start by uploading your video or images, or simply paste a URL from YouTube or other platforms. We support all major formats, and your files are processed securely in your browser for maximum privacy.
+              </p>
+            </div>
+            <div className="flex flex-col items-center max-w-xs">
+              <Edit3 className="w-16 h-16 text-green-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">2. Edit</h4>
+              <p className="text-gray-700 text-center">
+                Use our intuitive editor to trim, crop, resize, and add text or captions to your GIF. Preview your changes in real time and fine-tune every detail for the perfect result—no design skills required!
+              </p>
+            </div>
+            <div className="flex flex-col items-center max-w-xs">
+              <Download className="w-16 h-16 text-purple-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">3. Download</h4>
+              <p className="text-gray-700 text-center">
+                Instantly download your optimized GIF or MP4. Share it on social media, in chats, or anywhere you like. No watermarks, no waiting, and your files are never stored on our servers.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Blog Highlights */}
+        <section className="py-16 container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-700">From Our Blog</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:scale-105 transition">
+              <BookOpen className="w-16 h-16 text-blue-500 mb-4 mx-auto" />
+              <h3 className="text-xl font-semibold mb-2">How to Make GIFs from Videos Instantly</h3>
+              <p className="text-gray-600 mb-4">Learn how to turn your favorite video moments into GIFs with our step-by-step guide. Discover tips for perfect timing, quality, and sharing on any platform.</p>
+              <Link to="/blog/how-to-make-gifs-from-videos" className="mt-auto px-6 py-2 bg-blue-600 text-white rounded-full font-bold shadow hover:bg-blue-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:scale-105 transition">
+              <BookOpen className="w-16 h-16 text-green-500 mb-4 mx-auto" />
+              <h3 className="text-xl font-semibold mb-2">Top 5 Tips for Optimizing GIFs for Social Media</h3>
+              <p className="text-gray-600 mb-4">Discover the best practices for creating fast-loading, high-quality GIFs that stand out on every platform. Learn how to optimize file size, dimensions, and more.</p>
+              <Link to="/blog/top-5-gif-optimization-tips" className="mt-auto px-6 py-2 bg-green-600 text-white rounded-full font-bold shadow hover:bg-green-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:scale-105 transition">
+              <BookOpen className="w-16 h-16 text-red-500 mb-4 mx-auto" />
+              <h3 className="text-xl font-semibold mb-2">Adding Text and Captions to GIFs: A Complete Guide</h3>
+              <p className="text-gray-600 mb-4">Make your GIFs more engaging with custom text overlays, captions, and branding. See how EasyGIFMaker makes it easy to personalize your animations.</p>
+              <Link to="/blog/add-text-to-gifs-guide" className="mt-auto px-6 py-2 bg-red-500 text-white rounded-full font-bold shadow hover:bg-red-600 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+            </div>
+          </div>
+        </section>
+
+        {/* SEO/Feature Section */}
+        <section className="py-16 container mx-auto bg-blue-50">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-700">Why Choose EasyGIFMaker?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center">
+              <Shield className="w-16 h-16 text-blue-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">Privacy First</h4>
+              <p className="text-gray-700 text-center">We never store your files. Everything is processed securely and deleted automatically. Your privacy is our top priority, so you can create and share GIFs with confidence.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Rocket className="w-16 h-16 text-green-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">Blazing Fast</h4>
+              <p className="text-gray-700 text-center">Enjoy unlimited access to all our tools for free, with fast processing and no watermarks. Our platform is optimized for speed, so you can create GIFs in seconds—even with large files.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Smile className="w-16 h-16 text-purple-500 mb-2" />
+              <h4 className="font-bold text-lg mb-1">Easy to Use</h4>
+              <p className="text-gray-700 text-center">Our tools are designed to be intuitive and easy to use for everyone, no technical skills required. Whether you’re a meme creator, marketer, or just having fun, EasyGIFMaker is for you.</p>
+            </div>
+          </div>
+        </section>
+
         {/* Testimonials Section */}
-        <TestimonialSection />
+        <section className="py-16">
+          <h2 className="text-3xl font-bold text-center mb-10 text-blue-700">What Our Users Say</h2>
+          <p className="text-center text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Loved by creators, marketers, and meme-makers worldwide. Here’s what some of our users have to say about EasyGIFMaker:</p>
+          <TestimonialSection />
+        </section>
       </main>
     </>
-  )
+  );
 }
 
