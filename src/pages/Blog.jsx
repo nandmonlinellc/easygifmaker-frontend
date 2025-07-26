@@ -7,6 +7,16 @@ import { Link } from 'react-router-dom';
 const blogPosts = [
 	{
 		id: 1,
+		title: 'The Ultimate Guide to Creating Viral GIFs: Tips, Tricks, and Free Tools',
+		description:
+			'Learn how to create viral GIFs with EasyGIFMaker\'s free online tools. Tips, tricks, and step-by-step guidance for making GIFs that get noticed.',
+		date: '2025-07-16',
+		author: 'Muhammad Nazam AI',
+		path: '/blog/ultimate-guide-to-viral-gifs',
+		tags: ['Viral GIFs', 'Tips & Tricks', 'Free Tools'],
+	},
+	{
+		id: 2,
 		title: 'How to Make GIFs from Videos Instantly',
 		description:
 			'Learn how to convert your favorite video moments into GIFs using EasyGIFMaker. Step-by-step guide for beginners.',
@@ -16,7 +26,7 @@ const blogPosts = [
 		tags: ['GIF Maker', 'Video to GIF', 'Tutorial'],
 	},
 	{
-		id: 2,
+		id: 3,
 		title: 'Top 5 Tips for Optimizing GIFs for Social Media',
 		description:
 			'Discover the best practices for creating fast-loading, high-quality GIFs that stand out on every platform.',
@@ -26,7 +36,7 @@ const blogPosts = [
 		tags: ['Optimize GIF', 'Social Media', 'Tips'],
 	},
 	{
-		id: 3,
+		id: 4,
 		title: 'Adding Text and Captions to GIFs: A Complete Guide',
 		description:
 			'Make your GIFs more engaging with custom text overlays, captions, and branding. See how EasyGIFMaker makes it easy.',

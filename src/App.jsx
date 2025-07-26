@@ -20,6 +20,7 @@ const Blog = lazy(() => import('./pages/Blog'))
 const HowToMakeGifsFromVideos = lazy(() => import('./pages/blog/HowToMakeGifsFromVideos'))
 const Top5GifOptimizationTips = lazy(() => import('./pages/blog/Top5GifOptimizationTips'))
 const AddTextToGifsGuide = lazy(() => import('./pages/blog/AddTextToGifsGuide'))
+const UltimateGuideToViralGifs = lazy(() => import('./pages/blog/UltimateGuideToViralGifs'))
 const GifMakerTool = lazy(() => import('./tools/GifMakerTool'))
 const VideoToGifTool = lazy(() => import('./tools/VideoToGifTool'))
 const ResizeTool = lazy(() => import('./tools/ResizeTool'))
@@ -45,6 +46,7 @@ function App() {
               <Route path="blog/how-to-make-gifs-from-videos" element={<HowToMakeGifsFromVideos />} />
               <Route path="blog/top-5-gif-optimization-tips" element={<Top5GifOptimizationTips />} />
               <Route path="blog/add-text-to-gifs-guide" element={<AddTextToGifsGuide />} />
+              <Route path="blog/ultimate-guide-to-viral-gifs" element={<UltimateGuideToViralGifs />} />
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
               <Route path="cookie-policy" element={<CookiePolicy />} />

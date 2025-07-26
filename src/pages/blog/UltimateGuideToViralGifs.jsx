@@ -19,7 +19,33 @@ export default function UltimateGuideToViralGifs() {
           <BookOpen className="w-8 h-8 text-blue-600" />
           <h1 className="text-4xl font-extrabold text-blue-700">The Ultimate Guide to Creating Viral GIFs: Tips, Tricks, and Free Tools</h1>
         </div>
-        <p className="text-gray-700 mb-8">GIFs are the language of the internet—used in memes, reactions, tutorials, marketing, and more. But what makes a GIF go viral? And how can you create high-quality, shareable GIFs without expensive software or complicated steps? In this guide, we’ll break down everything you need to know about making GIFs that get noticed, and show you how to use <Link to="/" className="text-blue-600 underline">EasyGIFMaker’s free tools</Link> to do it all online.</p>
+        
+        {/* Author and date info */}
+        <div className="flex items-center gap-4 mb-6 text-gray-600">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              MN
+            </div>
+            <span className="font-medium">Muhammad Nazam AI</span>
+          </div>
+          <span>•</span>
+          <time dateTime="2025-07-16">July 16, 2025</time>
+        </div>
+
+        {/* Featured image */}
+        <div className="mb-8">
+        <picture>
+        <source srcSet="/blog/magical-gif.gif" type="image/webp" />
+          <img 
+            src="/blog/magical-gif.gif" 
+            alt="Viral GIF creation process with EasyGIFMaker tools" 
+            className="w-full h-64 object-cover rounded-lg shadow-lg"
+            loading="lazy"
+          />
+          </picture>
+        </div>
+
+        <p className="text-gray-700 mb-8">GIFs are the language of the internet—used in memes, reactions, tutorials, marketing, and more. But what makes a GIF go viral? And how can you create high-quality, shareable GIFs without expensive software or complicated steps? In this guide, we'll break down everything you need to know about making GIFs that get noticed, and show you how to use <Link to="/" className="text-blue-600 underline">EasyGIFMaker's free tools</Link> to do it all online.</p>
 
         <h2 className="text-2xl font-bold text-blue-700 mt-8 mb-2">1. Why GIFs Are So Popular</h2>
         <p className="mb-6">GIFs are short, looping animations that capture attention and convey emotion faster than text or static images. They’re perfect for social media reactions, quick tutorials, marketing campaigns, memes, and entertainment.</p>
