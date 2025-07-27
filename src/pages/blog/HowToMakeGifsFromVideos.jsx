@@ -10,6 +10,22 @@ export default function HowToMakeGifsFromVideos() {
         <meta name="description" content="Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments." />
         <link rel="canonical" href="https://easygifmaker.com/blog/how-to-make-gifs-from-videos" />
       </Helmet>
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "How to Make GIFs from Videos Instantly",
+        "description": "Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments.",
+        "author": {
+          "@type": "Organization",
+          "name": "EasyGIFMaker Team"
+        },
+        "datePublished": "2025-07-14",
+        "image": [
+          "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.png"
+        ],
+        "url": "https://easygifmaker.com/blog/how-to-make-gifs-from-videos",
+        "keywords": "GIF Maker, Video to GIF, Tutorial"
+      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>

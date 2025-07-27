@@ -23,14 +23,17 @@ export default function HomePage() {
       <main className="from-blue-50 to-purple-100 min-h-screen">
         {/* Hero Section */}
         <section className="relative text-center py-20 bg-gradient-to-br from-blue-500 to-purple-500 text-white overflow-hidden">
-          {/* Background GIF */}
-          <img src="/blog/magical-gif.gif" alt="Magical Animation" className="absolute inset-0 w-full h-full object-cover opacity-40 z-0" style={{ pointerEvents: 'none' }} />
+          {/* Background GIF with WebP fallback */}
+          <picture>
+            <source srcSet="/blog/magical-gif.webp" type="image/webp" />
+            <img src="/blog/magical-gif.gif" alt="Magical animation of GIF creation with EasyGIFMaker tools" width="1920" height="1080" className="absolute inset-0 w-full h-full object-cover opacity-40 z-0" style={{ pointerEvents: 'none' }} loading="eager" fetchpriority="high" />
+          </picture>
           {/* Overlay for readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-400/80 to-purple-400/80 z-0" />
           <div className="relative z-10 max-w-3xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Create GIFs Instantly</h1>
             <p className="text-2xl mb-4">Turn your videos and images into stunning GIFs in seconds. Free, fast, and privacy-focused.</p>
-            <p className="mb-8 text-lg text-blue-100">EasyGIFMaker is your all-in-one solution for making, editing, and optimizing GIFs. No registration, no watermarks, and your files are never stored. Join thousands of creators and marketers who trust us for their GIF needs!</p>
+            <p className="mb-8 text-lg text-white">EasyGIFMaker is your all-in-one solution for making, editing, and optimizing GIFs. No registration, no watermarks, and your files are never stored. Join thousands of creators and marketers who trust us for their GIF needs!</p>
             <div className="flex justify-center mb-8">
               <Video className="w-24 h-24 text-white bg-blue-500 rounded-full p-4 shadow-lg" />
             </div>
@@ -70,13 +73,13 @@ export default function HomePage() {
               <Zap className="w-16 h-16 text-yellow-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Optimize GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Reduce GIF file size and compress for faster loading and sharing. Our optimizer uses advanced techniques to keep your GIFs looking great while saving bandwidth.</p>
-              <Link to="/optimize" className="mt-auto px-6 py-2 bg-yellow-500 text-white rounded-full font-bold shadow hover:bg-yellow-600 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/optimize" className="mt-auto px-6 py-2 bg-yellow-600 text-white rounded-full font-bold shadow hover:bg-yellow-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <Type className="w-16 h-16 text-red-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Add Text to GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Add custom text, captions, and watermarks to your GIFs. Personalize your animations, create memes, or add branding in just a few clicks.</p>
-              <Link to="/add-text" className="mt-auto px-6 py-2 bg-red-500 text-white rounded-full font-bold shadow hover:bg-red-600 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/add-text" className="mt-auto px-6 py-2 bg-red-600 text-white rounded-full font-bold shadow hover:bg-red-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
         </section>
@@ -87,21 +90,21 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row justify-center items-center gap-10">
             <div className="flex flex-col items-center max-w-xs">
               <Upload className="w-16 h-16 text-blue-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">1. Upload</h4>
+              <h3 className="font-bold text-lg mb-1">1. Upload</h3>
               <p className="text-gray-700 text-center">
                 Start by uploading your video or images, or simply paste a URL from YouTube or other platforms. We support all major formats, and your files are processed securely in your browser for maximum privacy.
               </p>
             </div>
             <div className="flex flex-col items-center max-w-xs">
               <Edit3 className="w-16 h-16 text-green-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">2. Edit</h4>
+              <h3 className="font-bold text-lg mb-1">2. Edit</h3>
               <p className="text-gray-700 text-center">
                 Use our intuitive editor to trim, crop, resize, and add text or captions to your GIF. Preview your changes in real time and fine-tune every detail for the perfect result—no design skills required!
               </p>
             </div>
             <div className="flex flex-col items-center max-w-xs">
               <Download className="w-16 h-16 text-purple-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">3. Download</h4>
+              <h3 className="font-bold text-lg mb-1">3. Download</h3>
               <p className="text-gray-700 text-center">
                 Instantly download your optimized GIF or MP4. Share it on social media, in chats, or anywhere you like. No watermarks, no waiting, and your files are never stored on our servers.
               </p>
@@ -129,7 +132,7 @@ export default function HomePage() {
               <BookOpen className="w-16 h-16 text-red-500 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold mb-2">Adding Text and Captions to GIFs: A Complete Guide</h3>
               <p className="text-gray-600 mb-4">Make your GIFs more engaging with custom text overlays, captions, and branding. See how EasyGIFMaker makes it easy to personalize your animations.</p>
-              <Link to="/blog/add-text-to-gifs-guide" className="mt-auto px-6 py-2 bg-red-500 text-white rounded-full font-bold shadow hover:bg-red-600 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/blog/add-text-to-gifs-guide" className="mt-auto px-6 py-2 bg-red-600 text-white rounded-full font-bold shadow hover:bg-red-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
         </section>
@@ -140,17 +143,17 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">
               <Shield className="w-16 h-16 text-blue-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">Privacy First</h4>
+              <h3 className="font-bold text-lg mb-1">Privacy First</h3>
               <p className="text-gray-700 text-center">We never store your files. Everything is processed securely and deleted automatically. Your privacy is our top priority, so you can create and share GIFs with confidence.</p>
             </div>
             <div className="flex flex-col items-center">
               <Rocket className="w-16 h-16 text-green-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">Blazing Fast</h4>
+              <h3 className="font-bold text-lg mb-1">Blazing Fast</h3>
               <p className="text-gray-700 text-center">Enjoy unlimited access to all our tools for free, with fast processing and no watermarks. Our platform is optimized for speed, so you can create GIFs in seconds—even with large files.</p>
             </div>
             <div className="flex flex-col items-center">
               <Smile className="w-16 h-16 text-purple-500 mb-2" />
-              <h4 className="font-bold text-lg mb-1">Easy to Use</h4>
+              <h3 className="font-bold text-lg mb-1">Easy to Use</h3>
               <p className="text-gray-700 text-center">Our tools are designed to be intuitive and easy to use for everyone, no technical skills required. Whether you’re a meme creator, marketer, or just having fun, EasyGIFMaker is for you.</p>
             </div>
           </div>

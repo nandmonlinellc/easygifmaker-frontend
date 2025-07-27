@@ -10,6 +10,22 @@ export default function AddTextToGifsGuide() {
         <meta name="description" content="Learn how to add custom text, captions, and branding to your GIFs with EasyGIFMaker. Step-by-step guide for creative GIF editing." />
         <link rel="canonical" href="https://easygifmaker.com/blog/add-text-to-gifs-guide" />
       </Helmet>
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Adding Text and Captions to GIFs: A Complete Guide",
+        "description": "Learn how to add custom text, captions, and branding to your GIFs with EasyGIFMaker. Step-by-step guide for creative GIF editing.",
+        "author": {
+          "@type": "Organization",
+          "name": "EasyGIFMaker Team"
+        },
+        "datePublished": "2025-07-05",
+        "image": [
+          "https://easygifmaker.com/blog/add-text-to-gifs-guide.png"
+        ],
+        "url": "https://easygifmaker.com/blog/add-text-to-gifs-guide",
+        "keywords": "Add Text, GIF Editor, Branding"
+      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>
@@ -18,7 +34,7 @@ export default function AddTextToGifsGuide() {
         <p className="text-gray-700 mb-6">Published on July 5, 2025 by EasyGIFMaker Team</p>
         <picture>
           <source srcSet="/blog/add-text-to-gifs-guide.webp" type="image/webp" />
-          <img src="/blog/add-text-to-gifs-guide.png" alt="Adding text to a GIF with EasyGIFMaker" className="rounded-xl border border-blue-100 shadow mb-8 w-full" loading="lazy" />
+          <img src="/blog/add-text-to-gifs-guide.png" alt="Adding text to a GIF with EasyGIFMaker" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="eager" fetchpriority="high" />
         </picture>
         <article className="prose prose-blue max-w-none mb-8">
           <p>

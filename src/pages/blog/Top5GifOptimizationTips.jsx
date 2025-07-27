@@ -10,6 +10,23 @@ export default function Top5GifOptimizationTips() {
         <meta name="description" content="A detailed guide on the best practices for creating fast-loading, high-quality GIFs for social media. Learn how to optimize your GIFs with EasyGIFMaker's tools." />
         <link rel="canonical" href="https://easygifmaker.com/blog/top-5-gif-optimization-tips" />
       </Helmet>
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Top 5 Tips for Optimizing GIFs for Social Media",
+        "description": "A detailed guide on the best practices for creating fast-loading, high-quality GIFs for social media. Learn how to optimize your GIFs with EasyGIFMaker's tools.",
+        "author": {
+          "@type": "Organization",
+          "name": "EasyGIFMaker Team"
+        },
+        "datePublished": "2025-07-10",
+        "image": [
+          "https://easygifmaker.com/blog/top-5-gif-optimization-tips.png",
+          "https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.png"
+        ],
+        "url": "https://easygifmaker.com/blog/top-5-gif-optimization-tips",
+        "keywords": "Optimize GIF, Social Media, Tips"
+      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>
@@ -18,7 +35,7 @@ export default function Top5GifOptimizationTips() {
         <p className="text-gray-700 mb-6">Published on July 10, 2025 by EasyGIFMaker Team</p>
         <picture>
           <source srcSet="/blog/top-5-gif-optimization-tips.webp" type="image/webp" />
-          <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" loading="lazy" />
+          <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="eager" fetchpriority="high" />
         </picture>
         <article className="prose prose-blue max-w-none mb-8">
           <p>
@@ -34,7 +51,7 @@ export default function Top5GifOptimizationTips() {
           </p>
           <picture>
             <source srcSet="/blog/top-5-gif-optimization-tips-2.webp" type="image/webp" />
-            <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" loading="lazy" />
+            <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" width="1200" height="675" loading="lazy" />
           </picture>
           <h2 className="mt-8"><b>3. Choose the Right Dimensions</b></h2>
           <p>

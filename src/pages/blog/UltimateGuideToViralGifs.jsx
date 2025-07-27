@@ -37,7 +37,7 @@ export default function UltimateGuideToViralGifs() {
         <picture>
         <source srcSet="/blog/magical-gif.gif" type="image/webp" />
           <img 
-            src="/blog/magical-gif.gif" 
+            src="/blog/magical-gif.webp" 
             alt="Viral GIF creation process with EasyGIFMaker tools" 
             className="w-full h-64 object-cover rounded-lg shadow-lg"
             loading="lazy"
