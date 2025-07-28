@@ -35,7 +35,7 @@ export default function Footer() {
           <div className="md:col-span-2 flex flex-col justify-between">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-white text-2xl font-extrabold">E</span>
                 </div>
                 <span className="text-2xl font-extrabold text-blue-700 tracking-tight">EasyGIFMaker</span>

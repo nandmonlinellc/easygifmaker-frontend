@@ -35,7 +35,7 @@ export default function Top5GifOptimizationTips() {
         <p className="text-gray-700 mb-6">Published on July 10, 2025 by EasyGIFMaker Team</p>
         <picture>
           <source srcSet="/blog/top-5-gif-optimization-tips.webp" type="image/webp" />
-          <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="eager" fetchpriority="high" />
+          <img src="/blog/top-5-gif-optimization-tips.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="lazy" />
         </picture>
         <article className="prose prose-blue max-w-none mb-8">
           <p>

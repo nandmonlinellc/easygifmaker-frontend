@@ -30,7 +30,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center">
               <Image className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">EasyGIFMaker</span>

@@ -23,13 +23,18 @@ export default function HomePage() {
       <main className="from-blue-50 to-purple-100 min-h-screen">
         {/* Hero Section */}
         <section className="relative text-center py-20 bg-gradient-to-br from-blue-500 to-purple-500 text-white overflow-hidden">
-          {/* Background GIF with WebP fallback */}
-          <picture>
-            <source srcSet="/blog/magical-gif.webp" type="image/webp" />
-            <img src="/blog/magical-gif.gif" alt="Magical animation of GIF creation with EasyGIFMaker tools" width="1920" height="1080" className="absolute inset-0 w-full h-full object-cover opacity-40 z-0" style={{ pointerEvents: 'none' }} loading="eager" fetchpriority="high" />
-          </picture>
-          {/* Overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/80 to-purple-400/80 z-0" />
+          {/* Optimized CSS Background Pattern */}
+          <div 
+            className="absolute inset-0 w-full h-full opacity-40 z-0"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)
+              `,
+              pointerEvents: 'none'
+            }}
+          />
           <div className="relative z-10 max-w-3xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Create GIFs Instantly</h1>
             <p className="text-2xl mb-4">Turn your videos and images into stunning GIFs in seconds. Free, fast, and privacy-focused.</p>
@@ -49,37 +54,37 @@ export default function HomePage() {
               <Image className="w-16 h-16 text-blue-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">GIF Maker</h3>
               <p className="text-gray-600 mb-4 text-center">Combine multiple images or video clips to create animated GIFs with custom timing, looping, and effects. Perfect for memes, tutorials, and social media posts. No design skills needed!</p>
-              <Link to="/gif-maker" className="mt-auto px-6 py-2 bg-blue-600 text-white rounded-full font-bold shadow hover:bg-blue-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/gif-maker" className="mt-auto px-6 py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <Video className="w-16 h-16 text-green-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Video to GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Convert any video (MP4, YouTube, and more) into a high-quality GIF. Trim, crop, and adjust settings to capture the perfect moment. Great for sharing highlights, reactions, and more.</p>
-              <Link to="/video-to-gif" className="mt-auto px-6 py-2 bg-green-600 text-white rounded-full font-bold shadow hover:bg-green-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/video-to-gif" className="mt-auto px-6 py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <RotateCw className="w-16 h-16 text-purple-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Resize GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Easily change the dimensions of your GIFs while maintaining quality. Optimize for different platforms, reduce file size, or fit your GIF to any space—no technical knowledge required.</p>
-              <Link to="/resize" className="mt-auto px-6 py-2 bg-purple-600 text-white rounded-full font-bold shadow hover:bg-purple-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/resize" className="mt-auto px-6 py-2 bg-purple-700 text-white rounded-full font-bold shadow hover:bg-purple-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <Crop className="w-16 h-16 text-orange-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Crop GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Crop your GIFs to focus on what matters. Use custom dimensions or aspect ratios to remove unwanted areas and highlight the best parts of your animation.</p>
-              <Link to="/crop" className="mt-auto px-6 py-2 bg-orange-600 text-white rounded-full font-bold shadow hover:bg-orange-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/crop" className="mt-auto px-6 py-2 bg-orange-700 text-white rounded-full font-bold shadow hover:bg-orange-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <Zap className="w-16 h-16 text-yellow-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Optimize GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Reduce GIF file size and compress for faster loading and sharing. Our optimizer uses advanced techniques to keep your GIFs looking great while saving bandwidth.</p>
-              <Link to="/optimize" className="mt-auto px-6 py-2 bg-yellow-600 text-white rounded-full font-bold shadow hover:bg-yellow-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/optimize" className="mt-auto px-6 py-2 bg-yellow-700 text-white rounded-full font-bold shadow hover:bg-yellow-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition">
               <Type className="w-16 h-16 text-red-500 mb-4" />
               <h3 className="text-xl font-semibold mb-2">Add Text to GIF</h3>
               <p className="text-gray-600 mb-4 text-center">Add custom text, captions, and watermarks to your GIFs. Personalize your animations, create memes, or add branding in just a few clicks.</p>
-              <Link to="/add-text" className="mt-auto px-6 py-2 bg-red-600 text-white rounded-full font-bold shadow hover:bg-red-700 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/add-text" className="mt-auto px-6 py-2 bg-red-700 text-white rounded-full font-bold shadow hover:bg-red-800 transition flex items-center gap-2">Try Now <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
         </section>
@@ -120,19 +125,19 @@ export default function HomePage() {
               <BookOpen className="w-16 h-16 text-blue-500 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold mb-2">How to Make GIFs from Videos Instantly</h3>
               <p className="text-gray-600 mb-4">Learn how to turn your favorite video moments into GIFs with our step-by-step guide. Discover tips for perfect timing, quality, and sharing on any platform.</p>
-              <Link to="/blog/how-to-make-gifs-from-videos" className="mt-auto px-6 py-2 bg-blue-600 text-white rounded-full font-bold shadow hover:bg-blue-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/blog/how-to-make-gifs-from-videos" className="mt-auto px-6 py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:scale-105 transition">
               <BookOpen className="w-16 h-16 text-green-500 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold mb-2">Top 5 Tips for Optimizing GIFs for Social Media</h3>
               <p className="text-gray-600 mb-4">Discover the best practices for creating fast-loading, high-quality GIFs that stand out on every platform. Learn how to optimize file size, dimensions, and more.</p>
-              <Link to="/blog/top-5-gif-optimization-tips" className="mt-auto px-6 py-2 bg-green-600 text-white rounded-full font-bold shadow hover:bg-green-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/blog/top-5-gif-optimization-tips" className="mt-auto px-6 py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:scale-105 transition">
               <BookOpen className="w-16 h-16 text-red-500 mb-4 mx-auto" />
               <h3 className="text-xl font-semibold mb-2">Adding Text and Captions to GIFs: A Complete Guide</h3>
               <p className="text-gray-600 mb-4">Make your GIFs more engaging with custom text overlays, captions, and branding. See how EasyGIFMaker makes it easy to personalize your animations.</p>
-              <Link to="/blog/add-text-to-gifs-guide" className="mt-auto px-6 py-2 bg-red-600 text-white rounded-full font-bold shadow hover:bg-red-700 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/blog/add-text-to-gifs-guide" className="mt-auto px-6 py-2 bg-red-700 text-white rounded-full font-bold shadow hover:bg-red-800 transition flex items-center gap-2">Read More <ArrowRight className="w-4 h-4" /></Link>
             </div>
           </div>
         </section>

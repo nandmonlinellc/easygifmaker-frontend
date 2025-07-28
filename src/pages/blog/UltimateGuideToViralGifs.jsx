@@ -23,7 +23,7 @@ export default function UltimateGuideToViralGifs() {
         {/* Author and date info */}
         <div className="flex items-center gap-4 mb-6 text-gray-600">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm">
               MN
             </div>
             <span className="font-medium">Muhammad Nazam AI</span>
@@ -69,7 +69,7 @@ export default function UltimateGuideToViralGifs() {
         <p className="mb-6">Creating viral GIFs doesn’t have to be complicated or expensive. With <Link to="/" className="text-blue-600 underline">EasyGIFMaker’s suite of free online tools</Link>, you can make, edit, and optimize GIFs in just a few clicks. Start experimenting today and see how GIFs can boost your engagement, tell your story, or just make your friends laugh!</p>
 
         <div className="mt-8 text-center">
-          <Link to="/gif-maker" className="inline-block px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition-colors text-lg">
+          <Link to="/gif-maker" className="inline-block px-8 py-3 bg-blue-700 text-white font-bold rounded-full shadow-lg hover:bg-blue-800 transition-colors text-lg">
             Try EasyGIFMaker Now
           </Link>
         </div>

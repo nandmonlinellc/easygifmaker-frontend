@@ -1,26 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265" crossorigin="anonymous"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4184BKX5QY');
-    </script>
-    <!-- Ezoic Consent Management & Ads -->
-    <script async src="https://cmp.gatekeeperconsent.com/min.js" data-cfasync="false"></script>
-    <script async src="https://the.gatekeeperconsent.com/cmp.min.js" data-cfasync="false"></script>
-    <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
-    <script>
-        window.ezstandalone = window.ezstandalone || {};
-        ezstandalone.cmd = ezstandalone.cmd || [];
-    </script>
-    <!-- Ezoic Site Verification -->
-    <meta name="ezoic-site-verification" content="M1PxIIXKT1n86jEjSMTEUkJFEsi2Ov" />
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,11 +19,22 @@
     <meta name="twitter:image" content="/og-image.png" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="EasyGIFMaker" />
-    <link rel="preload" as="image" href="/blog/magical-gif.webp" type="image/webp" imagesrcset="/blog/magical-gif.webp 1x" fetchpriority="high" />
-    <link rel="preload" as="image" href="/blog/magical-gif.gif" type="image/gif" imagesrcset="/blog/magical-gif.gif 1x" fetchpriority="high" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Google Analytics and AdSense - Loaded after page content -->
+    <script async defer src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY"></script>
+    <script defer>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4184BKX5QY');
+    </script>
+    <script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265" crossorigin="anonymous"></script>
   </body>
 </html>
