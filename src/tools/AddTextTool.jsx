@@ -7,6 +7,14 @@ import InteractiveCanvas from '../components/InteractiveCanvas'
 import ResultSection from '../components/ResultSection'
 import TextSettingsPanel from '../components/TextSettingsPanel'
 import FileUploadSection from '../components/FileUploadSection'
+import SocialSharingSection from '../components/SocialSharingSection'
+import TroubleshootingSection from '../components/TroubleshootingSection'
+import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
+import ToolSeoSection from '../components/ToolSeoSection'
+import HowToUseSection from '../components/HowToUseSection'
+import ProcessingState from '../components/ProcessingState'
+import UploadState from '../components/UploadState'
+import ToolPageLayout from '../components/ToolPageLayout'
 
 export default function AddTextTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -32,6 +40,14 @@ export default function AddTextTool() {
     x: 0,
     y: 0
   })
+
+  // Handle text settings change from TextSettingsPanel
+  const handleSettingChange = useCallback((key, value) => {
+    setTextSettings(prev => ({
+      ...prev,
+      [key]: value
+    }))
+  }, [])
 
   // Unified upload handler for file or URL
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -102,9 +118,11 @@ export default function AddTextTool() {
       formData.append('color', textSettings.color)
       formData.append('stroke_color', textSettings.strokeColor)
       formData.append('stroke_width', textSettings.strokeWidth.toString())
-      formData.append('x', textSettings.x.toString())
-      formData.append('y', textSettings.y.toString())
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      formData.append('horizontal_align', textSettings.horizontalAlign)
+      formData.append('vertical_align', textSettings.verticalAlign)
+      formData.append('offset_x', textSettings.offsetX.toString())
+      formData.append('offset_y', textSettings.offsetY.toString())
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/add-text`, {
         method: 'POST',
         body: formData
@@ -133,8 +151,11 @@ export default function AddTextTool() {
           const downloadResp = await fetch(`${apiUrl}/api/download/${result}`)
           if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
           const gifBlob = await downloadResp.blob()
-          const url = URL.createObjectURL(new Blob([gifBlob], { type: 'image/gif' }))
-          setResultUrl(url)
+          const url = URL.createObjectURL(gifBlob)
+          setResultUrl({
+            previewUrl: url,
+            downloadUrl: `${apiUrl}/api/download/${result}`
+          })
           setWorkflowState('result')
         } else {
           throw new Error('Timed out waiting for processing.')
@@ -155,122 +176,110 @@ export default function AddTextTool() {
   // --- Render ---
   return (
     <>
-      <Helmet>
-        <title>Add Text to GIF - Text Overlay Tool | EasyGIFMaker</title>
-        <meta 
-          name="description" 
-          content="Add custom text, captions, and watermarks to your GIFs and images. Interactive text editor with live preview, custom fonts, colors, and positioning." 
+      <ToolPageLayout
+        title="Add Text to GIF"
+        description="Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor."
+        icon={Type}
+        seoProps={{
+          title: "Add Text to GIF - Overlay Text on GIFs Online | EasyGIFMaker",
+          description: "Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor.",
+          keywords: "add text to gif, gif text editor, gif caption, gif watermark, text overlay gif, gif text maker",
+          canonical: "https://easygifmaker.com/add-text"
+        }}
+      >
+        <HowToUseSection
+          title="How to Use the Text Editor"
+          steps={[
+            {
+              title: "Upload your GIF",
+              description: "Select a GIF file or enter a GIF URL to add text overlay."
+            },
+            {
+              title: "Add and customize text",
+              description: "Enter your text and customize font, color, size, and position."
+            },
+            {
+              title: "Preview and adjust",
+              description: "See your text overlay in real-time and make adjustments."
+            },
+            {
+              title: "Download and share",
+              description: "Download your GIF with text overlay and share it!"
+            }
+          ]}
         />
-        <meta 
-          name="keywords" 
-          content="adobe mov to gif, ahegao gif, animated gif converter, animated gif to mp4, animated gif to video, birthday sex gif, change video to gif, convert a mov to gif, convert a mp4 to gif, convert animated gif to mp4, convert animated gif to video, convert from gif to mp4, convert from mov to gif, convert gif in video, convert gif to mp4, convert gif to video, convert mov to gif, convert movie to gif, convert mp4 to animated gif, convert mp4 to gif, convert video to animated gif, converting a video to gif, create animated gif from video, create gif from video, download tweet gif, gif converter, gif convertir, gif dancing funny, gif generator from video, gif recording, gif to mp4, gif to video, gif tweet downloader, gifv to mp4, make a gif from video, make video in gif, mov to animated gif, mov to gif, movie to gif converter, mp4 to animated gif, mp4 to gif, quicktime to gif, tiktok gif, turn gif into video, turn mov into gif, turn mp4 into gif, turn video into animated gif, turn video into gif, video as gif, video clip to gif, video in gif converter, video in to gif, video to animated gif, video to gif, video to gif converter, webm to gif, www gifyoutube, youtube gif maker, youtube to gif, youtube video to gif" 
-        />
-        <link rel="canonical" href="https://easygifmaker.com/add-text" />
-      </Helmet>
-      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-7xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          <div className="text-center mb-8">
-            <div className="flex justify-center items-center gap-4 mb-4">
-              <Type size={40} className="text-blue-600 drop-shadow" />
-              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
-                Add Text to GIF
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Add custom text, captions, and watermarks to your GIFs and images. Interactive text editor with live preview, custom fonts, colors, and positioning.
-            </p>
-          </div>
 
           {/* Upload State */}
           {workflowState === 'upload' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload Image or GIF</CardTitle>
-                <CardDescription>
-                  Select an image or GIF to add text overlay
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {errorMessage && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span className="block sm:inline">{errorMessage}</span>
-                  </div>
-                )}
-                <FileUploadSection
-                  uploadMethod={uploadMethod}
-                  setUploadMethod={setUploadMethod}
-                  onFileSelect={(files) => handleFileUpload(files)}
-                  onUrlSubmit={(url) => handleFileUpload(null, url)}
-                  isProcessing={isProcessing}
-                  supportedFormats="Supported formats: JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, PDF"
-                  accept="image/*"
-                  toolName="Image"
-                />
-              </CardContent>
-            </Card>
+            <UploadState
+              title="Upload GIF"
+              description="Select a GIF file or enter a GIF URL to add text overlay"
+              errorMessage={errorMessage}
+              uploadMethod={uploadMethod}
+              setUploadMethod={setUploadMethod}
+              onFileSelect={(files) => handleFileUpload(files)}
+              onUrlSubmit={(url) => handleFileUpload(null, url)}
+              isProcessing={isProcessing}
+              supportedFormats="Supported formats: GIF only"
+              accept="image/gif"
+              toolName="GIF"
+            />
           )}
 
           {/* Editing State */}
           {workflowState === 'editing' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Preview Section */}
+              {/* GIF Preview and Text Editor */}
               <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Live Preview</CardTitle>
-                    <CardDescription>
-                      Drag the text to position it. Changes are shown in real-time.
+                <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview & Text Editor</CardTitle>
+                    <CardDescription className="text-gray-600">
+                      Add and customize text overlay on your GIF
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <InteractiveCanvas
-                      imageUrl={mediaUrl}
-                      text={textSettings.text}
-                      textSettings={textSettings}
-                      onTextPositionChange={handleTextPositionChange}
-                      onCanvasResize={setCanvasDimensions}
-                    />
-                    <div className="mt-4 flex gap-4">
-                      <Button onClick={resetWorkflow} variant="outline">
-                        Upload Different File
+                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
+                      <div className="text-center">
+                        <InteractiveCanvas
+                          imageUrl={mediaUrl}
+                          text={textSettings.text}
+                          textSettings={textSettings}
+                          onTextPositionChange={handleTextPositionChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
+                        Upload Different GIF
                       </Button>
                       <Button 
                         onClick={handleFinalProcess}
-                        disabled={isProcessing || !textSettings.text.trim()}
-                        className="flex-1"
+                        disabled={isProcessing || !textSettings.text}
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
-                        {isProcessing ? 'Processing...' : 'Add Text to Image'}
+                        {isProcessing ? 'Processing...' : 'Add Text to GIF'}
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
               </div>
-              {/* Settings Panel */}
+              {/* Text Settings Panel */}
               <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Settings className="h-5 w-5" />
+                <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
+                      <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                        <Type className="h-5 w-5 text-white" />
+                      </div>
                       Text Settings
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <TextSettingsPanel
-                      canvasSize={canvasDimensions}
                       textSettings={textSettings}
-                      onTextSettingsChange={setTextSettings}
+                      onSettingChange={handleSettingChange}
                     />
-                    {/* Tips for users */}
-                    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded text-sm text-blue-900">
-                      <strong>Tips:</strong>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Type your text and customize font, size, color, and outline.</li>
-                        <li>Drag the text on the preview to position it exactly where you want.</li>
-                        <li>Use the settings to adjust alignment and fine-tune placement.</li>
-                        <li>Preview your changes live before applying.</li>
-                        <li>Supported formats: JPG, PNG, GIF, WebP, and more.</li>
-                      </ul>
-                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -279,53 +288,134 @@ export default function AddTextTool() {
 
           {/* Processing State */}
           {workflowState === 'processing' && (
-            <Card>
-              <CardContent className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold mb-2">Processing Your Image</h3>
-                <p className="text-gray-600">Adding text overlay to your image...</p>
-              </CardContent>
-            </Card>
+            <ProcessingState
+              title="Processing Your GIF"
+              description="Adding text overlay to your GIF..."
+            />
           )}
 
           {/* Result State */}
           {workflowState === 'result' && resultUrl && (
             <ResultSection
-              title="Your Image is Ready!"
-              description="Your image with text has been successfully generated."
-              imageUrl={resultUrl}
-              downloadFileName="image-with-text.gif"
+              title="Your GIF with Text is Ready!"
+              description="Your GIF has been successfully updated with text overlay."
+              imageUrl={resultUrl.previewUrl}
+              downloadFileName="gif-with-text.gif"
+              downloadUrl={resultUrl.downloadUrl}
               onReset={resetWorkflow}
             />
           )}
 
-          {/* Unique Publisher Content for AdSense/SEO */}
-          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
-            <div className="flex items-center gap-4 mb-4">
-              <Type size={40} className="text-white drop-shadow" />
-              <h1 className="text-3xl font-extrabold tracking-tight">Add Text to GIF</h1>
-            </div>
-            <p className="text-lg font-medium mb-2">Add animated or static text overlays to your GIFs with full creative control. Our Add Text tool lets you customize font, color, size, and position, and see your changes live before downloading. Perfect for captions, memes, branding, or just having fun—no design skills required! Choose from a variety of fonts and styles to make your GIFs stand out on social media, websites, or anywhere you share them.</p>
-            <ul className="list-disc pl-6 text-base mt-2">
-              <li>📝 Add captions, memes, or branding to any GIF</li>
-              <li>🎨 Customize font, color, size, and position</li>
-              <li>🔍 Live preview to see your edits in real time</li>
-              <li>🌐 Works with GIF, APNG, and other animated formats</li>
-            </ul>
-          </section>
-          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips & FAQs</h2>
-            <ul className="list-disc pl-6 text-blue-900">
-              <li><b>Tip:</b> Use the live preview to position your text exactly where you want it on the GIF.</li>
-              <li><b>Tip:</b> Try different fonts and colors to match your brand or style.</li>
-              <li><b>Tip:</b> Animated text can make your GIFs more eye-catching for social media.</li>
-              <li><b>FAQ:</b> <b>Can I use custom fonts?</b> We support a variety of fonts and styles for maximum creativity.</li>
-              <li><b>FAQ:</b> <b>Will the text be animated?</b> You can choose static or animated text overlays depending on your needs.</li>
-              <li><b>FAQ:</b> <b>What file types are supported?</b> GIF, APNG, and many other animated formats are accepted.</li>
-            </ul>
-          </section>
-        </div>
-      </div>
+        <ToolSeoSection
+          icon={Type}
+          title="Add Text to GIF"
+          description1="Transform your GIFs with custom text overlays using our powerful online editor. Whether you're adding captions, watermarks, or creative text effects, our tool makes it easy to enhance your GIFs with professional-looking text that stands out."
+          description2="Our intuitive interface lets you customize font, color, size, position, and animation effects. Perfect for content creators, marketers, and anyone who wants to add context, branding, or creative flair to their GIFs."
+          features1={[
+            { emoji: "✏️", text: "Custom font selection and text styling" },
+            { emoji: "🎨", text: "Color customization and effects" },
+            { emoji: "📍", text: "Precise positioning and alignment" }
+          ]}
+          features2={[
+            { emoji: "⚡", text: "Real-time preview and editing" },
+            { emoji: "💎", text: "High-quality output preservation" }
+          ]}
+          useCases={[
+            { color: "bg-yellow-400", text: "Add captions and subtitles to GIFs" },
+            { color: "bg-green-400", text: "Create branded watermarks for business" },
+            { color: "bg-blue-400", text: "Add funny text and memes to GIFs" },
+            { color: "bg-purple-400", text: "Create promotional content with text" }
+          ]}
+        />
+          
+        <TipsFaqsBestPracticesSection 
+          proTips={[
+            {
+              color: "bg-blue-500",
+              text: "Use high contrast colors (white text on dark backgrounds or vice versa) for better readability."
+            },
+            {
+              color: "bg-green-500",
+              text: "Keep text concise and impactful - shorter messages are more memorable and readable."
+            },
+            {
+              color: "bg-purple-500",
+              text: "Position text away from busy areas of the GIF to avoid visual clutter."
+            },
+            {
+              color: "bg-orange-500",
+              text: "Preview your text overlay to ensure it's visible throughout the entire animation."
+            }
+          ]}
+          faqs={[
+            {
+              question: "What text formats are supported?",
+              answer: "All standard text characters, emojis, and special characters."
+            },
+            {
+              question: "Can I add multiple text elements?",
+              answer: "Currently supports single text overlay per GIF."
+            },
+            {
+              question: "Will the text quality be preserved?",
+              answer: "Yes, we maintain high quality while adding text overlay."
+            },
+            {
+              question: "Is there a text length limit?",
+              answer: "Recommended to keep text under 50 characters for best results."
+            }
+          ]}
+          relatedResources={[
+            {
+              href: "/blog/add-text-to-gifs-guide",
+              icon: "📝",
+              text: "Adding Text to GIFs Guide"
+            },
+            {
+              href: "/blog/top-5-gif-optimization-tips",
+              icon: "⚡",
+              text: "Top 5 GIF Optimization Tips"
+            }
+          ]}
+        />
+
+        <TroubleshootingSection 
+          commonIssues={[
+            {
+              color: "bg-yellow-500",
+              text: "If text isn't visible, try changing the color or adding a background."
+            },
+            {
+              color: "bg-orange-500",
+              text: "If upload fails, check your file format (GIF only) and file size."
+            },
+            {
+              color: "bg-red-500",
+              text: "Still having issues?",
+              link: "/contact"
+            }
+          ]}
+          quickFixes={[
+            {
+              icon: "🎨",
+              text: "Use high contrast colors for better visibility"
+            },
+            {
+              icon: "📏",
+              text: "Adjust text size to fit the GIF dimensions"
+            },
+            {
+              icon: "📍",
+              text: "Position text away from busy areas"
+            }
+          ]}
+        />
+
+        <SocialSharingSection 
+          title="Share Your GIF!"
+          description="Share your new GIF with text on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+        />
+      </ToolPageLayout>
     </>
   )
 }

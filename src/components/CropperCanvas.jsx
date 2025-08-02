@@ -10,12 +10,20 @@ export default function CropperCanvas({
   onZoomChange,
   onCropComplete
 }) {
+  // Ensure crop values are valid numbers
+  const safeCrop = {
+    x: typeof crop.x === 'number' && !isNaN(crop.x) ? crop.x : 0,
+    y: typeof crop.y === 'number' && !isNaN(crop.y) ? crop.y : 0
+  }
+  
+  const safeZoom = typeof zoom === 'number' && !isNaN(zoom) ? zoom : 1
+  
   return (
     <div style={{ position: 'relative', width: '100%', height: 400, background: '#222' }}>
       <Cropper
         image={imageUrl}
-        crop={crop}
-        zoom={zoom}
+        crop={safeCrop}
+        zoom={safeZoom}
         aspect={aspect}
         onCropChange={onCropChange}
         onZoomChange={onZoomChange}

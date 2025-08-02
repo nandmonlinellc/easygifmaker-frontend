@@ -2,11 +2,21 @@ import React, { useState, useMemo, useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { Video } from 'lucide-react'
+import { Video, Settings, Download } from 'lucide-react'
 import VideoTimeline from '../components/VideoTimeline'
 import ResultSection from '../components/ResultSection'
 import GifConversionSettings from '../components/GifConversionSettings'
 import FileUploadSection from '../components/FileUploadSection'
+import SocialSharingSection from '../components/SocialSharingSection'
+import TroubleshootingSection from '../components/TroubleshootingSection'
+import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
+import ToolSeoSection from '../components/ToolSeoSection'
+import HowToUseSection from '../components/HowToUseSection'
+import EnhancedTipsSection from '../components/EnhancedTipsSection'
+import ProcessingState from '../components/ProcessingState'
+import UploadState from '../components/UploadState'
+import ToolPageLayout from '../components/ToolPageLayout'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -40,7 +50,7 @@ export default function VideoToGifTool() {
       let url
       if (uploadMethod === 'url' && urlInput) {
         // For URL uploads, send to backend for yt-dlp processing
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
         const response = await fetch(`${apiUrl}/api/upload`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -101,7 +111,7 @@ export default function VideoToGifTool() {
       formData.append('height', videoSettings.height.toString())
       formData.append('quality', videoSettings.quality)
       formData.append('include_audio', videoSettings.includeAudio ? 'true' : 'false')
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/video-to-gif`, {
         method: 'POST',
         body: formData
@@ -167,104 +177,57 @@ export default function VideoToGifTool() {
     setSegmentRange([0, 10])
   }
 
-  // --- Unique Publisher Content for AdSense/SEO ---
-  const heroSection = (
-    <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
-      <div className="flex items-center gap-4 mb-4">
-        <Video size={40} className="text-white drop-shadow" />
-        <h1 className="text-3xl font-extrabold tracking-tight">Video to GIF Converter</h1>
-      </div>
-      <p className="text-lg font-medium mb-2">Convert any video segment into a GIF or MP4 with our interactive timeline. Select the exact start and end points, preview your selection, and choose whether to include audio (MP4 output). Supports YouTube, Dailymotion, and direct video URLs—perfect for highlights, reactions, or tutorials.<br/>
-      <span className='block mt-2'>Our tool is ideal for content creators, educators, marketers, and anyone who wants to capture the best moments from videos and share them as GIFs or short clips. No software to install—just upload, edit, and download in seconds.</span></p>
-      <ul className="list-disc pl-6 text-base mt-2">
-        <li>🎬 Interactive timeline for precise segment selection and trimming</li>
-        <li>🔊 Option to include audio and download as MP4 if available</li>
-        <li>🌐 Supports YouTube, Dailymotion, and direct video links</li>
-        <li>⚡ Fast, high-quality GIF and MP4 generation for all major formats</li>
-        <li>📱 Mobile-friendly and optimized for large files up to 200MB</li>
-      </ul>
-      <div className="mt-6 text-blue-100 text-base">
-        <b>Popular Use Cases:</b> <br/>
-        <span className="block mt-1">• Capture and share the best moments from YouTube, TikTok, or Instagram videos</span>
-        <span className="block">• Create reaction GIFs, highlight reels, or tutorial snippets for blogs and social media</span>
-        <span className="block">• Convert webinars, lectures, or meetings into shareable GIFs for your team</span>
-        <span className="block">• Make animated previews or teasers for your own video content</span>
-      </div>
-    </section>
-  )
-
-  const tipsAndFaq = (
-    <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-      <h2 className="text-xl font-bold text-blue-700 mb-2">Tips, FAQs & Best Practices</h2>
-      <ul className="list-disc pl-6 text-blue-900">
-        <li><b>Tip:</b> Use the timeline to select only the part you want—shorter GIFs load faster and are easier to share.</li>
-        <li><b>Tip:</b> Try different FPS and quality settings for the best balance of size and smoothness.</li>
-        <li><b>Tip:</b> For best results, trim your video to the most interesting or relevant segment before converting.</li>
-        <li><b>Tip:</b> Use the preview to check your GIF or MP4 before downloading—make adjustments as needed!</li>
-        <li><b>FAQ:</b> <b>Why is my MP4 with audio not available?</b> If your video has no audio track, only a GIF will be generated.</li>
-        <li><b>FAQ:</b> <b>Can I use YouTube or Dailymotion links?</b> Yes! Paste the video URL and we’ll handle the rest.</li>
-        <li><b>FAQ:</b> <b>What video formats are supported?</b> MP4, MOV, WebM, AVI, MKV, FLV, and more.</li>
-        <li><b>FAQ:</b> <b>Is there a file size limit?</b> Yes, up to 200MB per video for fast, reliable processing.</li>
-      </ul>
-    </section>
-  )
-
   // --- Render ---
   return (
     <>
-      <Helmet>
-        <title>Video to GIF Converter - Convert MP4 to GIF Online | EasyGIFMaker</title>
-        <meta 
-          name="description" 
-          content="Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs." 
+      <ToolPageLayout
+        title="Video to GIF"
+        description="Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs."
+        icon={Video}
+        seoProps={{
+          title: "Video to GIF Converter - Convert MP4 to GIF Online | EasyGIFMaker",
+          description: "Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs.",
+          keywords: "video to gif, mp4 to gif, youtube to gif, convert video gif, video gif converter, gif maker from video",
+          canonical: "https://easygifmaker.com/video-to-gif"
+        }}
+      >
+        <HowToUseSection
+          title="How to Use the Video to GIF Converter"
+          steps={[
+            {
+              title: "Upload your video",
+              description: "Select a video file or enter a YouTube/video URL to convert to GIF."
+            },
+            {
+              title: "Select your segment",
+              description: "Use the interactive timeline to choose the exact part you want to convert."
+            },
+            {
+              title: "Adjust settings",
+              description: "Set frame rate, quality, and size in the conversion settings panel."
+            },
+            {
+              title: "Convert and download",
+              description: "Click convert to generate your GIF, then download and share it!"
+            }
+          ]}
         />
-        <meta 
-          name="keywords" 
-          content="video to gif, mp4 to gif, youtube to gif, convert video gif, video gif converter, gif maker from video" 
-        />
-        <link rel="canonical" href="https://easygifmaker.com/video-to-gif" />
-      </Helmet>
-      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          <div className="text-center mb-8">
-            <div className="flex justify-center items-center gap-4 mb-4">
-              <Video size={40} className="text-blue-600 drop-shadow" />
-              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
-                Video to GIF
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs.
-            </p>
-          </div>
 
           {/* Upload State */}
           {workflowState === 'upload' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload Video or Enter URL</CardTitle>
-                <CardDescription>
-                  Select a video file or enter a YouTube/video URL to convert to GIF
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {errorMessage && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span className="block sm:inline">{errorMessage}</span>
-                  </div>
-                )}
-                <FileUploadSection
-                  uploadMethod={uploadMethod}
-                  setUploadMethod={setUploadMethod}
-                  onFileSelect={(files) => handleFileUpload(files)}
-                  onUrlSubmit={(url) => handleFileUpload(null, url)}
-                  isProcessing={isProcessing}
-                  supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Only direct video file links are accepted. YouTube, Facebook, TikTok, and similar links are not supported."
-                  accept="video/*"
-                  toolName="Video"
-                />
-              </CardContent>
-            </Card>
+            <UploadState
+              title="Upload Video or Enter URL"
+              description="Select a video file or enter a YouTube/video URL to convert to GIF"
+              errorMessage={errorMessage}
+              uploadMethod={uploadMethod}
+              setUploadMethod={setUploadMethod}
+              onFileSelect={(files) => handleFileUpload(files)}
+              onUrlSubmit={(url) => handleFileUpload(null, url)}
+              isProcessing={isProcessing}
+              supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Only direct video file links are accepted. YouTube, Facebook, TikTok, and similar links are not supported."
+              accept="video/*"
+              toolName="Video"
+            />
           )}
 
           {/* Editing State */}
@@ -272,28 +235,30 @@ export default function VideoToGifTool() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Video Preview and Timeline */}
               <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Video Preview & Timeline Selection</CardTitle>
-                    <CardDescription>
+                <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-2xl font-bold text-gray-800">Video Preview & Timeline Selection</CardTitle>
+                    <CardDescription className="text-gray-600">
                       Use the timeline to select the exact segment you want to convert to GIF
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <VideoTimeline
-                      videoUrl={videoUrl}
-                      onSegmentChange={handleSegmentChange}
-                      segmentRange={segmentRange}
-                      setSegmentRange={setSegmentRange}
-                    />
-                    <div className="mt-6 flex gap-4">
-                      <Button onClick={resetWorkflow} variant="outline">
+                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm border border-white/30">
+                      <VideoTimeline
+                        videoUrl={videoUrl}
+                        onSegmentChange={handleSegmentChange}
+                        segmentRange={segmentRange}
+                        setSegmentRange={setSegmentRange}
+                      />
+                    </div>
+                    <div className="flex gap-4">
+                      <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 border border-white/30">
                         Upload Different Video
                       </Button>
                       <Button 
                         onClick={handleFinalProcess}
                         disabled={isProcessing}
-                        className="flex-1"
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
                         {isProcessing ? 'Converting...' : 'Convert to GIF'}
                       </Button>
@@ -302,29 +267,154 @@ export default function VideoToGifTool() {
                 </Card>
               </div>
               {/* Settings Panel */}
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      Video to GIF Settings
+              <div className="min-w-0">
+                <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3 text-lg sm:text-xl font-bold text-gray-800">
+                      <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                        <Settings className="h-5 w-5 text-white" />
+                      </div>
+                      Conversion Settings
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <GifConversionSettings
-                      videoSettings={videoSettings}
-                      onSettingChange={handleSettingChange}
-                    />
-                    {/* Tips for users */}
-                    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded text-sm text-blue-900">
-                      <strong>Tips:</strong>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Use the timeline to select the exact segment of the video you want to convert.</li>
-                        <li>Adjust FPS for smoother or smaller GIFs. Higher FPS = smoother, but larger file size.</li>
-                        <li>Width/Height lets you resize the output GIF. Keep aspect ratio for best results.</li>
-                        <li>Quality setting balances file size and visual clarity.</li>
-                        <li>Supported video formats: MP4, WebM, AVI, MOV, MKV, FLV, and YouTube URLs.</li>
-                      </ul>
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="space-y-4 sm:space-y-6">
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Frame Rate (FPS)
+                        </label>
+                        <Select value={videoSettings.fps} onValueChange={(value) => handleSettingChange('fps', value)}>
+                          <SelectTrigger className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-xl px-3 sm:px-4 py-2 sm:py-3 font-medium text-sm sm:text-base">
+                            <SelectValue placeholder="Select frame rate" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="10">10 FPS (Small file)</SelectItem>
+                            <SelectItem value="15">15 FPS (Balanced)</SelectItem>
+                            <SelectItem value="24">24 FPS (Smooth)</SelectItem>
+                            <SelectItem value="30">30 FPS (High quality)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 leading-relaxed">
+                          Higher FPS creates smoother animations but larger files. 15 FPS is perfect for most use cases.
+                        </p>
+                      </div>
+
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Quality
+                        </label>
+                        <Select value={videoSettings.quality} onValueChange={(value) => handleSettingChange('quality', value)}>
+                          <SelectTrigger className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-xl px-3 sm:px-4 py-2 sm:py-3 font-medium text-sm sm:text-base">
+                            <SelectValue placeholder="Select quality" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="low">Low (Small file)</SelectItem>
+                            <SelectItem value="medium">Medium (Balanced)</SelectItem>
+                            <SelectItem value="high">High (Best quality)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 leading-relaxed">
+                          Choose quality based on your needs. Medium is recommended for most GIFs.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/20">
+                          <label className="block font-semibold mb-2 sm:mb-3 text-gray-800 text-sm sm:text-base">
+                            Width (pixels)
+                          </label>
+                          <input
+                            type="number"
+                            value={videoSettings.width}
+                            onChange={e => handleSettingChange('width', parseInt(e.target.value, 10))}
+                            min="100"
+                            max="1920"
+                            className="w-full bg-white/90 backdrop-blur-sm rounded-lg px-2 sm:px-3 py-2 text-center font-semibold text-sm sm:text-base shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border border-white/30"
+                          />
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/20">
+                          <label className="block font-semibold mb-2 sm:mb-3 text-gray-800 text-sm sm:text-base">
+                            Height (pixels)
+                          </label>
+                          <input
+                            type="number"
+                            value={videoSettings.height}
+                            onChange={e => handleSettingChange('height', parseInt(e.target.value, 10))}
+                            min="100"
+                            max="1080"
+                            className="w-full bg-white/90 backdrop-blur-sm rounded-lg px-2 sm:px-3 py-2 text-center font-semibold text-sm sm:text-base shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none border border-white/30"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                        <div className="flex items-center gap-3 mb-4">
+                          <input
+                            type="checkbox"
+                            id="include-audio"
+                            checked={videoSettings.includeAudio}
+                            onChange={e => handleSettingChange('includeAudio', e.target.checked)}
+                            className="w-5 h-5 text-blue-600 bg-white/90 border-white/30 rounded focus:ring-blue-500 focus:ring-2"
+                          />
+                          <label htmlFor="include-audio" className="font-semibold text-gray-800 text-lg">
+                            Include Audio
+                          </label>
+                        </div>
+                        <p className="text-sm text-gray-600 leading-relaxed">
+                          Output as .mp4 with audio in addition to GIF. Perfect for preserving sound effects or music.
+                        </p>
+                      </div>
                     </div>
+
+                    {/* Enhanced Summary Section */}
+                    <div className="mt-6 bg-gradient-to-br from-blue-50/80 via-purple-50/80 to-indigo-50/80 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/30">
+                      <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-3 text-base sm:text-lg">
+                        <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                          <span className="text-white text-sm">📊</span>
+                        </div>
+                        Conversion Summary
+                      </h4>
+                      <div className="space-y-2 sm:space-y-3">
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/30">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm sm:text-base font-semibold text-gray-700">Duration</div>
+                            <div className="text-sm sm:text-base font-bold text-blue-600">
+                              {segmentRange ? (segmentRange[1] - segmentRange[0]).toFixed(1) : '0.0'}s
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/30">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm sm:text-base font-semibold text-gray-700">Size</div>
+                            <div className="text-sm sm:text-base font-bold text-green-600">{videoSettings.width}×{videoSettings.height}</div>
+                          </div>
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/30">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm sm:text-base font-semibold text-gray-700">Frame Rate</div>
+                            <div className="text-sm sm:text-base font-bold text-purple-600">{videoSettings.fps} FPS</div>
+                          </div>
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/30">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm sm:text-base font-semibold text-gray-700">Quality</div>
+                            <div className="text-sm sm:text-base font-bold text-orange-600 capitalize">{videoSettings.quality}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <EnhancedTipsSection
+                      title="Pro Tips for Perfect GIFs"
+                      tips={[
+                        "<strong>Timeline Selection</strong> Use the timeline to select only the part you want—shorter GIFs load faster and are easier to share.",
+                        "<strong>FPS Settings</strong> 15 FPS provides excellent balance of smoothness and file size for most videos.",
+                        "<strong>Quality Balance</strong> Medium quality works well for most use cases, balancing file size and visual quality.",
+                        "<strong>Video Length</strong> Keep segments under 10 seconds for optimal GIF performance and sharing.",
+                        "<strong>File Size</strong> Larger videos take longer to process. Consider trimming to the most important segment.",
+                        "<strong>Preview First</strong> Use the preview to check your GIF before downloading. Make adjustments as needed!"
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </div>
@@ -333,38 +423,229 @@ export default function VideoToGifTool() {
 
           {/* Processing State */}
           {workflowState === 'processing' && (
-            <Card>
-              <CardContent className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold mb-2">Converting Video to GIF</h3>
-                <p className="text-gray-600">Processing your video segment...</p>
-              </CardContent>
-            </Card>
+            <ProcessingState
+              title="Processing Your GIF"
+              description="Converting your video to GIF..."
+            />
           )}
 
           {/* Result State */}
           {workflowState === 'result' && resultUrl && (
-            <>
-              <ResultSection
-                title="Your GIF is Ready!"
-                description={resultUrl.mp4
-                  ? "You can download both the GIF and the .mp4 with audio."
-                  : videoSettings.includeAudio
-                    ? "No audio was found in your video, so only a GIF was generated."
-                    : ""}
-                imageUrl={resultUrl.gif || resultUrl}
-                downloadFileName="converted.gif"
-                onReset={resetWorkflow}
-                extraDownload={resultUrl.mp4 ? { url: resultUrl.mp4, label: 'Download MP4 with Audio' } : null}
-              />
-            </>
+            <Card className="bg-gradient-to-br from-white to-green-50/30 shadow-lg">
+              <CardContent className="text-center py-12">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Video className="h-8 w-8 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                    {typeof resultUrl === 'object' && resultUrl.mp4 ? 'Your Files Are Ready!' : 'Your GIF is Ready!'}
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    {typeof resultUrl === 'object' && resultUrl.mp4 
+                      ? 'Your video has been successfully converted to both GIF and MP4 formats.'
+                      : 'Your video has been successfully converted to GIF.'
+                    }
+                  </p>
+                </div>
+
+                {/* Preview */}
+                <div className="mb-6">
+                  <img 
+                    src={typeof resultUrl === 'string' ? resultUrl : (resultUrl.gif || resultUrl.mp4 || '')} 
+                    alt="Preview" 
+                    className="max-w-full h-auto rounded-xl shadow-lg mx-auto" 
+                    style={{ maxHeight: '300px' }}
+                  />
+                </div>
+
+                {/* Download Buttons */}
+                <div className="space-y-3">
+                  {/* GIF Download */}
+                  <Button 
+                    onClick={async () => {
+                      const gifUrl = typeof resultUrl === 'string' ? resultUrl : resultUrl.gif
+                      console.log('Downloading GIF from:', gifUrl)
+                      try {
+                        const response = await fetch(gifUrl)
+                        if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`)
+                        }
+                        const blob = await response.blob()
+                        const url = window.URL.createObjectURL(blob)
+                        const link = document.createElement('a')
+                        link.href = url
+                        link.download = 'converted.gif'
+                        document.body.appendChild(link)
+                        link.click()
+                        document.body.removeChild(link)
+                        window.URL.revokeObjectURL(url)
+                      } catch (error) {
+                        console.error('Download failed:', error)
+                        alert('Download failed. Please try again.')
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download GIF
+                  </Button>
+
+                  {/* MP4 Download (only show if MP4 exists) */}
+                  {typeof resultUrl === 'object' && resultUrl.mp4 && (
+                    <Button 
+                      onClick={async () => {
+                        console.log('Downloading MP4 from:', resultUrl.mp4)
+                        try {
+                          const response = await fetch(resultUrl.mp4)
+                          if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`)
+                          }
+                          const blob = await response.blob()
+                          const url = window.URL.createObjectURL(blob)
+                          const link = document.createElement('a')
+                          link.href = url
+                          link.download = 'converted.mp4'
+                          document.body.appendChild(link)
+                          link.click()
+                          document.body.removeChild(link)
+                          window.URL.revokeObjectURL(url)
+                        } catch (error) {
+                          console.error('Download failed:', error)
+                          alert('Download failed. Please try again.')
+                        }
+                      }}
+                      variant="outline"
+                      className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                    >
+                      <Video className="h-4 w-4 mr-2" />
+                      Download MP4 (with Audio)
+                    </Button>
+                  )}
+                </div>
+
+                <div className="mt-6">
+                  <Button 
+                    onClick={resetWorkflow}
+                    variant="outline"
+                    className="bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300"
+                  >
+                    Convert Another Video
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           )}
 
+        <ToolSeoSection
+          icon={Video}
+          title="Video to GIF Converter"
+          description1="Transform your videos into shareable GIFs with our powerful online converter. Whether you're creating memes, tutorials, or social media content, our tool makes it easy to extract the perfect moment from any video and convert it into a high-quality animated GIF."
+          description2="Our interactive timeline lets you precisely select the segment you want to convert, while advanced settings allow you to control frame rate, quality, and size. Perfect for content creators, marketers, and anyone who wants to bring their video moments to life as GIFs."
+          features1={[
+            { emoji: "🎬", text: "Interactive timeline for precise segment selection" },
+            { emoji: "⚡", text: "Fast conversion with high-quality output" },
+            { emoji: "🔧", text: "Advanced settings for frame rate and quality control" }
+          ]}
+          features2={[
+            { emoji: "🌐", text: "Supports MP4, WebM, AVI, MOV, and more" },
+            { emoji: "📱", text: "Optimized for social media sharing" }
+          ]}
+          useCases={[
+            { color: "bg-yellow-400", text: "Create reaction GIFs from TV shows and movies" },
+            { color: "bg-green-400", text: "Convert tutorial videos into step-by-step GIFs" },
+            { color: "bg-blue-400", text: "Extract funny moments for social media sharing" },
+            { color: "bg-purple-400", text: "Create product demos and marketing content" }
+          ]}
+        />
+          
+          <TipsFaqsBestPracticesSection 
+            proTips={[
+              {
+                color: "bg-blue-500",
+                text: "Use the timeline to select only the part you want—shorter GIFs load faster and are easier to share."
+              },
+              {
+                color: "bg-green-500",
+                text: "15 FPS provides excellent balance of smoothness and file size for most videos."
+              },
+              {
+                color: "bg-purple-500",
+                text: "Medium quality works well for most use cases, balancing file size and visual quality."
+              },
+              {
+                color: "bg-orange-500",
+                text: "Keep segments under 10 seconds for optimal GIF performance and sharing."
+              }
+            ]}
+            faqs={[
+              {
+                question: "Why is my MP4 with audio not available?",
+                answer: "If your video has no audio track, only a GIF will be generated."
+              },
+              {
+                question: "Can I use YouTube or Dailymotion links?",
+                answer: "Yes! Paste the video URL and we'll handle the rest."
+              },
+              {
+                question: "What video formats are supported?",
+                answer: "MP4, MOV, WebM, AVI, MKV, FLV, and more."
+              },
+              {
+                question: "Is there a file size limit?",
+                answer: "Yes, up to 200MB per video for fast, reliable processing."
+              }
+            ]}
+            relatedResources={[
+              {
+                href: "/blog/how-to-make-gifs-from-videos",
+                icon: "📹",
+                text: "How to Make GIFs from Videos"
+              },
+              {
+                href: "/blog/top-5-gif-optimization-tips",
+                icon: "⚡",
+                text: "Top 5 GIF Optimization Tips"
+              }
+            ]}
+          />
 
-          {heroSection}
-          {tipsAndFaq}
-        </div>
-      </div>
+          <TroubleshootingSection 
+            commonIssues={[
+              {
+                color: "bg-yellow-500",
+                text: "If conversion fails, check your video format and file size."
+              },
+              {
+                color: "bg-orange-500",
+                text: "For URL videos, ensure the link is publicly accessible."
+              },
+              {
+                color: "bg-red-500",
+                text: "Still having issues?",
+                link: "/contact"
+              }
+            ]}
+            quickFixes={[
+              {
+                icon: "🔄",
+                text: "Clear browser cache if video isn't loading"
+              },
+              {
+                icon: "📱",
+                text: "Try a different browser if you're having issues"
+              },
+              {
+                icon: "⚡",
+                text: "Check your internet connection for large files"
+              }
+            ]}
+          />
+
+          <SocialSharingSection 
+            title="Share Your GIF!"
+            description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+          />
+      </ToolPageLayout>
     </>
   )
 }

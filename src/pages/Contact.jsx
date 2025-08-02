@@ -26,6 +26,7 @@ export default function Contact() {
         </section>
         <footer>
           <p className="text-sm text-gray-500">We aim to respond to all inquiries within 2 business days.</p>
+          <p className="text-xs text-gray-400 mt-2">Your information will only be used to respond to your inquiry. See our <a href="/privacy" className="underline text-blue-600">Privacy Policy</a>.</p>
         </footer>
       </div>
     </main>

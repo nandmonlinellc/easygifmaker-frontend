@@ -4,9 +4,20 @@ import { Input } from '@/components/ui/input.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 
 const GifConversionSettings = ({
-  videoSettings,
+  videoSettings = {fps: 10, width: 480, height: 360, quality: 'medium', includeAudio: false, startTime: 0, duration: 10},
   onSettingChange,
 }) => {
+  // Defensive: fallback for missing keys
+  const {
+    fps = 10,
+    width = 480,
+    height = 360,
+    quality = 'medium',
+    includeAudio = false,
+    startTime = 0,
+    duration = 10
+  } = videoSettings || {};
+  // Use these variables in the UI if you want, or keep using videoSettings.fps etc.
   return (
     <div className="space-y-4">
       <div>

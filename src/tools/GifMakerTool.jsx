@@ -6,6 +6,15 @@ import { Image, Settings } from 'lucide-react'
 import FileUploadSection from '../components/FileUploadSection'
 import ResultSection from '../components/ResultSection'
 import GifConversionSettings from '../components/GifConversionSettings'
+import SocialSharingSection from '../components/SocialSharingSection'
+import TroubleshootingSection from '../components/TroubleshootingSection'
+import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
+import ToolSeoSection from '../components/ToolSeoSection'
+import HowToUseSection from '../components/HowToUseSection'
+import EnhancedTipsSection from '../components/EnhancedTipsSection'
+import ProcessingState from '../components/ProcessingState'
+import UploadState from '../components/UploadState'
+import ToolPageLayout from '../components/ToolPageLayout'
 
 export default function GifMakerTool() {
   // Workflow: upload, preview, processing, result
@@ -89,7 +98,7 @@ export default function GifMakerTool() {
       formData.append('frame_duration', gifSettings.frameDuration.toString())
       formData.append('loop_count', gifSettings.loopCount.toString())
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/gif-maker`, {
         method: 'POST',
         body: formData
@@ -114,14 +123,19 @@ export default function GifMakerTool() {
             await new Promise(res => setTimeout(res, 1000))
             pollCount++
           }
-          if (state === 'SUCCESS' && result) {
-            // Fetch the actual GIF from /api/download/<result>
-            const downloadResp = await fetch(`${apiUrl}/api/download/${result}`)
-            if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
-            const gifBlob = await downloadResp.blob()
-            const url = URL.createObjectURL(new Blob([gifBlob], { type: 'image/gif' }))
-            setResultUrl(url)
-            // Fire Google Ads conversion event after GIF is created
+                      if (state === 'SUCCESS' && result) {
+              // Fetch the actual GIF from /api/download/<result>
+              const downloadResp = await fetch(`${apiUrl}/api/download/${result}`)
+              if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
+              const gifBlob = await downloadResp.blob()
+              
+              // Create blob URL for preview
+              const url = URL.createObjectURL(gifBlob)
+              setResultUrl({
+                previewUrl: url,
+                downloadUrl: `${apiUrl}/api/download/${result}`
+              })
+              // Fire Google Ads conversion event after GIF is created
             if (window.gtag) {
               window.gtag('event', 'conversion', {
                 'send_to': 'AW-355581212/jpJHCIiCqI8DEJz6xqkB',
@@ -159,63 +173,58 @@ export default function GifMakerTool() {
   // --- Render ---
   return (
     <>
-      <Helmet>
-        <title>GIF Maker - Create Animated GIFs from Images | EasyGIFMaker</title>
-        <meta 
-          name="description" 
-          content="Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required." 
-        />
-        <meta 
-          name="keywords" 
-          content="gif maker, create gif, make gif, images to gif, animated gif creator, gif generator, free gif maker" 
-        />
-        <link rel="canonical" href="https://easygifmaker.com/gif-maker" />
-      </Helmet>
-
-      <div className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-          <div className="text-center mb-8">
-            <div className="flex justify-center items-center gap-4 mb-4">
-              <Image size={40} className="text-blue-600 drop-shadow" />
-              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 drop-shadow-sm tracking-tight">
-                GIF Maker
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly.
-            </p>
-          </div>
+    <ToolPageLayout
+      title="GIF Maker"
+      description="Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly."
+      icon={Image}
+      seoProps={{
+        title: "GIF Maker - Create Animated GIFs from Images | EasyGIFMaker",
+        description: "Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.",
+        keywords: "gif maker, create gif, make gif, images to gif, animated gif creator, gif generator, free gif maker",
+        canonical: "https://easygifmaker.com/gif-maker"
+      }}
+    >
+      <HowToUseSection
+        title="How to Use the GIF Maker"
+        steps={[
+          {
+            title: "Upload your images",
+            description: "Click \"Upload Images\" or drag and drop your files. You can also paste image URLs."
+          },
+          {
+            title: "Arrange and preview",
+            description: "Reorder your images using drag-and-drop, and preview them in the gallery."
+          },
+          {
+            title: "Adjust settings",
+            description: "Set frame duration and loop count in the GIF Settings panel."
+          },
+          {
+            title: "Create and download",
+            description: "Click \"Create GIF\" to generate your animation, then download and share it!"
+          }
+        ]}
+      />
           {/* Upload State */}
           {workflowState === 'upload' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload Images</CardTitle>
-                <CardDescription>
-                  Select images or provide URLs to create your animated GIF
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {errorMessage && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span className="block sm:inline">{errorMessage}</span>
-                  </div>
-                )}
-                <FileUploadSection
-                  uploadMethod={uploadMethod}
-                  setUploadMethod={setUploadMethod}
-                  onFileSelect={(files) => handleFileUpload(files)}
-                  onUrlSubmit={(urls) => handleFileUpload(null, urls)}
-                  isProcessing={isProcessing}
-                  supportedFormats="Supported formats: JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, PDF"
-                  accept="image/*"
-                  isMultiple={true}
-                  isMultipleUrl={true}
-                  toolName="Image"
-                  urlList={mediaUrls}
-                  setUrlList={setMediaUrls}
-                />
-              </CardContent>
-            </Card>
+            <UploadState
+              title="Upload Images"
+              description="Select images or provide URLs to create your animated GIF"
+              errorMessage={errorMessage}
+              uploadMethod={uploadMethod}
+              setUploadMethod={setUploadMethod}
+              onFileSelect={(files) => handleFileUpload(files)}
+              onUrlSubmit={(urls) => handleFileUpload(null, urls)}
+              isProcessing={isProcessing}
+              supportedFormats="Supported formats: JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, PDF"
+              accept="image/*"
+              toolName="Image"
+              useGradient={false}
+              isMultiple={true}
+              isMultipleUrl={true}
+              urlList={mediaUrls}
+              setUrlList={setMediaUrls}
+            />
           )}
 
           {/* Preview State */}
@@ -223,31 +232,82 @@ export default function GifMakerTool() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Preview Section */}
               <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preview Selected Images</CardTitle>
+                <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-2xl font-bold text-gray-800">Preview Selected Images</CardTitle>
+                    <CardDescription className="text-gray-600">
+                      Drag and drop to reorder images. The order determines your GIF sequence.
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                    {uploadMethod === 'file' && mediaFiles && mediaFiles.length > 0 && (
-                      mediaFiles.map((file, idx) => (
-                        <img key={idx} src={URL.createObjectURL(file)} alt={file.name} className="rounded-lg object-cover aspect-square" loading="lazy" />
-                      ))
-                    )}
-                    {uploadMethod === 'url' && mediaUrls && mediaUrls.length > 0 && (
-                      mediaUrls.map((url, idx) => (
-                        <img key={idx} src={url} alt={`URL #${idx + 1}`} className="rounded-lg object-cover aspect-square" loading="lazy" />
-                      ))
-                    )}
-                  </CardContent>
                   <CardContent>
-                    <div className="flex gap-4 mt-4">
-                      <Button onClick={resetWorkflow} variant="outline">
+                    {/* Enhanced Preview Grid */}
+                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {uploadMethod === 'file' && mediaFiles && mediaFiles.length > 0 && (
+                          mediaFiles.map((file, idx) => (
+                            <div key={idx} className="relative group transform transition-all duration-300 hover:scale-105">
+                              <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+                                <img 
+                                  src={URL.createObjectURL(file)} 
+                                  alt={file.name} 
+                                  className="w-full h-28 object-cover transition-transform duration-300 group-hover:scale-110" 
+                                  loading="lazy"
+                                  draggable="true"
+                                  title={`${file.name} - Drag to reorder`}
+                                />
+                                <div className="absolute top-2 left-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                                  {idx + 1}
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-2">
+                                  <div className="text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-full">
+                                    Drag to reorder
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                        {uploadMethod === 'url' && mediaUrls && mediaUrls.length > 0 && (
+                          mediaUrls.map((url, idx) => (
+                            <div key={idx} className="relative group transform transition-all duration-300 hover:scale-105">
+                              <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+                                <img 
+                                  src={url} 
+                                  alt={`URL #${idx + 1}`} 
+                                  className="w-full h-28 object-cover transition-transform duration-300 group-hover:scale-110" 
+                                  loading="lazy"
+                                  draggable="true"
+                                  title={`Image ${idx + 1} - Drag to reorder`}
+                                />
+                                <div className="absolute top-2 left-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                                  {idx + 1}
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-2">
+                                  <div className="text-white text-xs font-medium bg-black/50 px-2 py-1 rounded-full">
+                                    Drag to reorder
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      <div className="mt-4 text-center">
+                        <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm text-gray-700 font-medium shadow-sm">
+                          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                          {uploadMethod === 'file' ? mediaFiles.length : mediaUrls.length} images selected
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-4">
+                      <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
                         Upload Different Images
                       </Button>
                       <Button 
                         onClick={handleConvert}
                         disabled={isProcessing || ((uploadMethod === 'file' && mediaFiles.length === 0) || (uploadMethod === 'url' && mediaUrls.length === 0))}
-                        className="flex-1"
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
                         {isProcessing ? 'Processing...' : 'Create GIF'}
                       </Button>
@@ -257,52 +317,105 @@ export default function GifMakerTool() {
               </div>
               {/* Settings Panel */}
               <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Settings className="h-5 w-5" />
+                <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
+                      <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                        <Settings className="h-5 w-5 text-white" />
+                      </div>
                       GIF Settings
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      <div>
-                        <label htmlFor="frame-duration" className="block font-medium mb-1">Frame Duration (ms)</label>
-                        <input
-                          id="frame-duration"
-                          type="number"
-                          value={gifSettings.frameDuration}
-                          onChange={e => handleSettingsChange('frameDuration', parseInt(e.target.value, 10))}
-                          min="10"
-                          max="5000"
-                          className="w-full border rounded px-2 py-1"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Time between frames in milliseconds</p>
+                    <div className="space-y-6">
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+                        <label htmlFor="frame-duration" className="block font-semibold mb-3 text-gray-800 text-base">
+                          Frame Duration
+                          <span className="text-sm text-gray-500 ml-2 font-normal">(milliseconds)</span>
+                        </label>
+                        <div className="flex items-center gap-4">
+                          <div className="flex-1 relative">
+                            <input
+                              id="frame-duration"
+                              type="range"
+                              min="100"
+                              max="2000"
+                              step="50"
+                              value={gifSettings.frameDuration}
+                              onChange={e => handleSettingsChange('frameDuration', parseInt(e.target.value, 10))}
+                              className="w-full h-3 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 rounded-full appearance-none cursor-pointer slider-thumb-blue"
+                            />
+                            <div className="absolute -top-6 left-0 right-0 flex justify-between text-xs text-gray-500">
+                              <span className="font-medium">Fast</span>
+                              <span className="font-medium">Slow</span>
+                            </div>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              value={gifSettings.frameDuration}
+                              onChange={e => handleSettingsChange('frameDuration', parseInt(e.target.value, 10))}
+                              min="100"
+                              max="2000"
+                              className="w-20 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-semibold text-base shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border border-white/30"
+                            />
+                            <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 font-medium">ms</div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+                          Controls animation speed. Lower values create faster, more energetic animations, while higher values create slower, more dramatic effects.
+                        </p>
                       </div>
-                      <div>
-                        <label htmlFor="loop-count" className="block font-medium mb-1">Loop Count</label>
-                        <input
-                          id="loop-count"
-                          type="number"
-                          value={gifSettings.loopCount}
-                          onChange={e => handleSettingsChange('loopCount', parseInt(e.target.value, 10))}
-                          min="0"
-                          className="w-full border rounded px-2 py-1"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">0 = infinite loop</p>
+                      
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+                        <label htmlFor="loop-count" className="block font-semibold mb-3 text-gray-800 text-base">
+                          Loop Count
+                        </label>
+                        <div className="flex items-center gap-4">
+                          <div className="flex-1 relative">
+                            <input
+                              id="loop-count"
+                              type="range"
+                              min="0"
+                              max="10"
+                              step="1"
+                              value={gifSettings.loopCount}
+                              onChange={e => handleSettingsChange('loopCount', parseInt(e.target.value, 10))}
+                              className="w-full h-3 bg-gradient-to-r from-green-200 via-blue-200 to-purple-200 rounded-full appearance-none cursor-pointer slider-thumb-green"
+                            />
+                            <div className="absolute -top-6 left-0 right-0 flex justify-between text-xs text-gray-500">
+                              <span className="font-medium">Infinite</span>
+                              <span className="font-medium">10x</span>
+                            </div>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              value={gifSettings.loopCount}
+                              onChange={e => handleSettingsChange('loopCount', parseInt(e.target.value, 10))}
+                              min="0"
+                              className="w-20 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-semibold text-base shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none border border-white/30"
+                            />
+                            <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 font-medium">loops</div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+                          0 = infinite loop (recommended), higher numbers = limited loops. Perfect for creating GIFs that play continuously or stop after a few cycles.
+                        </p>
                       </div>
                     </div>
-                    {/* Tips for users */}
-                    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded text-sm text-blue-900">
-                      <strong>Tips:</strong>
-                      <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>Frame Duration controls the speed of your GIF. Lower values = faster animation.</li>
-                        <li>Loop Count sets how many times the GIF repeats. 0 means it will loop forever.</li>
-                        <li>You can upload multiple images or paste image URLs to create your GIF.</li>
-                        <li>Supported formats: JPG, PNG, GIF, WebP, and more.</li>
-                        <li>Preview your images before creating the GIF.</li>
-                      </ul>
-                    </div>
+                    
+                    <EnhancedTipsSection
+                      title="Pro Tips for Perfect GIFs"
+                      tips={[
+                        "<strong>Frame Duration</strong> 200-500ms works well for most animations. Faster for energetic content, slower for dramatic effects.",
+                        "<strong>Loop Count</strong> 0 (infinite) is perfect for most use cases. Use limited loops for special effects.",
+                        "<strong>Image Order</strong> Drag to reorder for the perfect sequence. The order determines your GIF's story.",
+                        "<strong>File Size</strong> More images = larger GIF. Consider optimization for faster sharing.",
+                        "<strong>Quality</strong> Higher resolution images = better quality GIFs. Balance quality with file size.",
+                        "<strong>Preview</strong> Use the preview to see your animation before downloading. Make adjustments as needed!"
+                      ]}
+                    />
                   </CardContent>
                 </Card>
               </div>
@@ -311,13 +424,11 @@ export default function GifMakerTool() {
 
           {/* Processing State */}
           {workflowState === 'processing' && (
-            <Card>
-              <CardContent className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold mb-2">Processing Your GIF</h3>
-                <p className="text-gray-600">Creating your animated GIF...</p>
-              </CardContent>
-            </Card>
+            <ProcessingState
+              title="Processing Your GIF"
+              description="Creating your animated GIF..."
+              useGradient={false}
+            />
           )}
 
           {/* Result State */}
@@ -325,50 +436,123 @@ export default function GifMakerTool() {
             <ResultSection
               title="Your GIF is Ready!"
               description="Your animated GIF has been successfully generated."
-              imageUrl={resultUrl}
+              imageUrl={resultUrl.previewUrl}
               downloadFileName="created.gif"
+              downloadUrl={resultUrl.downloadUrl}
               onReset={resetWorkflow}
             />
           )}
 
-        {/* Unique Publisher Content for AdSense/SEO */}
-          <section className="bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-xl shadow-lg p-8 mb-8 mt-4">
-            <div className="flex items-center gap-4 mb-4">
-              <Image size={40} className="text-white drop-shadow" />
-              <h1 className="text-3xl font-extrabold tracking-tight">GIF Maker</h1>
-            </div>
-            <p className="text-lg font-medium mb-2">Create GIFs from multiple images in seconds. Our GIF Maker lets you upload, arrange, and preview your images before generating a high-quality animated GIF. Whether you’re making memes, tutorials, or fun social posts, EasyGIFMaker ensures your GIFs are crisp, optimized, and ready to share. <br/>
-            <span className='block mt-2'>With our drag-and-drop interface, you can quickly reorder images, set custom frame durations, and preview your animation before downloading. Perfect for content creators, marketers, teachers, and anyone who wants to bring ideas to life with animation.</span></p>
-            <ul className="list-disc pl-6 text-base mt-2">
-              <li>🖼️ Drag-and-drop interface for quick reordering and creative control</li>
-              <li>⚡ Fast, high-quality GIF generation with support for large image sets</li>
-              <li>🔧 Advanced optimization settings for smaller file sizes and faster sharing</li>
-              <li>🔄 Live preview lets you see your GIF before you download</li>
-              <li>🌐 Supports JPG, PNG, GIF, WebP, APNG, and more</li>
-            </ul>
-            <div className="mt-6 text-blue-100 text-base">
-              <b>Popular Use Cases:</b> <br/>
-              <span className="block mt-1">• Make animated memes and social posts for Instagram, Twitter, and TikTok</span>
-              <span className="block">• Create step-by-step tutorials and how-to GIFs for blogs and help centers</span>
-              <span className="block">• Design fun birthday, holiday, or event GIFs to share with friends</span>
-              <span className="block">• Build product demos, banners, and marketing visuals for your business</span>
-            </div>
-          </section>
-          <section className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <h2 className="text-xl font-bold text-blue-700 mb-2">Tips, FAQs & Best Practices</h2>
-            <ul className="list-disc pl-6 text-blue-900">
-              <li><b>Tip:</b> Use the drag-and-drop interface to quickly reorder your images for the perfect animation.</li>
-              <li><b>Tip:</b> Try the optimization settings to reduce file size without losing quality.</li>
-              <li><b>Tip:</b> Set a lower frame duration for faster, more energetic GIFs, or a higher value for slower animations.</li>
-              <li><b>Tip:</b> Use the live preview to check your animation before downloading—make adjustments as needed!</li>
-              <li><b>FAQ:</b> <b>Can I preview my GIF before downloading?</b> Yes! Use the live preview to see your animation before saving.</li>
-              <li><b>FAQ:</b> <b>What image formats are supported?</b> JPG, PNG, GIF, WebP, APNG, and more.</li>
-              <li><b>FAQ:</b> <b>How many images can I upload?</b> You can upload dozens of images at once—great for long animations or slideshows.</li>
-              <li><b>FAQ:</b> <b>Is there a file size limit?</b> Yes, up to 200MB per GIF for fast, reliable processing.</li>
-            </ul>
-          </section>
-        </div>
-      </div>
+        <ToolSeoSection
+          icon={Image}
+          title="GIF Maker"
+          description1="Create stunning animated GIFs from multiple images with our powerful online GIF maker. Whether you're building memes, tutorials, product demos, or creative animations, our tool makes it easy to transform static images into engaging animated content."
+          description2="Our intuitive drag-and-drop interface lets you arrange images in the perfect sequence, while advanced settings allow you to fine-tune timing, loops, and quality. Perfect for content creators, marketers, educators, and anyone who wants to bring their images to life."
+          features1={[
+            { emoji: "🖼️", text: "Upload multiple image formats (JPG, PNG, GIF, WebP, etc.)" },
+            { emoji: "🎬", text: "Drag-and-drop image reordering for perfect sequences" },
+            { emoji: "⏱️", text: "Customizable frame duration and loop settings" }
+          ]}
+          features2={[
+            { emoji: "👀", text: "Live preview of your animation before downloading" },
+            { emoji: "💎", text: "High-quality output with optimization options" }
+          ]}
+          useCases={[
+            { color: "bg-yellow-400", text: "Make animated memes and social posts for Instagram, Twitter, and TikTok" },
+            { color: "bg-green-400", text: "Create step-by-step tutorials and how-to GIFs for blogs and help centers" },
+            { color: "bg-blue-400", text: "Design fun birthday, holiday, or event GIFs to share with friends" },
+            { color: "bg-purple-400", text: "Build product demos, banners, and marketing visuals for your business" }
+          ]}
+        />
+          
+        <TipsFaqsBestPracticesSection 
+          proTips={[
+            {
+              color: "bg-blue-500",
+              text: "Use the drag-and-drop interface to quickly reorder your images for the perfect animation."
+            },
+            {
+              color: "bg-green-500",
+              text: "Try the optimization settings to reduce file size without losing quality."
+            },
+            {
+              color: "bg-purple-500",
+              text: "Set a lower frame duration for faster, more energetic GIFs, or a higher value for slower animations."
+            },
+            {
+              color: "bg-orange-500",
+              text: "Use the live preview to check your animation before downloading—make adjustments as needed!"
+            }
+          ]}
+          faqs={[
+            {
+              question: "Can I preview my GIF before downloading?",
+              answer: "Yes! Use the live preview to see your animation before saving."
+            },
+            {
+              question: "What image formats are supported?",
+              answer: "JPG, PNG, GIF, WebP, APNG, and more."
+            },
+            {
+              question: "How many images can I upload?",
+              answer: "You can upload dozens of images at once—great for long animations or slideshows."
+            },
+            {
+              question: "Is there a file size limit?",
+              answer: "Yes, up to 200MB per GIF for fast, reliable processing."
+            }
+          ]}
+          relatedResources={[
+            {
+              href: "/blog/how-to-make-gifs-from-videos",
+              icon: "📹",
+              text: "How to Make GIFs from Videos"
+            },
+            {
+              href: "/blog/top-5-gif-optimization-tips",
+              icon: "⚡",
+              text: "Top 5 GIF Optimization Tips"
+            }
+          ]}
+        />
+
+        <TroubleshootingSection 
+          commonIssues={[
+            {
+              color: "bg-yellow-500",
+              text: "If your GIF doesn't look right, try adjusting the frame duration or reordering your images."
+            },
+            {
+              color: "bg-orange-500",
+              text: "If upload fails, check your file size (max 200MB) and supported formats."
+            },
+            {
+              color: "bg-red-500",
+              text: "Still having issues?",
+              link: "/contact"
+            }
+          ]}
+          quickFixes={[
+            {
+              icon: "🔄",
+              text: "Clear browser cache if images aren't loading"
+            },
+            {
+              icon: "📱",
+              text: "Try a different browser if you're having issues"
+            },
+            {
+              icon: "⚡",
+              text: "Check your internet connection for large files"
+            }
+          ]}
+        />
+
+        <SocialSharingSection 
+          title="Share Your GIF!"
+          description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+        />
+      </ToolPageLayout>
     </>
   )
 }

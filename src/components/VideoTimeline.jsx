@@ -120,110 +120,128 @@ export default function VideoTimeline({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Video Player */}
-      <div className="relative bg-black rounded-lg overflow-hidden">
+      <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl">
         <video
           ref={videoRef}
           src={videoUrl}
-          className="w-full h-auto max-h-96"
+          className="w-full h-auto max-h-96 object-contain"
           controls={false}
           preload="metadata"
         />
-        
-        {/* Video Controls Overlay */}
+        {/* Custom Video Controls Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-          <div className="flex items-center gap-4 text-white">
+          <div className="flex items-center justify-center gap-4">
             <Button
-              variant="ghost"
-              size="sm"
               onClick={togglePlayPause}
-              disabled={!isVideoLoaded}
-              className="text-white hover:bg-white/20"
-            >
-              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-            </Button>
-            
-            <Button
-              variant="ghost"
               size="sm"
-              onClick={() => seekToTime(segmentRange[0])}
-              disabled={!isVideoLoaded}
-              className="text-white hover:bg-white/20"
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 rounded-full p-3"
+            >
+              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+            </Button>
+            <Button
+              onClick={() => seekToTime(Math.max(0, currentTime - 5))}
+              size="sm"
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 rounded-full p-2"
             >
               <SkipBack className="h-4 w-4" />
             </Button>
-            
+            <div className="text-white text-sm font-medium bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </div>
             <Button
-              variant="ghost"
+              onClick={() => seekToTime(Math.min(duration, currentTime + 5))}
               size="sm"
-              onClick={playSegment}
-              disabled={!isVideoLoaded}
-              className="text-white hover:bg-white/20"
-            >
-              Play Segment
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => seekToTime(segmentRange[1])}
-              disabled={!isVideoLoaded}
-              className="text-white hover:bg-white/20"
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 rounded-full p-2"
             >
               <SkipForward className="h-4 w-4" />
             </Button>
-            
-            <div className="flex-1 text-center text-sm">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Timeline */}
-      {isVideoLoaded && (
+      {/* Timeline Controls */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-gray-800 text-lg">Timeline Selection</h3>
+          <Button
+            onClick={playSegment}
+            size="sm"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl px-4 py-2"
+          >
+            Play Segment
+          </Button>
+        </div>
+        
+        {/* Enhanced Timeline Slider */}
         <div className="space-y-4">
-          <div className="px-4">
-            <div className="flex justify-between text-sm text-gray-600 mb-2">
-              <span>Start: {formatTime(segmentRange[0])}</span>
-              <span>Duration: {formatTime(segmentRange[1] - segmentRange[0])}</span>
-              <span>End: {formatTime(segmentRange[1])}</span>
+          <div className="relative">
+            <Slider
+              range
+              min={0}
+              max={duration}
+              step={0.1}
+              value={segmentRange}
+              onChange={setSegmentRange}
+              className="custom-slider"
+              trackStyle={[
+                { backgroundColor: '#3b82f6', height: 8, borderRadius: 4 },
+                { backgroundColor: '#8b5cf6', height: 8, borderRadius: 4 }
+              ]}
+              handleStyle={[
+                { 
+                  backgroundColor: '#3b82f6', 
+                  border: '3px solid white',
+                  boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
+                  width: 20,
+                  height: 20,
+                  marginTop: -6
+                },
+                { 
+                  backgroundColor: '#8b5cf6', 
+                  border: '3px solid white',
+                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.4)',
+                  width: 20,
+                  height: 20,
+                  marginTop: -6
+                }
+              ]}
+              railStyle={{ backgroundColor: '#e5e7eb', height: 8, borderRadius: 4 }}
+            />
+            {/* Current time indicator */}
+            <div 
+              className="absolute top-0 w-1 h-8 bg-red-500 rounded-full shadow-lg"
+              style={{ 
+                left: `${(currentTime / duration) * 100}%`,
+                transform: 'translateX(-50%)'
+              }}
+            />
+          </div>
+          
+          {/* Time Display */}
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Start:</span>
+              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-lg font-mono">
+                {formatTime(segmentRange[0])}
+              </span>
             </div>
-            
-            <div className="relative">
-              <Slider
-                range
-                min={0}
-                max={duration}
-                step={0.1}
-                value={segmentRange}
-                onChange={handleRangeChange}
-                trackStyle={[{ backgroundColor: '#3b82f6', height: 8 }]}
-                handleStyle={[
-                  { borderColor: '#3b82f6', height: 20, width: 20, backgroundColor: '#3b82f6' },
-                  { borderColor: '#3b82f6', height: 20, width: 20, backgroundColor: '#3b82f6' }
-                ]}
-                railStyle={{ backgroundColor: '#e5e7eb', height: 8 }}
-              />
-              
-              {/* Current time indicator */}
-              <div
-                className="absolute top-0 w-0.5 h-8 bg-red-500 pointer-events-none"
-                style={{
-                  left: `${(currentTime / duration) * 100}%`,
-                  transform: 'translateX(-50%)'
-                }}
-              />
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Duration:</span>
+              <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-lg font-mono">
+                {formatTime(segmentRange[1] - segmentRange[0])}
+              </span>
             </div>
-            
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>0:00</span>
-              <span>{formatTime(duration)}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-medium">End:</span>
+              <span className="bg-green-100 text-green-800 px-2 py-1 rounded-lg font-mono">
+                {formatTime(segmentRange[1])}
+              </span>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
