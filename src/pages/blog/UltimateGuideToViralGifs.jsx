@@ -33,6 +33,11 @@ export default function UltimateGuideToViralGifs() {
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">The Ultimate Guide to Creating Viral GIFs</h1>
         <p className="text-gray-700 mb-6">Published on July 15, 2025 by EasyGIFMaker Team</p>
         
+        <picture>
+          <source srcSet="/blog/magical-gif.webp" type="image/webp" />
+          <img src="/blog/magical-gif.png" alt="Ultimate Guide to Creating Viral GIFs" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="lazy" />
+        </picture>
+        
         <article className="prose prose-blue max-w-none mb-8">
           <p className="text-lg text-gray-700 mb-8">
             <strong>Viral GIFs have become the currency of internet culture.</strong> From reaction GIFs that capture universal emotions to branded content that drives engagement, the ability to create GIFs that spread like wildfire is a valuable skill in today's digital landscape. Whether you're a marketer, content creator, or just someone who loves sharing funny moments, understanding how to create viral GIFs can significantly boost your online presence.
