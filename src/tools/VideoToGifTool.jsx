@@ -187,7 +187,7 @@ export default function VideoToGifTool() {
         seoProps={{
           title: "Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker",
           description: "Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.",
-          keywords: "video to gif, convert video to gif, mp4 to gif, youtube to gif, video converter, gif converter",
+          keywords: "video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, create gif from video, convert mp4 to gif, mov to gif, mp4 to animated gif, video to animated gif, video to gif high quality, gif converter, gif kiss, gify",
           canonical: "https://easygifmaker.com/video-to-gif"
         }}
         howToSteps={[
@@ -244,6 +244,7 @@ export default function VideoToGifTool() {
               supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Only direct video file links are accepted. YouTube, Facebook, TikTok, and similar links are not supported."
               accept="video/*"
               toolName="Video"
+              useGradient={false}
             />
           )}
 

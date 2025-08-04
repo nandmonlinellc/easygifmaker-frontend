@@ -179,7 +179,7 @@ export default function CropTool() {
         seoProps={{
           title: "Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker",
           description: "Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.",
-          keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif",
+          keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif, gif maker, free gif maker, online gif maker, gif converter, gif creator",
           canonical: "https://easygifmaker.com/crop"
         }}
         howToSteps={[
@@ -241,6 +241,7 @@ export default function CropTool() {
               supportedFormats="Supported formats: GIF only"
               accept="image/gif"
               toolName="GIF"
+              useGradient={false}
             />
           )}
 

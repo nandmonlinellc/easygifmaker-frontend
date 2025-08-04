@@ -140,7 +140,7 @@ export default function ResizeTool() {
       seoProps={{
         title: "Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker",
         description: "Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.",
-        keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif",
+        keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker",
         canonical: "https://easygifmaker.com/resize"
       }}
       howToSteps={[
@@ -202,6 +202,7 @@ export default function ResizeTool() {
               supportedFormats="Supported formats: GIF only"
               accept="image/gif"
               toolName="GIF"
+              useGradient={false}
             />
           )}
 

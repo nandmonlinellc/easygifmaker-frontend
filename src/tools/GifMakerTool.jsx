@@ -183,7 +183,7 @@ export default function GifMakerTool() {
       seoProps={{
         title: "GIF Maker - Create Animated GIFs from Images | EasyGIFMaker",
         description: "Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.",
-        keywords: "gif maker, create gif, make gif, images to gif, animated gif creator, gif generator, free gif maker",
+        keywords: "gif maker, animated gif maker, make a gif from photos, make your own gif, create gif from images, create your own gif, make a gif from pictures, create a gif from pictures, gif creator, gif builder, custom gif, high quality gif maker, free gif maker, online gif maker, gif creator online, gif maker app, make my own gif",
         canonical: "https://easygifmaker.com/gif-maker"
       }}
       howToSteps={[

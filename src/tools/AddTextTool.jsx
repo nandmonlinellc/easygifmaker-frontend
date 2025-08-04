@@ -183,7 +183,7 @@ export default function AddTextTool() {
         seoProps={{
           title: "Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker",
           description: "Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.",
-          keywords: "add text to gif, gif captions, gif memes, gif watermark, text overlay gif, gif text editor",
+          keywords: "add text to gif, gif captions, gif memes, gif watermark, text overlay gif, gif text editor, gif editor, gif maker, free gif maker, online gif maker, gif converter, gif creator, custom gif, create your own gif",
           canonical: "https://easygifmaker.com/add-text"
         }}
         howToSteps={[
@@ -245,6 +245,7 @@ export default function AddTextTool() {
               supportedFormats="Supported formats: GIF only"
               accept="image/gif"
               toolName="GIF"
+              useGradient={false}
             />
           )}
 

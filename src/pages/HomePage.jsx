@@ -43,7 +43,7 @@ export default function HomePage() {
       <Helmet>
         <title>EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free</title>
         <meta name="description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. No registration required." />
-        <meta name="keywords" content="gif maker, create gif, video to gif, gif editor, optimize gif, resize gif, crop gif, add text to gif" />
+        <meta name="keywords" content="gif maker, gif, free gif maker, online gif maker, gif creator, video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, gif editor, create gif from video, animated gif maker, convert mp4 to gif, gif maker app, make a gif from photos, make your own gif, high quality gif maker, gifs on iphone, create your own gif, create gif from images, gif converter, free gif maker app, gif creator online, custom gif, create a gif from pictures, make my own gif, gif builder, video to animated gif, gif kiss, video to gif high quality" />
         <meta property="og:title" content="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free" />
         <meta property="og:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <meta property="og:type" content="website" />
