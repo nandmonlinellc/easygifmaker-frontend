@@ -21,7 +21,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['lucide-react', '@radix-ui/react-slot', 'class-variance-authority'],
+          'ui-vendor': ['lucide-react'],
           'utils-vendor': ['react-helmet-async']
         }
       }
@@ -31,8 +31,21 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug']
       }
+    },
+    cssCodeSplit: true,
+    sourcemap: false,
+    target: 'es2015'
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'lucide-react', 'react-router-dom'],
+    exclude: ['@radix-ui/react-slot']
+  },
+  server: {
+    headers: {
+      'Cache-Control': 'public, max-age=31536000, immutable'
     }
   }
 })

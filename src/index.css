@@ -1,2 +1,110 @@
 
 
+
+/* Performance Optimizations for Core Web Vitals */
+
+/* Critical CSS for faster rendering */
+.hero-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+.tool-layout {
+  background: linear-gradient(135deg, #dbeafe 0%, #f3e8ff 100%);
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+}
+
+/* Optimize animations for better performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optimize images for better loading */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Reduce layout shift */
+* {
+  box-sizing: border-box;
+}
+
+/* Optimize gradients for mobile */
+@media (max-width: 768px) {
+  .bg-gradient-to-br {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  }
+}
+
+/* Mobile Performance Optimizations */
+
+/* Mobile-specific font loading */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+  font-weight: 100 900;
+}
+
+/* Mobile image optimizations */
+@media (max-width: 768px) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Reduce layout shift on mobile */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Optimize animations for mobile */
+  .transition {
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Reduce shadow complexity on mobile */
+  .shadow-lg {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .shadow-xl {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+/* Optimize for slow connections */
+@media (max-width: 768px) and (max-device-width: 768px) {
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Reduce image quality for slow connections */
+  img {
+    image-rendering: -webkit-optimize-contrast !important;
+  }
+}
+
+/* Reduce motion for better performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

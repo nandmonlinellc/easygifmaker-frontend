@@ -17,15 +17,15 @@ const ToolPageLayout = ({
         <link rel="canonical" href={seoProps.canonical} />
       </Helmet>
       
-      <div className="min-h-[60vh] bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-7xl bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8">
+      <div className="min-h-[60vh] bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-7xl bg-white/90 rounded-3xl shadow-xl p-8">
           {/* Header Section */}
           <div className="text-center mb-8">
             <div className="flex justify-center items-center gap-4 mb-4">
               <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg">
-                <Icon size={40} className="text-white drop-shadow" />
+                <Icon size={40} className="text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent drop-shadow-sm tracking-tight">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600 tracking-tight">
                 {title}
               </h1>
             </div>
@@ -42,4 +42,4 @@ const ToolPageLayout = ({
   );
 };
 
-export default ToolPageLayout; 
+export default ToolPageLayout;

@@ -31,6 +31,8 @@ export default function GifMakerTool() {
     loopCount: 0
   })
 
+  // Add quality level state
+  const [qualityLevel, setQualityLevel] = useState('high')
   // Handle file or URL upload
   // Accepts files or an array of URLs
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -97,6 +99,7 @@ export default function GifMakerTool() {
       }
       formData.append('frame_duration', gifSettings.frameDuration.toString())
       formData.append('loop_count', gifSettings.loopCount.toString())
+      formData.append('quality_level', qualityLevel)
 
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/gif-maker`, {
@@ -402,6 +405,25 @@ export default function GifMakerTool() {
                         <p className="text-xs text-gray-600 mt-3 leading-relaxed">
                           0 = infinite loop (recommended), higher numbers = limited loops. Perfect for creating GIFs that play continuously or stop after a few cycles.
                         </p>
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+                        <label htmlFor="quality-level" className="block font-semibold mb-3 text-gray-800 text-base">
+                          Quality Level
+                        </label>
+                        <select 
+                          id="quality-level"
+                          value={qualityLevel} 
+                          onChange={(e) => setQualityLevel(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white/90 backdrop-blur-sm"
+                        >
+                          <option value="low">Low Quality (Smaller File)</option>
+                          <option value="medium">Medium Quality</option>
+                          <option value="high">High Quality (Recommended)</option>
+                          <option value="ultra">Ultra Quality (Best)</option>
+                        </select>
+                        <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+                          Higher quality produces better colors and sharper images, but may result in larger file sizes.
+                        </p>
+                      </div>
                       </div>
                     </div>
                     
