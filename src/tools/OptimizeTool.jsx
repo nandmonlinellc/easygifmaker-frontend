@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label.jsx'
 import { Slider } from '@/components/ui/slider.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
-import { Zap, Settings } from 'lucide-react'
+import { Zap, Settings, RotateCw } from 'lucide-react'
 import ResultSection from '../components/ResultSection'
 import FileUploadSection from '../components/FileUploadSection'
 import SocialSharingSection from '../components/SocialSharingSection'
@@ -141,15 +141,37 @@ export default function OptimizeTool() {
   return (
     <>
       <ToolPageLayout
-        title="GIF Optimizer"
-        description="Optimize and compress GIFs online for faster loading and smaller file sizes. Reduce GIF file size while maintaining quality. Free GIF optimizer."
-        icon={Zap}
+        title="Optimize GIF"
+        description="Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing."
+        icon={RotateCw}
         seoProps={{
-          title: "GIF Optimizer - Compress and Optimize GIFs Online | EasyGIFMaker",
-          description: "Optimize and compress GIFs online for faster loading and smaller file sizes. Reduce GIF file size while maintaining quality. Free GIF optimizer.",
-          keywords: "gif optimizer, compress gif, reduce gif size, gif compression, optimize gif, gif file size reducer",
+          title: "Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker",
+          description: "Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.",
+          keywords: "optimize gif, compress gif, reduce gif size, gif optimizer, gif compression, optimize animated gif",
           canonical: "https://easygifmaker.com/optimize"
         }}
+        howToSteps={[
+          {
+            "@type": "HowToStep",
+            "name": "Upload GIF",
+            "text": "Select a GIF file or enter a GIF URL to optimize."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Choose Optimization Level",
+            "text": "Select your desired optimization level (light, medium, or heavy compression)."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Preview and Compare",
+            "text": "Compare the original and optimized versions side by side."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Download Optimized GIF",
+            "text": "Download your optimized GIF with reduced file size!"
+          }
+        ]}
       >
         <HowToUseSection
           title="How to Use the GIF Optimizer"

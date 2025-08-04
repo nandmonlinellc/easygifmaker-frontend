@@ -6,10 +6,11 @@ const ToolPageLayout = ({
   description,
   icon: Icon,
   seoProps,
+  howToSteps,
   children
 }) => {
   // Create structured data for the tool page
-  const structuredData = {
+  const webAppStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": seoProps.title,
@@ -32,6 +33,16 @@ const ToolPageLayout = ({
       "url": "https://easygifmaker.com"
     }
   };
+
+  // Create HowTo structured data only if steps are provided
+  const howToStructuredData = howToSteps ? {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `How to ${title}`,
+    "description": seoProps.description,
+    "tool": [`EasyGIFMaker ${title} Tool`],
+    "step": howToSteps
+  } : null;
 
   return (
     <>
@@ -61,10 +72,17 @@ const ToolPageLayout = ({
         <meta name="robots" content="index, follow" />
         <meta name="author" content="EasyGIFMaker" />
         
-        {/* Structured Data */}
+        {/* Structured Data - WebApplication */}
         <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
+          {JSON.stringify(webAppStructuredData)}
         </script>
+        
+        {/* Structured Data - HowTo (only if steps provided) */}
+        {howToStructuredData && (
+          <script type="application/ld+json">
+            {JSON.stringify(howToStructuredData)}
+          </script>
+        )}
       </Helmet>
       
       <div className="min-h-[60vh] bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center py-12 px-4">

@@ -178,14 +178,36 @@ export default function AddTextTool() {
     <>
       <ToolPageLayout
         title="Add Text to GIF"
-        description="Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor."
+        description="Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays."
         icon={Type}
         seoProps={{
-          title: "Add Text to GIF - Overlay Text on GIFs Online | EasyGIFMaker",
-          description: "Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor.",
-          keywords: "add text to gif, gif text editor, gif caption, gif watermark, text overlay gif, gif text maker",
+          title: "Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker",
+          description: "Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.",
+          keywords: "add text to gif, gif captions, gif memes, gif watermark, text overlay gif, gif text editor",
           canonical: "https://easygifmaker.com/add-text"
         }}
+        howToSteps={[
+          {
+            "@type": "HowToStep",
+            "name": "Upload GIF",
+            "text": "Select a GIF file or enter a GIF URL to add text to."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Add and Customize Text",
+            "text": "Add text, choose font, size, color, and position on your GIF."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Preview and Adjust",
+            "text": "Preview your GIF with text and make final adjustments."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Generate and Download",
+            "text": "Click 'Generate' to create your GIF with text overlay!"
+          }
+        ]}
       >
         <HowToUseSection
           title="How to Use the Text Editor"

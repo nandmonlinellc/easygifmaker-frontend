@@ -5,6 +5,39 @@ import { Video, Image, RotateCw, Crop, Zap, Type, ArrowRight, Upload, Edit3, Dow
 import { MobileOptimizedImage, PreloadCriticalImages } from '../components/MobileImageOptimizer';
 
 export default function HomePage() {
+  // Structured data for homepage
+  const homepageStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EasyGIFMaker",
+    "description": "Create, edit, and optimize GIFs online for free. Convert videos to GIFs, resize, crop, add text, and more. No registration required.",
+    "url": "https://easygifmaker.com",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com"
+    },
+    "featureList": [
+      "GIF Maker - Create animated GIFs from images",
+      "Video to GIF Converter - Convert videos to GIFs",
+      "GIF Resizer - Resize and scale GIFs",
+      "GIF Cropper - Crop and trim GIFs",
+      "GIF Optimizer - Compress and optimize GIFs",
+      "Add Text to GIF - Add captions and text overlays"
+    ]
+  };
+
   return (
     <>
       <Helmet>
@@ -19,6 +52,11 @@ export default function HomePage() {
         <meta name="twitter:title" content="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free" />
         <meta name="twitter:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <link rel="canonical" href="https://easygifmaker.com" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(homepageStructuredData)}
+        </script>
         
         {/* Critical CSS for mobile */}
         <style dangerouslySetInnerHTML={{

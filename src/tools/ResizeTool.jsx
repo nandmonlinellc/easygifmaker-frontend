@@ -143,6 +143,28 @@ export default function ResizeTool() {
         keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif",
         canonical: "https://easygifmaker.com/resize"
       }}
+      howToSteps={[
+        {
+          "@type": "HowToStep",
+          "name": "Upload GIF",
+          "text": "Select a GIF file or enter a GIF URL to resize."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Set New Dimensions",
+          "text": "Choose width, height, or percentage scaling for your GIF."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Preview and Adjust",
+          "text": "See the resized GIF and make adjustments if needed."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Download Resized GIF",
+          "text": "Download your resized GIF with new dimensions!"
+        }
+      ]}
     >
       <HowToUseSection
         title="How to Use the GIF Resizer"

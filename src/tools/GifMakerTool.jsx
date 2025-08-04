@@ -186,6 +186,28 @@ export default function GifMakerTool() {
         keywords: "gif maker, create gif, make gif, images to gif, animated gif creator, gif generator, free gif maker",
         canonical: "https://easygifmaker.com/gif-maker"
       }}
+      howToSteps={[
+        {
+          "@type": "HowToStep",
+          "name": "Upload Images",
+          "text": "Select multiple image files or paste image URLs to create your GIF."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Arrange and Preview",
+          "text": "Reorder your images using drag-and-drop and preview them in the gallery."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Set Frame Duration",
+          "text": "Adjust the frame duration and loop count in the GIF settings panel."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Create and Download",
+          "text": "Click 'Create GIF' to generate your animation, then download and share it!"
+        }
+      ]}
     >
       <HowToUseSection
         title="How to Use the GIF Maker"

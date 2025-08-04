@@ -181,15 +181,32 @@ export default function VideoToGifTool() {
   return (
     <>
       <ToolPageLayout
-        title="Video to GIF"
-        description="Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs."
+        title="Video to GIF Converter"
+        description="Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly."
         icon={Video}
         seoProps={{
-          title: "Video to GIF Converter - Convert MP4 to GIF Online | EasyGIFMaker",
-          description: "Convert videos to GIFs online with interactive timeline selection. Support for YouTube, MP4, WebM, AVI, MOV. Trim, resize, and optimize your GIFs.",
-          keywords: "video to gif, mp4 to gif, youtube to gif, convert video gif, video gif converter, gif maker from video",
+          title: "Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker",
+          description: "Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.",
+          keywords: "video to gif, convert video to gif, mp4 to gif, youtube to gif, video converter, gif converter",
           canonical: "https://easygifmaker.com/video-to-gif"
         }}
+        howToSteps={[
+          {
+            "@type": "HowToStep",
+            "name": "Upload Video or Paste URL",
+            "text": "Select your video file or paste a YouTube/other video URL."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Trim and Customize",
+            "text": "Choose start and end time, crop, reverse, or overlay text on your video."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Generate and Download",
+            "text": "Click 'Generate GIF' to create and download your animated GIF."
+          }
+        ]}
       >
         <HowToUseSection
           title="How to Use the Video to GIF Converter"

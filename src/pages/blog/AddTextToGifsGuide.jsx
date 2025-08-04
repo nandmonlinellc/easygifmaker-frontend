@@ -3,29 +3,73 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export default function AddTextToGifsGuide() {
+  // Article structured data
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Add Text to GIFs Guide: Create Memes and Captions Online",
+    "description": "Learn how to add text, captions, and watermarks to GIFs using EasyGIFMaker's free online tool. Create memes and customize your GIFs with text overlays.",
+    "author": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com"
+    },
+    "datePublished": "2025-07-15",
+    "dateModified": "2025-07-15",
+    "url": "https://easygifmaker.com/blog/add-text-to-gifs-guide",
+    "image": [
+      "https://easygifmaker.com/blog/add-text-to-gifs-guide.png"
+    ],
+    "keywords": "Add text to GIF, GIF captions, GIF memes, GIF watermark"
+  };
+
+  // HowTo structured data
+  const howToStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Add Text to GIFs",
+    "description": "Learn how to add text, captions, and watermarks to GIFs using EasyGIFMaker.",
+    "tool": ["EasyGIFMaker Add Text to GIF Tool"],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload GIF",
+        "text": "Upload your GIF file or paste a GIF URL."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add and Customize Text",
+        "text": "Add text, choose font, size, color, and position."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Generate and Download",
+        "text": "Click 'Generate' to create your GIF with text overlay."
+      }
+    ]
+  };
+
   return (
     <>
       <Helmet>
-        <title>Adding Text and Captions to GIFs: A Complete Guide | EasyGIFMaker Blog</title>
-        <meta name="description" content="Learn how to add custom text, captions, and branding to your GIFs with EasyGIFMaker. Step-by-step guide for creative GIF editing." />
+        <title>Add Text to GIFs Guide: Create Memes and Captions Online | EasyGIFMaker Blog</title>
+        <meta name="description" content="Learn how to add text, captions, and watermarks to GIFs using EasyGIFMaker's free online tool. Create memes and customize your GIFs with text overlays." />
         <link rel="canonical" href="https://easygifmaker.com/blog/add-text-to-gifs-guide" />
+        
+        {/* Structured Data - Article */}
+        <script type="application/ld+json">
+          {JSON.stringify(articleStructuredData)}
+        </script>
+        
+        {/* Structured Data - HowTo */}
+        <script type="application/ld+json">
+          {JSON.stringify(howToStructuredData)}
+        </script>
       </Helmet>
-      <script type="application/ld+json">{JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Adding Text and Captions to GIFs: A Complete Guide",
-        "description": "Learn how to add custom text, captions, and branding to your GIFs with EasyGIFMaker. Step-by-step guide for creative GIF editing.",
-        "author": {
-          "@type": "Organization",
-          "name": "EasyGIFMaker Team"
-        },
-        "datePublished": "2025-07-05",
-        "image": [
-          "https://easygifmaker.com/blog/add-text-to-gifs-guide.png"
-        ],
-        "url": "https://easygifmaker.com/blog/add-text-to-gifs-guide",
-        "keywords": "Add Text, GIF Editor, Branding"
-      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>

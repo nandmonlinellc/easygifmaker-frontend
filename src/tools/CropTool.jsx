@@ -174,14 +174,36 @@ export default function CropTool() {
     <>
       <ToolPageLayout
         title="Crop GIF"
-        description="Crop and trim GIFs online for free. Remove unwanted areas, focus on specific parts, and create perfect GIFs. Easy-to-use GIF cropping tool."
+        description="Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging."
         icon={Crop}
         seoProps={{
           title: "Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker",
-          description: "Crop and trim GIFs online for free. Remove unwanted areas, focus on specific parts, and create perfect GIFs. Easy-to-use GIF cropping tool.",
-          keywords: "crop gif, trim gif, gif cropper, crop animated gif, gif crop tool, remove gif background",
+          description: "Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.",
+          keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif",
           canonical: "https://easygifmaker.com/crop"
         }}
+        howToSteps={[
+          {
+            "@type": "HowToStep",
+            "name": "Upload GIF",
+            "text": "Select a GIF file or enter a GIF URL to crop."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Select Crop Area",
+            "text": "Use the interactive crop tool to select the area you want to keep."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Adjust and Preview",
+            "text": "Fine-tune your crop selection and preview the result."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Download Cropped GIF",
+            "text": "Download your cropped GIF with the selected area!"
+          }
+        ]}
       >
         <HowToUseSection
           title="How to Use the GIF Cropper"

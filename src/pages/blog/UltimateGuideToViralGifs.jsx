@@ -3,29 +3,42 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export default function UltimateGuideToViralGifs() {
+  // Article structured data
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Ultimate Guide to Creating Viral GIFs: Tips and Strategies",
+    "description": "Master the art of creating viral GIFs with our comprehensive guide. Learn the best practices, tools, and strategies for making GIFs that go viral.",
+    "author": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com"
+    },
+    "datePublished": "2025-07-17",
+    "dateModified": "2025-07-17",
+    "url": "https://easygifmaker.com/blog/ultimate-guide-to-viral-gifs",
+    "image": [
+      "https://easygifmaker.com/blog/magical-gif.webp"
+    ],
+    "keywords": "Viral GIFs, GIF marketing, GIF strategy, viral content"
+  };
+
   return (
     <>
       <Helmet>
-        <title>The Ultimate Guide to Creating Viral GIFs | EasyGIFMaker Blog</title>
-        <meta name="description" content="Master the art of creating viral GIFs with our comprehensive guide. Learn strategies, techniques, and best practices for making GIFs that go viral." />
+        <title>Ultimate Guide to Creating Viral GIFs: Tips and Strategies | EasyGIFMaker Blog</title>
+        <meta name="description" content="Master the art of creating viral GIFs with our comprehensive guide. Learn the best practices, tools, and strategies for making GIFs that go viral." />
         <link rel="canonical" href="https://easygifmaker.com/blog/ultimate-guide-to-viral-gifs" />
+        
+        {/* Structured Data - Article */}
+        <script type="application/ld+json">
+          {JSON.stringify(articleStructuredData)}
+        </script>
       </Helmet>
-      <script type="application/ld+json">{JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "The Ultimate Guide to Creating Viral GIFs",
-        "description": "Master the art of creating viral GIFs with our comprehensive guide. Learn strategies, techniques, and best practices for making GIFs that go viral.",
-        "author": {
-          "@type": "Organization",
-          "name": "EasyGIFMaker Team"
-        },
-        "datePublished": "2025-07-15",
-        "image": [
-          "https://easygifmaker.com/blog/ultimate-guide-to-viral-gifs.png"
-        ],
-        "url": "https://easygifmaker.com/blog/ultimate-guide-to-viral-gifs",
-        "keywords": "Viral GIFs, GIF Marketing, Social Media GIFs, Trending GIFs"
-      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>

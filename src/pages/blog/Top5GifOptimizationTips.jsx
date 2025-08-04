@@ -3,30 +3,42 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export default function Top5GifOptimizationTips() {
+  // Article structured data
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Top 5 GIF Optimization Tips for Better Performance",
+    "description": "Learn the top 5 GIF optimization tips to improve performance, reduce file size, and enhance quality. Expert advice for creating better GIFs.",
+    "author": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com"
+    },
+    "datePublished": "2025-07-16",
+    "dateModified": "2025-07-16",
+    "url": "https://easygifmaker.com/blog/top-5-gif-optimization-tips",
+    "image": [
+      "https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.webp"
+    ],
+    "keywords": "GIF optimization, GIF compression, GIF quality, GIF performance"
+  };
+
   return (
     <>
       <Helmet>
-        <title>Top 5 Tips for Optimizing GIFs for Social Media | EasyGIFMaker Blog</title>
-        <meta name="description" content="A detailed guide on the best practices for creating fast-loading, high-quality GIFs for social media. Learn how to optimize your GIFs with EasyGIFMaker's tools." />
+        <title>Top 5 GIF Optimization Tips for Better Performance | EasyGIFMaker Blog</title>
+        <meta name="description" content="Learn the top 5 GIF optimization tips to improve performance, reduce file size, and enhance quality. Expert advice for creating better GIFs." />
         <link rel="canonical" href="https://easygifmaker.com/blog/top-5-gif-optimization-tips" />
+        
+        {/* Structured Data - Article */}
+        <script type="application/ld+json">
+          {JSON.stringify(articleStructuredData)}
+        </script>
       </Helmet>
-      <script type="application/ld+json">{JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Top 5 Tips for Optimizing GIFs for Social Media",
-        "description": "A detailed guide on the best practices for creating fast-loading, high-quality GIFs for social media. Learn how to optimize your GIFs with EasyGIFMaker's tools.",
-        "author": {
-          "@type": "Organization",
-          "name": "EasyGIFMaker Team"
-        },
-        "datePublished": "2025-07-10",
-        "image": [
-          "https://easygifmaker.com/blog/top-5-gif-optimization-tips.png",
-          "https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.png"
-        ],
-        "url": "https://easygifmaker.com/blog/top-5-gif-optimization-tips",
-        "keywords": "Optimize GIF, Social Media, Tips"
-      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>

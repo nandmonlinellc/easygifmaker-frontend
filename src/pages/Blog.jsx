@@ -74,6 +74,26 @@ const blogStructuredData = {
 	})),
 };
 
+// Additional Article schema for the blog page itself
+const articleStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: 'EasyGIFMaker Blog - GIF Creation Tips, Tutorials & Updates',
+	description: 'Read the latest articles, tips, and tutorials about GIF creation, video conversion, optimization, and more from EasyGIFMaker.',
+	author: {
+		'@type': 'Organization',
+		name: 'EasyGIFMaker'
+	},
+	publisher: {
+		'@type': 'Organization',
+		name: 'EasyGIFMaker',
+		url: 'https://easygifmaker.com'
+	},
+	datePublished: '2025-01-01',
+	dateModified: '2025-01-01',
+	url: 'https://easygifmaker.com/blog'
+};
+
 export default function Blog() {
 	const featuredPost = blogPosts.find(post => post.featured);
 	const regularPosts = blogPosts.filter(post => !post.featured);
@@ -107,6 +127,9 @@ export default function Blog() {
 				<script
 					type="application/ld+json"
 				>{JSON.stringify(blogStructuredData)}</script>
+				<script
+					type="application/ld+json"
+				>{JSON.stringify(articleStructuredData)}</script>
 			</Helmet>
 			<main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50" aria-label="Blog Main Content">
 				<div className="container mx-auto px-4 py-12">

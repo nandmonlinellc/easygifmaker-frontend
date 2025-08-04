@@ -3,12 +3,72 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export default function HowToMakeGifsFromVideos() {
+  // Article structured data
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Make GIFs from Videos Instantly: Complete Guide",
+    "description": "Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments.",
+    "author": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com"
+    },
+    "datePublished": "2025-07-14",
+    "dateModified": "2025-07-14",
+    "url": "https://easygifmaker.com/blog/how-to-make-gifs-from-videos",
+    "image": [
+      "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.png"
+    ],
+    "keywords": "GIF Maker, Video to GIF, Tutorial, How to make GIFs"
+  };
+
+  // HowTo structured data
+  const howToStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Make GIFs from Videos",
+    "description": "Step-by-step guide to convert videos into GIFs using EasyGIFMaker.",
+    "tool": ["EasyGIFMaker Video to GIF Tool"],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload or Paste Link",
+        "text": "Select your video file or paste a YouTube URL."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Trim and Customize",
+        "text": "Choose start and end time, crop, reverse, or overlay text."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Generate and Download",
+        "text": "Click the 'Generate GIF' button to create and download your GIF."
+      }
+    ]
+  };
+
   return (
     <>
       <Helmet>
         <title>How to Make GIFs from Videos Instantly | EasyGIFMaker Blog</title>
         <meta name="description" content="Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments." />
         <link rel="canonical" href="https://easygifmaker.com/blog/how-to-make-gifs-from-videos" />
+        
+        {/* Structured Data - Article */}
+        <script type="application/ld+json">
+          {JSON.stringify(articleStructuredData)}
+        </script>
+        
+        {/* Structured Data - HowTo */}
+        <script type="application/ld+json">
+          {JSON.stringify(howToStructuredData)}
+        </script>
       </Helmet>
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
