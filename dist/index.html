@@ -14,25 +14,60 @@
         const path = window.location.pathname;
         const metaDescription = document.querySelector('meta[name="description"]');
         const title = document.querySelector('title');
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+        const twitterDescription = document.querySelector('meta[name="twitter:description"]');
         
         if (path === '/gif-maker') {
           title.textContent = 'GIF Maker - Create Animated GIFs from Images | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/gif-maker');
+          ogTitle.setAttribute('content', 'GIF Maker - Create Animated GIFs from Images | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.');
+          twitterTitle.setAttribute('content', 'GIF Maker - Create Animated GIFs from Images | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.');
         } else if (path === '/video-to-gif') {
           title.textContent = 'Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/video-to-gif');
+          ogTitle.setAttribute('content', 'Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.');
+          twitterTitle.setAttribute('content', 'Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.');
         } else if (path === '/resize') {
           title.textContent = 'Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/resize');
+          ogTitle.setAttribute('content', 'Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.');
+          twitterTitle.setAttribute('content', 'Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.');
         } else if (path === '/crop') {
           title.textContent = 'Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/crop');
+          ogTitle.setAttribute('content', 'Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.');
+          twitterTitle.setAttribute('content', 'Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.');
         } else if (path === '/optimize') {
           title.textContent = 'Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/optimize');
+          ogTitle.setAttribute('content', 'Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.');
+          twitterTitle.setAttribute('content', 'Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.');
         } else if (path === '/add-text') {
           title.textContent = 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
+          ogUrl.setAttribute('content', 'https://easygifmaker.com/add-text');
+          ogTitle.setAttribute('content', 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker');
+          ogDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
+          twitterTitle.setAttribute('content', 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker');
+          twitterDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
         }
       })();
     </script>
@@ -70,13 +105,12 @@
     <!-- SEO -->
     <meta name="robots" content="index, follow" />
     <meta name="author" content="EasyGIFMaker" />
-    <link rel="canonical" href="https://easygifmaker.com/" />
     
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-    <script type="module" crossorigin src="/assets/index-DKHdep_D.js"></script>
+    <script type="module" crossorigin src="/assets/index-BgdVocwn.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-BsLtzIyS.js">
     <link rel="modulepreload" crossorigin href="/assets/utils-vendor-D-jntlEd.js">
     <link rel="modulepreload" crossorigin href="/assets/ui-vendor-BFUjoqbW.js">
