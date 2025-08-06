@@ -94,7 +94,7 @@ export default function Top5GifOptimizationTips() {
           </p>
 
           <div className="bg-gray-50 p-6 rounded-lg mb-6">
-            <h4 className="font-semibold text-gray-800 mb-3">Optimal Duration Guidelines</h4>
+            <h3 className="font-semibold text-gray-800 mb-3">Optimal Duration Guidelines</h3>
             <ul className="list-disc pl-6 text-gray-700">
               <li><strong>Reaction GIFs:</strong> 2-3 seconds for quick emotional responses</li>
               <li><strong>Product Demonstrations:</strong> 4-6 seconds to show key features</li>
@@ -124,7 +124,7 @@ export default function Top5GifOptimizationTips() {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-yellow-50 p-6 rounded-lg">
-              <h4 className="font-semibold text-yellow-800 mb-3">Lossy Compression</h4>
+              <h3 className="font-semibold text-yellow-800 mb-3">Lossy Compression</h3>
               <ul className="list-disc pl-6 text-yellow-900">
                 <li>Reduces file size by 60-80%</li>
                 <li>Maintains visual quality</li>
@@ -133,7 +133,7 @@ export default function Top5GifOptimizationTips() {
               </ul>
             </div>
             <div className="bg-purple-50 p-6 rounded-lg">
-              <h4 className="font-semibold text-purple-800 mb-3">Color Optimization</h4>
+              <h3 className="font-semibold text-purple-800 mb-3">Color Optimization</h3>
               <ul className="list-disc pl-6 text-purple-900">
                 <li>Reduces color palette intelligently</li>
                 <li>Preserves important colors</li>
@@ -150,7 +150,7 @@ export default function Top5GifOptimizationTips() {
           </p>
 
           <div className="bg-gray-50 p-6 rounded-lg mb-6">
-            <h4 className="font-semibold text-gray-800 mb-3">Platform-Specific Dimensions</h4>
+            <h3 className="font-semibold text-gray-800 mb-3">Platform-Specific Dimensions</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <h5 className="font-semibold text-gray-700 mb-2">Instagram</h5>
@@ -195,7 +195,7 @@ export default function Top5GifOptimizationTips() {
           </p>
 
           <div className="bg-blue-50 p-6 rounded-lg mb-6">
-            <h4 className="font-semibold text-blue-800 mb-3">Color Reduction Guidelines</h4>
+            <h3 className="font-semibold text-blue-800 mb-3">Color Reduction Guidelines</h3>
             <ul className="list-disc pl-6 text-blue-900">
               <li><strong>128 colors:</strong> Perfect for most social media GIFs</li>
               <li><strong>64 colors:</strong> Great for simple animations and text</li>
@@ -216,7 +216,7 @@ export default function Top5GifOptimizationTips() {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-green-50 p-6 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-3">Testing Checklist</h4>
+              <h3 className="font-semibold text-green-800 mb-3">Testing Checklist</h3>
               <ul className="list-disc pl-6 text-green-900">
                 <li>Test on mobile devices</li>
                 <li>Check different browsers</li>
@@ -226,7 +226,7 @@ export default function Top5GifOptimizationTips() {
               </ul>
             </div>
             <div className="bg-orange-50 p-6 rounded-lg">
-              <h4 className="font-semibold text-orange-800 mb-3">Quality Checks</h4>
+              <h3 className="font-semibold text-orange-800 mb-3">Quality Checks</h3>
               <ul className="list-disc pl-6 text-orange-900">
                 <li>Animation smoothness</li>
                 <li>Color accuracy</li>
@@ -262,7 +262,7 @@ export default function Top5GifOptimizationTips() {
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <h3 className="text-xl font-bold text-blue-700 mb-4">Quick Optimization Workflow</h3>
+            <h2 className="text-xl font-bold text-blue-700 mb-4">Quick Optimization Workflow</h2>
             <ol className="list-decimal pl-6 text-blue-900">
               <li>Create your GIF with the right duration (2-6 seconds)</li>
               <li>Use our <Link to="/optimize" className="text-blue-600 underline font-semibold">Optimizer</Link> to reduce file size</li>
@@ -279,7 +279,7 @@ export default function Top5GifOptimizationTips() {
         </article>
         
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-xl font-bold text-blue-700 mb-2">Related Posts</h3>
+          <h2 className="text-xl font-bold text-blue-700 mb-2">Related Posts</h2>
           <ul className="list-disc pl-6 text-blue-900">
             <li><Link to="/blog/how-to-make-gifs-from-videos" className="text-blue-600 underline">How to Make GIFs from Videos Instantly</Link></li>
             <li><Link to="/blog/add-text-to-gifs-guide" className="text-blue-600 underline">Adding Text and Captions to GIFs: A Complete Guide</Link></li>
