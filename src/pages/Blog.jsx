@@ -15,6 +15,7 @@ const blogPosts = [
 		path: '/blog/ultimate-guide-to-viral-gifs',
 		tags: ['Viral GIFs', 'Tips & Tricks', 'Free Tools'],
 		image: '/blog/magical-gif.gif',
+		image_mobile: '/blog/magical-gif-mobile.webp',
 		featured: true,
 	},
 	{
@@ -27,6 +28,7 @@ const blogPosts = [
 		path: '/blog/how-to-make-gifs-from-videos',
 		tags: ['GIF Maker', 'Video to GIF', 'Tutorial'],
 		image: '/blog/how-to-make-gifs-from-videos.webp',
+		image_mobile: '/blog/how-to-make-gifs-from-videos_mobile.webp',
 	},
 	{
 		id: 3,
@@ -38,6 +40,7 @@ const blogPosts = [
 		path: '/blog/top-5-gif-optimization-tips',
 		tags: ['Optimize GIF', 'Social Media', 'Tips'],
 		image: '/blog/top-5-gif-optimization-tips-2.webp',
+		image_mobile: '/blog/top-5-gif-optimization-tips-2_mobile.webp',
 	},
 	{
 		id: 4,
@@ -49,6 +52,7 @@ const blogPosts = [
 		path: '/blog/add-text-to-gifs-guide',
 		tags: ['Add Text', 'GIF Editor', 'Branding'],
 		image: '/blog/add-text-to-gifs-guide.webp',
+		image_mobile: '/blog/add-text-to-gifs-guide_mobile.webp',
 	},
 ];
 
@@ -179,12 +183,15 @@ export default function Blog() {
 									<div className="md:flex">
 										<div className="md:w-1/2">
 											<div className="relative h-64 md:h-full overflow-hidden">
-												<img 
-													src={featuredPost.image} 
-													alt={featuredPost.title}
-													className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-													loading="lazy"
-												/>
+												<picture>
+													<source media="(max-width: 640px)" srcSet={featuredPost.image_mobile} />
+													<img 
+														src={featuredPost.image} 
+														alt={featuredPost.title}
+														className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+														loading="lazy"
+													/>
+												</picture>
 												<div className="absolute top-4 left-4">
 													<span className="px-3 py-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold rounded-full">
 														FEATURED
@@ -241,12 +248,15 @@ export default function Blog() {
 										aria-labelledby={`blog-title-${post.id}`}
 									>
 										<div className="relative h-48 overflow-hidden">
-											<img 
-												src={post.image} 
-												alt={post.title}
-												className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-												loading="lazy"
-											/>
+											<picture>
+												<source media="(max-width: 640px)" srcSet={post.image_mobile} />
+												<img 
+													src={post.image} 
+													alt={post.title}
+													className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+													loading="lazy"
+												/>
+											</picture>
 											<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 										</div>
 										<div className="p-6">
