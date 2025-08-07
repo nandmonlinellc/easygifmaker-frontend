@@ -48,7 +48,7 @@ export default function Top5GifOptimizationTips() {
         
         <picture>
           <source srcSet="/blog/top-5-gif-optimization-tips-2.webp" type="image/webp" />
-          <img src="/blog/top-5-gif-optimization-tips-2.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="lazy" />
+          <img src="/blog/top-5-gif-optimization-tips-2.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
         </picture>
         
         <article className="prose prose-blue max-w-none mb-8">
@@ -115,7 +115,7 @@ export default function Top5GifOptimizationTips() {
 
           <picture>
             <source srcSet="/blog/top-5-gif-optimization-tips-2.webp" type="image/webp" />
-            <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" width="1200" height="675" loading="lazy" />
+            <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" width="1200" height="675" />
           </picture>
 
           <p className="mb-6">
@@ -205,7 +205,7 @@ export default function Top5GifOptimizationTips() {
           </div>
 
           <p className="mb-6">
-            You can adjust this setting in our <Link to="/optimize" className="text-blue-600 underline font-semibold">Optimizer</Link>. The key is finding the sweet spot where file size is minimized without losing the visual impact of your GIF.
+            You can adjust this setting in our <Link to="/optimize" className="text-blue-600 underline font-semibold">Optimizer</Link>. The key is finding the sweet spot where file size is minimized without losing the visual impact of your. 
           </p>
 
           <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 5: Preview and Test Before Publishing</h2>

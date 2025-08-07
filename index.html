@@ -122,8 +122,27 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-4184BKX5QY');
+      gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
     </script>
-    <script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265" crossorigin="anonymous"></script>
+    <script>
+      (function() {
+        let adScriptLoaded = false;
+        function loadAdScript() {
+          if (adScriptLoaded) return;
+          adScriptLoaded = true;
+          const script = document.createElement('script');
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265";
+          script.async = true;
+          script.crossOrigin = "anonymous";
+          document.body.appendChild(script);
+          window.removeEventListener('scroll', loadAdScript);
+          window.removeEventListener('mousedown', loadAdScript);
+          window.removeEventListener('touchstart', loadAdScript);
+        }
+        window.addEventListener('scroll', loadAdScript, { once: true });
+        window.addEventListener('mousedown', loadAdScript, { once: true });
+        window.addEventListener('touchstart', loadAdScript, { once: true });
+      })();
+    </script>
   </body>
 </html>
