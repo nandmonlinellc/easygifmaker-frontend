@@ -2,16 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>EasyGIFMaker - Create and Edit GIFs Online</title>
-    <meta name="description" content="Create, edit, and optimize GIFs online for free. Convert videos to GIFs, resize, crop, add text, and more. No registration required." />
+    <title>Free GIF Maker - Create Animated GIFs Online | EasyGIFMaker</title>
+    <meta name="description" content="Create high-quality animated GIFs from images or videos with our free online GIF maker. Add text, resize, crop, and optimize your GIFs. No registration required." />
+    <meta name="keywords" content="gif maker, create gif, gif generator, animated gif maker, make a gif, video to gif, images to gif, free gif maker, online gif maker, high quality gif maker" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://easygifmaker.com/" />
-    <meta property="og:title" content="EasyGIFMaker - Create and Edit GIFs Online" />
-    <meta property="og:description" content="Create, edit, and optimize GIFs online for free. Convert videos to GIFs, resize, crop, add text, and more." />
+    <meta property="og:title" content="Free GIF Maker - Create Animated GIFs Online | EasyGIFMaker" />
+    <meta property="og:description" content="Create high-quality animated GIFs from images or videos with our free online GIF maker. Add text, resize, crop, and optimize your GIFs. No registration required." />
     <meta property="og:image" content="https://easygifmaker.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -19,13 +20,39 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="EasyGIFMaker - Create and Edit GIFs Online" />
-    <meta name="twitter:description" content="Create, edit, and optimize GIFs online for free. Convert videos to GIFs, resize, crop, add text, and more." />
+    <meta name="twitter:title" content="Free GIF Maker - Create Animated GIFs Online | EasyGIFMaker" />
+    <meta name="twitter:description" content="Create high-quality animated GIFs from images or videos with our free online GIF maker. Add text, resize, crop, and optimize your GIFs. No registration required." />
     <meta name="twitter:image" content="https://easygifmaker.com/og-image.png" />
 
     <!-- SEO -->
     <meta name="robots" content="index, follow" />
     <meta name="author" content="EasyGIFMaker" />
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "EasyGIFMaker",
+      "url": "https://easygifmaker.com/",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      },
+      "description": "Create high-quality animated GIFs from images or videos with our free online GIF maker. Add text, resize, crop, and optimize your GIFs. No registration required.",
+      "featureList": [
+        "video to gif",
+        "images to gif",
+        "gif editor",
+        "add text to gif",
+        "crop gif",
+        "resize gif",
+        "optimize gif"
+      ]
+    }
+    </script>
     
     <!-- Fallback meta tags for specific routes -->
     <script>
@@ -33,6 +60,7 @@
       (function() {
         const path = window.location.pathname;
         const metaDescription = document.querySelector('meta[name="description"]');
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
         const title = document.querySelector('title');
         const ogUrl = document.querySelector('meta[property="og:url"]');
         const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -43,6 +71,7 @@
         if (path === '/gif-maker') {
           title.textContent = 'GIF Maker - Create Animated GIFs from Images | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.');
+          metaKeywords.setAttribute('content', 'gif maker, create gif, images to gif, gif generator, animated gif maker, free gif maker, online gif maker');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/gif-maker');
           ogTitle.setAttribute('content', 'GIF Maker - Create Animated GIFs from Images | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.');
@@ -51,6 +80,7 @@
         } else if (path === '/video-to-gif') {
           title.textContent = 'Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.');
+          metaKeywords.setAttribute('content', 'video to gif, convert video to gif, video to gif converter, online video to gif, free video to gif');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/video-to-gif');
           ogTitle.setAttribute('content', 'Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.');
@@ -59,6 +89,7 @@
         } else if (path === '/resize') {
           title.textContent = 'Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.');
+          metaKeywords.setAttribute('content', 'resize gif, gif resizer, scale gif, change gif size, online gif resizer');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/resize');
           ogTitle.setAttribute('content', 'Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.');
@@ -67,6 +98,7 @@
         } else if (path === '/crop') {
           title.textContent = 'Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.');
+          metaKeywords.setAttribute('content', 'crop gif, gif cropper, trim gif, online gif cropper, free gif cropper');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/crop');
           ogTitle.setAttribute('content', 'Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.');
@@ -75,6 +107,7 @@
         } else if (path === '/optimize') {
           title.textContent = 'Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.');
+          metaKeywords.setAttribute('content', 'optimize gif, gif optimizer, compress gif, reduce gif size, gif compressor');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/optimize');
           ogTitle.setAttribute('content', 'Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.');
@@ -83,16 +116,132 @@
         } else if (path === '/add-text') {
           title.textContent = 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker';
           metaDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
+          metaKeywords.setAttribute('content', 'add text to gif, gif text editor, add caption to gif, write on gif, gif meme maker');
           ogUrl.setAttribute('content', 'https://easygifmaker.com/add-text');
           ogTitle.setAttribute('content', 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker');
           ogDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
           twitterTitle.setAttribute('content', 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker');
           twitterDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
         }
-      })();
+      })();;
     </script>
     
     <!-- Mobile Performance Optimizations -->
+    <style>
+      /* Critical CSS for Mobile Performance */
+
+      /* Mobile-specific optimizations */
+      @media (max-width: 768px) {
+        /* Reduce layout complexity */
+        .hero-section {
+          min-height: 60vh !important;
+          padding: 1rem !important;
+        }
+        
+        /* Simplify gradients for mobile */
+        .bg-gradient-to-br {
+          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+        }
+        
+        /* Optimize text rendering */
+        h1, h2, h3, h4, h5, h6 {
+          font-display: swap !important;
+        }
+        
+        /* Reduce animations on mobile */
+        .hover\:scale-105 {
+          transform: none !important;
+        }
+        
+        /* Optimize images */
+        .mobile-optimized {
+          image-rendering: -webkit-optimize-contrast !important;
+          image-rendering: crisp-edges !important;
+        }
+        
+        /* Reduce shadow complexity */
+        .shadow-lg {
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Optimize grid layouts */
+        .grid {
+          gap: 1rem !important;
+        }
+        
+        /* Reduce padding/margins */
+        .p-8 {
+          padding: 1rem !important;
+        }
+        
+        .py-20 {
+          padding-top: 2rem !important;
+          padding-bottom: 2rem !important;
+        }
+        
+        /* Optimize font sizes */
+        .text-5xl {
+          font-size: 2.5rem !important;
+        }
+        
+        .text-6xl {
+          font-size: 3rem !important;
+        }
+      }
+
+      /* Reduce motion for better performance */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Optimize for slow connections */
+      @media (max-width: 768px) and (max-device-width: 768px) {
+        .container {
+          padding-left: 0.5rem !important;
+          padding-right: 0.5rem !important;
+        }
+        
+        /* Reduce image quality for slow connections */
+        img {
+          image-rendering: -webkit-optimize-contrast !important;
+        }
+      }
+    </style>
+    <!-- Inlined critical mobile CSS for above-the-fold performance -->
+    <style>
+    /* Critical CSS for Mobile Performance */
+    @media (max-width: 768px) {
+      .hero-section { min-height: 60vh !important; padding: 1rem !important; }
+      .bg-gradient-to-br { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important; }
+      h1, h2, h3, h4, h5, h6 { font-display: swap !important; }
+      .hover\:scale-105 { transform: none !important; }
+      .mobile-optimized { image-rendering: -webkit-optimize-contrast !important; image-rendering: crisp-edges !important; }
+      .shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important; }
+      .grid { gap: 1rem !important; }
+      .p-8 { padding: 1rem !important; }
+      .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+      .text-5xl { font-size: 2.5rem !important; }
+      .text-6xl { font-size: 3rem !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    @media (max-width: 768px) and (max-device-width: 768px) {
+      .container { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+      img { image-rendering: -webkit-optimize-contrast !important; }
+    }
+    </style>
+    <!-- End inlined critical mobile CSS -->
     <link rel="preload" href="/api/health" as="fetch" crossorigin>
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -110,23 +259,44 @@
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-    <script type="module" crossorigin src="/assets/index-CyUTwYVI.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-BsLtzIyS.js">
-    <link rel="modulepreload" crossorigin href="/assets/utils-vendor-D-jntlEd.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui-vendor-BFUjoqbW.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-So7neIfh.css">
+    <script type="module" crossorigin src="/assets/index-Co_7-egq.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Cfr36fd1.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-vendor-C90N2vo1.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-vendor-BKPz23f_.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DwpPVyt0.css">
   </head>
   <body>
     <div id="root"></div>
     
-    <!-- Google Analytics and AdSense - Loaded after page content -->
-    <script async defer src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY"></script>
+    <!-- Google Analytics and AdSense - Deferred for performance -->
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY" async defer></script>
     <script defer>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4184BKX5QY');
+      window.addEventListener('DOMContentLoaded', function() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
+      });
     </script>
-    <script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265" crossorigin="anonymous"></script>
+    <script defer>
+      window.addEventListener('load', function() {
+        let adScriptLoaded = false;
+        function loadAdScript() {
+          if (adScriptLoaded) return;
+          adScriptLoaded = true;
+          const script = document.createElement('script');
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265";
+          script.async = true;
+          script.crossOrigin = "anonymous";
+          document.body.appendChild(script);
+          window.removeEventListener('scroll', loadAdScript);
+          window.removeEventListener('mousedown', loadAdScript);
+          window.removeEventListener('touchstart', loadAdScript);
+        }
+        window.addEventListener('scroll', loadAdScript, { once: true });
+        window.addEventListener('mousedown', loadAdScript, { once: true });
+        window.addEventListener('touchstart', loadAdScript, { once: true });
+      });
+    </script>
   </body>
 </html>

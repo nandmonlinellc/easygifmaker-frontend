@@ -54,17 +54,9 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug']
-      }
-    },
+  chunkSizeWarningLimit: 1000,
     cssCodeSplit: true,
-    sourcemap: false,
+  sourcemap: true,
     target: 'es2015'
   },
   optimizeDeps: {
