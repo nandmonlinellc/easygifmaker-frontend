@@ -78,7 +78,7 @@ export default function AddTextToGifsGuide() {
         <p className="text-gray-700 mb-6">Published on July 5, 2025 by EasyGIFMaker Team</p>
         <picture>
           <source srcSet="/blog/add-text-to-gifs-guide.webp" type="image/webp" />
-          <img src="/blog/add-text-to-gifs-guide.png" alt="Adding Text to GIFs Guide" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="lazy" />
+          <img src="/blog/add-text-to-gifs-guide.png" alt="Adding Text to GIFs Guide" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
         </picture>
         <article className="prose prose-blue max-w-none mb-8">
           <p>

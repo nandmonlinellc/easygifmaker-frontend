@@ -48,7 +48,7 @@ export default function UltimateGuideToViralGifs() {
         
         <picture>
           <source srcSet="/blog/magical-gif.webp" type="image/webp" />
-          <img src="/blog/magical-gif.png" alt="Ultimate Guide to Creating Viral GIFs" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" loading="lazy" />
+          <img src="/blog/magical-gif.png" alt="Ultimate Guide to Creating Viral GIFs" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
         </picture>
         
         <article className="prose prose-blue max-w-none mb-8">
@@ -573,4 +573,4 @@ export default function UltimateGuideToViralGifs() {
       </div>
     </>
   );
-} 
+}

@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-
-
 export default function InteractiveCanvas({ 
   imageUrl, 
   text, 
@@ -122,7 +120,7 @@ export default function InteractiveCanvas({
   }
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex flex-col items-center">
       <div className="relative border border-gray-300 rounded-lg overflow-hidden bg-gray-100"
         style={{ width: canvasSize.width, height: canvasSize.height }}
       >
@@ -138,6 +136,17 @@ export default function InteractiveCanvas({
             Loading image...
           </div>
         )}
+      </div>
+      <div className="w-full mt-4">
+        <div className="bg-gray-200 h-4 rounded-full relative">
+          <div 
+            className="bg-blue-500 h-4 rounded-full absolute"
+            style={{
+              left: `${(textSettings.startTime / 10) * 100}%`,
+              width: `${((textSettings.endTime - textSettings.startTime) / 10) * 100}%`
+            }}
+          ></div>
+        </div>
       </div>
     </div>
   )

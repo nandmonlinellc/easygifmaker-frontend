@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button.jsx' // Assuming Button is used f
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group.jsx' // Assuming these exist
 import { Settings } from 'lucide-react'
 
-export default function TextSettingsPanel({ canvasSize, textSettings, onSettingChange }) {
+export default function TextSettingsPanel({ canvasSize, textSettings, onSettingChange, showAnimationDropdown }) {
   const settings = textSettings || {}
 
   // Clamp helper
@@ -50,6 +50,25 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onSettingC
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
+          {showAnimationDropdown && (
+            <div>
+              <Label htmlFor="animation-style">Text Animation</Label>
+              <Select
+                id="animation-style"
+                value={settings.animationStyle || 'none'}
+                onValueChange={value => handleSettingChange('animationStyle', value)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  <SelectItem value="fade">Fade In/Out</SelectItem>
+                  <SelectItem value="slide_up">Slide Up</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
             <Label htmlFor="text-content">Text Content</Label>
             <Textarea
               id="text-content"

@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
+import * as Slider from '@radix-ui/react-slider'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -38,8 +39,17 @@ export default function AddTextTool() {
     offsetX: 0,
     offsetY: 0,
     x: 0,
-    y: 0
+    y: 0,
+    animationStyle: 'none',
   })
+  // Start and end time state (in seconds)
+  const [startTime, setStartTime] = useState(0)
+  const [endTime, setEndTime] = useState('')
+  // GIF metadata
+  const [gifDuration, setGifDuration] = useState(10) // fallback default
+  const [gifFrameCount, setGifFrameCount] = useState(1)
+  const [durationWarning, setDurationWarning] = useState(false)
+  const imageRef = useRef(null)
 
   // Handle text settings change from TextSettingsPanel
   const handleSettingChange = useCallback((key, value) => {
@@ -55,15 +65,51 @@ export default function AddTextTool() {
     setErrorMessage(null)
     setResultUrl(null)
     let url
+    let fileObj = null
+    let isUrl = false
     if (uploadMethod === 'url' && urlInput) { // URL upload
       url = urlInput
       setSourceFile(null)
+      isUrl = true
     } else { // File upload
-      setSourceFile(files[0])
-      url = URL.createObjectURL(files[0])
+      fileObj = files[0]
+      setSourceFile(fileObj)
+      url = URL.createObjectURL(fileObj)
     }
     setMediaUrl(url)
     setWorkflowState('editing')
+
+    // Fetch real GIF metadata from backend
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+    const formData = new FormData()
+    if (isUrl) {
+      formData.append('url', url)
+    } else {
+      formData.append('file', fileObj, fileObj?.name)
+    }
+    fetch(`${apiUrl}/api/gif-metadata`, {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.duration && data.frame_count) {
+          setGifFrameCount(data.frame_count)
+          setGifDuration(data.duration)
+          setDurationWarning(false)
+          setStartTime(0)
+          setEndTime(data.duration.toFixed(2))
+        } else {
+          setGifFrameCount(1)
+          setGifDuration(10)
+          setDurationWarning(true)
+        }
+      })
+      .catch(() => {
+        setGifFrameCount(1)
+        setGifDuration(10)
+        setDurationWarning(true)
+      })
   }, [uploadMethod])
 
   // Handle text position change from InteractiveCanvas
@@ -97,6 +143,8 @@ export default function AddTextTool() {
       x: 0,
       y: 0
     }))
+    setStartTime(0)
+    setEndTime('')
   }
 
   // Handle final process (API call)
@@ -122,6 +170,9 @@ export default function AddTextTool() {
       formData.append('vertical_align', textSettings.verticalAlign)
       formData.append('offset_x', textSettings.offsetX.toString())
       formData.append('offset_y', textSettings.offsetY.toString())
+  formData.append('start_time', startTime.toString())
+  formData.append('end_time', endTime !== '' ? endTime.toString() : '')
+  formData.append('animation_style', textSettings.animationStyle)
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/add-text`, {
         method: 'POST',
@@ -178,36 +229,14 @@ export default function AddTextTool() {
     <>
       <ToolPageLayout
         title="Add Text to GIF"
-        description="Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays."
+        description="Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor."
         icon={Type}
         seoProps={{
-          title: "Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker",
-          description: "Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.",
-          keywords: "add text to gif, gif captions, gif memes, gif watermark, text overlay gif, gif text editor, gif editor, gif maker, free gif maker, online gif maker, gif converter, gif creator, custom gif, create your own gif",
+          title: "Add Text to GIF - Overlay Text on GIFs Online | EasyGIFMaker",
+          description: "Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor.",
+          keywords: "add text to gif, gif text editor, gif caption, gif watermark, text overlay gif, gif text maker",
           canonical: "https://easygifmaker.com/add-text"
         }}
-        howToSteps={[
-          {
-            "@type": "HowToStep",
-            "name": "Upload GIF",
-            "text": "Select a GIF file or enter a GIF URL to add text to."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Add and Customize Text",
-            "text": "Add text, choose font, size, color, and position on your GIF."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Preview and Adjust",
-            "text": "Preview your GIF with text and make final adjustments."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Generate and Download",
-            "text": "Click 'Generate' to create your GIF with text overlay!"
-          }
-        ]}
       >
         <HowToUseSection
           title="How to Use the Text Editor"
@@ -245,7 +274,6 @@ export default function AddTextTool() {
               supportedFormats="Supported formats: GIF only"
               accept="image/gif"
               toolName="GIF"
-              useGradient={false}
             />
           )}
 
@@ -271,6 +299,63 @@ export default function AddTextTool() {
                           onTextPositionChange={handleTextPositionChange}
                         />
                       </div>
+                    </div>
+                    {/* Start/End Time Controls with Slider */}
+                    <div className="mb-4">
+                      <div className="mb-2 flex justify-between items-center">
+                        <span className="font-semibold text-gray-800">Text Timing</span>
+                        <span className="text-xs text-gray-500">GIF duration: {gifDuration.toFixed(2)}s, {gifFrameCount} frames</span>
+                      </div>
+                      <Slider.Root
+                        className="relative flex items-center select-none touch-none w-full h-8"
+                        min={0}
+                        max={gifDuration}
+                        step={0.01}
+                        value={[Number(startTime), Number(endTime) || gifDuration]}
+                        onValueChange={([start, end]) => {
+                          setStartTime(Number(start))
+                          setEndTime(Number(end))
+                        }}
+                        minStepsBetweenThumbs={1}
+                        aria-label="Text timing range"
+                      >
+                        <Slider.Track className="bg-blue-200 relative grow rounded-full h-2">
+                          <Slider.Range className="absolute bg-blue-500 rounded-full h-2" />
+                        </Slider.Track>
+                        <Slider.Thumb className="block w-5 h-5 bg-blue-600 rounded-full shadow-lg border-2 border-white focus:outline-none" />
+                        <Slider.Thumb className="block w-5 h-5 bg-purple-600 rounded-full shadow-lg border-2 border-white focus:outline-none" />
+                      </Slider.Root>
+                      <div className="flex gap-4 mt-2">
+                        <div className="flex-1">
+                          <label htmlFor="start-time" className="block font-semibold mb-1 text-gray-800">Start Time (seconds)</label>
+                          <input
+                            id="start-time"
+                            type="number"
+                            min="0"
+                            max={Number(endTime) || gifDuration}
+                            value={startTime}
+                            onChange={e => setStartTime(Math.max(0, Math.min(Number(e.target.value), Number(endTime) || gifDuration)))}
+                            className="w-full bg-white/90 rounded-lg px-3 py-2 text-base border border-gray-300"
+                            placeholder="0"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label htmlFor="end-time" className="block font-semibold mb-1 text-gray-800">End Time (seconds, optional)</label>
+                          <input
+                            id="end-time"
+                            type="number"
+                            min={startTime}
+                            max={gifDuration}
+                            value={endTime}
+                            onChange={e => setEndTime(Math.max(Number(startTime), Math.min(Number(e.target.value), gifDuration)))}
+                            className="w-full bg-white/90 rounded-lg px-3 py-2 text-base border border-gray-300"
+                            placeholder="(leave blank for end of GIF)"
+                          />
+                        </div>
+                      </div>
+                      {durationWarning && (
+                        <div className="text-xs text-red-500 mt-2">Could not auto-detect GIF duration. Defaulting to 10s. Timing may be inaccurate.</div>
+                      )}
                     </div>
                     <div className="flex gap-4">
                       <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
@@ -302,6 +387,7 @@ export default function AddTextTool() {
                     <TextSettingsPanel
                       textSettings={textSettings}
                       onSettingChange={handleSettingChange}
+                      showAnimationDropdown={true}
                     />
                   </CardContent>
                 </Card>
