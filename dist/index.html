@@ -54,10 +54,94 @@
     }
     </script>
     
+    <!-- Inlined critical mobile CSS for above-the-fold performance -->
+    <style>
+    /* Critical CSS for Mobile Performance */
+    @media (max-width: 768px) {
+      .hero-section { min-height: 60vh !important; padding: 1rem !important; }
+      .bg-gradient-to-br { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important; }
+      h1, h2, h3, h4, h5, h6 { font-display: swap !important; }
+      .hover\:scale-105 { transform: none !important; }
+      .mobile-optimized { image-rendering: -webkit-optimize-contrast !important; image-rendering: crisp-edges !important; }
+      .shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important; }
+      .grid { gap: 1rem !important; }
+      .p-8 { padding: 1rem !important; }
+      .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+      .text-5xl { font-size: 2.5rem !important; }
+      .text-6xl { font-size: 3rem !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    @media (max-width: 768px) and (max-device-width: 768px) {
+      .container { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+      img { image-rendering: -webkit-optimize-contrast !important; }
+    }
+    </style>
+    <link rel="preload" href="/api/health" as="fetch" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Critical Resource Preloading -->
+    <link rel="preload" href="data:text/jsx;base64,aW1wb3J0IHsgU3RyaWN0TW9kZSB9IGZyb20gJ3JlYWN0JwppbXBvcnQgeyBjcmVhdGVSb290IH0gZnJvbSAncmVhY3QtZG9tL2NsaWVudCcKaW1wb3J0ICcuL2luZGV4LmNzcycKaW1wb3J0IEFwcCBmcm9tICcuL0FwcC5qc3gnCgpjcmVhdGVSb290KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyb290JykpLnJlbmRlcigKICA8U3RyaWN0TW9kZT4KICAgIDxBcHAgLz4KICA8L1N0cmljdE1vZGU+LAopCgo=" as="script" type="module">
+    <link rel="preload" href="/og-image.png" as="image">
+    <link rel="preload" href="/favicon.svg" as="image">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+    <script type="module" crossorigin src="/assets/index-Byi105n1.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Cfr36fd1.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-core-BHDYqsS7.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-interactive-DNax5wVn.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-vendor-Jd1jtdfB.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DwpPVyt0.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- Google Analytics and AdSense - Deferred for performance -->
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY" async defer></script>
+    <script defer>
+      window.addEventListener('DOMContentLoaded', function() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
+      });
+    </script>
+    <script defer>
+      window.addEventListener('load', function() {
+        let adScriptLoaded = false;
+        function loadAdScript() {
+          if (adScriptLoaded) return;
+          adScriptLoaded = true;
+          const script = document.createElement('script');
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265";
+          script.async = true;
+          script.crossOrigin = "anonymous";
+          document.body.appendChild(script);
+          window.removeEventListener('scroll', loadAdScript);
+          window.removeEventListener('mousedown', loadAdScript);
+          window.removeEventListener('touchstart', loadAdScript);
+        }
+        window.addEventListener('scroll', loadAdScript, { once: true });
+        window.addEventListener('mousedown', loadAdScript, { once: true });
+        window.addEventListener('touchstart', loadAdScript, { once: true });
+      });
+    </script>
     <!-- Fallback meta tags for specific routes -->
     <script>
-      // Detect route and set appropriate meta tags immediately
-      (function() {
+      document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const metaDescription = document.querySelector('meta[name="description"]');
         const metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -123,179 +207,6 @@
           twitterTitle.setAttribute('content', 'Add Text to GIF - Add Captions and Text to GIFs Online | EasyGIFMaker');
           twitterDescription.setAttribute('content', 'Add text and captions to GIFs online for free. Create memes, add watermarks, and customize your GIFs with text overlays.');
         }
-      })();;
-    </script>
-    
-    <!-- Mobile Performance Optimizations -->
-    <style>
-      /* Critical CSS for Mobile Performance */
-
-      /* Mobile-specific optimizations */
-      @media (max-width: 768px) {
-        /* Reduce layout complexity */
-        .hero-section {
-          min-height: 60vh !important;
-          padding: 1rem !important;
-        }
-        
-        /* Simplify gradients for mobile */
-        .bg-gradient-to-br {
-          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
-        }
-        
-        /* Optimize text rendering */
-        h1, h2, h3, h4, h5, h6 {
-          font-display: swap !important;
-        }
-        
-        /* Reduce animations on mobile */
-        .hover\:scale-105 {
-          transform: none !important;
-        }
-        
-        /* Optimize images */
-        .mobile-optimized {
-          image-rendering: -webkit-optimize-contrast !important;
-          image-rendering: crisp-edges !important;
-        }
-        
-        /* Reduce shadow complexity */
-        .shadow-lg {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-        }
-        
-        /* Optimize grid layouts */
-        .grid {
-          gap: 1rem !important;
-        }
-        
-        /* Reduce padding/margins */
-        .p-8 {
-          padding: 1rem !important;
-        }
-        
-        .py-20 {
-          padding-top: 2rem !important;
-          padding-bottom: 2rem !important;
-        }
-        
-        /* Optimize font sizes */
-        .text-5xl {
-          font-size: 2.5rem !important;
-        }
-        
-        .text-6xl {
-          font-size: 3rem !important;
-        }
-      }
-
-      /* Reduce motion for better performance */
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-
-      /* Optimize for slow connections */
-      @media (max-width: 768px) and (max-device-width: 768px) {
-        .container {
-          padding-left: 0.5rem !important;
-          padding-right: 0.5rem !important;
-        }
-        
-        /* Reduce image quality for slow connections */
-        img {
-          image-rendering: -webkit-optimize-contrast !important;
-        }
-      }
-    </style>
-    <!-- Inlined critical mobile CSS for above-the-fold performance -->
-    <style>
-    /* Critical CSS for Mobile Performance */
-    @media (max-width: 768px) {
-      .hero-section { min-height: 60vh !important; padding: 1rem !important; }
-      .bg-gradient-to-br { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important; }
-      h1, h2, h3, h4, h5, h6 { font-display: swap !important; }
-      .hover\:scale-105 { transform: none !important; }
-      .mobile-optimized { image-rendering: -webkit-optimize-contrast !important; image-rendering: crisp-edges !important; }
-      .shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important; }
-      .grid { gap: 1rem !important; }
-      .p-8 { padding: 1rem !important; }
-      .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
-      .text-5xl { font-size: 2.5rem !important; }
-      .text-6xl { font-size: 3rem !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    @media (max-width: 768px) and (max-device-width: 768px) {
-      .container { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
-      img { image-rendering: -webkit-optimize-contrast !important; }
-    }
-    </style>
-    <!-- End inlined critical mobile CSS -->
-    <link rel="preload" href="/api/health" as="fetch" crossorigin>
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <meta name="theme-color" content="#3b82f6">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    
-    <!-- Critical Resource Preloading -->
-    <link rel="preload" href="data:text/jsx;base64,aW1wb3J0IHsgU3RyaWN0TW9kZSB9IGZyb20gJ3JlYWN0JwppbXBvcnQgeyBjcmVhdGVSb290IH0gZnJvbSAncmVhY3QtZG9tL2NsaWVudCcKaW1wb3J0ICcuL2luZGV4LmNzcycKaW1wb3J0IEFwcCBmcm9tICcuL0FwcC5qc3gnCgpjcmVhdGVSb290KGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyb290JykpLnJlbmRlcigKICA8U3RyaWN0TW9kZT4KICAgIDxBcHAgLz4KICA8L1N0cmljdE1vZGU+LAopCgo=" as="script" type="module">
-    <link rel="preload" href="/og-image.png" as="image">
-    <link rel="preload" href="/favicon.svg" as="image">
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-    <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-    <script type="module" crossorigin src="/assets/index-Co_7-egq.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Cfr36fd1.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui-vendor-C90N2vo1.js">
-    <link rel="modulepreload" crossorigin href="/assets/utils-vendor-BKPz23f_.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-DwpPVyt0.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    
-    <!-- Google Analytics and AdSense - Deferred for performance -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY" async defer></script>
-    <script defer>
-      window.addEventListener('DOMContentLoaded', function() {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
-      });
-    </script>
-    <script defer>
-      window.addEventListener('load', function() {
-        let adScriptLoaded = false;
-        function loadAdScript() {
-          if (adScriptLoaded) return;
-          adScriptLoaded = true;
-          const script = document.createElement('script');
-          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265";
-          script.async = true;
-          script.crossOrigin = "anonymous";
-          document.body.appendChild(script);
-          window.removeEventListener('scroll', loadAdScript);
-          window.removeEventListener('mousedown', loadAdScript);
-          window.removeEventListener('touchstart', loadAdScript);
-        }
-        window.addEventListener('scroll', loadAdScript, { once: true });
-        window.addEventListener('mousedown', loadAdScript, { once: true });
-        window.addEventListener('touchstart', loadAdScript, { once: true });
       });
     </script>
   </body>
