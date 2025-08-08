@@ -482,7 +482,7 @@ export default function VideoToGifTool() {
                   <Button 
                     onClick={async () => {
                       const gifUrl = typeof resultUrl === 'string' ? resultUrl : resultUrl.gif
-                      console.log('Downloading GIF from:', gifUrl)
+                      // Removed console.log for GIF download URL
                       try {
                         const response = await fetch(gifUrl)
                         if (!response.ok) {
@@ -512,7 +512,7 @@ export default function VideoToGifTool() {
                   {typeof resultUrl === 'object' && resultUrl.mp4 && (
                     <Button 
                       onClick={async () => {
-                        console.log('Downloading MP4 from:', resultUrl.mp4)
+                        // Removed console.log for MP4 download URL
                         try {
                           const response = await fetch(resultUrl.mp4)
                           if (!response.ok) {
