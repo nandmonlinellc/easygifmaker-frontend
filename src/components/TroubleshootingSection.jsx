@@ -45,22 +45,22 @@ export default function TroubleshootingSection({
 
   return (
     <section className="bg-gradient-to-br from-yellow-50/80 to-orange-50/80 backdrop-blur-sm rounded-3xl shadow-lg p-8 mb-8">
-      <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-6 flex items-center gap-3">
+      <h2 className="text-2xl font-bold text-black dark:text-white mb-6 flex items-center gap-3 mobile-white-text">
         <span className="text-2xl">🔧</span>
         {title}
       </h2>
       
       <div className="grid md:grid-cols-2 gap-6">
         {/* Common Issues & Solutions */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4">
-          <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4">
+          <h3 className="font-semibold text-black dark:text-white mb-3 flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 text-yellow-600" />
             Common Issues & Solutions
           </h3>
-          <ul className="space-y-3 text-sm text-gray-700">
+          <ul className="space-y-3 text-sm text-gray-800 dark:text-gray-200 ">
             {issues.map((issue, index) => (
               <li key={index} className="flex items-start gap-3">
-                <span className={`w-2 h-2 ${issue.color} rounded-full mt-2 flex-shrink-0`}></span>
+                <span className={`w-3 h-3 ${issue.color} rounded-full mt-2 flex-shrink-0 flex items-center justify-center`}><span className="text-white text-xs font-bold">•</span></span>
                 <div>
                   {issue.link ? (
                     <span>
@@ -76,12 +76,17 @@ export default function TroubleshootingSection({
         </div>
 
         {/* Quick Fixes */}
-        <div className="bg-gradient-to-br from-blue-50/80 to-purple-50/80 backdrop-blur-sm rounded-2xl p-4">
-          <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <div className="bg-gradient-to-br from-blue-50/80 to-purple-50/80 dark:from-gray-800/70 dark:to-gray-900/70 backdrop-blur-sm rounded-2xl p-4">
+          <h3 className="font-semibold text-black dark:text-white mb-3 flex items-center gap-2 mobile-white-text">
             <Lightbulb className="h-4 w-4 text-blue-600" />
             Quick Fixes
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-gray-800 dark:text-gray-200 mobile-white-text">
+      <style>{`
+        @media (max-width: 768px) {
+          .mobile-white-text { color: #fff !important; }
+        }
+      `}</style>
             {fixes.map((fix, index) => (
               <li key={index} className="flex items-center gap-2">
                 <span className="text-lg">{fix.icon}</span>

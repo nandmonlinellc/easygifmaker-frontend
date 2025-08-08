@@ -73,12 +73,11 @@ export default function SocialSharingSection({
 
   return (
     <section className="bg-gradient-to-br from-green-50/80 to-emerald-50/80 backdrop-blur-sm rounded-3xl shadow-lg p-8 mb-8">
-      <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6 flex items-center gap-3">
+      <h2 className="text-2xl font-bold text-black dark:text-white mb-6 flex items-center gap-3">
         <span className="text-2xl">🚀</span>
         {title}
       </h2>
-      
-      <p className="text-gray-700 mb-6 leading-relaxed">
+      <p className="text-black dark:text-gray-200 mb-6 leading-relaxed mobile-white-text">
         {description}
       </p>
 
@@ -92,8 +91,8 @@ export default function SocialSharingSection({
               className={`bg-white/60 backdrop-blur-sm rounded-2xl p-4 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg group cursor-pointer border border-white/30 hover:border-white/50`}
             >
               <div className="text-2xl mb-2">{platform.emoji}</div>
-              <div className="font-semibold text-gray-800 mb-1">{platform.name}</div>
-              <div className="text-xs text-gray-600">{platform.description}</div>
+              <div className="font-semibold text-black dark:text-white mb-1">{platform.name}</div>
+              <div className="text-xs text-gray-800 dark:text-gray-200 mobile-white-text">{platform.description}</div>
               <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <IconComponent className="h-4 w-4 mx-auto text-gray-500" />
               </div>
@@ -103,8 +102,8 @@ export default function SocialSharingSection({
       </div>
 
       {/* Additional sharing options */}
-      <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-4">
-        <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4">
+        <h3 className="font-semibold text-black dark:text-white mb-3 flex items-center gap-2">
           <Share2 className="h-5 w-5" />
           More Sharing Options
         </h3>
@@ -132,15 +131,20 @@ export default function SocialSharingSection({
       </div>
 
       {/* Embed instructions */}
-      <div className="mt-6 bg-gradient-to-r from-purple-100/50 to-pink-100/50 backdrop-blur-sm rounded-2xl p-4">
-        <h3 className="font-semibold text-gray-800 mb-2">💡 Embed in Your Website</h3>
-        <p className="text-sm text-gray-700 mb-3">
+      <div className="mt-6 bg-gradient-to-r from-purple-100/50 to-pink-100/50 dark:from-gray-800/70 dark:to-gray-900/70 backdrop-blur-sm rounded-2xl p-4">
+        <h3 className="font-semibold text-black dark:text-white mb-2">💡 Embed in Your Website</h3>
+        <p className="text-sm text-black dark:text-gray-200 mb-3 mobile-white-text">
           Want to embed your GIF in a blog or website? Simply download your GIF and use this HTML code:
         </p>
-        <div className="bg-gray-800 text-green-400 p-3 rounded-lg text-sm font-mono overflow-x-auto">
+        <div className="bg-gray-900 text-green-400 p-3 rounded-lg text-sm font-mono overflow-x-auto">
           {`<img src="your-gif-file.gif" alt="My amazing GIF" style="max-width: 100%; height: auto;" />`}
         </div>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .mobile-white-text { color: #fff !important; }
+        }
+      `}</style>
     </section>
   )
 } 

@@ -284,8 +284,8 @@ export default function AddTextTool() {
               <div className="lg:col-span-2">
                 <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview & Text Editor</CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardTitle className="text-2xl font-bold text-gray-800 dark:text-white md:text-xl sm:text-lg">GIF Preview & Text Editor</CardTitle>
+                    <CardDescription className="text-gray-600 dark:text-gray-200">
                       Add and customize text overlay on your GIF
                     </CardDescription>
                   </CardHeader>
@@ -303,8 +303,8 @@ export default function AddTextTool() {
                     {/* Start/End Time Controls with Slider */}
                     <div className="mb-4">
                       <div className="mb-2 flex justify-between items-center">
-                        <span className="font-semibold text-gray-800">Text Timing</span>
-                        <span className="text-xs text-gray-500">GIF duration: {gifDuration.toFixed(2)}s, {gifFrameCount} frames</span>
+                        <span className="font-semibold text-gray-800 dark:text-white">Text Timing</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-300">GIF duration: {gifDuration.toFixed(2)}s, {gifFrameCount} frames</span>
                       </div>
                       <Slider.Root
                         className="relative flex items-center select-none touch-none w-full h-8"
@@ -327,7 +327,7 @@ export default function AddTextTool() {
                       </Slider.Root>
                       <div className="flex gap-4 mt-2">
                         <div className="flex-1">
-                          <label htmlFor="start-time" className="block font-semibold mb-1 text-gray-800">Start Time (seconds)</label>
+                          <label htmlFor="start-time" className="block font-semibold mb-1 text-gray-800 dark:text-white">Start Time (seconds)</label>
                           <input
                             id="start-time"
                             type="number"
@@ -340,7 +340,7 @@ export default function AddTextTool() {
                           />
                         </div>
                         <div className="flex-1">
-                          <label htmlFor="end-time" className="block font-semibold mb-1 text-gray-800">End Time (seconds, optional)</label>
+                          <label htmlFor="end-time" className="block font-semibold mb-1 text-gray-800 dark:text-white">End Time (seconds, optional)</label>
                           <input
                             id="end-time"
                             type="number"
@@ -376,7 +376,7 @@ export default function AddTextTool() {
               <div>
                 <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
                   <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800 dark:text-white">
                       <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
                         <Type className="h-5 w-5 text-white" />
                       </div>

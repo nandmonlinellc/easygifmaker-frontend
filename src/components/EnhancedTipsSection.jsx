@@ -14,12 +14,12 @@ const EnhancedTipsSection = ({
   ];
 
   return (
-    <div className="mt-8 bg-gradient-to-br from-blue-50/80 to-indigo-50/80 backdrop-blur-sm rounded-2xl p-6">
-      <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-3">
+    <div className="mt-8 bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-gray-800 dark:to-gray-900 backdrop-blur-sm rounded-2xl p-6">
+      <h4 className="font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-3 md:text-lg sm:text-base">
         <span className="text-2xl">💡</span>
         {title}
       </h4>
-      <ul className="space-y-3 text-sm text-gray-700">
+      <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-200">
         {tips.map((tip, index) => (
           <li key={index} className="flex items-start gap-3">
             <span className={`w-2 h-2 ${colors[index % colors.length]} rounded-full mt-2 flex-shrink-0`}></span>
