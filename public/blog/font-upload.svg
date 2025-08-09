@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}
+      .title{font: 28px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#0f172a}
+      .hint{font: 18px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#475569}
+      .box{fill:#ffffff;stroke:#cbd5e1;stroke-width:2}
+      .btn{fill:#2563eb}
+      .btn-text{font: 20px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#ffffff}
+      .file{font: 18px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#334155}
+      .badge{fill:#e2e8f0}
+      .badge-text{font: 14px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#475569}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="360" rx="16"/>
+  <text class="title" x="40" y="60">Custom Font Upload</text>
+  <text class="hint" x="40" y="95">Apply .ttf or .otf to the selected layer.</text>
+
+  <rect class="box" x="40" y="130" width="760" height="140" rx="12"/>
+  <rect class="btn" x="60" y="160" width="200" height="56" rx="10"/>
+  <text class="btn-text" x="96" y="196">Choose File</text>
+
+  <text class="file" x="280" y="170">No file chosen</text>
+  <rect class="badge" x="280" y="188" width="72" height="28" rx="8"/>
+  <text class="badge-text" x="288" y="207">.ttf</text>
+  <rect class="badge" x="360" y="188" width="72" height="28" rx="8"/>
+  <text class="badge-text" x="368" y="207">.otf</text>
+</svg>

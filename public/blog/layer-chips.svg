@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}
+      .chip{fill:#ffffff;stroke:#cbd5e1;stroke-width:2}
+      .chip-active{fill:#2563eb;stroke:#1d4ed8;stroke-width:2}
+      .chip-text{font: 24px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#0f172a}
+      .chip-text-active{fill:#ffffff}
+      .title{font: 28px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#0f172a}
+      .hint{font: 18px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#475569}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="360" rx="16"/>
+  <text class="title" x="40" y="60">Text Layers</text>
+  <text class="hint" x="40" y="95">Select a chip to edit or delete a layer.</text>
+
+  <rect class="chip-active" x="40" y="140" width="220" height="56" rx="12"/>
+  <text class="chip-text-active" x="70" y="176">Layer 1 (Title)</text>
+
+  <rect class="chip" x="280" y="140" width="240" height="56" rx="12"/>
+  <text class="chip-text" x="310" y="176">Layer 2 (Subtitle)</text>
+
+  <rect class="chip" x="540" y="140" width="260" height="56" rx="12"/>
+  <text class="chip-text" x="570" y="176">Layer 3 (Watermark)</text>
+
+  <rect class="chip" x="820" y="140" width="180" height="56" rx="12"/>
+  <text class="chip-text" x="850" y="176">+ Add Layer</text>
+</svg>

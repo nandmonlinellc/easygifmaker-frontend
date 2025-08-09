@@ -4,6 +4,7 @@ export default function InteractiveCanvas({
   imageUrl, 
   text, 
   textSettings, 
+  textLayers, // optional array of layers
   onTextPositionChange 
 }) {
   const canvasRef = useRef(null)
@@ -48,21 +49,50 @@ export default function InteractiveCanvas({
     canvas.height = height
     ctx.clearRect(0, 0, width, height)
     ctx.drawImage(img, 0, 0, width, height)
-    // Measure text size
-    const font = `${textSettings.fontSize || 24}px ${textSettings.fontFamily || 'Arial'}`
-    ctx.font = font
-    const metrics = ctx.measureText(text)
-    const tSize = { width: metrics.width, height: parseInt(font, 10) || 24 }
-    setTextSize(tSize)
-    // Draw text if provided
-    if (text && text.trim()) {
-      drawText(ctx, text, textSettings, width, height, tSize)
-    }
-  }, [imageLoaded, text, textSettings, canvasSize])
+    const layers = Array.isArray(textLayers) && textLayers.length > 0
+      ? textLayers
+      : (text && textSettings ? [{ ...textSettings, text }] : [])
+
+    layers.forEach(layer => {
+      const initialFontSize = Number(layer.fontSize || 24)
+      const fontFamily = layer.fontFamily || 'Arial'
+      const maxWidthRatio = (layer.maxWidthRatio ?? 0.95)
+      const lineHeightMult = (layer.lineHeight ?? 1.2)
+      const autoFit = (layer.autoFit ?? true)
+
+      let effectiveFont = initialFontSize
+      ctx.font = `${effectiveFont}px ${fontFamily}`
+      const maxWidth = Math.round(maxWidthRatio * width)
+      let lines = wrapCanvasText(ctx, layer.text || '', maxWidth)
+      let lineHeight = Math.max(10, Math.round(effectiveFont * lineHeightMult))
+      let blockHeight = lines.length * lineHeight
+      let blockWidth = lines.reduce((m, l) => Math.max(m, ctx.measureText(l).width), 0)
+
+      if (autoFit) {
+        let guard = 0
+        while ((blockHeight > height * 0.95) && effectiveFont > 8 && guard < 50) {
+          effectiveFont = Math.max(8, Math.floor(effectiveFont * 0.9))
+          ctx.font = `${effectiveFont}px ${fontFamily}`
+          lineHeight = Math.max(10, Math.round(effectiveFont * lineHeightMult))
+          lines = wrapCanvasText(ctx, layer.text || '', maxWidth)
+          blockHeight = lines.length * lineHeight
+          blockWidth = lines.reduce((m, l) => Math.max(m, ctx.measureText(l).width), 0)
+          guard++
+        }
+      }
+
+      const tSize = { width: blockWidth, height: blockHeight }
+      setTextSize(tSize)
+      if ((layer.text || '').trim()) {
+        const drawSettings = { ...layer, fontSize: effectiveFont }
+        drawText(ctx, lines, drawSettings, width, height, tSize, lineHeight)
+      }
+    })
+  }, [imageLoaded, text, textSettings, canvasSize, textLayers])
 
   // Draw text at x/y position from settings
-  const drawText = (ctx, textContent, settings, canvasWidth, canvasHeight, tSize) => {
-    if (!textContent || !textContent.trim()) return;
+  const drawText = (ctx, lines, settings, canvasWidth, canvasHeight, tSize, lineHeight) => {
+    if (!lines || lines.length === 0) return;
     const {
       fontSize = 24,
       fontFamily = 'Arial',
@@ -76,47 +106,65 @@ export default function InteractiveCanvas({
     } = settings;
 
     ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
 
-    // Horizontal alignment
+    // Compute top-left of the text block based on alignment
     let x;
     if (horizontalAlign === 'left') {
-      ctx.textAlign = 'left';
       x = 0 + offsetX;
     } else if (horizontalAlign === 'center') {
-      ctx.textAlign = 'center';
-      x = canvasWidth / 2 + offsetX;
+      x = (canvasWidth - tSize.width) / 2 + offsetX;
     } else if (horizontalAlign === 'right') {
-      ctx.textAlign = 'right';
-      x = canvasWidth + offsetX;
+      x = canvasWidth - tSize.width + offsetX;
     } else {
-      ctx.textAlign = 'center';
-      x = canvasWidth / 2 + offsetX;
+      x = (canvasWidth - tSize.width) / 2 + offsetX;
     }
 
-    // Vertical alignment
     let y;
     if (verticalAlign === 'top') {
-      ctx.textBaseline = 'top';
       y = 0 + offsetY;
     } else if (verticalAlign === 'middle') {
-      ctx.textBaseline = 'middle';
-      y = canvasHeight / 2 + offsetY;
+      y = (canvasHeight - tSize.height) / 2 + offsetY;
     } else if (verticalAlign === 'bottom') {
-      ctx.textBaseline = 'bottom';
-      y = canvasHeight + offsetY;
+      y = canvasHeight - tSize.height + offsetY;
     } else {
-      ctx.textBaseline = 'middle';
-      y = canvasHeight / 2 + offsetY;
+      y = (canvasHeight - tSize.height) / 2 + offsetY;
     }
 
-    // Draw stroke
-    if (strokeWidth > 0) {
-      ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = strokeWidth;
-      ctx.strokeText(textContent, x, y);
-    }
     ctx.fillStyle = color;
-    ctx.fillText(textContent, x, y);
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      const ly = y + i * lineHeight
+      if (strokeWidth > 0) {
+        ctx.strokeStyle = strokeColor
+        ctx.lineWidth = strokeWidth
+        ctx.strokeText(line, x, ly)
+      }
+      ctx.fillText(line, x, ly)
+    }
+  }
+
+  // Wrap text into multiple lines based on canvas width
+  const wrapCanvasText = (ctx, textContent, maxWidth) => {
+    if (!textContent) return []
+    const wordsByPara = textContent.split('\n').map(p => p.split(/\s+/))
+    const lines = []
+    for (const words of wordsByPara) {
+      let line = ''
+      for (const word of words) {
+        const test = line ? `${line} ${word}` : word
+        const w = ctx.measureText(test).width
+        if (w <= maxWidth || !line) {
+          line = test
+        } else {
+          lines.push(line)
+          line = word
+        }
+      }
+      if (line) lines.push(line)
+    }
+    return lines
   }
 
   return (
@@ -136,17 +184,6 @@ export default function InteractiveCanvas({
             Loading image...
           </div>
         )}
-      </div>
-      <div className="w-full mt-4">
-        <div className="bg-gray-200 h-4 rounded-full relative">
-          <div 
-            className="bg-blue-500 h-4 rounded-full absolute"
-            style={{
-              left: `${(textSettings.startTime / 10) * 100}%`,
-              width: `${((textSettings.endTime - textSettings.startTime) / 10) * 100}%`
-            }}
-          ></div>
-        </div>
       </div>
     </div>
   )

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360">
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}
+      .title{font: 28px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#0f172a}
+      .hint{font: 18px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#475569}
+      .track{fill:#bfdbfe}
+      .range{fill:#3b82f6}
+      .thumb1{fill:#2563eb}
+      .thumb2{fill:#7c3aed}
+      .tick{stroke:#94a3b8;stroke-width:2}
+      .label{font: 16px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill:#334155}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="360" rx="16"/>
+  <text class="title" x="40" y="60">Layer Timing</text>
+  <text class="hint" x="40" y="95">Drag the handles to set start/end time in seconds.</text>
+
+  <rect class="track" x="40" y="180" width="1120" height="12" rx="6"/>
+  <rect class="range" x="200" y="180" width="720" height="12" rx="6"/>
+
+  <circle class="thumb1" cx="200" cy="186" r="16"/>
+  <circle class="thumb2" cx="920" cy="186" r="16"/>
+
+  <line class="tick" x1="40" y1="210" x2="40" y2="230"/>
+  <line class="tick" x1="280" y1="210" x2="280" y2="230"/>
+  <line class="tick" x1="520" y1="210" x2="520" y2="230"/>
+  <line class="tick" x1="760" y1="210" x2="760" y2="230"/>
+  <line class="tick" x1="1080" y1="210" x2="1080" y2="230"/>
+
+  <text class="label" x="32" y="250">0s</text>
+  <text class="label" x="270" y="250">2.5s</text>
+  <text class="label" x="510" y="250">5s</text>
+  <text class="label" x="748" y="250">7.5s</text>
+  <text class="label" x="1068" y="250">10s</text>
+</svg>

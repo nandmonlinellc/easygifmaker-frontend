@@ -49,6 +49,117 @@ export default function TextSettingsPanel({ canvasSize, textSettings, onSettingC
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Custom Font Upload */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+            <label htmlFor="custom-font" className="block font-semibold mb-3 text-gray-800 text-base">
+              Custom Font (TTF/OTF)
+            </label>
+            <input
+              id="custom-font"
+              type="file"
+              accept=".ttf,.otf"
+              onChange={(e) => {
+                const file = e.target.files && e.target.files[0] ? e.target.files[0] : null
+                onSettingChange('customFontFile', file)
+              }}
+              className="w-full bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-base border border-gray-300"
+            />
+            <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+              Upload a .ttf or .otf font file to use for this text. If provided, it will override the selected font family.
+            </p>
+          </div>
+          {/* Max Text Width */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+            <label htmlFor="max-width" className="block font-semibold mb-3 text-gray-800 text-base">
+              Max Text Width
+              <span className="text-sm text-gray-500 ml-2 font-normal">(percentage of image width)</span>
+            </label>
+            <div className="flex items-center gap-4">
+              <div className="flex-1 relative">
+                <input
+                  id="max-width"
+                  type="range"
+                  min="40"
+                  max="100"
+                  value={Math.round((settings.maxWidthRatio ?? 0.95) * 100)}
+                  onChange={(e) => onSettingChange('maxWidthRatio', Number(e.target.value) / 100)}
+                  className="w-full h-3 bg-gradient-to-r from-indigo-200 via-blue-200 to-cyan-200 rounded-full appearance-none cursor-pointer slider-thumb-indigo"
+                />
+                <div className="absolute -top-6 left-0 right-0 flex justify-between text-xs text-gray-500">
+                  <span className="font-medium">40%</span>
+                  <span className="font-medium">100%</span>
+                </div>
+              </div>
+              <div className="relative">
+                <input
+                  type="number"
+                  min="40"
+                  max="100"
+                  value={Math.round((settings.maxWidthRatio ?? 0.95) * 100)}
+                  onChange={(e) => {
+                    const v = Math.max(40, Math.min(100, Number(e.target.value) || 95));
+                    onSettingChange('maxWidthRatio', v / 100)
+                  }}
+                  className="w-20 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-semibold text-base shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none border border-white/30"
+                />
+                <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 font-medium">%</div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+              Controls the maximum width used for wrapping long text. Decrease if you want narrower captions.
+            </p>
+          </div>
+
+          {/* Line Height */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+            <label htmlFor="line-height" className="block font-semibold mb-3 text-gray-800 text-base">
+              Line Height
+              <span className="text-sm text-gray-500 ml-2 font-normal">(multiplier)</span>
+            </label>
+            <div className="flex items-center gap-4">
+              <div className="flex-1 relative">
+                <input
+                  id="line-height"
+                  type="range"
+                  min="1.0"
+                  max="2.0"
+                  step="0.05"
+                  value={settings.lineHeight ?? 1.2}
+                  onChange={(e) => onSettingChange('lineHeight', Number(e.target.value))}
+                  className="w-full h-3 bg-gradient-to-r from-gray-200 via-amber-200 to-orange-200 rounded-full appearance-none cursor-pointer slider-thumb-amber"
+                />
+                <div className="absolute -top-6 left-0 right-0 flex justify-between text-xs text-gray-500">
+                  <span className="font-medium">1.0</span>
+                  <span className="font-medium">2.0</span>
+                </div>
+              </div>
+              <div className="relative">
+                <input
+                  type="number"
+                  min="1"
+                  max="2"
+                  step="0.05"
+                  value={settings.lineHeight ?? 1.2}
+                  onChange={(e) => onSettingChange('lineHeight', Number(e.target.value) || 1.2)}
+                  className="w-20 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-semibold text-base shadow-sm focus:ring-2 focus:ring-amber-500 focus:outline-none border border-white/30"
+                />
+              </div>
+            </div>
+            <p className="text-xs text-gray-600 mt-3 leading-relaxed">
+              Controls spacing between lines of wrapped text.
+            </p>
+          </div>
+
+          {/* Auto Fit */}
+          <div className="flex items-center gap-3">
+            <input
+              id="auto-fit"
+              type="checkbox"
+              checked={settings.autoFit ?? true}
+              onChange={(e) => onSettingChange('autoFit', e.target.checked)}
+            />
+            <Label htmlFor="auto-fit">Auto-reduce font size to fit height</Label>
+          </div>
           <div>
           {showAnimationDropdown && (
             <div>

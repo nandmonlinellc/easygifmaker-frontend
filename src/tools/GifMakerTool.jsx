@@ -517,8 +517,8 @@ export default function GifMakerTool() {
 
         <ToolSeoSection
           icon={Image}
-          title="Animated GIF Maker"
-          description1="Create stunning animated GIFs from multiple images with our advanced online animated gif maker. Now with per-frame effects (fade, zoom), custom timing, and drag-and-drop reordering. Perfect for memes, tutorials, banners, and more!"
+          title="Animated GIF Maker, Easy GIF Animator"
+          description1="Create stunning animated GIFs from multiple images with our advanced online animated GIF maker. Now with per-frame effects (fade, zoom), custom timing, and drag-and-drop reordering. Perfect for memes, tutorials, banners, and more!"
           description2="Our intuitive drag-and-drop interface lets you arrange images in the perfect sequence, while advanced settings allow you to fine-tune timing, loops, quality, and per-frame animation effects. Ideal for content creators, marketers, educators, and anyone who wants to bring their images to life."
           features1={[
             { emoji: "🖼️", text: "Upload multiple image formats (JPG, PNG, GIF, WebP, etc.)" },

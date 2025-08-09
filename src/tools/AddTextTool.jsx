@@ -41,10 +41,17 @@ export default function AddTextTool() {
     x: 0,
     y: 0,
     animationStyle: 'none',
+    // advanced layout defaults
+    maxWidthRatio: 0.95,
+    lineHeight: 1.2,
+    autoFit: true,
   })
   // Start and end time state (in seconds)
   const [startTime, setStartTime] = useState(0)
   const [endTime, setEndTime] = useState('')
+  // Multiple text layers support
+  const [layers, setLayers] = useState([]) // each item mirrors textSettings + per-layer timing
+  const [selectedLayerIndex, setSelectedLayerIndex] = useState(-1)
   // GIF metadata
   const [gifDuration, setGifDuration] = useState(10) // fallback default
   const [gifFrameCount, setGifFrameCount] = useState(1)
@@ -53,10 +60,14 @@ export default function AddTextTool() {
 
   // Handle text settings change from TextSettingsPanel
   const handleSettingChange = useCallback((key, value) => {
-    setTextSettings(prev => ({
-      ...prev,
-      [key]: value
-    }))
+    setTextSettings(prev => {
+      const updated = { ...prev, [key]: value }
+      // If a layer is selected, keep it in sync
+      if (selectedLayerIndex >= 0) {
+        setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? { ...layer, [key]: value } : layer))
+      }
+      return updated
+    })
   }, [])
 
   // Unified upload handler for file or URL
@@ -119,6 +130,9 @@ export default function AddTextTool() {
       x: position.x,
       y: position.y
     }))
+    if (selectedLayerIndex >= 0) {
+      setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? { ...layer, x: position.x, y: position.y } : layer))
+    }
   }, [])
 
   // Reset workflow to upload state
@@ -141,10 +155,15 @@ export default function AddTextTool() {
       offsetX: 0,
       offsetY: 0,
       x: 0,
-      y: 0
+      y: 0,
+      maxWidthRatio: 0.95,
+      lineHeight: 1.2,
+      autoFit: true,
     }))
     setStartTime(0)
     setEndTime('')
+    setLayers([])
+    setSelectedLayerIndex(-1)
   }
 
   // Handle final process (API call)
@@ -160,21 +179,37 @@ export default function AddTextTool() {
       } else {
         formData.append('file', sourceFile, sourceFile.name)
       }
-      formData.append('text', textSettings.text)
-      formData.append('font_family', textSettings.fontFamily)
-      formData.append('font_size', textSettings.fontSize.toString())
-      formData.append('color', textSettings.color)
-      formData.append('stroke_color', textSettings.strokeColor)
-      formData.append('stroke_width', textSettings.strokeWidth.toString())
-      formData.append('horizontal_align', textSettings.horizontalAlign)
-      formData.append('vertical_align', textSettings.verticalAlign)
-      formData.append('offset_x', textSettings.offsetX.toString())
-      formData.append('offset_y', textSettings.offsetY.toString())
-  formData.append('start_time', startTime.toString())
-  formData.append('end_time', endTime !== '' ? endTime.toString() : '')
-  formData.append('animation_style', textSettings.animationStyle)
+      // Build layers payload (use existing layers or a single ephemeral layer)
+      const preparedLayers = (layers.length > 0 ? layers : [{ ...textSettings, startTime, endTime }]).map((l, idx) => {
+        const entry = {
+          text: l.text || '',
+          font_family: l.fontFamily || 'Arial',
+          font_size: Number(l.fontSize || 24),
+          color: l.color || '#ffffff',
+          stroke_color: l.strokeColor || '#000000',
+          stroke_width: Number(l.strokeWidth || 0),
+          horizontal_align: l.horizontalAlign || 'center',
+          vertical_align: l.verticalAlign || 'middle',
+          offset_x: Number(l.offsetX || 0),
+          offset_y: Number(l.offsetY || 0),
+          start_time: (l.startTime !== undefined ? l.startTime : startTime) ?? 0,
+          end_time: (l.endTime !== undefined ? l.endTime : endTime) ?? '',
+          animation_style: l.animationStyle || 'none',
+          max_width_ratio: (l.maxWidthRatio ?? 0.95),
+          line_height: (l.lineHeight ?? 1.2),
+          auto_fit: (l.autoFit ?? true)
+        }
+        // Attach font file if provided
+        if (l.customFontFile) {
+          const field = `font_${idx}`
+          formData.append(field, l.customFontFile, l.customFontFile.name)
+          entry.font_field = field
+        }
+        return entry
+      })
+      formData.append('layers', JSON.stringify(preparedLayers))
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-      const response = await fetch(`${apiUrl}/api/add-text`, {
+      const response = await fetch(`${apiUrl}/api/add-text-layers`, {
         method: 'POST',
         body: formData
       })
@@ -229,33 +264,45 @@ export default function AddTextTool() {
     <>
       <ToolPageLayout
         title="Add Text to GIF"
-        description="Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor."
+        description="Add multiple text layers, captions, and watermarks to GIFs online. Customize fonts (including custom uploads), colors, position, timing, and animations. Free online GIF text editor."
         icon={Type}
         seoProps={{
           title: "Add Text to GIF - Overlay Text on GIFs Online | EasyGIFMaker",
-          description: "Add text, captions, and watermarks to GIFs online. Customize font, color, position, and animation. Free online GIF text editor.",
-          keywords: "add text to gif, gif text editor, gif caption, gif watermark, text overlay gif, gif text maker",
+          description: "Add multiple text layers, upload custom fonts, and control per-layer timing and animations. Precise alignment, max-width wrapping, and auto-fit for perfect captions and watermarks.",
+          keywords: "add text to gif, multiple text layers gif, custom fonts gif, gif text editor, gif caption, gif watermark, text overlay gif, animated text gif, line height, max width",
           canonical: "https://easygifmaker.com/add-text"
         }}
       >
         <HowToUseSection
-          title="How to Use the Text Editor"
+          title="How to Use the Layered Text Editor"
           steps={[
             {
               title: "Upload your GIF",
-              description: "Select a GIF file or enter a GIF URL to add text overlay."
+              description: "Select a GIF file or paste a direct GIF URL. We'll fetch duration and frame count automatically."
             },
             {
-              title: "Add and customize text",
-              description: "Enter your text and customize font, color, size, and position."
+              title: "Add a text layer",
+              description: "Adjust the text, font family, size, color, stroke, alignment, and offsets. Click ‘Add Layer’ to save it."
             },
             {
-              title: "Preview and adjust",
-              description: "See your text overlay in real-time and make adjustments."
+              title: "Select and edit layers",
+              description: "Use the layer chips to select a layer and tweak its settings. You can delete a layer anytime."
             },
             {
-              title: "Download and share",
-              description: "Download your GIF with text overlay and share it!"
+              title: "Set timing and effects",
+              description: "Use the timing slider to choose when a layer appears/disappears. Pick an animation (none, fade, slide up)."
+            },
+            {
+              title: "Fine-tune layout",
+              description: "Use Max Text Width, Line Height, and Auto-Fit to wrap multi-line captions neatly—even on small GIFs."
+            },
+            {
+              title: "Optional: custom fonts",
+              description: "Upload a .ttf or .otf to apply a custom font to the selected layer. We'll fall back gracefully if it’s unsupported."
+            },
+            {
+              title: "Preview and export",
+              description: "Preview changes live. When happy, click ‘Add Text to GIF’ to render all layers into your final GIF."
             }
           ]}
         />
@@ -294,16 +341,62 @@ export default function AddTextTool() {
                       <div className="text-center">
                         <InteractiveCanvas
                           imageUrl={mediaUrl}
-                          text={textSettings.text}
-                          textSettings={textSettings}
+                          textLayers={(layers && layers.length > 0) ? layers : [{ ...textSettings }]}
                           onTextPositionChange={handleTextPositionChange}
                         />
                       </div>
                     </div>
+                    {/* Simple Layers Manager */}
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-semibold text-gray-800 dark:text-white">Text Layers</span>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              const newLayer = {
+                                ...textSettings,
+                                startTime,
+                                endTime,
+                              }
+                              setLayers(prev => [...prev, newLayer])
+                              setSelectedLayerIndex(layers.length)
+                            }}
+                          >Add Layer</Button>
+                          {selectedLayerIndex >= 0 && (
+                            <Button
+                              variant="destructive"
+                              onClick={() => {
+                                setLayers(prev => prev.filter((_, i) => i !== selectedLayerIndex))
+                                setSelectedLayerIndex(-1)
+                              }}
+                            >Delete Selected</Button>
+                          )}
+                        </div>
+                      </div>
+                      {layers.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {layers.map((l, i) => (
+                            <button
+                              key={i}
+                              className={`px-3 py-1 rounded border ${i === selectedLayerIndex ? 'bg-blue-600 text-white' : 'bg-white text-gray-800'}`}
+                              onClick={() => {
+                                setSelectedLayerIndex(i)
+                                setTextSettings({ ...l })
+                                setStartTime(l.startTime ?? 0)
+                                setEndTime(l.endTime ?? '')
+                              }}
+                            >{(l.text || 'Layer').slice(0, 16) || 'Layer'}{l.text && l.text.length > 16 ? '…' : ''}</button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-sm text-gray-600">No layers yet. Use "Add Layer" to create one from current settings.</div>
+                      )}
+                    </div>
                     {/* Start/End Time Controls with Slider */}
                     <div className="mb-4">
                       <div className="mb-2 flex justify-between items-center">
-                        <span className="font-semibold text-gray-800 dark:text-white">Text Timing</span>
+                        <span className="font-semibold text-gray-800 dark:text-white">Layer Timing</span>
                         <span className="text-xs text-gray-500 dark:text-gray-300">GIF duration: {gifDuration.toFixed(2)}s, {gifFrameCount} frames</span>
                       </div>
                       <Slider.Root
@@ -313,8 +406,13 @@ export default function AddTextTool() {
                         step={0.01}
                         value={[Number(startTime), Number(endTime) || gifDuration]}
                         onValueChange={([start, end]) => {
-                          setStartTime(Number(start))
-                          setEndTime(Number(end))
+                          const s = Number(start)
+                          const e = Number(end)
+                          setStartTime(s)
+                          setEndTime(e)
+                          if (selectedLayerIndex >= 0) {
+                            setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? { ...layer, startTime: s, endTime: e } : layer))
+                          }
                         }}
                         minStepsBetweenThumbs={1}
                         aria-label="Text timing range"
@@ -347,7 +445,13 @@ export default function AddTextTool() {
                             min={startTime}
                             max={gifDuration}
                             value={endTime}
-                            onChange={e => setEndTime(Math.max(Number(startTime), Math.min(Number(e.target.value), gifDuration)))}
+                            onChange={e => {
+                              const val = Math.max(Number(startTime), Math.min(Number(e.target.value), gifDuration))
+                              setEndTime(val)
+                              if (selectedLayerIndex >= 0) {
+                                setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? { ...layer, endTime: val } : layer))
+                              }
+                            }}
                             className="w-full bg-white/90 rounded-lg px-3 py-2 text-base border border-gray-300"
                             placeholder="(leave blank for end of GIF)"
                           />
@@ -418,22 +522,23 @@ export default function AddTextTool() {
         <ToolSeoSection
           icon={Type}
           title="Add Text to GIF"
-          description1="Transform your GIFs with custom text overlays using our powerful online editor. Whether you're adding captions, watermarks, or creative text effects, our tool makes it easy to enhance your GIFs with professional-looking text that stands out."
-          description2="Our intuitive interface lets you customize font, color, size, position, and animation effects. Perfect for content creators, marketers, and anyone who wants to add context, branding, or creative flair to their GIFs."
+          description1="Transform your GIFs with layered text overlays. Add multiple captions, watermarks, and callouts with per-layer timing and animation."
+          description2="Customize fonts (including uploads), colors, sizes, alignment, and wrapping. Fine-tune line height, max text width, and auto-fit for crisp, readable captions."
           features1={[
-            { emoji: "✏️", text: "Custom font selection and text styling" },
-            { emoji: "🎨", text: "Color customization and effects" },
-            { emoji: "📍", text: "Precise positioning and alignment" }
+            { emoji: "🧩", text: "Multiple text layers with per-layer settings" },
+            { emoji: "🔤", text: "Custom fonts (.ttf/.otf) per layer" },
+            { emoji: "🎞️", text: "Per-layer timing and simple animations" }
           ]}
           features2={[
+            { emoji: "📐", text: "Max width wrapping, line height, and auto-fit" },
             { emoji: "⚡", text: "Real-time preview and editing" },
             { emoji: "💎", text: "High-quality output preservation" }
           ]}
           useCases={[
             { color: "bg-yellow-400", text: "Add captions and subtitles to GIFs" },
-            { color: "bg-green-400", text: "Create branded watermarks for business" },
+            { color: "bg-green-400", text: "Create branded watermarks with custom fonts" },
             { color: "bg-blue-400", text: "Add funny text and memes to GIFs" },
-            { color: "bg-purple-400", text: "Create promotional content with text" }
+            { color: "bg-purple-400", text: "Create promotional content with layered callouts" }
           ]}
         />
           
@@ -441,19 +546,19 @@ export default function AddTextTool() {
           proTips={[
             {
               color: "bg-blue-500",
-              text: "Use high contrast colors (white text on dark backgrounds or vice versa) for better readability."
+              text: "Use Max Text Width and Line Height for readable multi-line captions. Keep Auto-Fit on for smaller GIFs."
             },
             {
               color: "bg-green-500",
-              text: "Keep text concise and impactful - shorter messages are more memorable and readable."
+              text: "Prefer short, punchy lines. Multiple short layers often read better than one long paragraph."
             },
             {
               color: "bg-purple-500",
-              text: "Position text away from busy areas of the GIF to avoid visual clutter."
+              text: "Use alignment + offsets to avoid busy regions. Center alignment works well for captions."
             },
             {
               color: "bg-orange-500",
-              text: "Preview your text overlay to ensure it's visible throughout the entire animation."
+              text: "Stagger layer timing for storytelling. Simple animations (fade/slide) add polish without distraction."
             }
           ]}
           faqs={[
@@ -463,7 +568,11 @@ export default function AddTextTool() {
             },
             {
               question: "Can I add multiple text elements?",
-              answer: "Currently supports single text overlay per GIF."
+              answer: "Yes. Add multiple text layers, each with its own font, styling, position, timing, and animation."
+            },
+            {
+              question: "Can I upload custom fonts?",
+              answer: "Yes. Upload .ttf or .otf for a layer. If a font can’t be loaded, we’ll fall back to a safe font to keep text legible."
             },
             {
               question: "Will the text quality be preserved?",
@@ -471,7 +580,11 @@ export default function AddTextTool() {
             },
             {
               question: "Is there a text length limit?",
-              answer: "Recommended to keep text under 50 characters for best results."
+              answer: "No hard limit. For readability, keep lines short and use wrapping with Max Text Width and Line Height."
+            },
+            {
+              question: "Why isn’t my layer visible?",
+              answer: "Check timing (start/end), color contrast, and alignment/offsets. Also ensure the animation isn’t mid-fade at that moment."
             }
           ]}
           relatedResources={[
@@ -488,15 +601,102 @@ export default function AddTextTool() {
           ]}
         />
 
+        {/* AI Usage Section */}
+        <Card className="mt-10 bg-gradient-to-br from-white to-emerald-50/40 shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-xl font-bold text-gray-800 dark:text-white">Use via AI API</CardTitle>
+            <CardDescription className="text-gray-600 dark:text-gray-200">
+              Programmatically add layered text to a GIF using our JSON API. Returns a task ID you can poll until the result is ready.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <div>
+                <div className="font-semibold mb-1">Endpoint</div>
+                <div className="text-sm font-mono bg-black/80 text-green-200 rounded-md p-3 overflow-x-auto">
+                  POST /api/ai/add-text (Content-Type: application/json)
+                </div>
+              </div>
+              <div>
+                <div className="font-semibold mb-1">Minimal JSON</div>
+                <pre className="text-xs md:text-sm bg-gray-900 text-gray-100 rounded-md p-3 overflow-x-auto">
+{`{
+  "url": "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
+  "layers": [
+    {
+      "text": "Hello World",
+      "font_family": "Arial",
+      "font_size": 28,
+      "color": "#ffffff",
+      "stroke_color": "#000000",
+      "stroke_width": 2,
+      "horizontal_align": "center",
+      "vertical_align": "bottom",
+      "offset_x": 0,
+      "offset_y": -20,
+      "start_time": 0,
+      "end_time": 2.5,
+      "animation_style": "fade",
+      "max_width_ratio": 0.9,
+      "line_height": 1.2,
+      "auto_fit": true
+    }
+  ]
+}`}
+                </pre>
+              </div>
+              <div>
+                <div className="font-semibold mb-1">Quick curl</div>
+                <pre className="text-xs md:text-sm bg-gray-900 text-gray-100 rounded-md p-3 overflow-x-auto">
+{`curl -sS -X POST https://api.easygifmaker.com/api/ai/add-text \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
+    "layers": [{
+      "text": "Hello World",
+      "font_family": "Arial",
+      "font_size": 28,
+      "color": "#ffffff",
+      "stroke_color": "#000000",
+      "stroke_width": 2,
+      "horizontal_align": "center",
+      "vertical_align": "bottom",
+      "offset_x": 0,
+      "offset_y": -20,
+      "start_time": 0,
+      "end_time": 2.5,
+      "animation_style": "fade",
+      "max_width_ratio": 0.9,
+      "line_height": 1.2,
+      "auto_fit": true
+    }] 
+  }'`}
+                </pre>
+              </div>
+              <div className="text-sm text-gray-700 dark:text-gray-200">
+                <div className="font-semibold mb-1">Flow</div>
+                <ol className="list-decimal list-inside space-y-1">
+                  <li>POST to <span className="font-mono">/api/ai/add-text</span> → get <span className="font-mono">task_id</span>.</li>
+                  <li>Poll <span className="font-mono">/api/task-status/&lt;task_id&gt;</span> until state is SUCCESS.</li>
+                  <li>Download from <span className="font-mono">/api/download/&lt;result&gt;</span>.</li>
+                </ol>
+                <div className="mt-2">
+                  See the OpenAPI spec at <a className="text-blue-600 hover:underline" href="/openapi.yaml">/openapi.yaml</a>.
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <TroubleshootingSection 
           commonIssues={[
             {
               color: "bg-yellow-500",
-              text: "If text isn't visible, try changing the color or adding a background."
+              text: "If a layer isn’t visible, verify its timing range, color contrast, and alignment/offsets."
             },
             {
               color: "bg-orange-500",
-              text: "If upload fails, check your file format (GIF only) and file size."
+              text: "If upload fails, check your file format (GIF only) and file size. For custom fonts, use .ttf or .otf."
             },
             {
               color: "bg-red-500",
@@ -507,15 +707,15 @@ export default function AddTextTool() {
           quickFixes={[
             {
               icon: "🎨",
-              text: "Use high contrast colors for better visibility"
+              text: "Use high contrast colors and a subtle stroke for clarity"
             },
             {
               icon: "📏",
-              text: "Adjust text size to fit the GIF dimensions"
+              text: "Use Auto-Fit and Max Width to fit within the frame"
             },
             {
               icon: "📍",
-              text: "Position text away from busy areas"
+              text: "Use alignment + offsets to avoid busy areas"
             }
           ]}
         />
