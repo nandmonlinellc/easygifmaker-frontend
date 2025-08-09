@@ -20,14 +20,24 @@ export default function SocialSharingSection({
       shareUrl: (text) => `https://www.instagram.com/?url=${encodeURIComponent(websiteUrl)}&text=${encodeURIComponent(text)}`
     },
     {
-      name: "Twitter",
+      name: "X",
       icon: Twitter,
       emoji: "🐦",
       description: "Great for reactions & memes",
       color: "from-blue-400 to-blue-600",
       hoverColor: "from-blue-500 to-blue-700",
-      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this amazing GIF I made with ${hashtag}! ${websiteUrl}`)}`,
-      shareUrl: (text) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
+      url: `https://x.com/intent/tweet?text=${encodeURIComponent(`Check out this amazing GIF I made with ${hashtag}! ${websiteUrl}`)}`,
+      shareUrl: (text) => `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`
+    },
+    {
+      name: "Reddit",
+      icon: Facebook, // You may want to use a Reddit icon if available
+      emoji: "📝",
+      description: "Share to Reddit communities",
+      color: "from-orange-400 to-red-600",
+      hoverColor: "from-orange-500 to-red-700",
+      url: `https://www.reddit.com/submit?url=${encodeURIComponent(websiteUrl)}&title=${encodeURIComponent('Check out this amazing GIF I made with ' + hashtag)}`,
+      shareUrl: (text) => `https://www.reddit.com/submit?url=${encodeURIComponent(websiteUrl)}&title=${encodeURIComponent(text)}`
     },
     {
       name: "Facebook",

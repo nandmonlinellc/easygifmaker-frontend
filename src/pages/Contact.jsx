@@ -19,14 +19,18 @@ export default function Contact() {
             <span className="font-semibold text-gray-800 w-20">Email:</span>
             <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline ml-2" aria-label="Email EasyGIFMaker">nandmonlinellc@gmail.com</a>
           </div>
+          <div className="flex items-center mb-2">
+            <span className="font-semibold text-gray-800 w-20">X:</span>
+            <a href="https://x.com/NMToolbox" className="text-blue-600 hover:underline ml-2" target="_blank" rel="noopener noreferrer" aria-label="EasyGIFMaker X">@NMToolbox</a>
+          </div>
           <div className="flex items-center">
-            <span className="font-semibold text-gray-800 w-20">Twitter:</span>
-            <a href="https://twitter.com/easygifmaker" className="text-blue-600 hover:underline ml-2" target="_blank" rel="noopener noreferrer" aria-label="EasyGIFMaker Twitter">@easygifmaker</a>
+            <span className="font-semibold text-gray-800 w-20">Reddit:</span>
+            <a href="https://www.reddit.com/user/LegitimateNight2501" className="text-blue-600 hover:underline ml-2" target="_blank" rel="noopener noreferrer" aria-label="EasyGIFMaker Reddit">u/LegitimateNight2501</a>
           </div>
         </section>
         <footer>
           <p className="text-sm text-gray-500">We aim to respond to all inquiries within 2 business days.</p>
-          <p className="text-xs text-gray-400 mt-2">Your information will only be used to respond to your inquiry. See our <a href="/privacy" className="underline text-blue-600">Privacy Policy</a>.</p>
+          <p className="text-xs text-gray-400 mt-2">Your information will only be used to respond to your inquiry. See our <a href="/privacy-policy" className="underline text-blue-600">Privacy Policy</a>.</p>
         </footer>
       </div>
     </main>

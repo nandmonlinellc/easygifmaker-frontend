@@ -129,11 +129,18 @@ export default function Footer() {
               Contact Support
             </a>
             <a
-              href="https://twitter.com/easygifmaker"
+              href="https://x.com/NMToolbox"
               className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
               target="_blank" rel="noopener noreferrer"
             >
-              @easygifmaker
+              @NMToolbox
+            </a>
+            <a
+              href="https://www.reddit.com/user/LegitimateNight2501"
+              className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+              target="_blank" rel="noopener noreferrer"
+            >
+              Reddit
             </a>
           </div>
         </div>

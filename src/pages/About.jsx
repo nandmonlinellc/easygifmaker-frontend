@@ -69,6 +69,10 @@ export default function About() {
           <p className="text-gray-600 mb-6">
             Thousands of creators, marketers, and meme-lovers use EasyGIFMaker every day. Have an idea for a new feature or need help? We'd love to hear from you!
           </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
+            <a href="https://x.com/NMToolbox" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer" aria-label="EasyGIFMaker X">Follow us on X (@NMToolbox)</a>
+            <a href="https://www.reddit.com/user/LegitimateNight2501" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer" aria-label="EasyGIFMaker Reddit">Join us on Reddit (u/LegitimateNight2501)</a>
+          </div>
           <Button asChild size="lg">
             <Link to="/contact" aria-label="Contact Us">Get In Touch</Link>
           </Button>
