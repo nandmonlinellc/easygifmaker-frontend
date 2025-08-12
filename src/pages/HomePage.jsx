@@ -1,7 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Video, Image, RotateCw, Crop, Zap, Type, ArrowRight, Upload, Edit3, Download, Shield, Sparkles } from 'lucide-react';
+import { Video, Image, RotateCw, Crop, Zap, Type, ArrowRight, Upload, Edit3, Download, Shield, Heart, CheckCircle } from 'lucide-react';
+import FeatureCard from '@/components/FeatureCard.jsx';
+import TestimonialSection from '@/components/TestimonialSection.jsx';
 import { MobileOptimizedImage, PreloadCriticalImages } from '../components/MobileImageOptimizer';
 
 export default function HomePage() {
@@ -40,24 +43,20 @@ export default function HomePage() {
 
   return (
     <>
+      <Meta
+        title="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free"
+        description="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. No registration required."
+        keywords="gif maker, gif, free gif maker, online gif maker, gif creator, video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, gif editor, create gif from video, animated gif maker, convert mp4 to gif, gif maker app, make a gif from photos, make your own gif, high quality gif maker, gifs on iphone, create your own gif, create gif from images, gif converter, free gif maker app, gif creator online, custom gif, create a gif from pictures, make my own gif, gif builder, video to animated gif, gif kiss, video to gif high quality"
+        url="/"
+        image="https://easygifmaker.com/og-image.png"
+        imageAlt="EasyGIFMaker"
+      />
       <Helmet>
-        <title>EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free</title>
-        <meta name="description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. No registration required." />
-        <meta name="keywords" content="gif maker, gif, free gif maker, online gif maker, gif creator, video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, gif editor, create gif from video, animated gif maker, convert mp4 to gif, gif maker app, make a gif from photos, make your own gif, high quality gif maker, gifs on iphone, create your own gif, create gif from images, gif converter, free gif maker app, gif creator online, custom gif, create a gif from pictures, make my own gif, gif builder, video to animated gif, gif kiss, video to gif high quality" />
-        <meta property="og:title" content="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free" />
-        <meta property="og:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://easygifmaker.com" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free" />
-        <meta name="twitter:description" content="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more." />
-        <link rel="canonical" href="https://easygifmaker.com" />
-        
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify(homepageStructuredData)}
         </script>
-        
         {/* Critical CSS for mobile */}
         <style dangerouslySetInnerHTML={{
           __html: `
@@ -98,54 +97,71 @@ export default function HomePage() {
         <section className="py-12 md:py-16 container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-blue-700">Our GIF Tools</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <Image className="w-12 h-12 md:w-16 md:h-16 text-blue-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">GIF Maker</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Combine multiple images or video clips to create animated GIFs.</p>
-              <Link to="/gif-maker" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition flex items-center gap-2 text-sm">
+            <FeatureCard
+              icon={<Image className="w-12 h-12 md:w-16 md:h-16 text-blue-500" />}
+              title="GIF Maker"
+              description="Combine multiple images or video clips to create animated GIFs."
+              bgColor="bg-blue-50"
+            >
+              <Link to="/gif-maker" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <Video className="w-12 h-12 md:w-16 md:h-16 text-green-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Video to GIF</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Convert any video into a high-quality GIF.</p>
-              <Link to="/video-to-gif" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition flex items-center gap-2 text-sm">
+            </FeatureCard>
+
+            <FeatureCard
+              icon={<Video className="w-12 h-12 md:w-16 md:h-16 text-green-500" />}
+              title="Video to GIF"
+              description="Convert any video into a high-quality GIF."
+              bgColor="bg-green-50"
+            >
+              <Link to="/video-to-gif" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <RotateCw className="w-12 h-12 md:w-16 md:h-16 text-purple-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Resize GIF</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Easily change the dimensions of your GIFs.</p>
-              <Link to="/resize" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-purple-700 text-white rounded-full font-bold shadow hover:bg-purple-800 transition flex items-center gap-2 text-sm">
+            </FeatureCard>
+
+            <FeatureCard
+              icon={<RotateCw className="w-12 h-12 md:w-16 md:h-16 text-purple-500" />}
+              title="Resize GIF"
+              description="Easily change the dimensions of your GIFs."
+              bgColor="bg-purple-50"
+            >
+              <Link to="/resize" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-purple-700 text-white rounded-full font-bold shadow hover:bg-purple-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <Crop className="w-12 h-12 md:w-16 md:h-16 text-orange-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Crop GIF</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Crop your GIFs to focus on what matters.</p>
-              <Link to="/crop" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-orange-700 text-white rounded-full font-bold shadow hover:bg-orange-800 transition flex items-center gap-2 text-sm">
+            </FeatureCard>
+
+            <FeatureCard
+              icon={<Crop className="w-12 h-12 md:w-16 md:h-16 text-orange-500" />}
+              title="Crop GIF"
+              description="Crop your GIFs to focus on what matters."
+              bgColor="bg-orange-50"
+            >
+              <Link to="/crop" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-orange-700 text-white rounded-full font-bold shadow hover:bg-orange-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <Zap className="w-12 h-12 md:w-16 md:h-16 text-yellow-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Optimize GIF</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Reduce GIF file size and compress for faster loading.</p>
-              <Link to="/optimize" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-yellow-700 text-white rounded-full font-bold shadow hover:bg-yellow-800 transition flex items-center gap-2 text-sm">
+            </FeatureCard>
+
+            <FeatureCard
+              icon={<Zap className="w-12 h-12 md:w-16 md:h-16 text-yellow-500" />}
+              title="Optimize GIF"
+              description="Reduce GIF file size and compress for faster loading."
+              bgColor="bg-yellow-50"
+            >
+              <Link to="/optimize" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-yellow-700 text-white rounded-full font-bold shadow hover:bg-yellow-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
-            <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
-              <Type className="w-12 h-12 md:w-16 md:h-16 text-red-500 mb-3 md:mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Add Text to GIF</h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4 text-center">Add custom text, captions, and watermarks to your GIFs.</p>
-              <Link to="/add-text" className="mt-auto px-4 py-2 md:px-6 md:py-2 bg-red-700 text-white rounded-full font-bold shadow hover:bg-red-800 transition flex items-center gap-2 text-sm">
+            </FeatureCard>
+
+            <FeatureCard
+              icon={<Type className="w-12 h-12 md:w-16 md:h-16 text-red-500" />}
+              title="Add Text to GIF"
+              description="Add custom text, captions, and watermarks to your GIFs."
+              bgColor="bg-red-50"
+            >
+              <Link to="/add-text" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-red-700 text-white rounded-full font-bold shadow hover:bg-red-800 transition text-sm">
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
-            </div>
+            </FeatureCard>
           </div>
         </section>
 
@@ -181,43 +197,36 @@ export default function HomePage() {
         <section className="py-12 md:py-16 container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-blue-700">Why Choose EasyGIFMaker?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            <div className="text-center">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                <svg className="w-6 h-6 md:w-8 md:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-base md:text-lg font-semibold mb-2">Lightning Fast</h3>
-              <p className="text-sm md:text-base text-gray-600">Process your GIFs in seconds with our optimized algorithms.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                <svg className="w-6 h-6 md:w-8 md:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-base md:text-lg font-semibold mb-2">100% Private</h3>
-              <p className="text-sm md:text-base text-gray-600">Your files are processed locally and never uploaded to our servers.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                <svg className="w-6 h-6 md:w-8 md:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-base md:text-lg font-semibold mb-2">Free Forever</h3>
-              <p className="text-sm md:text-base text-gray-600">No watermarks, no registration, no hidden fees.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                <svg className="w-6 h-6 md:w-8 md:h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-base md:text-lg font-semibold mb-2">High Quality</h3>
-              <p className="text-sm md:text-base text-gray-600">Get professional-quality GIFs with our advanced optimization.</p>
-            </div>
+            <FeatureCard
+              icon={<Zap className="w-8 h-8 md:w-10 md:h-10 text-blue-600" />}
+              title="Lightning Fast"
+              description="Process your GIFs in seconds with our optimized algorithms."
+              bgColor="bg-blue-100"
+            />
+            <FeatureCard
+              icon={<Shield className="w-8 h-8 md:w-10 md:h-10 text-green-600" />}
+              title="100% Private"
+              description="Your files are processed locally and never uploaded to our servers."
+              bgColor="bg-green-100"
+            />
+            <FeatureCard
+              icon={<Heart className="w-8 h-8 md:w-10 md:h-10 text-purple-600" />}
+              title="Free Forever"
+              description="No watermarks, no registration, no hidden fees."
+              bgColor="bg-purple-100"
+            />
+            <FeatureCard
+              icon={<CheckCircle className="w-8 h-8 md:w-10 md:h-10 text-yellow-600" />}
+              title="High Quality"
+              description="Get professional-quality GIFs with our advanced optimization."
+              bgColor="bg-yellow-100"
+            />
           </div>
+        </section>
+
+        {/* Social Proof */}
+        <section className="container mx-auto px-4">
+          <TestimonialSection />
         </section>
 
         {/* Blog Section - Mobile Optimized */}

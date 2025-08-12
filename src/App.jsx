@@ -21,6 +21,15 @@ const HowToMakeGifsFromVideos = lazy(() => import('./pages/blog/HowToMakeGifsFro
 const Top5GifOptimizationTips = lazy(() => import('./pages/blog/Top5GifOptimizationTips'))
 const AddTextToGifsGuide = lazy(() => import('./pages/blog/AddTextToGifsGuide'))
 const UltimateGuideToViralGifs = lazy(() => import('./pages/blog/UltimateGuideToViralGifs'))
+const ComprehensiveGifMakingGuide = lazy(() => import('./pages/blog/ComprehensiveGifMakingGuide'))
+const CreativeGifDesignTutorial = lazy(() => import('./pages/blog/CreativeGifDesignTutorial'))
+const GifAccessibilityGuide = lazy(() => import('./pages/blog/GifAccessibilityGuide'))
+const GifForBusinessMarketing = lazy(() => import('./pages/blog/GifForBusinessMarketing'))
+const GifOptimizationTechniques = lazy(() => import('./pages/blog/GifOptimizationTechniques'))
+const SocialMediaGifStrategy = lazy(() => import('./pages/blog/SocialMediaGifStrategy'))
+const MasterTheArtofAddingTextToGIFs = lazy(() => import('./pages/blog/MasterTheArtofAddingTextToGIFs'))
+const ProfessionalGIFCroppingandCompositionGuide = lazy(() => import('./pages/blog/ProfessionalGIFCroppingandCompositionGuide'))
+const CompleteGuideToResizeGif = lazy(() => import('./pages/blog/CompleteGuideToResizeGif'))
 const GifMakerTool = lazy(() => import('./tools/GifMakerTool'))
 const VideoToGifTool = lazy(() => import('./tools/VideoToGifTool'))
 const ResizeTool = lazy(() => import('./tools/ResizeTool'))
@@ -47,6 +56,15 @@ function App() {
               <Route path="blog/top-5-gif-optimization-tips" element={<Top5GifOptimizationTips />} />
               <Route path="blog/add-text-to-gifs-guide" element={<AddTextToGifsGuide />} />
               <Route path="blog/ultimate-guide-to-viral-gifs" element={<UltimateGuideToViralGifs />} />
+              <Route path="blog/comprehensive-gif-making-guide" element={<ComprehensiveGifMakingGuide />} />
+              <Route path="blog/creative-gif-design-tutorial" element={<CreativeGifDesignTutorial />} />
+              <Route path="blog/gif-accessibility-guide" element={<GifAccessibilityGuide />} />
+              <Route path="blog/gif-for-business-marketing" element={<GifForBusinessMarketing />} />
+              <Route path="blog/gif-optimization-techniques" element={<GifOptimizationTechniques />} />
+              <Route path="blog/social-media-gif-strategy" element={<SocialMediaGifStrategy />} />
+              <Route path="blog/master-the-art-of-adding-text-to-gifs" element={<MasterTheArtofAddingTextToGIFs />} />
+              <Route path="blog/professional-gif-cropping-and-composition-guide" element={<ProfessionalGIFCroppingandCompositionGuide />} />
+              <Route path="blog/complete-guide-to-resize-gif" element={<CompleteGuideToResizeGif />} />
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
               <Route path="cookie-policy" element={<CookiePolicy />} />

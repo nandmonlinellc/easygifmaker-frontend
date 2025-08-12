@@ -16,8 +16,10 @@ import HowToUseSection from '../components/HowToUseSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 export default function AddTextTool() {
+  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001'
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
   const [uploadMethod, setUploadMethod] = useState('file')
   const [sourceFile, setSourceFile] = useState(null) // To hold the original file
@@ -274,40 +276,30 @@ export default function AddTextTool() {
         }}
       >
         <HowToUseSection
-          title="How to Use the Layered Text Editor"
+          title="How to Add Text to GIFs"
           steps={[
             {
               title: "Upload your GIF",
-              description: "Select a GIF file or paste a direct GIF URL. We'll fetch duration and frame count automatically."
+              description: "Select a GIF file or enter a GIF URL to add text to."
             },
             {
-              title: "Add a text layer",
-              description: "Adjust the text, font family, size, color, stroke, alignment, and offsets. Click ‘Add Layer’ to save it."
+              title: "Customize text properties",
+              description: "Set font, size, color, position, and animation effects."
             },
             {
-              title: "Select and edit layers",
-              description: "Use the layer chips to select a layer and tweak its settings. You can delete a layer anytime."
+              title: "Position text precisely",
+              description: "Use the interactive canvas to position your text perfectly."
             },
             {
-              title: "Set timing and effects",
-              description: "Use the timing slider to choose when a layer appears/disappears. Pick an animation (none, fade, slide up)."
-            },
-            {
-              title: "Fine-tune layout",
-              description: "Use Max Text Width, Line Height, and Auto-Fit to wrap multi-line captions neatly—even on small GIFs."
-            },
-            {
-              title: "Optional: custom fonts",
-              description: "Upload a .ttf or .otf to apply a custom font to the selected layer. We'll fall back gracefully if it’s unsupported."
-            },
-            {
-              title: "Preview and export",
-              description: "Preview changes live. When happy, click ‘Add Text to GIF’ to render all layers into your final GIF."
+              title: "Download your enhanced GIF",
+              description: "Get your GIF with professional text overlay!"
             }
           ]}
         />
 
-          {/* Upload State */}
+  {/* Value content moved to end of page */}
+
+         {/* Upload State */}
           {workflowState === 'upload' && (
             <UploadState
               title="Upload GIF"
@@ -601,93 +593,6 @@ export default function AddTextTool() {
           ]}
         />
 
-        {/* AI Usage Section */}
-        <Card className="mt-10 bg-gradient-to-br from-white to-emerald-50/40 shadow-lg">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-xl font-bold text-gray-800 dark:text-white">Use via AI API</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-200">
-              Programmatically add layered text to a GIF using our JSON API. Returns a task ID you can poll until the result is ready.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4">
-              <div>
-                <div className="font-semibold mb-1">Endpoint</div>
-                <div className="text-sm font-mono bg-black/80 text-green-200 rounded-md p-3 overflow-x-auto">
-                  POST /api/ai/add-text (Content-Type: application/json)
-                </div>
-              </div>
-              <div>
-                <div className="font-semibold mb-1">Minimal JSON</div>
-                <pre className="text-xs md:text-sm bg-gray-900 text-gray-100 rounded-md p-3 overflow-x-auto">
-{`{
-  "url": "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
-  "layers": [
-    {
-      "text": "Hello World",
-      "font_family": "Arial",
-      "font_size": 28,
-      "color": "#ffffff",
-      "stroke_color": "#000000",
-      "stroke_width": 2,
-      "horizontal_align": "center",
-      "vertical_align": "bottom",
-      "offset_x": 0,
-      "offset_y": -20,
-      "start_time": 0,
-      "end_time": 2.5,
-      "animation_style": "fade",
-      "max_width_ratio": 0.9,
-      "line_height": 1.2,
-      "auto_fit": true
-    }
-  ]
-}`}
-                </pre>
-              </div>
-              <div>
-                <div className="font-semibold mb-1">Quick curl</div>
-                <pre className="text-xs md:text-sm bg-gray-900 text-gray-100 rounded-md p-3 overflow-x-auto">
-{`curl -sS -X POST https://api.easygifmaker.com/api/ai/add-text \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "url": "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
-    "layers": [{
-      "text": "Hello World",
-      "font_family": "Arial",
-      "font_size": 28,
-      "color": "#ffffff",
-      "stroke_color": "#000000",
-      "stroke_width": 2,
-      "horizontal_align": "center",
-      "vertical_align": "bottom",
-      "offset_x": 0,
-      "offset_y": -20,
-      "start_time": 0,
-      "end_time": 2.5,
-      "animation_style": "fade",
-      "max_width_ratio": 0.9,
-      "line_height": 1.2,
-      "auto_fit": true
-    }] 
-  }'`}
-                </pre>
-              </div>
-              <div className="text-sm text-gray-700 dark:text-gray-200">
-                <div className="font-semibold mb-1">Flow</div>
-                <ol className="list-decimal list-inside space-y-1">
-                  <li>POST to <span className="font-mono">/api/ai/add-text</span> → get <span className="font-mono">task_id</span>.</li>
-                  <li>Poll <span className="font-mono">/api/task-status/&lt;task_id&gt;</span> until state is SUCCESS.</li>
-                  <li>Download from <span className="font-mono">/api/download/&lt;result&gt;</span>.</li>
-                </ol>
-                <div className="mt-2">
-                  See the OpenAPI spec at <a className="text-blue-600 hover:underline" href="/openapi.yaml">/openapi.yaml</a>.
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         <TroubleshootingSection 
           commonIssues={[
             {
@@ -723,6 +628,20 @@ export default function AddTextTool() {
         <SocialSharingSection 
           title="Share Your GIF!"
           description="Share your new GIF with text on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+        />
+
+        {/* Value Content Section (moved to end) */}
+        <ValueContentSection
+          toolTitle="Add Text to GIF"
+          relatedLinks={[
+            { href: '/blog/master-the-art-of-adding-text-to-gifs', label: 'Master the Art of Adding Text to GIFs' },
+            { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
+          ]}
+          altTools={[
+            { href: '/gif-maker', label: 'GIF Maker', desc: 'Create GIFs from images or short clips.' },
+            { href: '/resize', label: 'Resize GIF', desc: 'Make your GIF fit any platform.' },
+            { href: '/optimize', label: 'Optimize GIF', desc: 'Reduce size for faster sharing.' }
+          ]}
         />
       </ToolPageLayout>
     </>

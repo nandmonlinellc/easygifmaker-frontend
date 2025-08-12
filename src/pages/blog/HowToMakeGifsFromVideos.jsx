@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
 
 export default function HowToMakeGifsFromVideos() {
@@ -22,7 +23,7 @@ export default function HowToMakeGifsFromVideos() {
     "dateModified": "2025-07-14",
     "url": "https://easygifmaker.com/blog/how-to-make-gifs-from-videos",
     "image": [
-      "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.png"
+      "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.webp"
     ],
     "keywords": "GIF Maker, Video to GIF, Tutorial, How to make GIFs"
   };
@@ -55,11 +56,15 @@ export default function HowToMakeGifsFromVideos() {
 
   return (
     <>
+      <Meta
+        title="How to Make GIFs from Videos Instantly"
+        description="Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments."
+        url="/blog/how-to-make-gifs-from-videos"
+        image="https://easygifmaker.com/blog/how-to-make-gifs-from-videos.webp"
+        imageAlt="How to Make GIFs from Videos"
+      />
       <Helmet>
-        <title>How to Make GIFs from Videos Instantly | EasyGIFMaker Blog</title>
-        <meta name="description" content="Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments." />
-        <link rel="canonical" href="https://easygifmaker.com/blog/how-to-make-gifs-from-videos" />
-        
+        <meta property="og:type" content="article" />
         {/* Structured Data - Article */}
         <script type="application/ld+json">
           {JSON.stringify(articleStructuredData)}
@@ -69,29 +74,57 @@ export default function HowToMakeGifsFromVideos() {
         <script type="application/ld+json">
           {JSON.stringify(howToStructuredData)}
         </script>
+        {/* Structured Data - Breadcrumbs */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://easygifmaker.com/"},
+              {"@type":"ListItem","position":2,"name":"Blog","item":"https://easygifmaker.com/blog"},
+              {"@type":"ListItem","position":3,"name":"How to Make GIFs from Videos Instantly","item":"https://easygifmaker.com/blog/how-to-make-gifs-from-videos"}
+            ]
+          })}
+        </script>
+        {/* Structured Data - FAQ (derived from on-page FAQ) */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {"@type":"Question","name":"How long can my GIF be?","acceptedAnswer":{"@type":"Answer","text":"We recommend keeping GIFs under 10 seconds for optimal performance and file size. Most successful GIFs are 2–6 seconds."}},
+              {"@type":"Question","name":"What's the maximum file size for uploads?","acceptedAnswer":{"@type":"Answer","text":"We support video files up to 100MB. For larger files, trim the video before uploading or use a public video URL."}},
+              {"@type":"Question","name":"Can I convert YouTube videos to GIFs?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste the YouTube URL into the tool. Ensure you have rights to use the content and respect copyright laws."}},
+              {"@type":"Question","name":"How do I make my GIFs load faster?","acceptedAnswer":{"@type":"Answer","text":"Reduce file size using our optimizer, choose lower frame rates (10–15fps), smaller dimensions, and keep clips short."}},
+              {"@type":"Question","name":"Are my videos stored on your servers?","acceptedAnswer":{"@type":"Answer","text":"No. Uploads are processed and automatically deleted after conversion for privacy and security."}}
+            ]
+          })}
+        </script>
       </Helmet>
-      <script type="application/ld+json">{JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "How to Make GIFs from Videos Instantly",
-        "description": "Step-by-step guide to convert videos into GIFs using EasyGIFMaker. Learn the easiest way to create GIFs from your favorite video moments.",
-        "author": {
-          "@type": "Organization",
-          "name": "EasyGIFMaker Team"
-        },
-        "datePublished": "2025-07-14",
-        "image": [
-          "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.png"
-        ],
-        "url": "https://easygifmaker.com/blog/how-to-make-gifs-from-videos",
-        "keywords": "GIF Maker, Video to GIF, Tutorial"
-      })}</script>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <nav className="mb-6 text-sm text-blue-700">
           <Link to="/blog" className="hover:underline">← Back to Blog</Link>
         </nav>
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">How to Make GIFs from Videos Instantly: Complete Guide</h1>
         <p className="text-gray-700 mb-6">Published on July 14, 2025 by EasyGIFMaker Team</p>
+        <picture>
+          <source srcSet="/blog/how-to-make-gifs-from-videos.webp" type="image/webp" />
+          <img src="/blog/how-to-make-gifs-from-videos.svg" alt="How to Make GIFs from Videos" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
+        </picture>
+        {/* Table of Contents */}
+        <aside className="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-8">
+          <h2 className="text-xl font-bold text-blue-700 mb-2">On this page</h2>
+          <ul className="list-disc pl-6 text-blue-900 text-sm grid md:grid-cols-2 gap-x-6">
+            <li><a href="#what-are-gifs" className="underline">What are GIFs and why popular</a></li>
+            <li><a href="#formats" className="underline">Formats and compatibility</a></li>
+            <li><a href="#steps" className="underline">Step-by-step conversion</a></li>
+            <li><a href="#advanced-tips" className="underline">Advanced techniques & tips</a></li>
+            <li><a href="#integrations" className="underline">Use with other tools</a></li>
+            <li><a href="#best-practices" className="underline">Best practices</a></li>
+            <li><a href="#why-easygifmaker" className="underline">Why EasyGIFMaker</a></li>
+            <li><a href="#faq" className="underline">FAQ</a></li>
+          </ul>
+        </aside>
         
         <article className="prose prose-blue max-w-none mb-8">
           <p className="text-lg text-gray-700 mb-8">
@@ -102,7 +135,7 @@ export default function HowToMakeGifsFromVideos() {
             In this comprehensive guide, we'll walk you through everything you need to know about converting videos to GIFs using EasyGIFMaker. From basic techniques to advanced optimization strategies, you'll learn how to create professional-quality GIFs that load fast and look great on any platform.
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">What Are GIFs and Why Are They So Popular?</h2>
+          <h2 id="what-are-gifs" className="text-3xl font-bold text-blue-700 mt-12 mb-6">What Are GIFs and Why Are They So Popular?</h2>
           
           <p>
             GIF (Graphics Interchange Format) files are image files that support both static and animated images. Unlike video files, GIFs are:
@@ -120,7 +153,7 @@ export default function HowToMakeGifsFromVideos() {
             The popularity of GIFs has exploded in recent years, with platforms like Twitter, Discord, Slack, and WhatsApp all supporting GIF sharing. They're perfect for reactions, tutorials, product demonstrations, and capturing those perfect moments that deserve to be shared.
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Understanding Video Formats and Compatibility</h2>
+          <h2 id="formats" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Understanding Video Formats and Compatibility</h2>
           
           <p className="mb-4">
             Before we dive into the conversion process, it's important to understand which video formats work best for GIF creation:
@@ -157,7 +190,7 @@ export default function HowToMakeGifsFromVideos() {
             <li><strong>Codec:</strong> H.264 and H.265 codecs provide the best compression</li>
           </ul>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Step-by-Step Guide: Converting Videos to GIFs</h2>
+          <h2 id="steps" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Step-by-Step Guide: Converting Videos to GIFs</h2>
 
           <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Step 1: Access the Video to GIF Tool</h3>
           
@@ -231,7 +264,7 @@ export default function HowToMakeGifsFromVideos() {
           </p>
           
           <div className="grid md:grid-cols-2 gap-4 mb-6">
-            <div className="bg-green-50 p-4 rounded-lg">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <h5 className="font-semibold text-green-800 mb-2">Short GIFs (2-4 seconds)</h5>
               <ul className="list-disc pl-6 text-green-900 text-sm">
                 <li>Perfect for reactions and memes</li>
@@ -329,7 +362,7 @@ export default function HowToMakeGifsFromVideos() {
             <li><strong>Embed Code:</strong> Get HTML code to embed the GIF on websites</li>
           </ul>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Advanced Techniques and Pro Tips</h2>
+          <h2 id="advanced-tips" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Advanced Techniques and Pro Tips</h2>
 
           <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Optimizing GIFs for Different Platforms</h3>
           
@@ -404,7 +437,7 @@ export default function HowToMakeGifsFromVideos() {
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Integrating with Other EasyGIFMaker Tools</h2>
+          <h2 id="integrations" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Integrating with Other EasyGIFMaker Tools</h2>
           
           <p className="mb-6">
             Once you've created your GIF, you can enhance it further using our suite of editing tools:
@@ -421,7 +454,7 @@ export default function HowToMakeGifsFromVideos() {
                 <li>Caption overlays</li>
               </ul>
             </div>
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
               <h4 className="font-semibold text-green-800 mb-3">Optimize for Web</h4>
               <p className="text-green-900 text-sm mb-3">Use our <Link to="/optimize" className="text-green-600 underline font-semibold">GIF Optimizer</Link> to reduce file size while maintaining quality.</p>
               <ul className="list-disc pl-6 text-green-900 text-sm">
@@ -456,7 +489,7 @@ export default function HowToMakeGifsFromVideos() {
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Best Practices for Professional GIF Creation</h2>
+          <h2 id="best-practices" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Best Practices for Professional GIF Creation</h2>
 
           <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Content Selection</h3>
           
@@ -485,18 +518,18 @@ export default function HowToMakeGifsFromVideos() {
             <li><strong>Test Audience Reaction:</strong> Share with friends before wide distribution</li>
           </ul>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Why Choose EasyGIFMaker for Video to GIF Conversion?</h2>
+          <h2 id="why-easygifmaker" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Why Choose EasyGIFMaker for Video to GIF Conversion?</h2>
           
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="text-center p-6 bg-blue-50 rounded-lg">
               <h4 className="font-semibold text-blue-800 mb-3">Fast & Free</h4>
               <p className="text-blue-900 text-sm">No registration required. Convert videos to GIFs in seconds with our optimized processing engine.</p>
             </div>
-            <div className="text-center p-6 bg-green-50 rounded-lg">
+            <div className="text-center p-6 bg-green-50 border border-green-200 rounded-lg">
               <h4 className="font-semibold text-green-800 mb-3">Privacy First</h4>
               <p className="text-green-900 text-sm">All uploads are automatically deleted after processing. Your content stays private and secure.</p>
             </div>
-            <div className="text-center p-6 bg-purple-50 rounded-lg">
+            <div className="text-center p-6 bg-purple-50 border border-purple-200 rounded-lg">
               <h4 className="font-semibold text-purple-800 mb-3">All-in-One Suite</h4>
               <p className="text-purple-900 text-sm">Convert, edit, optimize, and enhance your GIFs with our complete toolset.</p>
             </div>
@@ -510,7 +543,7 @@ export default function HowToMakeGifsFromVideos() {
             </Link>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Frequently Asked Questions</h2>
+          <h2 id="faq" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Frequently Asked Questions</h2>
           
           <div className="space-y-6 mb-8">
             <div className="border border-gray-200 rounded-lg p-6">

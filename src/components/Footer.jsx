@@ -128,6 +128,16 @@ export default function Footer() {
             >
               Contact Support
             </a>
+            <button
+              type="button"
+              onClick={() => {
+                const evt = new Event('egm:open-cookie-settings')
+                window.dispatchEvent(evt)
+              }}
+              className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Cookie Settings
+            </button>
             <a
               href="https://x.com/NMToolbox"
               className="text-xs text-blue-600 dark:text-blue-400 hover:underline"

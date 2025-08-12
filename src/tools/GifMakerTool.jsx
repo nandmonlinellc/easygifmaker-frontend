@@ -15,6 +15,7 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 export default function GifMakerTool() {
   // Workflow: upload, preview, processing, result
@@ -641,6 +642,20 @@ export default function GifMakerTool() {
         <SocialSharingSection 
           title="Share Your GIF!"
           description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+        />
+
+        {/* Value Content Section (end of page for additional context and internal links) */}
+        <ValueContentSection
+          toolTitle="GIF Maker"
+          relatedLinks={[
+            { href: '/blog/comprehensive-gif-making-guide', label: 'Comprehensive GIF Making Guide' },
+            { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' }
+          ]}
+          altTools={[
+            { href: '/video-to-gif', label: 'Video to GIF', desc: 'Convert video clips into animated GIFs.' },
+            { href: '/optimize', label: 'Optimize GIF', desc: 'Reduce file size without losing quality.' },
+            { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions, watermarks, and callouts.' }
+          ]}
         />
       </ToolPageLayout>
     </>

@@ -1,16 +1,51 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Meta from '../components/Meta';
 
 export default function CookiePolicy() {
   return (
-    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Cookie Policy">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
+    <>
+      <Meta
+        title="Cookie Policy"
+        description="Read the Cookie Policy for EasyGIFMaker. Learn how we use cookies to enhance your experience with our GIF and video editing tools."
+        url="/cookie-policy"
+      />
       <Helmet>
-        <title>Cookie Policy | EasyGIFMaker</title>
-        <meta name="description" content="Read the Cookie Policy for EasyGIFMaker. Learn how we use cookies to enhance your experience with our GIF and video editing tools." />
-        <link rel="canonical" href="https://easygifmaker.com/cookie-policy" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'Cookie Policy',
+          description:
+            'Read the Cookie Policy for EasyGIFMaker. Learn how we use cookies to enhance your experience with our GIF and video editing tools.',
+          url: 'https://easygifmaker.com/cookie-policy',
+          isPartOf: {
+            '@type': 'WebSite',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com',
+          },
+          inLanguage: 'en',
+          dateModified: '2023-10-26',
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Policy',
+          name: 'Cookie Policy',
+          description:
+            'Explains how EasyGIFMaker uses cookies and similar technologies to enhance user experience.',
+          url: 'https://easygifmaker.com/cookie-policy',
+          inLanguage: 'en',
+          dateModified: '2023-10-26',
+          publisher: {
+            '@type': 'Organization',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com',
+          },
+        })}</script>
       </Helmet>
+      <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Cookie Policy">
+        <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
         <header aria-label="Cookie Policy Header">
           <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Cookie Policy</h1>
           <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
@@ -72,7 +107,8 @@ export default function CookiePolicy() {
             <p>If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline">nandmonlinellc@gmail.com</a>.</p>
           </div>
         </section>
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }

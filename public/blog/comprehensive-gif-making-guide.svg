@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">The Complete Guide to GIF Making</title>
+  <desc id="desc">Hero artwork for the Comprehensive GIF Making Guide on EasyGIFMaker with a blue to purple gradient and subtle pattern.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <pattern id="p" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.25)"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="url(#g)"/>
+  <rect width="1200" height="675" fill="url(#p)"/>
+  <g transform="translate(80,160)">
+    <rect x="0" y="0" width="560" height="315" rx="16" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)"/>
+    <rect x="24" y="24" width="240" height="135" rx="10" fill="rgba(255,255,255,0.2)"/>
+    <rect x="288" y="24" width="248" height="30" rx="6" fill="rgba(255,255,255,0.25)"/>
+    <rect x="288" y="72" width="210" height="18" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="288" y="102" width="190" height="18" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="288" y="132" width="160" height="18" rx="5" fill="rgba(255,255,255,0.2)"/>
+  </g>
+  <g transform="translate(700,120)" fill="#FFF">
+    <text x="0" y="0" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="56" font-weight="800">
+      The Complete Guide
+    </text>
+    <text x="0" y="68" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="56" font-weight="800">
+      to GIF Making
+    </text>
+    <text x="0" y="128" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="22" opacity="0.9">
+      Professional techniques, tools, and optimization strategies
+    </text>
+  </g>
+  <g transform="translate(700,260)" fill="#FFF" opacity="0.95">
+    <rect x="0" y="0" width="360" height="12" rx="6"/>
+    <rect x="0" y="24" width="300" height="12" rx="6" opacity="0.9"/>
+    <rect x="0" y="48" width="280" height="12" rx="6" opacity="0.8"/>
+  </g>
+  <text x="80" y="620" fill="rgba(255,255,255,0.9)" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="18">
+    EasyGIFMaker • easygifmaker.com
+  </text>
+</svg>

@@ -1,16 +1,51 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Meta from '../components/Meta';
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Privacy Policy">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
+    <>
+      <Meta
+        title="Privacy Policy"
+        description="Read the Privacy Policy for EasyGIFMaker. Learn how we protect your data and privacy when using our GIF and video editing tools."
+        url="/privacy-policy"
+      />
       <Helmet>
-        <title>Privacy Policy | EasyGIFMaker</title>
-        <meta name="description" content="Read the Privacy Policy for EasyGIFMaker. Learn how we protect your data and privacy when using our GIF and video editing tools." />
-        <link rel="canonical" href="https://easygifmaker.com/privacy-policy" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'Privacy Policy',
+          description:
+            'Read the Privacy Policy for EasyGIFMaker. Learn how we protect your data and privacy when using our GIF and video editing tools.',
+          url: 'https://easygifmaker.com/privacy-policy',
+          isPartOf: {
+            '@type': 'WebSite',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com',
+          },
+          inLanguage: 'en',
+          dateModified: '2023-10-26',
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Policy',
+          name: 'Privacy Policy',
+          description:
+            'Details how EasyGIFMaker protects data and privacy when using our GIF and video editing tools.',
+          url: 'https://easygifmaker.com/privacy-policy',
+          inLanguage: 'en',
+          dateModified: '2023-10-26',
+          publisher: {
+            '@type': 'Organization',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com',
+          },
+        })}</script>
       </Helmet>
+      <main className="min-h-[60vh] bg-gradient-to-b from-blue-50 via-white to-white flex items-center justify-center py-12 px-4" aria-label="Privacy Policy">
+        <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
         <header aria-label="Privacy Policy Header">
           <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-4">Privacy Policy</h1>
           <p className="text-gray-500 mb-6">Last updated: October 26, 2023</p>
@@ -91,7 +126,8 @@ export default function PrivacyPolicy() {
             </ul>
           </div>
         </section>
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }

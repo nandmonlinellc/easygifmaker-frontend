@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import { Lightbulb, HelpCircle, BookOpen } from 'lucide-react'
 
 export default function TipsFaqsBestPracticesSection({ 
@@ -65,8 +66,25 @@ export default function TipsFaqsBestPracticesSection({
   const questions = faqs.length > 0 ? faqs : defaultFaqs
   const resources = relatedResources.length > 0 ? relatedResources : defaultResources
 
+  // Build FAQPage JSON-LD
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(q => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: q.answer
+      }
+    }))
+  }
+
   return (
     <section className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 backdrop-blur-sm rounded-3xl shadow-lg p-8 mb-8">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
+      </Helmet>
       <h2 className="text-2xl font-bold text-black dark:text-white mb-6 flex items-center gap-3 ">
         <span className="text-2xl">💡</span>
         {title}

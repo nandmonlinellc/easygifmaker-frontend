@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
+import CookieConsentBanner from './CookieConsentBanner'
+import { isProd, isConsentGranted, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
 
 export default function Layout() {
+  // Preload AdSense script once consent is granted to avoid FOUC when ad components mount
+  useEffect(() => {
+    if (!isProd()) return
+    let dispose = () => {}
+    const maybeLoad = async () => {
+      if (isConsentGranted()) {
+        try { await loadAdSenseScript('ca-pub-2276892930727265') } catch {}
+      }
+    }
+    maybeLoad()
+    dispose = onConsentChange((status) => {
+      if (status === 'accepted') maybeLoad()
+    })
+    return () => dispose()
+  }, [])
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -11,6 +29,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+  <CookieConsentBanner />
     </div>
   )
 }

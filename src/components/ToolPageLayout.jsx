@@ -44,6 +44,32 @@ const ToolPageLayout = ({
     "step": howToSteps
   } : null;
 
+  // Breadcrumb structured data
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://easygifmaker.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tools",
+        "item": "https://easygifmaker.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": title,
+        "item": seoProps.canonical
+      }
+    ]
+  };
+
   return (
     <>
       <Helmet>
@@ -67,6 +93,8 @@ const ToolPageLayout = ({
         <meta name="twitter:title" content={seoProps.title} />
         <meta name="twitter:description" content={seoProps.description} />
         <meta name="twitter:image" content="https://easygifmaker.com/og-image.png" />
+  <meta name="twitter:site" content="@NMToolbox" />
+  <meta name="twitter:creator" content="@NMToolbox" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -83,12 +111,25 @@ const ToolPageLayout = ({
             {JSON.stringify(howToStructuredData)}
           </script>
         )}
+
+        {/* Structured Data - Breadcrumbs */}
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbStructuredData)}
+        </script>
       </Helmet>
       
       <div className="min-h-[60vh] bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-7xl bg-white/90 rounded-3xl shadow-xl p-8">
           {/* Header Section */}
           <div className="text-center mb-8">
+            {/* Visible Breadcrumb */}
+            <nav aria-label="Breadcrumb" className="text-sm text-blue-700 mb-3">
+              <a href="/" className="hover:underline">Home</a>
+              <span className="mx-2">/</span>
+              <a href="/" className="hover:underline">Tools</a>
+              <span className="mx-2">/</span>
+              <span aria-current="page" className="font-semibold">{title}</span>
+            </nav>
             <div className="flex justify-center items-center gap-4 mb-4">
               <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg">
                 <Icon size={40} className="text-white" />

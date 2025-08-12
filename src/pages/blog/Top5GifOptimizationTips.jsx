@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
 
 export default function Top5GifOptimizationTips() {
@@ -29,14 +30,30 @@ export default function Top5GifOptimizationTips() {
 
   return (
     <>
+      <Meta
+        title="Top 5 GIF Optimization Tips for Better Performance"
+        description="Learn the top 5 GIF optimization tips to improve performance, reduce file size, and enhance quality. Expert advice for creating better GIFs."
+        url="/blog/top-5-gif-optimization-tips"
+        image="https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.webp"
+        imageAlt="Top 5 GIF Optimization Tips"
+      />
       <Helmet>
-        <title>Top 5 GIF Optimization Tips for Better Performance | EasyGIFMaker Blog</title>
-        <meta name="description" content="Learn the top 5 GIF optimization tips to improve performance, reduce file size, and enhance quality. Expert advice for creating better GIFs." />
-        <link rel="canonical" href="https://easygifmaker.com/blog/top-5-gif-optimization-tips" />
-        
+        <meta property="og:type" content="article" />
         {/* Structured Data - Article */}
         <script type="application/ld+json">
           {JSON.stringify(articleStructuredData)}
+        </script>
+        {/* Structured Data - Breadcrumbs */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://easygifmaker.com/"},
+              {"@type":"ListItem","position":2,"name":"Blog","item":"https://easygifmaker.com/blog"},
+              {"@type":"ListItem","position":3,"name":"Top 5 GIF Optimization Tips","item":"https://easygifmaker.com/blog/top-5-gif-optimization-tips"}
+            ]
+          })}
         </script>
       </Helmet>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -48,9 +65,22 @@ export default function Top5GifOptimizationTips() {
         
         <picture>
           <source srcSet="/blog/top-5-gif-optimization-tips-2.webp" type="image/webp" />
-          <img src="/blog/top-5-gif-optimization-tips-2.png" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
+          <img src="/blog/top-5-gif-optimization-tips-2.webp" alt="Optimizing GIFs for Social Media" className="rounded-xl border border-blue-100 shadow mb-8 w-full" width="1200" height="675" />
         </picture>
-        
+        {/* Table of Contents */}
+        <aside className="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-8">
+          <h2 className="text-xl font-bold text-blue-700 mb-2">On this page</h2>
+          <ul className="list-disc pl-6 text-blue-900 text-sm grid md:grid-cols-2 gap-x-6">
+            <li><a href="#why-optimization" className="underline">Why optimization matters</a></li>
+            <li><a href="#tip-1" className="underline">Tip 1: Keep it short</a></li>
+            <li><a href="#tip-2" className="underline">Tip 2: Compress smart</a></li>
+            <li><a href="#tip-3" className="underline">Tip 3: Right dimensions</a></li>
+            <li><a href="#tip-4" className="underline">Tip 4: Color palette</a></li>
+            <li><a href="#tip-5" className="underline">Tip 5: Test before publish</a></li>
+            <li><a href="#bonus" className="underline">Bonus: Text overlays</a></li>
+            <li><a href="#workflow" className="underline">Quick workflow</a></li>
+          </ul>
+        </aside>
         <article className="prose prose-blue max-w-none mb-8">
           <p className="text-lg text-gray-700 mb-8">
             <strong>In the fast-paced world of social media, every second counts.</strong> A well-optimized GIF can make the difference between a viral hit that drives engagement and a slow-loading dud that gets scrolled past. Whether you're a content creator, marketer, or social media manager, understanding how to optimize GIFs for different platforms is crucial for success.
@@ -60,7 +90,7 @@ export default function Top5GifOptimizationTips() {
             In this comprehensive guide, we'll share our top 5 proven strategies for creating GIFs that load fast, look great, and perform well across all social media platforms. From file size optimization to platform-specific best practices, you'll learn everything needed to create professional-quality GIFs that capture attention and drive engagement.
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Why GIF Optimization Matters</h2>
+          <h2 id="why-optimization" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Why GIF Optimization Matters</h2>
           
           <p className="mb-6">
             Before diving into the specific tips, it's important to understand why GIF optimization is crucial for social media success:
@@ -87,7 +117,7 @@ export default function Top5GifOptimizationTips() {
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 1: Keep It Short and Sweet</h2>
+          <h2 id="tip-1" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 1: Keep It Short and Sweet</h2>
           
           <p className="mb-6">
             <strong>Duration is everything when it comes to GIF optimization.</strong> The most effective social media GIFs are typically under 6 seconds, with reaction GIFs often being just 2-3 seconds long. Here's why shorter is better:
@@ -107,7 +137,7 @@ export default function Top5GifOptimizationTips() {
             A shorter duration not only captures attention better but also dramatically reduces file size. Each additional second adds significantly to the file size, which can impact loading times and user experience.
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 2: Reduce File Size with Advanced Compression</h2>
+          <h2 id="tip-2" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 2: Reduce File Size with Advanced Compression</h2>
           
           <p className="mb-6">
             <strong>File size is the single most important factor in GIF optimization.</strong> A smaller file size means faster loading, which is crucial for user experience and platform performance.
@@ -115,7 +145,7 @@ export default function Top5GifOptimizationTips() {
 
           <picture>
             <source srcSet="/blog/top-5-gif-optimization-tips-2.webp" type="image/webp" />
-            <img src="/blog/top-5-gif-optimization-tips-2.png" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" width="1200" height="675" />
+            <img src="/blog/top-5-gif-optimization-tips-2.webp" alt="EasyGIFMaker GIF Optimizer Tool" className="rounded-xl border border-blue-100 shadow my-8 w-full" width="1200" height="675" />
           </picture>
 
           <p className="mb-6">
@@ -143,7 +173,7 @@ export default function Top5GifOptimizationTips() {
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 3: Choose the Right Dimensions for Each Platform</h2>
+          <h2 id="tip-3" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 3: Choose the Right Dimensions for Each Platform</h2>
           
           <p className="mb-6">
             <strong>Different social media platforms have different optimal dimensions.</strong> Creating GIFs with the right dimensions from the start ensures they look great and perform well on each platform.
@@ -188,7 +218,7 @@ export default function Top5GifOptimizationTips() {
             Use our <Link to="/resize" className="text-blue-600 underline font-semibold">Resize Tool</Link> to change dimensions, or our <Link to="/crop" className="text-blue-600 underline font-semibold">Crop Tool</Link> to trim your GIF to the perfect aspect ratio for your target platform.
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 4: Limit the Color Palette Strategically</h2>
+          <h2 id="tip-4" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 4: Limit the Color Palette Strategically</h2>
           
           <p className="mb-6">
             <strong>GIFs are limited to 256 colors, but most don't need that many.</strong> Reducing the color count can significantly decrease file size with minimal visual impact, especially for video-based GIFs.
@@ -208,7 +238,7 @@ export default function Top5GifOptimizationTips() {
             You can adjust this setting in our <Link to="/optimize" className="text-blue-600 underline font-semibold">Optimizer</Link>. The key is finding the sweet spot where file size is minimized without losing the visual impact of your. 
           </p>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 5: Preview and Test Before Publishing</h2>
+          <h2 id="tip-5" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 5: Preview and Test Before Publishing</h2>
           
           <p className="mb-6">
             <strong>Always test your GIFs before sharing them widely.</strong> Different platforms, devices, and browsers can display GIFs differently, so it's crucial to preview your content in real-world conditions.
@@ -237,7 +267,7 @@ export default function Top5GifOptimizationTips() {
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Bonus Tip: Add Context with Text Overlays</h2>
+          <h2 id="bonus" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Bonus Tip: Add Context with Text Overlays</h2>
           
           <p className="mb-6">
             <strong>An optimized GIF is great, but a GIF with context is even better.</strong> Adding text can provide context, turn a clip into a meme, or reinforce your brand message.
@@ -255,7 +285,7 @@ export default function Top5GifOptimizationTips() {
             <li><strong>Increase engagement</strong> through humor or information</li>
           </ul>
 
-          <h2 className="text-3xl font-bold text-blue-700 mt-12 mb-6">Putting It All Together</h2>
+          <h2 id="workflow" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Putting It All Together</h2>
           
           <p className="mb-6">
             By following these five tips, you'll be creating high-quality, fast-loading GIFs that are ready for social media success. Remember that optimization is an iterative process - start with these guidelines and refine based on your specific audience and platform performance.

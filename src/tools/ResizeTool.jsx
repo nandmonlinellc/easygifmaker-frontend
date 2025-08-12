@@ -16,6 +16,7 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 export default function ResizeTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -187,6 +188,8 @@ export default function ResizeTool() {
           }
         ]}
       />
+
+  {/* Value content moved to end of page */}
 
           {/* Upload State */}
           {workflowState === 'upload' && (
@@ -474,6 +477,20 @@ export default function ResizeTool() {
           title="Share Your Resized GIF!"
           description="Share your resized GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
         />
+
+      {/* Value Content Section (moved to end) */}
+      <ValueContentSection
+        toolTitle="GIF Resizer"
+        relatedLinks={[
+          { href: '/blog/complete-guide-to-resize-gif', label: 'Complete Guide to Resize GIF' },
+          { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' }
+        ]}
+        altTools={[
+          { href: '/optimize', label: 'Optimize GIF', desc: 'Compress and reduce GIF size.' },
+          { href: '/crop', label: 'Crop GIF', desc: 'Focus on the important area.' },
+          { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions and watermarks.' }
+        ]}
+      />
       </ToolPageLayout>
     </>
   )

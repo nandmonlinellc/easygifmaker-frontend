@@ -18,6 +18,7 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 export default function CropTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -226,6 +227,9 @@ export default function CropTool() {
             }
           ]}
         />
+
+  {/* Value content moved to end of page */}
+
 
           {/* Upload State */}
           {workflowState === 'upload' && (
@@ -548,6 +552,20 @@ export default function CropTool() {
           <SocialSharingSection 
             title="Share Your Cropped GIF!"
             description="Share your perfectly cropped GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+          />
+
+          {/* Value Content Section (moved to end) */}
+          <ValueContentSection
+            toolTitle="GIF Cropper"
+            relatedLinks={[
+              { href: '/blog/professional-gif-cropping-and-composition-guide', label: 'Professional GIF Cropping and Composition Guide' },
+              { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
+            ]}
+            altTools={[
+              { href: '/resize', label: 'Resize GIF', desc: 'Change dimensions without cropping.' },
+              { href: '/optimize', label: 'Optimize GIF', desc: 'Compress for faster loading.' },
+              { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions and labels.' }
+            ]}
           />
 
         </ToolPageLayout>

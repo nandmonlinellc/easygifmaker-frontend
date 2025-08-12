@@ -17,6 +17,7 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -230,6 +231,8 @@ export default function VideoToGifTool() {
           ]}
         />
 
+  {/* Value content moved to end of page */}
+
           {/* Upload State */}
           {workflowState === 'upload' && (
             <UploadState
@@ -241,7 +244,7 @@ export default function VideoToGifTool() {
               onFileSelect={(files) => handleFileUpload(files)}
               onUrlSubmit={(url) => handleFileUpload(null, url)}
               isProcessing={isProcessing}
-              supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Only direct video file links are accepted. YouTube, Facebook, TikTok, and similar links are not supported."
+              supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Public video URLs (e.g., YouTube) are supported if accessible."
               accept="video/*"
               toolName="Video"
               useGradient={false}
@@ -662,6 +665,21 @@ export default function VideoToGifTool() {
           <SocialSharingSection 
             title="Share Your GIF!"
             description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+          />
+
+          {/* Value Content Section (moved to end) */}
+          <ValueContentSection
+            toolTitle="Video to GIF Converter"
+            relatedLinks={[
+              { href: '/blog/how-to-make-gifs-from-videos', label: 'How to Make GIFs from Videos (Step-by-Step)' },
+              { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' },
+              { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
+            ]}
+            altTools={[
+              { href: '/gif-maker', label: 'GIF Maker', desc: 'Create GIFs from images and short clips.' },
+              { href: '/optimize', label: 'Optimize GIF', desc: 'Compress and reduce GIF size.' },
+              { href: '/add-text', label: 'Add Text to GIF', desc: 'Caption and annotate your GIFs.' }
+            ]}
           />
       </ToolPageLayout>
     </>

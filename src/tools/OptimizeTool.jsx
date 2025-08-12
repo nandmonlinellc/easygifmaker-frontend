@@ -17,6 +17,7 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import ValueContentSection from '../components/ValueContentSection'
 
 // Unified workflow states: 'upload', 'editing', 'processing', 'result'
 export default function OptimizeTool() {
@@ -194,6 +195,8 @@ export default function OptimizeTool() {
             }
           ]}
         />
+
+  {/* Value content moved to end of page */}
 
           {/* Upload State */}
           {workflowState === 'upload' && (
@@ -545,6 +548,19 @@ export default function OptimizeTool() {
           <SocialSharingSection 
             title="Share Your Optimized GIF!"
             description="Share your optimized GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
+          />
+          {/* Value Content Section (moved to end) */}
+          <ValueContentSection
+            toolTitle="GIF Optimizer"
+            relatedLinks={[
+              { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' },
+              { href: '/blog/gif-accessibility-guide', label: 'GIF Accessibility Guide' }
+            ]}
+            altTools={[
+              { href: '/resize', label: 'Resize GIF', desc: 'Adjust dimensions for platform fit.' },
+              { href: '/crop', label: 'Crop GIF', desc: 'Remove unwanted edges and black bars.' },
+              { href: '/video-to-gif', label: 'Video to GIF', desc: 'Start from MP4 or WebM clips.' }
+            ]}
           />
       </ToolPageLayout>
     </>

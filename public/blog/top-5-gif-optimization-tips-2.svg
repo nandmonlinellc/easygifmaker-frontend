@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Top 5 GIF Optimization Tips - EasyGIFMaker">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#edf5ff"/>
+      <stop offset="1" stop-color="#f8fbff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#g3)"/>
+  <g transform="translate(80,80)">
+    <rect x="0" y="0" width="1040" height="515" rx="24" fill="#ffffff" stroke="#dbeafe"/>
+    <g transform="translate(48,48)">
+      <rect x="0" y="0" width="320" height="200" rx="12" fill="#dbeafe"/>
+      <rect x="360" y="0" width="560" height="24" rx="12" fill="#1d4ed8"/>
+      <rect x="360" y="44" width="520" height="18" rx="9" fill="#e5edff"/>
+      <rect x="360" y="74" width="540" height="18" rx="9" fill="#e5edff"/>
+      <rect x="360" y="104" width="420" height="18" rx="9" fill="#e5edff"/>
+    </g>
+    <g transform="translate(48,280)">
+      <rect x="0" y="0" width="300" height="28" rx="14" fill="#c7d2fe"/>
+      <rect x="320" y="0" width="300" height="28" rx="14" fill="#c7d2fe"/>
+      <rect x="640" y="0" width="300" height="28" rx="14" fill="#c7d2fe"/>
+    </g>
+  </g>
+</svg>
