@@ -48,16 +48,18 @@
     <link rel="preload" href="/og-image.png" as="image">
     <link rel="preload" href="/favicon.svg" as="image">
     
-    <!-- Preconnect for performance -->
+  <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
+  <!-- AdSense site verification -->
+  <meta name="google-adsense-account" content="ca-pub-2276892930727265" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     
-    <!-- Google Analytics and AdSense - Deferred for performance -->
+  <!-- Google Analytics (AdSense loads via consent-aware loader in app) -->
     <script src="https://www.googletagmanager.com/gtag/js?id=G-4184BKX5QY" async defer></script>
     <script defer>
       window.addEventListener('DOMContentLoaded', function() {
@@ -65,26 +67,6 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
-      });
-    </script>
-    <script defer>
-      window.addEventListener('load', function() {
-        let adScriptLoaded = false;
-        function loadAdScript() {
-          if (adScriptLoaded) return;
-          adScriptLoaded = true;
-          const script = document.createElement('script');
-          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276892930727265";
-          script.async = true;
-          script.crossOrigin = "anonymous";
-          document.body.appendChild(script);
-          window.removeEventListener('scroll', loadAdScript);
-          window.removeEventListener('mousedown', loadAdScript);
-          window.removeEventListener('touchstart', loadAdScript);
-        }
-        window.addEventListener('scroll', loadAdScript, { once: true });
-        window.addEventListener('mousedown', loadAdScript, { once: true });
-        window.addEventListener('touchstart', loadAdScript, { once: true });
       });
     </script>
     <script>
