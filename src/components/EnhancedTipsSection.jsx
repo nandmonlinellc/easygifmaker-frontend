@@ -1,4 +1,5 @@
 import React from 'react';
+import AdsenseAd from './AdsenseAd'; // Import the ad component
 
 const EnhancedTipsSection = ({ 
   title, 
@@ -21,10 +22,17 @@ const EnhancedTipsSection = ({
       </h4>
       <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-200">
         {tips.map((tip, index) => (
-          <li key={index} className="flex items-start gap-3">
-            <span className={`w-2 h-2 ${colors[index % colors.length]} rounded-full mt-2 flex-shrink-0`}></span>
-            <div dangerouslySetInnerHTML={{ __html: tip }}></div>
-          </li>
+          <React.Fragment key={index}>
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 ${colors[index % colors.length]} rounded-full mt-2 flex-shrink-0`}></span>
+              <div dangerouslySetInnerHTML={{ __html: tip }}></div>
+            </li>
+            {index === 1 && ( // Show ad after the second tip
+              <li>
+                <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+              </li>
+            )}
+          </React.Fragment>
         ))}
       </ul>
     </div>

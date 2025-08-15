@@ -165,6 +165,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Ad Section */}
+        <section className="py-12 md:py-16 container mx-auto px-4">
+          <AdsenseAd adSlot="1125232950" adFormat="auto" fullWidthResponsive={true} />
+        </section>
+
         {/* How It Works - Mobile Optimized */}
         <section className="py-12 md:py-16 bg-blue-50">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-10 text-blue-700">How It Works</h2>
