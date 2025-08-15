@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
+import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function ComprehensiveGifMakingGuide() {
   return (
@@ -73,6 +74,14 @@ export default function ComprehensiveGifMakingGuide() {
             <li><a href="#conclusion" className="underline">Conclusion</a></li>
           </ul>
         </aside>
+        <div className="my-8">
+            <AdsenseAd
+              adSlot="8336674411"
+              adFormat="fluid"
+              adLayout="in-article"
+              style={{ textAlign: 'center' }}
+            />
+          </div>
         <article className="prose prose-blue max-w-none mb-8">
             <p className="text-xl text-gray-700 leading-relaxed mb-8">
               The Graphics Interchange Format (GIF) has evolved from a simple image format to the cornerstone of digital communication, memes, and creative expression. Whether you're a marketer looking to enhance social media engagement, an educator creating dynamic learning materials, or an artist exploring new forms of expression, mastering GIF creation opens endless possibilities for visual storytelling.

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const AdsenseAd = ({ adSlot, adFormat = 'auto', adLayout = '', fullWidthResponsive = false }) => {
+const AdsenseAd = ({ adSlot, adFormat = 'auto', adLayout = '', fullWidthResponsive = false, style = {} }) => {
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});

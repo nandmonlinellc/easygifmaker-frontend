@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
+import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function AddTextToGifsGuide() {
   // Article structured data
@@ -131,6 +132,16 @@ export default function AddTextToGifsGuide() {
           <p>
             Text overlays can turn a simple GIF into a standout meme, tutorial, or branded asset. With EasyGIFMaker’s layered text editor, you can add multiple captions and watermarks with precise timing, simple animations, and clean multi-line wrapping for professional results.
           </p>
+
+          <div className="my-8">
+            <AdsenseAd
+              adSlot="8336674411"
+              adFormat="fluid"
+              adLayout="in-article"
+              style={{ textAlign: 'center' }}
+            />
+          </div>
+
           <h2 id="upload" className="mt-8"><b>Step 1: Upload Your GIF</b></h2>
           <p>
             Head to the <Link to="/add-text" className="text-blue-600 underline font-semibold">Add Text to GIF Tool</Link>. Upload a GIF or paste a direct URL. We’ll auto-detect duration and frames for accurate timing.
@@ -177,7 +188,7 @@ export default function AddTextToGifsGuide() {
           <ul>
             <li><b>Contrast & Stroke:</b> Use high-contrast colors and a subtle stroke (outline) for clarity.</li>
             <li><b>Short Lines:</b> Break long captions into multiple lines; aim for 4–8 words per line.</li>
-            <li><b>Smart Placement:</b> Center captions and nudge with offsets to avoid busy areas.</li>
+            <li><b>Smart Placement:</b> Center captions and nudge with offsets to avoid busy.</li>
             <li><b>Keep It Simple:</b> Use gentle animations; don’t overwhelm the motion in the GIF itself.</li>
           </ul>
           <h2 id="ideas" className="mt-8"><b>Creative Ideas</b></h2>

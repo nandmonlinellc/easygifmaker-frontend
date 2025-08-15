@@ -230,6 +230,22 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* SEO Content Section */}
+        <section className="py-12 md:py-16 bg-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-blue-700">Your One-Stop GIF Solution</h2>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+              EasyGIFMaker is a powerful online tool that helps you create, edit, and optimize animated GIFs. Whether you want to a make a GIF from a video, convert a video to a GIF, or create a GIF from images, our GIF maker has you covered. We support a wide range of formats, including MOV to GIF, and our video to gif converter is one of the best available online.
+            </p>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+              Our GIF editor allows you to resize, crop, and add text to your GIFs. You can also use our GIF optimizer to reduce the file size of your GIFs without losing quality. With our GIF generator, you can create high-quality GIFs in seconds. We are a great alternative to other services like ezgif, imgflip and others.
+            </p>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+              Whether you need a GIF for your blog, social media, or just for fun, EasyGIFMaker is the perfect tool for the job. Create your own GIF today!
+            </p>
+          </div>
+        </section>
+
         {/* Social Proof */}
         <section className="container mx-auto px-4">
           <TestimonialSection />

@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
 import { Maximize2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx';
+import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function CompleteGuideToResizeGif() {
   const title = 'Complete Guide to GIF Resizing and Scaling';
@@ -73,6 +74,14 @@ export default function CompleteGuideToResizeGif() {
             <li><a href="#math" className="underline">Math & ratios</a></li>
           </ul>
         </aside>
+        <div className="my-8">
+            <AdsenseAd
+              adSlot="8336674411"
+              adFormat="fluid"
+              adLayout="in-article"
+              style={{ textAlign: 'center' }}
+            />
+          </div>
         {/* Comprehensive Educational Content Section */}
       <div className="mt-12 space-y-8">
         <Card className="bg-gradient-to-br from-white to-blue-50/40 shadow-lg">

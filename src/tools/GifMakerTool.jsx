@@ -191,7 +191,7 @@ export default function GifMakerTool() {
       seoProps={{
         title: "GIF Maker - Create Animated GIFs from Images | EasyGIFMaker",
         description: "Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.",
-        keywords: "gif maker, animated gif maker, make a gif from photos, make your own gif, create gif from images, create your own gif, make a gif from pictures, create a gif from pictures, gif creator, gif builder, custom gif, high quality gif maker, free gif maker, online gif maker, gif creator online, gif maker app, make my own gif",
+        keywords: "gif maker, animated gif maker, make a gif from photos, make your own gif, create gif from images, create your own gif, make a gif from pictures, create a gif from pictures, gif creator, gif builder, custom gif, high quality gif maker, free gif maker, online gif maker, gif creator online, gif maker app, make my own gif, easy gif animator",
         canonical: "https://easygifmaker.com/gif-maker"
       }}
       howToSteps={[
@@ -519,8 +519,8 @@ export default function GifMakerTool() {
         <ToolSeoSection
           icon={Image}
           title="Animated GIF Maker, Easy GIF Animator"
-          description1="Create stunning animated GIFs from multiple images with our advanced online animated GIF maker. Now with per-frame effects (fade, zoom), custom timing, and drag-and-drop reordering. Perfect for memes, tutorials, banners, and more!"
-          description2="Our intuitive drag-and-drop interface lets you arrange images in the perfect sequence, while advanced settings allow you to fine-tune timing, loops, quality, and per-frame animation effects. Ideal for content creators, marketers, educators, and anyone who wants to bring their images to life."
+          description1="Create stunning animated GIFs from multiple images with our advanced online animated GIF maker. Now with per-frame effects (fade, zoom), custom timing, and drag-and-drop reordering. Perfect for memes, tutorials, banners, and more! Whether you want to make a gif from images, create a gif online, or are looking for a free gif maker, our tool is for you. This is a great tool for making animated gifs for your blog or social media."
+          description2="Our intuitive drag-and-drop interface lets you arrange images in the perfect sequence, while advanced settings allow you to fine-tune timing, loops, quality, and per-frame animation effects. Ideal for content creators, marketers, educators, and anyone who wants to bring their images to life. You can use this tool to create a gif from pictures, make your own gif, and much more. It's a full-featured gif creator and gif generator."
           features1={[
             { emoji: "🖼️", text: "Upload multiple image formats (JPG, PNG, GIF, WebP, etc.)" },
             { emoji: "🎬", text: "Drag-and-drop image reordering for perfect sequences" },
@@ -529,7 +529,8 @@ export default function GifMakerTool() {
           ]}
           features2={[
             { emoji: "👀", text: "Live preview of your animation before downloading" },
-            { emoji: "💎", text: "High-quality output with optimization options" }
+            { emoji: "💎", text: "High-quality output with optimization options" },
+            { emoji: "💸", text: "Completely free to use, no watermarks or registration" }
           ]}
           useCases={[
             { color: "bg-yellow-400", text: "Make animated memes and social posts for Instagram, Twitter, and TikTok" },

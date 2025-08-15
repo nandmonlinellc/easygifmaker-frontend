@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
+import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function HowToMakeGifsFromVideos() {
   // Article structured data
@@ -134,6 +135,15 @@ export default function HowToMakeGifsFromVideos() {
           <p className="text-lg text-gray-700 mb-8">
             In this comprehensive guide, we'll walk you through everything you need to know about converting videos to GIFs using EasyGIFMaker. From basic techniques to advanced optimization strategies, you'll learn how to create professional-quality GIFs that load fast and look great on any platform.
           </p>
+
+          <div className="my-8">
+            <AdsenseAd
+              adSlot="8336674411"
+              adFormat="fluid"
+              adLayout="in-article"
+              style={{ textAlign: 'center' }}
+            />
+          </div>
 
           <h2 id="what-are-gifs" className="text-3xl font-bold text-blue-700 mt-12 mb-6">What Are GIFs and Why Are They So Popular?</h2>
           
