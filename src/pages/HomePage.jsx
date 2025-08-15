@@ -6,6 +6,7 @@ import { Video, Image, RotateCw, Crop, Zap, Type, ArrowRight, Upload, Edit3, Dow
 import FeatureCard from '@/components/FeatureCard.jsx';
 import TestimonialSection from '@/components/TestimonialSection.jsx';
 import { MobileOptimizedImage, PreloadCriticalImages } from '../components/MobileImageOptimizer';
+import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function HomePage() {
   // Structured data for homepage
