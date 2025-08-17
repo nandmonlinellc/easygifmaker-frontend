@@ -479,6 +479,7 @@ export default function VideoToGifTool() {
                   />
                 </div>
 
+
                 {/* Download Buttons */}
                 <div className="space-y-3">
                   {/* GIF Download */}
@@ -556,6 +557,8 @@ export default function VideoToGifTool() {
               </CardContent>
             </Card>
           )}
+          <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
 
         <ToolSeoSection
           icon={Video}
@@ -578,7 +581,8 @@ export default function VideoToGifTool() {
             { color: "bg-purple-400", text: "Create product demos and marketing content" }
           ]}
         />
-          
+        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
           <TipsFaqsBestPracticesSection 
             proTips={[
               {
