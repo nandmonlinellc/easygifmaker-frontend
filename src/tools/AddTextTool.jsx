@@ -17,6 +17,7 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import AdsenseAd from '../components/AdsenseAd'
 
 export default function AddTextTool() {
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001'
@@ -533,6 +534,7 @@ export default function AddTextTool() {
             { color: "bg-purple-400", text: "Create promotional content with layered callouts" }
           ]}
         />
+        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
           
         <TipsFaqsBestPracticesSection 
           proTips={[

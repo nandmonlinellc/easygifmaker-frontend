@@ -19,6 +19,7 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import AdsenseAd from '../components/AdsenseAd'
 
 export default function CropTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -443,7 +444,7 @@ export default function CropTool() {
               onReset={resetWorkflow}
             />
           )}
-
+        
         <ToolSeoSection
           icon={Crop}
           title="Crop GIF"
@@ -465,7 +466,7 @@ export default function CropTool() {
             { color: "bg-purple-400", text: "Trim GIFs to fit specific dimensions" }
           ]}
         />
-          
+          <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
           <TipsFaqsBestPracticesSection 
             proTips={[
               {

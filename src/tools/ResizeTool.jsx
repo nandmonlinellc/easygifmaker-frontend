@@ -17,6 +17,7 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import AdsenseAd from '../components/AdsenseAd'
 
 export default function ResizeTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'

@@ -18,6 +18,7 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import AdsenseAd from '../components/AdsenseAd'
 
 // Unified workflow states: 'upload', 'editing', 'processing', 'result'
 export default function OptimizeTool() {
