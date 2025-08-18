@@ -18,6 +18,7 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import AdsenseAd from '../components/AdsenseAd'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -557,7 +558,6 @@ export default function VideoToGifTool() {
               </CardContent>
             </Card>
           )}
-          <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
 
 
         <ToolSeoSection
@@ -581,7 +581,6 @@ export default function VideoToGifTool() {
             { color: "bg-purple-400", text: "Create product demos and marketing content" }
           ]}
         />
-        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
 
           <TipsFaqsBestPracticesSection 
             proTips={[

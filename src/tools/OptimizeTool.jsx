@@ -462,6 +462,7 @@ export default function OptimizeTool() {
             { color: "bg-purple-400", text: "Optimize GIFs for mobile devices" }
           ]}
         />
+        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
           
           <TipsFaqsBestPracticesSection 
             proTips={[

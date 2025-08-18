@@ -390,6 +390,7 @@ export default function ResizeTool() {
             { color: "bg-purple-400", text: "Create thumbnail versions of GIFs" }
           ]}
         />
+        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
           
         <TipsFaqsBestPracticesSection 
           proTips={[
