@@ -105,7 +105,7 @@ export default function GifAccessibilityGuide() {
               Safe animation practices include avoiding rapid color changes, high-contrast flashing, and repetitive geometric patterns that can trigger seizures. When creating content that might approach these thresholds, testing with photosensitive epilepsy analysis tools helps identify potential risks before publication. Additionally, providing user controls to disable animation gives viewers agency over their experience.
             </p>
 
-            <h3 id="seizure-technical" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Technical Implementation of Seizure Safety</h3>
+            <h3 id="seizure-technical" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Technical Implementation of Seizure Safety</h3>
             <p>
               Implementing seizure-safe animation requires systematic analysis of flash frequency, color contrast changes, and pattern movement throughout the entire animation sequence. Automated testing tools can identify potential violations, but manual review by accessibility experts provides additional assurance, particularly for complex or artistic content that might not conform to typical patterns.
             </p>
@@ -115,7 +115,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="visual" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Visual Accessibility and Low Vision Considerations</h2>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Color and Contrast Optimization</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Color and Contrast Optimization</h3>
             <p>
               Visual accessibility requires careful attention to color choices, contrast ratios, and visual hierarchy that ensure content remains perceivable across different vision conditions. WCAG guidelines specify minimum contrast ratios of 4.5:1 for normal text and 3:1 for large text, but animated content often requires higher contrast ratios to remain legible during motion and color transitions.
             </p>
@@ -123,7 +123,7 @@ export default function GifAccessibilityGuide() {
               Color-blind accessibility ensures that information conveyed through color is also available through other visual cues such as shape, position, texture, or text labels. Approximately 8% of men and 0.5% of women have some form of color vision deficiency, making this consideration essential for broad accessibility. Testing with color blindness simulation tools helps identify potential issues during the design phase.
             </p>
 
-            <h3 id="typography" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Typography and Text Legibility</h3>
+            <h3 id="typography" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Typography and Text Legibility</h3>
             <p>
               Animated text requires special consideration for users with low vision or reading difficulties. Font choices should prioritize clarity over decoration, with sans-serif fonts generally providing better legibility in animated contexts. Text size, spacing, and duration must allow comfortable reading for users who may need additional time to process visual information.
             </p>
@@ -133,7 +133,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="cognitive" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Cognitive Accessibility and Information Processing</h2>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Content Complexity and Comprehension</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Content Complexity and Comprehension</h3>
             <p>
               Cognitive accessibility ensures that animated content can be understood by users with various cognitive processing capabilities, including those with attention deficit disorders, learning disabilities, and processing speed differences. This requires careful attention to information density, pacing, and cognitive load management throughout the animation sequence.
             </p>
@@ -141,7 +141,7 @@ export default function GifAccessibilityGuide() {
               Effective cognitive accessibility techniques include providing clear visual hierarchy, limiting simultaneous information sources, using consistent visual and interaction patterns, and allowing users to control pacing through pause, replay, and speed controls. Complex animations should be broken into digestible segments with clear progression indicators and optional detailed explanations.
             </p>
 
-            <h3 id="attention" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Attention and Focus Management</h3>
+            <h3 id="attention" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Attention and Focus Management</h3>
             <p>
               Animated content must manage viewer attention thoughtfully to avoid overwhelming users with attention difficulties while maintaining engagement for all viewers. Techniques include using motion purposefully to guide attention, avoiding competing motion elements, providing clear focal points, and implementing logical progression through animated sequences.
             </p>
@@ -151,7 +151,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="assistive" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Assistive Technology Compatibility</h2>
 
-            <h3 id="screen-reader" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Screen Reader Integration</h3>
+            <h3 id="screen-reader" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Screen Reader Integration</h3>
             <p>
               Screen readers and other assistive technologies require proper markup and alternative content to convey animated information to users who cannot see visual content. This includes descriptive alt text that explains both the visual content and any motion or changes that occur throughout the animation sequence. Simple descriptions like "loading animation" are insufficient for complex animated content.
             </p>
@@ -159,7 +159,7 @@ export default function GifAccessibilityGuide() {
               Advanced screen reader support may include time-based descriptions that correspond to animation phases, structured markup that identifies animation regions, and programmatic indicators of animation status (playing, paused, completed). These technical implementations ensure that users of assistive technologies receive equivalent information to visual users.
             </p>
 
-            <h3 id="keyboard" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Keyboard and Alternative Input Methods</h3>
+            <h3 id="keyboard" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Keyboard and Alternative Input Methods</h3>
             <p>
               Interactive GIF elements must be accessible through keyboard navigation and alternative input methods for users who cannot use mouse or touch interfaces. This includes providing keyboard shortcuts for play/pause controls, implementing logical tab order for interactive elements, and ensuring all functionality is available through keyboard-only interaction.
             </p>
@@ -169,7 +169,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="technical" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Technical Implementation Strategies</h2>
 
-            <h3 id="responsive" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Responsive and Adaptive Design</h3>
+            <h3 id="responsive" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Responsive and Adaptive Design</h3>
             <p>
               Accessible GIF implementation often requires multiple versions optimized for different user needs and technical capabilities. This may include high-contrast versions for low vision users, reduced-motion versions for users with vestibular disorders, and static alternatives for users who cannot access animated content. Systematic version management ensures all users receive appropriate content without imposing additional cognitive load.
             </p>
@@ -177,7 +177,7 @@ export default function GifAccessibilityGuide() {
               Progressive enhancement strategies deliver basic accessible content to all users while adding enhanced features for capable browsers and devices. This approach ensures universal access while taking advantage of advanced capabilities where available. Feature detection and graceful degradation help maintain accessibility across diverse technology environments.
             </p>
 
-            <h3 id="preferences" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">User Preference Integration</h3>
+            <h3 id="preferences" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">User Preference Integration</h3>
             <p>
               Modern accessibility implementation includes respecting user-defined preferences through system settings and browser configurations. The CSS prefers-reduced-motion media query allows websites to automatically serve reduced-motion alternatives to users who have indicated preference for minimal animation. Similarly, prefers-color-scheme helps deliver appropriate color schemes for users with specific visual needs.
             </p>
@@ -194,7 +194,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="testing" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Testing and Quality Assurance</h2>
 
-            <h3 id="automated" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Automated and Manual Testing Approaches</h3>
+            <h3 id="automated" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Automated and Manual Testing Approaches</h3>
             <p>
               Comprehensive accessibility testing combines automated tools with manual evaluation and user testing. Automated tools efficiently identify technical violations like insufficient contrast or missing alternative text, while manual testing evaluates user experience quality and identifies issues that automated tools cannot detect. Both approaches are essential for thorough accessibility assurance.
             </p>
@@ -202,7 +202,7 @@ export default function GifAccessibilityGuide() {
               Manual testing should include keyboard-only navigation, screen reader interaction, and testing with users who have various disabilities. This human-centered approach reveals practical accessibility challenges and usage patterns that inform design improvements beyond basic compliance requirements.
             </p>
 
-            <h3 id="improvement" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Continuous Improvement and Feedback Integration</h3>
+            <h3 id="improvement" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Continuous Improvement and Feedback Integration</h3>
             <p>
               Accessibility is an ongoing process rather than a one-time achievement. Regular auditing, user feedback collection, and iterative improvement ensure that accessibility standards evolve with changing user needs and technological capabilities. Establishing feedback channels specifically for accessibility concerns helps identify real-world usage issues that might not emerge during formal testing.
             </p>
@@ -212,7 +212,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="impact" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Business and Social Impact</h2>
 
-            <h3 id="market" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Market Reach and Business Benefits</h3>
+            <h3 id="market" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Market Reach and Business Benefits</h3>
             <p>
               Accessible design expands market reach to the 15% of the global population living with disabilities, representing a trillion-dollar market opportunity. Beyond direct market expansion, accessible content often provides better user experiences for all users, improving overall engagement metrics, search engine rankings, and brand reputation among increasingly socially conscious consumers.
             </p>
@@ -220,7 +220,7 @@ export default function GifAccessibilityGuide() {
               Research demonstrates that accessible websites perform better across multiple business metrics including user satisfaction, task completion rates, and conversion performance. These benefits extend beyond disability communities to include aging populations, temporary impairments, and situational limitations that affect all users at various times.
             </p>
 
-            <h3 id="brand" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Social Responsibility and Brand Impact</h3>
+            <h3 id="brand" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Social Responsibility and Brand Impact</h3>
             <p>
               Commitment to accessibility demonstrates corporate values that resonate with employees, customers, and stakeholders who increasingly prioritize social responsibility in business relationships. Accessibility excellence can become a competitive differentiator that attracts talent, customers, and partnerships while contributing to positive social impact.
             </p>
@@ -230,7 +230,7 @@ export default function GifAccessibilityGuide() {
 
             <h2 id="future" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Future Trends and Emerging Standards</h2>
 
-            <h3 id="technology" className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Technology Evolution and Accessibility</h3>
+            <h3 id="technology" className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Technology Evolution and Accessibility</h3>
             <p>
               Emerging technologies including artificial intelligence, virtual reality, and advanced web standards create new accessibility opportunities while introducing novel challenges. AI-powered image description, automatic captioning, and personalized accessibility features promise to improve access while requiring careful implementation to avoid introducing bias or excluding certain user groups.
             </p>
