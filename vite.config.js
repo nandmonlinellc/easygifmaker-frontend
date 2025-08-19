@@ -76,7 +76,14 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     cssCodeSplit: true,
     sourcemap: true,
-    target: 'es2015',
+    target: 'esnext',
+    modulePreload: { polyfill: false },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+    },
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react', 'react-router-dom'],
