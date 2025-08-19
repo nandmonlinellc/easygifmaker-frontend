@@ -119,7 +119,7 @@ export default function CreativeGifDesignTutorial() {
               Technical execution of cinemagraphs involves complex compositing techniques, motion isolation, and seamless looping that requires frame-perfect precision. However, the conceptual planning phase often determines success more than technical execution. Identifying compelling motion opportunities, understanding viewing context, and planning for seamless loops must occur before any technical work begins.
             </p>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Typography and Text Animation</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Typography and Text Animation</h3>
             <p>
               Animated typography in GIFs serves both functional and aesthetic purposes, providing information while contributing to overall visual impact. Effective text animation techniques include kinetic typography that emphasizes meaning through motion, revealing animations that build suspense, and decorative effects that enhance visual appeal without compromising readability.
             </p>
@@ -155,7 +155,7 @@ export default function CreativeGifDesignTutorial() {
               Asset management and version control become crucial for complex projects involving multiple iterations, team collaboration, and client feedback cycles. Organized file structures, naming conventions, and backup procedures protect creative work while enabling efficient collaboration and project management across different team members and project phases.
             </p>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Quality Control and Optimization</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Quality Control and Optimization</h3>
             <p>
               Creative excellence requires systematic quality control that evaluates both artistic and technical aspects of finished work. Quality metrics include visual appeal, message clarity, technical performance, cross-platform compatibility, and audience engagement potential. Establishing clear quality standards helps maintain consistency while identifying areas for improvement and skill development.
             </p>
@@ -173,7 +173,7 @@ export default function CreativeGifDesignTutorial() {
               Platform-specific creative strategies involve adapting core creative concepts to different aspect ratios, file size limits, and audience expectations while maintaining artistic integrity and message clarity. Successful creators often develop platform-specific variations of core content rather than using identical content across all channels.
             </p>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Portfolio and Professional Presentation</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Portfolio and Professional Presentation</h3>
             <p>
               Creative professionals require sophisticated presentation strategies that showcase technical skills, artistic vision, and professional capabilities to potential clients and collaborators. Portfolio organization, case study development, and project documentation help communicate creative process and problem-solving abilities alongside finished creative work.
             </p>
@@ -190,7 +190,7 @@ export default function CreativeGifDesignTutorial() {
 
             <h2 id="trends" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Emerging Trends and Future Directions</h2>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Interactive and Responsive Design</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Interactive and Responsive Design</h3>
             <p>
               Future GIF design increasingly incorporates interactive elements, responsive behaviors, and personalization features that adapt to viewer preferences and contexts. These developments expand creative possibilities while maintaining the accessibility and compatibility advantages that make GIFs universally effective across diverse platforms and devices.
             </p>
@@ -198,7 +198,7 @@ export default function CreativeGifDesignTutorial() {
               Emerging technologies including artificial intelligence, machine learning, and advanced web standards enable new creative techniques while automating routine production tasks. Understanding these technological trends helps creative professionals adapt their skills and workflows to remain competitive in evolving creative markets.
             </p>
 
-            <h3 className="text-2xl font-semibent text-gray-800 mt-8 mb-4">Sustainability and Accessibility</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">Sustainability and Accessibility</h3>
             <p>
               Modern creative practice increasingly emphasizes sustainability considerations including energy efficiency, accessibility compliance, and inclusive design principles. These requirements often inspire creative innovations rather than limiting artistic expression, leading to more thoughtful and broadly appealing creative solutions.
             </p>
