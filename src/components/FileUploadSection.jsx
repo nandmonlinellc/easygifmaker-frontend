@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useId, useRef } from 'react'
 import { Button } from '@/components/ui/button.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import { Label } from '@/components/ui/label.jsx'
@@ -61,6 +61,9 @@ export default function FileUploadSection({
 }) {
   const [urlInput, setUrlInput] = useState('')
   const [error, setError] = useState(null)
+  const fileInputRef = useRef(null)
+  const urlInputId = useId()
+  const fileInputId = useId()
 
   // For single URL
   const handleUrlButtonClick = () => {
@@ -121,11 +124,12 @@ export default function FileUploadSection({
             accept={accept}
             onChange={handleFileChange}
             style={{ display: 'none' }}
-            id="file-upload"
+            id={fileInputId}
+            ref={fileInputRef}
             disabled={isProcessing}
           />
-          <Button 
-            onClick={() => document.getElementById('file-upload').click()}
+          <Button
+            onClick={() => fileInputRef.current?.click()}
             disabled={isProcessing}
           >
             {isProcessing ? 'Loading...' : `Choose ${isMultiple ? 'Files' : 'File'}`}
@@ -137,12 +141,12 @@ export default function FileUploadSection({
       <TabsContent value="url" className="space-y-4">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="url-input">Enter {toolName} URL{isMultipleUrl ? 's' : ''}:</Label>
+            <Label htmlFor={urlInputId}>Enter {toolName} URL{isMultipleUrl ? 's' : ''}:</Label>
             <div className="flex flex-col gap-2 mt-2">
               {isMultipleUrl ? (
                 <>
                   <textarea
-                    id="url-input"
+                    id={urlInputId}
                     rows={4}
                     placeholder={`Paste one URL per line or separate by comma`}
                     value={urlInput}
@@ -170,7 +174,7 @@ export default function FileUploadSection({
               ) : (
                 <div className="flex gap-2">
                   <Input
-                    id="url-input"
+                    id={urlInputId}
                     type="url"
                     placeholder={`https://example.com/${toolName.toLowerCase()}.${getAcceptedExtensions(toolName)[0] || 'gif'}`}
                     value={urlInput}
