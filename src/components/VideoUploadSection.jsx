@@ -11,6 +11,10 @@ export default function VideoUploadSection({
   handleFileUpload,
   isProcessing
 }) {
+  const fileInputRef = React.useRef(null)
+  const [urlInput, setUrlInput] = React.useState('')
+  const fileInputId = React.useId()
+  const urlInputId = React.useId()
   return (
     <Tabs value={uploadMethod} onValueChange={setUploadMethod}>
       <TabsList className="grid w-full grid-cols-2">
@@ -31,11 +35,12 @@ export default function VideoUploadSection({
             accept="video/*"
             onChange={(e) => handleFileUpload(e.target.files)}
             style={{ display: 'none' }}
-            id="file-upload"
+            id={fileInputId}
+            ref={fileInputRef}
             disabled={isProcessing}
           />
-          <Button 
-            onClick={() => document.getElementById('file-upload').click()}
+          <Button
+            onClick={() => fileInputRef.current?.click()}
             disabled={isProcessing}
           >
             {isProcessing ? 'Loading...' : 'Choose Video'}
@@ -46,17 +51,18 @@ export default function VideoUploadSection({
       <TabsContent value="url" className="space-y-4">
         <div className="space-y-4">
           <div>
-            <Label htmlFor="url-input">Enter video URL:</Label>
+            <Label htmlFor={urlInputId}>Enter video URL:</Label>
             <div className="flex gap-2 mt-2">
               <Input
-                id="url-input"
+                id={urlInputId}
                 type="url"
                 placeholder="https://youtube.com/watch?v=... or direct video URL"
                 disabled={isProcessing}
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
               />
-              <Button 
+              <Button
                 onClick={() => {
-                  const urlInput = document.getElementById('url-input').value
                   if (urlInput) {
                     handleFileUpload(null, urlInput)
                   }
