@@ -12,6 +12,7 @@ export default function VideoTimeline({
 }) {
   const videoRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const isPlayingRef = useRef(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
@@ -40,7 +41,10 @@ export default function VideoTimeline({
     }
 
     const handleTimeUpdate = () => setCurrentTime(video.currentTime)
-    const handleEnded = () => setIsPlaying(false)
+    const handleEnded = () => {
+      setIsPlaying(false)
+      isPlayingRef.current = false
+    }
 
     video.addEventListener('loadedmetadata', handleLoadedMetadata)
     video.addEventListener('timeupdate', handleTimeUpdate)
@@ -68,13 +72,16 @@ export default function VideoTimeline({
     const video = videoRef.current
     if (!video) return
 
-    if (isPlaying) {
-      video.pause()
-    } else {
+    if (video.paused) {
       video.play()
+      setIsPlaying(true)
+      isPlayingRef.current = true
+    } else {
+      video.pause()
+      setIsPlaying(false)
+      isPlayingRef.current = false
     }
-    setIsPlaying(prev => !prev)
-  }, [isPlaying])
+  }, [])
 
   const seekToTime = useCallback((time) => {
     const video = videoRef.current
@@ -91,20 +98,22 @@ export default function VideoTimeline({
     video.currentTime = segmentRange[0]
     video.play()
     setIsPlaying(true)
+    isPlayingRef.current = true
 
     // Stop at segment end
     const checkTime = () => {
       if (video.currentTime >= segmentRange[1]) {
         video.pause()
         setIsPlaying(false)
+        isPlayingRef.current = false
         return
       }
-      if (isPlaying) { // Only continue checking if still playing
+      if (isPlayingRef.current) { // Only continue checking if still playing
         requestAnimationFrame(checkTime)
       }
     }
     requestAnimationFrame(checkTime)
-  }, [segmentRange, isPlaying])
+  }, [segmentRange])
 
   const handleRangeChange = useCallback((value) => {
     // Only update if value is actually different
