@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';import { Helmet } from 'react-helmet-async'
+import InArticleAd from '@/components/ads/InArticleAd.jsx';
+import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'

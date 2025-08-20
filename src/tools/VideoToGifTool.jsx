@@ -34,7 +34,8 @@ import ToolPageLayout from '../components/ToolPageLayout'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';import AdsenseAd from '../components/AdsenseAd'
+import InArticleAd from '@/components/ads/InArticleAd.jsx';
+import AdsenseAd from '../components/AdsenseAd'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
