@@ -14,6 +14,7 @@ export default function Header() {
     { id: 'resize', title: 'Resize', icon: RotateCw, path: '/resize' },
     { id: 'crop', title: 'Crop', icon: Crop, path: '/crop' },
     { id: 'optimize', title: 'Optimize', icon: Zap, path: '/optimize' },
+    { id: 'reverse', title: 'Reverse', icon: RefreshCcw, path: '/reverse' },
     { id: 'add-text', title: 'Add Text', icon: Type, path: '/add-text' }
   ]
 

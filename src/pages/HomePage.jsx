@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Video, Image, RotateCw, Crop, Zap, Type, ArrowRight, Upload, Edit3, Download, Shield, Heart, CheckCircle } from 'lucide-react';
+import { Video, Image, RotateCw, Crop, Zap, Type, RefreshCcw, ArrowRight, Upload, Edit3, Download, Shield, Heart, CheckCircle } from 'lucide-react';
 import FeatureCard from '@/components/FeatureCard.jsx';
 import TestimonialSection from '@/components/TestimonialSection.jsx';
 import { MobileOptimizedImage, PreloadCriticalImages } from '../components/MobileImageOptimizer';
@@ -38,6 +38,7 @@ export default function HomePage() {
       "GIF Resizer - Resize and scale GIFs",
       "GIF Cropper - Crop and trim GIFs",
       "GIF Optimizer - Compress and optimize GIFs",
+      "Reverse GIF - Reverse animated GIF playback",
       "Add Text to GIF - Add captions and text overlays"
     ]
   };
@@ -163,6 +164,17 @@ export default function HomePage() {
                 Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
               </Link>
             </FeatureCard>
+            <FeatureCard
+              icon={<RefreshCcw className="w-12 h-12 md:w-16 md:h-16 text-teal-500" />}
+              title="Reverse GIF"
+              description="Play GIFs backwards for creative effects."
+              bgColor="bg-teal-50"
+            >
+              <Link to="/reverse" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-teal-700 text-white rounded-full font-bold shadow hover:bg-teal-800 transition text-sm">
+                Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+              </Link>
+            </FeatureCard>
+
           </div>
         </section>
 
