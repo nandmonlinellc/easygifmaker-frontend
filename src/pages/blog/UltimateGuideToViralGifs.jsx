@@ -4,7 +4,6 @@ import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import InArticleAd from '@/components/ads/InArticleAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';
 export default function UltimateGuideToViralGifs() {
   // Article structured data
   const articleStructuredData = {
