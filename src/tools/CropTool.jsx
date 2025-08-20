@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { Helmet } from 'react-helmet-async'
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'
@@ -15,9 +16,24 @@ import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSec
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
+
+          {/* Mid-content Ad */}
+          <div className="my-8 flex justify-center">
+            <InArticleAd 
+              slot="8336674411"
+              className="max-w-2xl w-full"
+            />
+          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 
@@ -407,18 +423,26 @@ export default function CropTool() {
                         </SelectContent>
                       </Select>
                     </div>
+          
+          {/* Mid-content Ad */}
+                              <div className="my-8 flex justify-center">
+                                <InArticleAd 
+                                  slot="8336674411"
+                                  className="max-w-2xl w-full"
+                                />
+                                </div>
                     
-                    <EnhancedTipsSection
-                      title="Pro Tips for Perfect Cropping"
-                      tips={[
-                        "<strong>Focus on Subject</strong> Crop to highlight the main action or subject. Keep the most important elements in frame.",
-                        "<strong>Remove Distractions</strong> Eliminate unwanted background elements that don't add to your story.",
-                        "<strong>Maintain Quality</strong> Don't crop too small to preserve detail. Keep at least 200x200px for good quality.",
-                        "<strong>Consider Aspect Ratio</strong> Think about where you'll use the GIF. Square works well for Instagram, wider for Twitter.",
-                        "<strong>Preview First</strong> Check the result before finalizing. Make sure the crop looks good throughout the animation.",
-                        "<strong>Use Coordinates</strong> Use the X/Y position and width/height inputs for precise control over your crop area."
-                      ]}
-                    />
+          <EnhancedTipsSection
+            title="Pro Tips for Perfect Cropping"
+            tips={[
+              "<strong>Focus on Subject</strong> Crop to highlight the main action or subject. Keep the most important elements in frame.",
+              "<strong>Remove Distractions</strong> Eliminate unwanted background elements that don't add to your story.",
+              "<strong>Maintain Quality</strong> Don't crop too small to preserve detail. Keep at least 200x200px for good quality.",
+              "<strong>Consider Aspect Ratio</strong> Think about where you'll use the GIF. Square works well for Instagram, wider for Twitter.",
+              "<strong>Preview First</strong> Check the result before finalizing. Make sure the crop looks good throughout the animation.",
+              "<strong>Use Coordinates</strong> Use the X/Y position and width/height inputs for precise control over your crop area."
+            ]}
+          />
                   </CardContent>
                 </Card>
               </div>
@@ -556,6 +580,13 @@ export default function CropTool() {
           />
 
           {/* Value Content Section (moved to end) */}
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
           <ValueContentSection
             toolTitle="GIF Cropper"
             relatedLinks={[

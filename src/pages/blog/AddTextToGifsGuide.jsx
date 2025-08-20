@@ -2,7 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import AdsenseAd from '@/components/AdsenseAd.jsx';
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import AdsenseAd from '@/components/AdsenseAd.jsx';
 
 export default function AddTextToGifsGuide() {
   // Article structured data
@@ -172,6 +173,13 @@ export default function AddTextToGifsGuide() {
             <li><b>Line Height:</b> Adjusts the spacing between lines for readability.</li>
             <li><b>Auto-Fit:</b> Automatically reduces font size slightly if a long caption would overflow the frame height.</li>
           </ul>
+          {/* Mid Article Ad */}
+          <div className="my-6 flex justify-center">
+            <InArticleAd 
+              slot="8336674411"
+              className="max-w-2xl w-full"
+            />
+          </div>
           <h2 id="fonts" className="mt-8"><b>Step 6: Optional — Custom Fonts</b></h2>
           <p>
             Upload a <b>.ttf</b> or <b>.otf</b> to apply a custom font to the selected layer. If a font can’t be loaded, the tool safely falls back to a readable font.
@@ -202,6 +210,13 @@ export default function AddTextToGifsGuide() {
           </p>
         </article>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          {/* Bottom Article Ad */}
+          <div className="my-6 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-2xl w-full"
+            />
+          </div>
           <h3 className="text-xl font-bold text-blue-700 mb-2">Related Posts</h3>
           <ul className="list-disc pl-6 text-blue-900">
             <li><Link to="/blog/how-to-make-gifs-from-videos" className="text-blue-600 underline">How to Make GIFs from Videos Instantly</Link></li>

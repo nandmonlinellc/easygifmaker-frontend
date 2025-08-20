@@ -1,4 +1,5 @@
 import React from 'react';
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import { Helmet } from 'react-helmet-async';
 
 const ToolPageLayout = ({
@@ -141,6 +142,14 @@ const ToolPageLayout = ({
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               {description}
             </p>
+          </div>
+
+          {/* Header Ad - High visibility after tool introduction */}
+          <div className="mb-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
           </div>
 
           {/* Tool-specific content */}

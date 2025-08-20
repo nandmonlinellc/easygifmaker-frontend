@@ -2,7 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Maximize2 } from 'lucide-react';
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import { Maximize2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx';
 import AdsenseAd from '@/components/AdsenseAd.jsx';
 

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { Helmet } from 'react-helmet-async'
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'
@@ -13,9 +14,24 @@ import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSec
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
+
+          {/* Mid-content Ad */}
+          <div className="my-8 flex justify-center">
+            <InArticleAd 
+              slot="8336674411"
+              className="max-w-2xl w-full"
+            />
+          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 
@@ -332,8 +348,15 @@ export default function ResizeTool() {
                         </p>
                       </div>
                     </div>
-                    
+                    {/* Mid-content Ad */}
+                    <div className="my-8 flex justify-center">
+                      <InArticleAd 
+                        slot="8336674411"
+                        className="max-w-2xl w-full"
+                      />
+                    </div>
                     <EnhancedTipsSection
+
                       title="Pro Tips for Perfect Resizing"
                       tips={[
                         "<strong>Scale Percentage</strong> 50-150% works well for most GIFs. Smaller for faster loading, larger for better detail.",
@@ -481,6 +504,13 @@ export default function ResizeTool() {
         />
 
       {/* Value Content Section (moved to end) */}
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
       <ValueContentSection
         toolTitle="GIF Resizer"
         relatedLinks={[

@@ -9,6 +9,14 @@ import GifConversionSettings from '../components/GifConversionSettings'
 import FileUploadSection from '../components/FileUploadSection'
 import SocialSharingSection from '../components/SocialSharingSection'
 import TroubleshootingSection from '../components/TroubleshootingSection'
+
+          {/* Mid-content Ad - After troubleshooting */}
+          <div className="my-8 flex justify-center">
+            <InArticleAd 
+              slot="8336674411"
+              className="max-w-2xl w-full"
+            />
+          </div>
 import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 import ToolSeoSection from '../components/ToolSeoSection'
@@ -17,8 +25,16 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
 import ValueContentSection from '../components/ValueContentSection'
-import AdsenseAd from '../components/AdsenseAd'
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import AdsenseAd from '../components/AdsenseAd'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -632,9 +648,17 @@ export default function VideoToGifTool() {
               }
             ]}
           />
+          {/* Mid-content Ad - After troubleshooting */}
+          <div className="my-8 flex justify-center">
+            <InArticleAd 
+              slot="8336674411"
+              className="max-w-2xl w-full"
+            />
+          </div>
 
           <TroubleshootingSection 
-            commonIssues={[
+
+          commonIssues={[
               {
                 color: "bg-yellow-500",
                 text: "If conversion fails, check your video format and file size."
@@ -671,6 +695,13 @@ export default function VideoToGifTool() {
           />
 
           {/* Value Content Section (moved to end) */}
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
           <ValueContentSection
             toolTitle="Video to GIF Converter"
             relatedLinks={[

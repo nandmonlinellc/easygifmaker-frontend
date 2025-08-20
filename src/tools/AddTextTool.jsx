@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react'
-import * as Slider from '@radix-ui/react-slider'
+import DisplayAd from '@/components/ads/DisplayAd.jsx';
+import InArticleAd from '@/components/ads/InArticleAd.jsx';import * as Slider from '@radix-ui/react-slider'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -16,6 +17,13 @@ import HowToUseSection from '../components/HowToUseSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 
@@ -633,6 +641,13 @@ export default function AddTextTool() {
         />
 
         {/* Value Content Section (moved to end) */}
+          {/* Bottom Ad - Before value content */}
+          <div className="my-8 flex justify-center">
+            <DisplayAd 
+              slot="1125232950"
+              className="max-w-3xl w-full"
+            />
+          </div>
         <ValueContentSection
           toolTitle="Add Text to GIF"
           relatedLinks={[
