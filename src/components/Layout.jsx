@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import CookieConsentBanner from './CookieConsentBanner'
-import { isProd, isConsentGranted, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
+import MaintenanceNotification from './MaintenanceNotification'
 
 export default function Layout() {
   // Preload AdSense script once consent is granted to avoid FOUC when ad components mount
@@ -25,7 +25,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 container mx-auto p-4 md:p-8">
+      <MaintenanceNotification />      <main className="flex-1 container mx-auto p-4 md:p-8">
         <Outlet />
       </main>
       <Footer />
