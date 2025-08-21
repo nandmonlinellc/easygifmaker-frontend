@@ -4,6 +4,7 @@ import Header from './Header'
 import Footer from './Footer'
 import CookieConsentBanner from './CookieConsentBanner'
 import MaintenanceNotification from './MaintenanceNotification'
+import { isProd, isConsentGranted, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
 
 export default function Layout() {
   // Preload AdSense script once consent is granted to avoid FOUC when ad components mount
@@ -29,7 +30,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
-  <CookieConsentBanner />
+      <CookieConsentBanner />
     </div>
   )
 }
