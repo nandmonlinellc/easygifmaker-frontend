@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
-import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X } from 'lucide-react'
+import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X, RefreshCcw } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Header() {
@@ -14,6 +14,7 @@ export default function Header() {
     { id: 'resize', title: 'Resize', icon: RotateCw, path: '/resize' },
     { id: 'crop', title: 'Crop', icon: Crop, path: '/crop' },
     { id: 'optimize', title: 'Optimize', icon: Zap, path: '/optimize' },
+    { id: 'reverse', title: 'Reverse', icon: RefreshCcw, path: '/reverse' },
     { id: 'add-text', title: 'Add Text', icon: Type, path: '/add-text' }
   ]
 
