@@ -205,8 +205,8 @@ export default function VideoToGifTool() {
         icon={Video}
         seoProps={{
           title: "Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker",
-          description: "Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly. No registration required.",
-          keywords: "video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, create gif from video, convert mp4 to gif, mov to gif, mp4 to animated gif, video to animated gif, video to gif high quality, gif converter, gif kiss, gify, gif, converter, gif maker, ezgif, 视频转gif, imgflip, video video, screen to gif, gif converter, make a gif, gif creator, gif editor, ezgif.com, gifmaker, video to gif converter, gif downloader, how to make a gif, image to gif, gif generator, 视频转动图, 转gif, convert video to gif, mov to gif, youtube to gif, ezgif maker, make gif, ez gif, create gif, convert to gif, discord gif maker, gif maker free, ez gif maker, img flip, easygif, video a gif, gif to video, gif转换, 视频转gif 在线, turn video into gif, 视频转换gif, gif转视频, convertir video a gif, giif, gif maker online, com.smile.gifmaker, how to create a gif, mov转gif, transformar video em gif, 视频怎么转gif, imgflip.com, how to make gifs, 在线视频转gif, ezgif.com free, gif 변환, avi to gif, how to make gif, mkv to gif, youtube video to gif, lovegif, video into gif, видео в гиф, youtube gif, video gif, gif maker from video, gidf, gif animator, 動画をgifに変換, video to gif maker, 视频转gif工具, gif creator free, 转gif在线, ezgi, make gif from video, create gif from video, 视频变gif, gif to video converter, yt to gif, mov to gif converter, gif video, make your own gif, transformar vídeo em gif, 视频转为gif, ezgif video to gif, gifmaker.me, convertir video en gif, how to create gif, togif, ghif, 视频制作gif, adobe gif, 動画 gif 変換, gif変換, de video a gif, how to turn a video into a gif, video to, converter video em gif, adobe gif maker, picture to gif, to gif, turn video to gif,  create gif online, blog gif, link to gif, video para gif, convert mov to gif, из视频 вgif, 视频转gif软件, 视频转gif在线, 实况转gif, 视频转gif图, video to gif online, сделать гиф из видео, video to gif converter online, how to make a gif from a video, make video into gif, convert gif, convertir en gif, how to turn video into gif, convert gif to video, transformar em gif, gif化, converter to gif, 视频转gif动图",
+          description: "Free, high-quality video to GIF conversion. Upload files or paste a YouTube or other video URL to create GIFs instantly.",
+          keywords: "video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, create gif from video, convert mp4 to gif, mov to gif, mp4 to animated gif, video to animated gif, video to gif high quality, gif converter, gif kiss, gify, gif, converter, gif maker, ezgif, 视频转gif, imgflip, video video, screen to gif, gif converter, make a gif, gif creator, gif editor, ezgif.com, gifmaker, video to gif converter, gif downloader, how to make a gif, image to gif, gif generator, 视频转动图, 转gif, convert video to gif, mov to gif, youtube to gif, ezgif maker, make gif, ez gif, create gif, convert to gif, discord gif maker, gif maker free, ez gif maker, img flip, easygif, video a gif, gif to video, gif转换, 视频转gif 在线, turn video into gif, 视频转换gif, gif转视频, convertir video a gif, giif, gif maker online, com.smile.gifmaker, how to create a gif, mov转gif, transformar video em gif, 视频怎么转gif, imgflip.com, how to make gifs, 在线视频转gif, ezgif.com free, gif 변환, avi to gif, how to make gif, mkv to gif, youtube video to gif, lovegif, video into gif, видео в гиф, youtube gif, video gif, gif maker from video, gidf, gif animator, 動画をgifに変換, video to gif maker, 视频转gif工具, gif creator free, 转gif在线, ezgi, make gif from video, create gif from video, 视频变gif, gif to video converter, yt to gif, mov to gif converter, gif video, make your own gif, transformar vídeo em gif, 视频转为gif, ezgif video to gif, gifmaker.me, convertir video en gif, how to create gif, togif, ghif, 视频制作gif, adobe gif, 動画 gif 変換, gif変換, de video a gif, how to turn a video into a gif, video to, converter video em gif, adobe gif maker, picture to gif, to gif, turn video to gif,  create gif online, blog gif, link to gif, video para gif, convert mov to gif, из视频 вgif, 视频转gif软件, 视频转gif在线, 实况转gif, 视频转gif图, video to gif online, сделать гиф из видео, video to gif converter online, how to make a gif from a video, make video into gif, convert gif, convertir en gif, how to turn video into gif, convert gif to video, transformar em gif, gif化, converter to gif, 视频转gif动图, video to gif converter free, video to gif online, vid to gif, youtube video to gif converter, gif maker from video",
           canonical: "https://easygifmaker.com/video-to-gif"
         }}
         howToSteps={[
@@ -253,20 +253,25 @@ export default function VideoToGifTool() {
 
           {/* Upload State */}
           {workflowState === 'upload' && (
-            <UploadState
-              title="Upload Video or Enter URL"
-              description="Select a video file or enter a YouTube/video URL to convert to GIF"
-              errorMessage={errorMessage}
-              uploadMethod={uploadMethod}
-              setUploadMethod={setUploadMethod}
-              onFileSelect={(files) => handleFileUpload(files)}
-              onUrlSubmit={(url) => handleFileUpload(null, url)}
-              isProcessing={isProcessing}
-              supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Public video URLs (e.g., YouTube) are supported if accessible."
-              accept="video/*"
-              toolName="Video"
-              useGradient={false}
-            />
+            <>
+              <UploadState
+                title="Upload Video or Enter URL"
+                description="Select a video file or enter a YouTube/video URL to convert to GIF"
+                errorMessage={errorMessage}
+                uploadMethod={uploadMethod}
+                setUploadMethod={setUploadMethod}
+                onFileSelect={(files) => handleFileUpload(files)}
+                onUrlSubmit={(url) => handleFileUpload(null, url)}
+                isProcessing={isProcessing}
+                supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Public video URLs (e.g., YouTube) are supported if accessible."
+                accept="video/*"
+                toolName="Video"
+                useGradient={false}
+              />
+              <p className="mt-4 text-sm text-gray-600 text-center">
+                You can also paste a YouTube or other video URL above to convert it into a GIF.
+              </p>
+            </>
           )}
 
           {/* Editing State */}
