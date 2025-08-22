@@ -47,8 +47,8 @@ export default function HomePage() {
     <>
       <Meta
         title="EasyGIFMaker - Create, Edit and Optimize GIFs Online for Free"
-        description="Create, edit and optimize GIFs online for free. Convert videos to GIF, resize, crop, add text and more. No registration required."
-        keywords="gif maker, gif, free gif maker, online gif maker, gif creator, video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, gif editor, create gif from video, animated gif maker, convert mp4 to gif, gif maker app, make a gif from photos, make your own gif, high quality gif maker, gifs on iphone, create your own gif, create gif from images, gif converter, free gif maker app, gif creator online, custom gif, create a gif from pictures, make my own gif, gif builder, video to animated gif, gif kiss, video to gif high quality"
+        description="Free GIF creation with video and YouTube URL conversion. Turn MP4 or WebP into GIFs instantly. Resize, crop, add text, and download without registration."
+        keywords="gif maker, gif, free gif maker, online gif maker, gif creator, video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, gif editor, create gif from video, animated gif maker, convert mp4 to gif, gif maker app, make a gif from photos, make your own gif, high quality gif maker, gifs on iphone, create your own gif, create gif from images, gif converter, free gif maker app, gif creator online, custom gif, create a gif from pictures, make my own gif, gif builder, video to animated gif, gif kiss, video to gif high quality, gif maker online, animated gif generator, gif maker online free, make gif from images, gif animation maker, online gif animator, gifmaker, image animator gif"
         url="/"
         image="https://easygifmaker.com/og-image.png"
         imageAlt="EasyGIFMaker"
@@ -84,11 +84,16 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20" />
           <div className="relative z-10 max-w-3xl mx-auto px-4">
             <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Create GIFs Instantly</h1>
-            <p className="text-xl md:text-2xl mb-4">Turn your videos and images into stunning GIFs in seconds.</p>
-            <p className="mb-8 text-lg text-white">Free, fast, and privacy-focused.</p>
-            <div className="flex justify-center mb-8">
-              <Video className="w-20 h-20 md:w-24 md:h-24 text-white bg-blue-500 rounded-full p-4 shadow-lg" />
-            </div>
+              <p className="text-xl md:text-2xl mb-4">Turn your videos and images into stunning GIFs in seconds.</p>
+              <p className="text-lg text-white mb-4">
+                Use our <Link to="/video-to-gif" className="underline">Video to GIF</Link> converter or YouTube to GIF tool, and animate photos with the image animator GIF, an easy animated GIF creator.
+              </p>
+              <p className="text-lg text-white mb-8">
+                Convert MP4 into GIF or WebP into GIF for free, fast, and privacy-focused results.
+              </p>
+              <div className="flex justify-center mb-8">
+                <Video className="w-20 h-20 md:w-24 md:h-24 text-white bg-blue-500 rounded-full p-4 shadow-lg" />
+              </div>
             <Link to="/gif-maker" className="px-6 py-3 md:px-8 md:py-4 bg-white text-blue-700 font-bold rounded-full shadow-lg hover:bg-blue-100 transition text-lg">
               Try GIF Maker
             </Link>
@@ -102,23 +107,23 @@ export default function HomePage() {
             <FeatureCard
               icon={<Image className="w-12 h-12 md:w-16 md:h-16 text-blue-500" />}
               title="GIF Maker"
-              description="Combine multiple images or video clips to create animated GIFs."
-              bgColor="bg-blue-50"
-            >
-              <Link to="/gif-maker" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition text-sm">
-                Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
-              </Link>
+                description="Combine images or video clips with our animated GIF creator and image animator GIF."
+                bgColor="bg-blue-50"
+              >
+                <Link to="/gif-maker" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-blue-700 text-white rounded-full font-bold shadow hover:bg-blue-800 transition text-sm">
+                  Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+                </Link>
             </FeatureCard>
 
             <FeatureCard
               icon={<Video className="w-12 h-12 md:w-16 md:h-16 text-green-500" />}
               title="Video to GIF"
-              description="Convert any video into a high-quality GIF."
-              bgColor="bg-green-50"
-            >
-              <Link to="/video-to-gif" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition text-sm">
-                Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
-              </Link>
+                description="Convert any clip with our Video to GIF converter, turning MP4 into GIF or even YouTube to GIF."
+                bgColor="bg-green-50"
+              >
+                <Link to="/video-to-gif" className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-2 bg-green-700 text-white rounded-full font-bold shadow hover:bg-green-800 transition text-sm">
+                  Try Now <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+                </Link>
             </FeatureCard>
 
             <FeatureCard
