@@ -1,22 +1,11 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Video, Settings, Download } from 'lucide-react'
 import VideoTimeline from '../components/VideoTimeline'
-import ResultSection from '../components/ResultSection'
-import GifConversionSettings from '../components/GifConversionSettings'
-import FileUploadSection from '../components/FileUploadSection'
 import SocialSharingSection from '../components/SocialSharingSection'
 import TroubleshootingSection from '../components/TroubleshootingSection'
-
-          {/* Mid-content Ad - After troubleshooting */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
 import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 import ToolSeoSection from '../components/ToolSeoSection'
@@ -25,17 +14,11 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
-import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';
+import DisplayAd from '@/components/ads/DisplayAd.jsx'
+import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import AdsenseAd from '../components/AdsenseAd'
+import { Slider } from '@/components/ui/slider.jsx'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -46,18 +29,41 @@ export default function VideoToGifTool() {
   const [errorMessage, setErrorMessage] = useState(null)
   // Video settings state
   const [videoSettings, setVideoSettings] = useState({
-    startTime: 0,
-    duration: 10,
     fps: 15,
     width: 480,
     height: 360,
     quality: 'medium',
     includeAudio: false
   })
-  // State for video timeline segment range, controlled by VideoToGifTool
-  const [segmentRangeState, setSegmentRange] = useState([0, 10])
-  // Memoize segmentRange to ensure stable reference
-  const segmentRange = useMemo(() => [...segmentRangeState], [segmentRangeState[0], segmentRangeState[1]])
+  // Segments state
+  const [segments, setSegments] = useState([{ start: 0, end: 10 }])
+  const addSegment = useCallback(() => {
+    setSegments(prev => [...prev, { start: 0, end: 10 }])
+  }, [])
+  // Brightness and contrast controls
+  const [brightness, setBrightness] = useState(0)
+  const [contrast, setContrast] = useState(1)
+  
+  // Stable handlers for sliders to prevent infinite re-renders
+  const handleBrightnessChange = useCallback((value) => {
+    setBrightness(value[0])
+  }, [])
+  
+  const handleContrastChange = useCallback((value) => {
+    setContrast(value[0])
+  }, [])
+  
+  const totalDuration = useMemo(
+    () => segments.reduce((sum, s) => sum + (s.end - s.start), 0),
+    [segments]
+  )
+
+  // Reset segments when video changes to prevent stale state
+  useEffect(() => {
+    if (videoUrl) {
+      setSegments([{ start: 0, end: 10 }])
+    }
+  }, [videoUrl])
 
   // Unified upload handler for file or URL
   const handleFileUpload = useCallback(async (files, urlInput = null) => {
@@ -83,7 +89,7 @@ export default function VideoToGifTool() {
           try {
             const errorData = await response.json()
             errorMessage = errorData.error || errorMessage
-          } catch (e) {}
+          } catch {}
           throw new Error(errorMessage)
         }
       } else {
@@ -98,12 +104,19 @@ export default function VideoToGifTool() {
     }
   }, [uploadMethod])
 
-  const handleSegmentChange = useCallback((segment) => {
-    setVideoSettings(prev => ({
-      ...prev,
-      startTime: segment.startTime,
-      duration: segment.duration
-    }))
+  const handleSegmentChange = useCallback((index, segment) => {
+    setSegments(prev => {
+      const updated = [...prev]
+      updated[index] = { start: segment.startTime, end: segment.startTime + segment.duration }
+      return updated
+    })
+  }, [])
+  const handleSegmentRangeChange = useCallback((index, range) => {
+    setSegments(prev => {
+      const updated = [...prev]
+      updated[index] = { start: range[0], end: range[1] }
+      return updated
+    })
   }, [])
 
   const handleSettingChange = useCallback((key, value) => {
@@ -123,8 +136,9 @@ export default function VideoToGifTool() {
       const videoBlobResponse = await fetch(videoUrl)
       const blob = await videoBlobResponse.blob()
       formData.append('file', blob, 'video.mp4')
-      formData.append('start_time', videoSettings.startTime.toString())
-      formData.append('duration', videoSettings.duration.toString())
+      formData.append('segments', JSON.stringify(segments))
+      formData.append('brightness', brightness.toString())
+      formData.append('contrast', contrast.toString())
       formData.append('fps', videoSettings.fps.toString())
       formData.append('width', videoSettings.width.toString())
       formData.append('height', videoSettings.height.toString())
@@ -185,15 +199,15 @@ export default function VideoToGifTool() {
     setErrorMessage(null)
     setResultUrl(null)
     setVideoSettings({
-      startTime: 0,
-      duration: 10,
       fps: 15,
       width: 480,
       height: 360,
       quality: 'medium',
       includeAudio: false
     })
-    setSegmentRange([0, 10])
+    setSegments([{ start: 0, end: 10 }])
+    setBrightness(0)
+    setContrast(1)
   }
 
   // --- Render ---
@@ -231,20 +245,36 @@ export default function VideoToGifTool() {
           title="How to Use the Video to GIF Converter"
           steps={[
             {
-              title: "Upload your video",
-              description: "Select a video file or enter a YouTube/video URL to convert to GIF."
+              title: "Upload your video or paste a URL",
+              description: "Select a local video file or paste a YouTube / public video URL. We fetch and prepare it automatically."
             },
             {
-              title: "Select your segment",
-              description: "Use the interactive timeline to choose the exact part you want to convert."
+              title: "Create one or multiple segments",
+              description: "Drag the timeline handles to set start/end. Click 'Add Segment' to append another portion – all segments are merged in order."
             },
             {
-              title: "Adjust settings",
-              description: "Set frame rate, quality, and size in the conversion settings panel."
+              title: "Preview each segment",
+              description: "Use the Play Segment button to instantly preview the trimmed portion before processing."
             },
             {
-              title: "Convert and download",
-              description: "Click convert to generate your GIF, then download and share it!"
+              title: "Fine‑tune visuals",
+              description: "Adjust Brightness (−1 to +1) and Contrast (0–3). Subtle tweaks (±0.1 / +0.2) preserve detail while improving clarity."
+            },
+            {
+              title: "Tune conversion settings",
+              description: "Pick FPS (smoothness vs size), choose quality level, and set output dimensions. Keep width ≤ 720 for faster processing."
+            },
+            {
+              title: "(Optional) Include audio",
+              description: "Enable 'Include Audio' to also produce an MP4 alongside your GIF (only if the source has an audio track)."
+            },
+            {
+              title: "Generate & download",
+              description: "Click Convert to process. When complete, download the GIF (and MP4 if enabled)."
+            },
+            {
+              title: "Share & iterate",
+              description: "Not perfect? Hit 'Convert Another Video' or adjust segments/settings and re‑run."
             }
           ]}
         />
@@ -287,13 +317,25 @@ export default function VideoToGifTool() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm border border-white/30">
-                      <VideoTimeline
-                        videoUrl={videoUrl}
-                        onSegmentChange={handleSegmentChange}
-                        segmentRange={segmentRange}
-                        setSegmentRange={setSegmentRange}
-                      />
+                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm border border-white/30 space-y-6">
+                      {segments.map((seg, idx) => (
+                        <VideoTimeline
+                          key={`${videoUrl}-${idx}`}
+                          videoUrl={videoUrl}
+                          onSegmentChange={(segment) => handleSegmentChange(idx, segment)}
+                          segmentRange={[seg.start, seg.end]}
+                          setSegmentRange={(range) => handleSegmentRangeChange(idx, range)}
+                          brightness={brightness}
+                          contrast={contrast}
+                        />
+                      ))}
+                      <Button
+                        onClick={addSegment}
+                        variant="outline"
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 border-0 shadow-md hover:shadow-lg transition-colors"
+                      >
+                        ➕ Add Segment
+                      </Button>
                     </div>
                     <div className="flex gap-4">
                       <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 border border-white/30">
@@ -390,6 +432,19 @@ export default function VideoToGifTool() {
                           />
                         </div>
                       </div>
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Brightness
+                        </label>
+                        <Slider min={-1} max={1} step={0.1} value={[brightness]} onValueChange={handleBrightnessChange} />
+                      </div>
+
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Contrast
+                        </label>
+                        <Slider min={0} max={3} step={0.1} value={[contrast]} onValueChange={handleContrastChange} />
+                      </div>
 
                       <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                         <div className="flex items-center gap-3 mb-4">
@@ -423,7 +478,7 @@ export default function VideoToGifTool() {
                           <div className="flex items-center justify-between">
                             <div className="text-sm sm:text-base font-semibold text-gray-700">Duration</div>
                             <div className="text-sm sm:text-base font-bold text-blue-600">
-                              {segmentRange ? (segmentRange[1] - segmentRange[0]).toFixed(1) : '0.0'}s
+                              {totalDuration.toFixed(1)}s
                             </div>
                           </div>
                         </div>
@@ -606,52 +661,24 @@ export default function VideoToGifTool() {
 
           <TipsFaqsBestPracticesSection 
             proTips={[
-              {
-                color: "bg-blue-500",
-                text: "Use the timeline to select only the part you want—shorter GIFs load faster and are easier to share."
-              },
-              {
-                color: "bg-green-500",
-                text: "15 FPS provides excellent balance of smoothness and file size for most videos."
-              },
-              {
-                color: "bg-purple-500",
-                text: "Medium quality works well for most use cases, balancing file size and visual quality."
-              },
-              {
-                color: "bg-orange-500",
-                text: "Keep segments under 10 seconds for optimal GIF performance and sharing."
-              }
+              { color: "bg-blue-500", text: "Use multiple segments to stitch highlights into one seamless GIF." },
+              { color: "bg-green-500", text: "Keep the combined duration under ~15s for shareable file sizes." },
+              { color: "bg-purple-500", text: "Subtle Brightness (±0.1) & Contrast (+0.2) tweaks enhance clarity without banding." },
+              { color: "bg-orange-500", text: "Lower FPS (10–15) drastically reduces size with minimal motion loss." },
+              { color: "bg-pink-500", text: "Resize down (e.g. 480px width) before sharing on chats to speed load times." },
+              { color: "bg-indigo-500", text: "Enable audio only if you need an MP4 – GIFs never contain sound." }
             ]}
             faqs={[
-              {
-                question: "Why is my MP4 with audio not available?",
-                answer: "If your video has no audio track, only a GIF will be generated."
-              },
-              {
-                question: "Can I use YouTube or Dailymotion links?",
-                answer: "Yes! Paste the video URL and we'll handle the rest."
-              },
-              {
-                question: "What video formats are supported?",
-                answer: "MP4, MOV, WebM, AVI, MKV, FLV, and more."
-              },
-              {
-                question: "Is there a file size limit?",
-                answer: "Yes, up to 200MB per video for fast, reliable processing."
-              }
+              { question: "How do multi‑segment GIFs work?", answer: "Each segment you add is trimmed and concatenated in order into one output animation (and MP4 if audio enabled)." },
+              { question: "Why did my MP4 not appear?", answer: "Your source likely had no audio track or you left 'Include Audio' off." },
+              { question: "What Brightness / Contrast range is safe?", answer: "Stay within −0.3 to +0.3 brightness and 0.8–1.6 contrast for natural results." },
+              { question: "Can I rearrange segments?", answer: "Currently they render in the order created. Delete & re‑add to change ordering (reorder UI coming soon)." },
+              { question: "Best FPS for quality vs size?", answer: "15 FPS balances smoothness and size; use 24–30 only for fast motion clips." },
+              { question: "Why is my GIF larger than expected?", answer: "High resolution + high FPS + long duration compounds size. Reduce one or two factors." }
             ]}
             relatedResources={[
-              {
-                href: "/blog/how-to-make-gifs-from-videos",
-                icon: "📹",
-                text: "How to Make GIFs from Videos"
-              },
-              {
-                href: "/blog/top-5-gif-optimization-tips",
-                icon: "⚡",
-                text: "Top 5 GIF Optimization Tips"
-              }
+              { href: "/blog/how-to-make-gifs-from-videos", icon: "📹", text: "How to Make GIFs from Videos" },
+              { href: "/blog/top-5-gif-optimization-tips", icon: "⚡", text: "Top 5 GIF Optimization Tips" }
             ]}
           />
           {/* Mid-content Ad - After troubleshooting */}
