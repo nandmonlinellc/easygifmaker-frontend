@@ -8,7 +8,9 @@ export default function VideoTimeline({
   videoUrl,
   onSegmentChange,
   segmentRange, // Now controlled by parent
-  setSegmentRange // Now controlled by parent
+  setSegmentRange, // Now controlled by parent
+  brightness = 0,
+  contrast = 1
 }) {
   const videoRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -138,6 +140,7 @@ export default function VideoTimeline({
           className="w-full h-auto max-h-96 object-contain"
           controls={false}
           preload="metadata"
+          style={{ filter: `brightness(${1 + brightness}) contrast(${contrast})` }}
         />
         {/* Custom Video Controls Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">

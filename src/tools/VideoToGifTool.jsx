@@ -4,9 +4,6 @@ import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Video, Settings, Download } from 'lucide-react'
 import VideoTimeline from '../components/VideoTimeline'
-import ResultSection from '../components/ResultSection'
-import GifConversionSettings from '../components/GifConversionSettings'
-import FileUploadSection from '../components/FileUploadSection'
 import SocialSharingSection from '../components/SocialSharingSection'
 import TroubleshootingSection from '../components/TroubleshootingSection'
 
@@ -36,6 +33,7 @@ import ValueContentSection from '../components/ValueContentSection'
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import InArticleAd from '@/components/ads/InArticleAd.jsx';
 import AdsenseAd from '../components/AdsenseAd'
+import { Slider } from '@/components/ui/slider.jsx'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -46,18 +44,24 @@ export default function VideoToGifTool() {
   const [errorMessage, setErrorMessage] = useState(null)
   // Video settings state
   const [videoSettings, setVideoSettings] = useState({
-    startTime: 0,
-    duration: 10,
     fps: 15,
     width: 480,
     height: 360,
     quality: 'medium',
     includeAudio: false
   })
-  // State for video timeline segment range, controlled by VideoToGifTool
-  const [segmentRangeState, setSegmentRange] = useState([0, 10])
-  // Memoize segmentRange to ensure stable reference
-  const segmentRange = useMemo(() => [...segmentRangeState], [segmentRangeState[0], segmentRangeState[1]])
+  // Segments state
+  const [segments, setSegments] = useState([{ start: 0, end: 10 }])
+  const addSegment = useCallback(() => {
+    setSegments(prev => [...prev, { start: 0, end: 10 }])
+  }, [])
+  // Brightness and contrast controls
+  const [brightness, setBrightness] = useState(0)
+  const [contrast, setContrast] = useState(1)
+  const totalDuration = useMemo(
+    () => segments.reduce((sum, s) => sum + (s.end - s.start), 0),
+    [segments]
+  )
 
   // Unified upload handler for file or URL
   const handleFileUpload = useCallback(async (files, urlInput = null) => {
@@ -83,7 +87,7 @@ export default function VideoToGifTool() {
           try {
             const errorData = await response.json()
             errorMessage = errorData.error || errorMessage
-          } catch (e) {}
+          } catch {}
           throw new Error(errorMessage)
         }
       } else {
@@ -98,12 +102,19 @@ export default function VideoToGifTool() {
     }
   }, [uploadMethod])
 
-  const handleSegmentChange = useCallback((segment) => {
-    setVideoSettings(prev => ({
-      ...prev,
-      startTime: segment.startTime,
-      duration: segment.duration
-    }))
+  const handleSegmentChange = useCallback((index, segment) => {
+    setSegments(prev => {
+      const updated = [...prev]
+      updated[index] = { start: segment.startTime, end: segment.startTime + segment.duration }
+      return updated
+    })
+  }, [])
+  const handleSegmentRangeChange = useCallback((index, range) => {
+    setSegments(prev => {
+      const updated = [...prev]
+      updated[index] = { start: range[0], end: range[1] }
+      return updated
+    })
   }, [])
 
   const handleSettingChange = useCallback((key, value) => {
@@ -123,8 +134,9 @@ export default function VideoToGifTool() {
       const videoBlobResponse = await fetch(videoUrl)
       const blob = await videoBlobResponse.blob()
       formData.append('file', blob, 'video.mp4')
-      formData.append('start_time', videoSettings.startTime.toString())
-      formData.append('duration', videoSettings.duration.toString())
+      formData.append('segments', JSON.stringify(segments))
+      formData.append('brightness', brightness.toString())
+      formData.append('contrast', contrast.toString())
       formData.append('fps', videoSettings.fps.toString())
       formData.append('width', videoSettings.width.toString())
       formData.append('height', videoSettings.height.toString())
@@ -185,15 +197,15 @@ export default function VideoToGifTool() {
     setErrorMessage(null)
     setResultUrl(null)
     setVideoSettings({
-      startTime: 0,
-      duration: 10,
       fps: 15,
       width: 480,
       height: 360,
       quality: 'medium',
       includeAudio: false
     })
-    setSegmentRange([0, 10])
+    setSegments([{ start: 0, end: 10 }])
+    setBrightness(0)
+    setContrast(1)
   }
 
   // --- Render ---
@@ -287,13 +299,21 @@ export default function VideoToGifTool() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm border border-white/30">
-                      <VideoTimeline
-                        videoUrl={videoUrl}
-                        onSegmentChange={handleSegmentChange}
-                        segmentRange={segmentRange}
-                        setSegmentRange={setSegmentRange}
-                      />
+                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm border border-white/30 space-y-6">
+                      {segments.map((seg, idx) => (
+                        <VideoTimeline
+                          key={idx}
+                          videoUrl={videoUrl}
+                          onSegmentChange={(segment) => handleSegmentChange(idx, segment)}
+                          segmentRange={[seg.start, seg.end]}
+                          setSegmentRange={(range) => handleSegmentRangeChange(idx, range)}
+                          brightness={brightness}
+                          contrast={contrast}
+                        />
+                      ))}
+                      <Button onClick={addSegment} className="w-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all border border-white/30">
+                        Add Segment
+                      </Button>
                     </div>
                     <div className="flex gap-4">
                       <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 border border-white/30">
@@ -390,6 +410,19 @@ export default function VideoToGifTool() {
                           />
                         </div>
                       </div>
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Brightness
+                        </label>
+                        <Slider min={-1} max={1} step={0.1} value={[brightness]} onValueChange={(v) => setBrightness(v[0])} />
+                      </div>
+
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20">
+                        <label className="block font-semibold mb-3 sm:mb-4 text-gray-800 text-base sm:text-lg">
+                          Contrast
+                        </label>
+                        <Slider min={0} max={3} step={0.1} value={[contrast]} onValueChange={(v) => setContrast(v[0])} />
+                      </div>
 
                       <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                         <div className="flex items-center gap-3 mb-4">
@@ -423,7 +456,7 @@ export default function VideoToGifTool() {
                           <div className="flex items-center justify-between">
                             <div className="text-sm sm:text-base font-semibold text-gray-700">Duration</div>
                             <div className="text-sm sm:text-base font-bold text-blue-600">
-                              {segmentRange ? (segmentRange[1] - segmentRange[0]).toFixed(1) : '0.0'}s
+                              {totalDuration.toFixed(1)}s
                             </div>
                           </div>
                         </div>
