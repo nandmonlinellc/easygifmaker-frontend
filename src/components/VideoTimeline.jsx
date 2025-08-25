@@ -28,18 +28,9 @@ export default function VideoTimeline({
     const handleLoadedMetadata = () => {
       const newDuration = video.duration
       setDuration(newDuration)
-      // Only initialize once per video load and only if value is different
-      if (
-        !initializedRef.current &&
-        (segmentRange[0] !== 0 || segmentRange[1] !== Math.min(10, newDuration))
-      ) {
-        setSegmentRange([0, Math.min(10, newDuration)])
-        setIsVideoLoaded(true)
-        initializedRef.current = true
-      } else if (!initializedRef.current) {
-        setIsVideoLoaded(true)
-        initializedRef.current = true
-      }
+      setIsVideoLoaded(true)
+      // Only initialize once per video load - don't modify parent state here
+      initializedRef.current = true
     }
 
     const handleTimeUpdate = () => setCurrentTime(video.currentTime)
@@ -58,17 +49,26 @@ export default function VideoTimeline({
       video.removeEventListener('ended', handleEnded)
       initializedRef.current = false // Reset for next video
     }
-  }, [videoUrl, setSegmentRange])
+  }, [videoUrl])
 
-  // Effect to notify parent about segment range changes
+  // Reset initialized state when video URL changes
   useEffect(() => {
-    if (onSegmentChange && isVideoLoaded) {
-      onSegmentChange({
-        startTime: segmentRange[0],
-        duration: segmentRange[1] - segmentRange[0]
-      })
-    }
-  }, [segmentRange, onSegmentChange, isVideoLoaded])
+    initializedRef.current = false
+  }, [videoUrl])
+
+  // Effect to notify parent about segment range changes.
+  // We intentionally exclude onSegmentChange from deps to avoid infinite loops when
+  // parent passes a new (inline) function each render. This only fires when the
+  // actual numeric range changes after video is loaded.
+  useEffect(() => {
+    if (!isVideoLoaded) return
+    if (!onSegmentChange) return
+    onSegmentChange({
+      startTime: segmentRange[0],
+      duration: segmentRange[1] - segmentRange[0]
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [segmentRange[0], segmentRange[1], isVideoLoaded])
 
   const togglePlayPause = useCallback(() => {
     const video = videoRef.current

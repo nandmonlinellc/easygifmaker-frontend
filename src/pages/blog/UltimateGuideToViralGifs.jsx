@@ -469,12 +469,13 @@ export default function UltimateGuideToViralGifs() {
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-blue-50 p-6 rounded-lg">
               <h4 className="font-semibold text-blue-800 mb-3">Video to GIF Conversion</h4>
-              <p className="text-blue-900 text-sm mb-3">Use our <Link to="/video-to-gif" className="text-blue-600 underline font-semibold">Video to GIF tool</Link> to capture perfect moments from videos:</p>
+              <p className="text-blue-900 text-sm mb-3">Use our <Link to="/video-to-gif" className="text-blue-600 underline font-semibold">Video to GIF tool</Link> to capture perfect moments or stitch multiple highlights:</p>
               <ul className="list-disc pl-6 text-blue-900 text-sm">
-                <li>Precise trimming for perfect timing</li>
-                <li>Multiple frame rate options</li>
-                <li>Quality optimization for sharing</li>
-                <li>Real-time preview before conversion</li>
+                <li>Multi‑segment trimming (build a highlight reel)</li>
+                <li>Brightness & contrast tuning for clarity</li>
+                <li>Multiple frame rate & resolution options</li>
+                <li>Optional MP4 export with audio + GIF</li>
+                <li>Real-time preview & size estimation</li>
               </ul>
             </div>
             <div className="bg-green-50 p-6 rounded-lg">
