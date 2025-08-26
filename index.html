@@ -73,13 +73,13 @@
         gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
       });
     </script>
-    <script>
+    <script defer>
       window.addEventListener('DOMContentLoaded', function () {
         fetch('/api/health').catch(() => {});
       });
     </script>
-    <script>
-      (function() {
+    <script defer>
+      window.addEventListener('DOMContentLoaded', function () {
         function removeBaseDescriptionWhenReady() {
           const base = document.querySelector('meta[name="description"]:not([data-rh])');
           const helmet = document.querySelector('meta[name="description"][data-rh="true"]');
@@ -90,12 +90,12 @@
           return false;
         }
         if (!removeBaseDescriptionWhenReady()) {
-          const mo = new MutationObserver(function() {
+          const mo = new MutationObserver(function () {
             if (removeBaseDescriptionWhenReady()) mo.disconnect();
           });
           mo.observe(document.head, { childList: true, subtree: true });
         }
-      })();
+      });
     </script>
   </body>
 </html>
