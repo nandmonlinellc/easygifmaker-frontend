@@ -12,7 +12,9 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    visualizer({ open: true, filename: 'bundle-analysis.html' }),
+    ...(process.env.NODE_ENV === 'production'
+      ? []
+      : [visualizer({ open: true, filename: 'bundle-analysis.html' })]),
     viteCompression({
       verbose: true,
       disable: false,
