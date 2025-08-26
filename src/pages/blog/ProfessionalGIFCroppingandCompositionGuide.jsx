@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Crop } from 'lucide-react';
+const CropIcon = lazy(() => import('lucide-react/dist/esm/icons/crop'));
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
 
 export default function ProfessionalGIFCroppingandCompositionGuide() {
@@ -81,7 +81,9 @@ export default function ProfessionalGIFCroppingandCompositionGuide() {
             <CardHeader className="pb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl">
-                  <Crop className="h-6 w-6 text-white" />
+                <Suspense fallback={<div className="h-6 w-6" />}>
+                  <CropIcon className="h-6 w-6 text-white" />
+                </Suspense>
                 </div>
                 <div>
                   <CardTitle className="text-3xl font-bold text-gray-800">
