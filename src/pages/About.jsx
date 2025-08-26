@@ -1,29 +1,48 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Zap, Shield, Smile, Gift } from 'lucide-react';
+const GiftIcon = lazy(() => import('lucide-react/dist/esm/icons/gift'));
+const ShieldIcon = lazy(() => import('lucide-react/dist/esm/icons/shield'));
+const SmileIcon = lazy(() => import('lucide-react/dist/esm/icons/smile'));
+const ZapIcon = lazy(() => import('lucide-react/dist/esm/icons/zap'));
 import { Button } from '@/components/ui/button';
 
 export default function About() {
   const features = [
     {
-      icon: <Gift className="h-8 w-8 text-blue-600" />,
+      icon: (
+        <Suspense fallback={<div className="h-8 w-8" />}>
+          <GiftIcon className="h-8 w-8 text-blue-600" />
+        </Suspense>
+      ),
       title: 'Comprehensive Tools',
       description: 'From video conversion to adding text, we provide a full suite of tools to bring your GIFs to life.'
     },
     {
-      icon: <Shield className="h-8 w-8 text-green-600" />,
+      icon: (
+        <Suspense fallback={<div className="h-8 w-8" />}>
+          <ShieldIcon className="h-8 w-8 text-green-600" />
+        </Suspense>
+      ),
       title: 'Privacy First',
       description: 'We never store your files. Everything you upload is processed securely and deleted automatically.'
     },
     {
-      icon: <Smile className="h-8 w-8 text-purple-600" />,
+      icon: (
+        <Suspense fallback={<div className="h-8 w-8" />}>
+          <SmileIcon className="h-8 w-8 text-purple-600" />
+        </Suspense>
+      ),
       title: 'Simple & User-Friendly',
       description: 'Our tools are designed to be intuitive and easy to use for everyone, no technical skills required.'
     },
     {
-      icon: <Zap className="h-8 w-8 text-orange-600" />,
+      icon: (
+        <Suspense fallback={<div className="h-8 w-8" />}>
+          <ZapIcon className="h-8 w-8 text-orange-600" />
+        </Suspense>
+      ),
       title: 'Free & Fast',
       description: 'Enjoy unlimited access to all our tools for free, with fast processing and no watermarks.'
     }

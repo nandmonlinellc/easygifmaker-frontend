@@ -1,37 +1,52 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { BookOpen, Video, Image, Scissors, Type, Zap, Download, Share2, Smartphone, Monitor } from 'lucide-react';
+const VideoIcon = lazy(() => import('lucide-react/dist/esm/icons/video'));
+const ImageIcon = lazy(() => import('lucide-react/dist/esm/icons/image'));
+const ScissorsIcon = lazy(() => import('lucide-react/dist/esm/icons/scissors'));
+const TypeIcon = lazy(() => import('lucide-react/dist/esm/icons/type'));
+const ZapIcon = lazy(() => import('lucide-react/dist/esm/icons/zap'));
+const Share2Icon = lazy(() => import('lucide-react/dist/esm/icons/share-2'));
+const SmartphoneIcon = lazy(() => import('lucide-react/dist/esm/icons/smartphone'));
+const MonitorIcon = lazy(() => import('lucide-react/dist/esm/icons/monitor'));
+
+function LazyIcon({ icon: Icon, className }) {
+  return (
+    <Suspense fallback={<div className={className} />}>
+      <Icon className={className} />
+    </Suspense>
+  );
+}
 
 export default function Help() {
   const helpCategories = [
     {
-      icon: <Video className="h-6 w-6 text-blue-600" />,
+      icon: <LazyIcon icon={VideoIcon} className="h-6 w-6 text-blue-600" />,
       title: 'Video to GIF Conversion',
       description: 'Learn how to convert videos into high-quality GIFs',
       link: '/blog/how-to-make-gifs-from-videos'
     },
     {
-      icon: <Image className="h-6 w-6 text-green-600" />,
+      icon: <LazyIcon icon={ImageIcon} className="h-6 w-6 text-green-600" />,
       title: 'GIF Creation from Images',
       description: 'Create animated GIFs from multiple static images',
       link: '/gif-maker'
     },
     {
-      icon: <Scissors className="h-6 w-6 text-purple-600" />,
+      icon: <LazyIcon icon={ScissorsIcon} className="h-6 w-6 text-purple-600" />,
       title: 'GIF Cropping & Resizing',
       description: 'Crop and resize your GIFs for different platforms',
       link: '/crop'
     },
     {
-      icon: <Type className="h-6 w-6 text-orange-600" />,
+      icon: <LazyIcon icon={TypeIcon} className="h-6 w-6 text-orange-600" />,
       title: 'Adding Text to GIFs',
       description: 'Add captions, watermarks, and text overlays',
       link: '/add-text'
     },
     {
-      icon: <Zap className="h-6 w-6 text-red-600" />,
+      icon: <LazyIcon icon={ZapIcon} className="h-6 w-6 text-red-600" />,
       title: 'GIF Optimization',
       description: 'Optimize GIFs for faster loading and better quality',
       link: '/optimize'
@@ -89,7 +104,7 @@ export default function Help() {
   const platformGuides = [
     {
       platform: 'Social Media',
-      icon: <Share2 className="h-5 w-5" />,
+      icon: <LazyIcon icon={Share2Icon} className="h-5 w-5" />,
       tips: [
         'Twitter: Keep under 5MB, use 15fps',
         'Instagram: Square format (1:1 ratio) works best',
@@ -99,7 +114,7 @@ export default function Help() {
     },
     {
       platform: 'Websites',
-      icon: <Monitor className="h-5 w-5" />,
+      icon: <LazyIcon icon={MonitorIcon} className="h-5 w-5" />,
       tips: [
         'Use 640x480 resolution for fast loading',
         'Keep file size under 2MB',
@@ -109,7 +124,7 @@ export default function Help() {
     },
     {
       platform: 'Mobile',
-      icon: <Smartphone className="h-5 w-5" />,
+      icon: <LazyIcon icon={SmartphoneIcon} className="h-5 w-5" />,
       tips: [
         'Use 320x240 resolution for messaging',
         'Keep under 2MB for reliable sharing',
