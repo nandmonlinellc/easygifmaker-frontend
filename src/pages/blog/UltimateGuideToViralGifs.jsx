@@ -101,6 +101,9 @@ export default function UltimateGuideToViralGifs() {
         <aside className="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-8">
           <h2 className="text-xl font-bold text-blue-700 mb-2">On this page</h2>
           <ul className="list-disc pl-6 text-blue-900 text-sm grid md:grid-cols-2 gap-x-6">
+            <li><a href="#what-are-gifs" className="underline">What are GIFs?</a></li>
+            <li><a href="#gif-creation-steps" className="underline">How to create a GIF</a></li>
+            <li><a href="#gif-optimization" className="underline">Optimization tips</a></li>
             <li><a href="#psychology" className="underline">What makes GIFs go viral</a></li>
             <li><a href="#examples" className="underline">Examples and case studies</a></li>
             <li><a href="#strategies" className="underline">Creation strategies</a></li>
@@ -123,6 +126,39 @@ export default function UltimateGuideToViralGifs() {
 
           <p className="text-lg text-gray-700 mb-8">
             In this comprehensive guide, we'll explore the psychology behind viral content, analyze successful viral GIFs, and provide you with actionable strategies to create your own viral sensations. From timing and platform optimization to creative techniques and distribution strategies, you'll learn everything needed to master the art of viral GIF creation.
+          </p>
+
+          <h2 id="what-are-gifs" className="text-3xl font-bold text-blue-700 mt-12 mb-6">What Are GIFs?</h2>
+
+          <p className="text-lg text-gray-700 mb-6">
+            A GIF, short for Graphics Interchange Format, is a looping image file made from a rapid sequence of still frames. Invented in the early days of the web, the format remains popular because it combines the immediacy of an image with the motion of a video while keeping file sizes relatively small. GIFs play automatically, require no plug-ins, and are widely supported across devices and social platforms. They are used for reaction memes, quick tutorials, and eye‑catching micro animations that enhance storytelling. You can experiment with the format using our <Link to="/gif-maker" className="text-blue-600 underline">GIF Maker</Link> or convert clips on the fly with the <Link to="/video-to-gif" className="text-blue-600 underline">Video to GIF</Link> tool.
+          </p>
+
+          <h2 id="gif-creation-steps" className="text-3xl font-bold text-blue-700 mt-12 mb-6">How to Create a GIF</h2>
+
+          <p className="mb-6">
+            Creating a shareable GIF is easier than ever when you follow a simple workflow. Start with a strong visual moment, whether it's a video snippet or a series of photos, and then refine it for loopable impact. The steps below outline a beginner‑friendly process that works on any device:
+          </p>
+
+          <ol className="list-decimal pl-6 mb-6 space-y-2">
+            <li>
+              <span className="text-gray-700">Upload your footage to the <Link to="/video-to-gif" className="text-blue-600 underline">Video to GIF converter</Link> or assemble still images in the <Link to="/gif-maker" className="text-blue-600 underline">GIF Maker</Link>.</span>
+            </li>
+            <li>
+              <span className="text-gray-700">Trim the clip and arrange frames so the action begins and ends cleanly. Cropping or resizing can focus attention on the best part of the scene.</span>
+            </li>
+            <li>
+              <span className="text-gray-700">Add text overlays or captions with the <Link to="/add-text" className="text-blue-600 underline">Add Text tool</Link> to provide context or humor.</span>
+            </li>
+            <li>
+              <span className="text-gray-700">Preview the loop, make timing adjustments, and export the final GIF for easy sharing. For more detailed instructions, see our <Link to="/blog/how-to-make-gifs-from-videos" className="text-blue-600 underline">step‑by‑step tutorial</Link>.</span>
+            </li>
+          </ol>
+
+          <h2 id="gif-optimization" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Optimization Tips for GIFs</h2>
+
+          <p className="text-lg text-gray-700 mb-6">
+            Optimization ensures your GIF loads quickly and looks crisp on every platform. Keep file sizes under control by limiting the width and height of the animation and trimming any unnecessary frames. Reducing the frame rate to around 12 frames per second maintains motion while lowering size, and simplifying the color palette prevents bloated downloads. Our <Link to="/optimize" className="text-blue-600 underline">GIF Optimizer</Link> automatically applies many of these tweaks. For advanced techniques, explore the <Link to="/blog/top-5-gif-optimization-tips" className="text-blue-600 underline">Top 5 GIF Optimization Tips</Link> and the in‑depth guide on <Link to="/blog/gif-optimization-techniques" className="text-blue-600 underline">GIF Optimization Techniques</Link> to master professional‑grade compression.
           </p>
 
           <h2 id="psychology" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Understanding What Makes GIFs Go Viral</h2>
