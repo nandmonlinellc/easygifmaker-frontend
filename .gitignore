@@ -2,3 +2,4 @@ node_modules
 dist/
 build/
 client_secret_*.json
+bundle-analysis.html
