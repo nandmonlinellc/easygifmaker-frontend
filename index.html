@@ -35,7 +35,7 @@
       img { image-rendering: -webkit-optimize-contrast !important; }
     }
     </style>
-    <link rel="preload" href="/api/health" as="fetch" crossorigin>
+    <!-- Health check deferred to avoid blocking initial load -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <meta name="theme-color" content="#3b82f6">
@@ -50,6 +50,7 @@
     <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     
   <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
@@ -67,13 +68,18 @@
     <script defer>
       window.addEventListener('DOMContentLoaded', function() {
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){dataLayer.push(arguments);}   
         gtag('js', new Date());
         gtag('config', 'G-4184BKX5QY', { 'anonymize_ip': true });
       });
     </script>
-    <script>
-      (function() {
+    <script defer>
+      window.addEventListener('DOMContentLoaded', function () {
+        fetch('/api/health').catch(() => {});
+      });
+    </script>
+    <script defer>
+      window.addEventListener('DOMContentLoaded', function () {
         function removeBaseDescriptionWhenReady() {
           const base = document.querySelector('meta[name="description"]:not([data-rh])');
           const helmet = document.querySelector('meta[name="description"][data-rh="true"]');
@@ -84,12 +90,12 @@
           return false;
         }
         if (!removeBaseDescriptionWhenReady()) {
-          const mo = new MutationObserver(function() {
+          const mo = new MutationObserver(function () {
             if (removeBaseDescriptionWhenReady()) mo.disconnect();
           });
           mo.observe(document.head, { childList: true, subtree: true });
         }
-      })();
+      });
     </script>
   </body>
 </html>

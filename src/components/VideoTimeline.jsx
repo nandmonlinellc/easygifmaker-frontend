@@ -13,12 +13,22 @@ export default function VideoTimeline({
   contrast = 1
 }) {
   const videoRef = useRef(null)
+  const indicatorRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const isPlayingRef = useRef(false)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   const initializedRef = useRef(false)
+
+  const updateIndicator = useCallback(
+    (time) => {
+      const indicator = indicatorRef.current
+      if (!indicator || duration === 0) return
+      indicator.style.transform = `translateX(${(time / duration) * 100}%) translateX(-50%)`
+    },
+    [duration]
+  )
 
   // Effect to handle video metadata loading and initial segment range setup
   useEffect(() => {
@@ -31,9 +41,16 @@ export default function VideoTimeline({
       setIsVideoLoaded(true)
       // Only initialize once per video load - don't modify parent state here
       initializedRef.current = true
+      requestAnimationFrame(() => updateIndicator(video.currentTime))
     }
 
-    const handleTimeUpdate = () => setCurrentTime(video.currentTime)
+    const handleTimeUpdate = () => {
+      requestAnimationFrame(() => {
+        const time = video.currentTime
+        setCurrentTime(time)
+        updateIndicator(time)
+      })
+    }
     const handleEnded = () => {
       setIsPlaying(false)
       isPlayingRef.current = false
@@ -88,16 +105,19 @@ export default function VideoTimeline({
   const seekToTime = useCallback((time) => {
     const video = videoRef.current
     if (!video) return
-    
+
     video.currentTime = time
     setCurrentTime(time)
-  }, [])
+    requestAnimationFrame(() => updateIndicator(time))
+  }, [updateIndicator])
 
   const playSegment = useCallback(() => {
     const video = videoRef.current
     if (!video) return
 
     video.currentTime = segmentRange[0]
+    setCurrentTime(segmentRange[0])
+    requestAnimationFrame(() => updateIndicator(segmentRange[0]))
     video.play()
     setIsPlaying(true)
     isPlayingRef.current = true
@@ -222,12 +242,10 @@ export default function VideoTimeline({
               railStyle={{ backgroundColor: '#e5e7eb', height: 8, borderRadius: 4 }}
             />
             {/* Current time indicator */}
-            <div 
+            <div
+              ref={indicatorRef}
               className="absolute top-0 w-1 h-8 bg-red-500 rounded-full shadow-lg"
-              style={{ 
-                left: `${(currentTime / duration) * 100}%`,
-                transform: 'translateX(-50%)'
-              }}
+              style={{ transform: 'translateX(-50%)' }}
             />
           </div>
           

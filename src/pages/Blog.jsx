@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Meta from '@/components/Meta.jsx';
 import { Link } from 'react-router-dom';
-import { Calendar, User, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+const CalendarIcon = lazy(() => import('lucide-react/dist/esm/icons/calendar'));
+const UserIcon = lazy(() => import('lucide-react/dist/esm/icons/user'));
+const ArrowRightIcon = lazy(() => import('lucide-react/dist/esm/icons/arrow-right'));
+const BookOpenIcon = lazy(() => import('lucide-react/dist/esm/icons/book-open'));
+const SparklesIcon = lazy(() => import('lucide-react/dist/esm/icons/sparkles'));
+
+function LazyIcon({ icon: Icon, className }) {
+  return (
+    <Suspense fallback={<div className={className} />}>
+      <Icon className={className} />
+    </Suspense>
+  );
+}
 
 // Example blog posts data with featured images
 const blogPosts = [
@@ -254,8 +266,8 @@ export default function Blog() {
 						</div>
 						<div className="relative z-10">
 							<div className="flex items-center justify-center gap-3 mb-6">
-								<BookOpen className="w-12 h-12 text-blue-600" />
-								<Sparkles className="w-8 h-8 text-purple-500" />
+                                                            <LazyIcon icon={BookOpenIcon} className="w-12 h-12 text-blue-600" />
+                                                            <LazyIcon icon={SparklesIcon} className="w-8 h-8 text-purple-500" />
 							</div>
 							<h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-700 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-6 drop-shadow-sm tracking-tight">
 								EasyGIFMaker Blog
@@ -266,14 +278,14 @@ export default function Blog() {
 								the most of EasyGIFMaker!
 							</p>
 							<div className="flex items-center justify-center gap-6 text-sm text-gray-600">
-								<span className="flex items-center gap-2">
-									<Calendar className="w-4 h-4" />
-									Latest: {featuredPost?.date}
-								</span>
-								<span className="flex items-center gap-2">
-									<User className="w-4 h-4" />
-									{blogPosts.length} Articles
-								</span>
+                                                                <span className="flex items-center gap-2">
+                                                                        <LazyIcon icon={CalendarIcon} className="w-4 h-4" />
+                                                                        Latest: {featuredPost?.date}
+                                                                </span>
+                                                                <span className="flex items-center gap-2">
+                                                                        <LazyIcon icon={UserIcon} className="w-4 h-4" />
+                                                                        {blogPosts.length} Articles
+                                                                </span>
 							</div>
 						</div>
 					</header>
@@ -304,10 +316,10 @@ export default function Blog() {
 										</div>
 										<div className="md:w-1/2 p-8 flex flex-col justify-center">
 											<div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-												<Calendar className="w-4 h-4" />
+                                                                                                <LazyIcon icon={CalendarIcon} className="w-4 h-4" />
 												<time dateTime={featuredPost.date}>{featuredPost.date}</time>
 												<span>•</span>
-												<User className="w-4 h-4" />
+                                                                                                <LazyIcon icon={UserIcon} className="w-4 h-4" />
 												{featuredPost.author}
 											</div>
 											<h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
@@ -332,7 +344,7 @@ export default function Blog() {
 												aria-label={`Read more about ${featuredPost.title}`}
 											>
 												Read Full Article
-												<ArrowRight className="w-4 h-4" />
+                                                                                                <LazyIcon icon={ArrowRightIcon} className="w-4 h-4" />
 											</Link>
 										</div>
 									</div>
@@ -364,10 +376,10 @@ export default function Blog() {
 										</div>
 										<div className="p-6">
 											<div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-												<Calendar className="w-4 h-4" />
+                                                                                                <LazyIcon icon={CalendarIcon} className="w-4 h-4" />
 												<time dateTime={post.date}>{post.date}</time>
 												<span>•</span>
-												<User className="w-4 h-4" />
+                                                                                                <LazyIcon icon={UserIcon} className="w-4 h-4" />
 												{post.author}
 											</div>
 											<h3
@@ -395,7 +407,7 @@ export default function Blog() {
 												aria-label={`Read more about ${post.title}`}
 											>
 												Read More
-												<ArrowRight className="w-4 h-4" />
+                                                                                                <LazyIcon icon={ArrowRightIcon} className="w-4 h-4" />
 											</Link>
 										</div>
 									</article>
@@ -423,14 +435,14 @@ export default function Blog() {
 									className="inline-flex items-center gap-2 px-8 py-3 bg-white text-blue-600 font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
 								>
 									Try GIF Maker
-									<ArrowRight className="w-4 h-4" />
+                                                                        <LazyIcon icon={ArrowRightIcon} className="w-4 h-4" />
 								</Link>
 								<Link
 									to="/video-to-gif"
 									className="inline-flex items-center gap-2 px-8 py-3 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300"
 								>
 									Video to GIF
-									<ArrowRight className="w-4 h-4" />
+                                                                        <LazyIcon icon={ArrowRightIcon} className="w-4 h-4" />
 								</Link>
 							</div>
 						</section>
