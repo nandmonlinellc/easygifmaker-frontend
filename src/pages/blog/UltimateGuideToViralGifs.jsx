@@ -10,7 +10,7 @@ export default function UltimateGuideToViralGifs() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Ultimate Guide to Creating Viral GIFs: Tips and Strategies",
-    "description": "Master the art of creating viral GIFs with our comprehensive guide. Learn the best practices, tools, and strategies for making GIFs that go viral.",
+    "description": "Explore psychology, case studies, and platform tactics to craft GIFs that spark engagement and spread across social media.",
     "author": {
       "@type": "Organization",
       "name": "EasyGIFMaker Team"
@@ -33,7 +33,7 @@ export default function UltimateGuideToViralGifs() {
     <>
       <Meta
         title="Ultimate Guide to Creating Viral GIFs: Tips and Strategies"
-        description="Master the art of creating viral GIFs with our comprehensive guide. Learn the best practices, tools, and strategies for making GIFs that go viral."
+        description="Explore psychology, case studies, and platform tactics to craft GIFs that spark engagement and spread across social media."
         url="/blog/ultimate-guide-to-viral-gifs"
         image="https://easygifmaker.com/blog/magical-gif.webp"
         imageAlt="Ultimate Guide to Creating Viral GIFs"
