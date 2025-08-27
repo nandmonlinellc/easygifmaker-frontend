@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X, RefreshCcw } from 'lucide-react'
@@ -6,7 +6,25 @@ import { useState } from 'react'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [siteDown, setSiteDown] = useState(false)
   const location = useLocation()
+
+  // Health check polling
+  useEffect(() => {
+    let cancelled = false
+    const checkHealth = async () => {
+      try {
+        const resp = await fetch('/api/health', { method: 'GET', cache: 'no-store' })
+        if (!resp.ok) throw new Error('Health check failed')
+        if (!cancelled) setSiteDown(false)
+      } catch {
+        if (!cancelled) setSiteDown(true)
+      }
+    }
+    checkHealth()
+    const interval = setInterval(checkHealth, 15000)
+    return () => { cancelled = true; clearInterval(interval) }
+  }, [])
 
   const tools = [
     { id: 'gif-maker', title: 'GIF Maker', icon: Image, path: '/gif-maker' },
@@ -27,6 +45,11 @@ export default function Header() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      {siteDown && (
+        <div className="w-full bg-red-600 text-white text-center py-2 font-semibold z-50">
+          Service is temporarily unavailable. Please try again later.
+        </div>
+      )}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -36,7 +59,6 @@ export default function Header() {
             </div>
             <span className="text-xl font-bold text-gray-900">EasyGIFMaker</span>
           </Link>
-
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {/* Tools Dropdown */}
