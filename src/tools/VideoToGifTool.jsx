@@ -172,9 +172,9 @@ export default function VideoToGifTool() {
         if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
           // If result is an object with gif/mp4, show both download links
           if (typeof result === 'object' && result.gif) {
-            setResultUrl({ gif: `${apiUrl}/api/download/${result.gif}`, mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}` : null })
+            setResultUrl({ gif: `${apiUrl}/api/download/${result.gif}?proxy=1`, mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}?proxy=1` : null })
           } else {
-            setResultUrl(`${apiUrl}/api/download/${result}`)
+            setResultUrl(`${apiUrl}/api/download/${result}?proxy=1`)
           }
           setWorkflowState('result')
         } else {

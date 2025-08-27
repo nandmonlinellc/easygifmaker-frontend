@@ -246,13 +246,13 @@ export default function AddTextTool() {
         }
         if (state === 'SUCCESS' && result) {
           // Fetch the actual GIF from /api/download/<result>
-          const downloadResp = await fetch(`${apiUrl}/api/download/${result}`)
+          const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
           if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
           const gifBlob = await downloadResp.blob()
           const url = URL.createObjectURL(gifBlob)
           setResultUrl({
             previewUrl: url,
-            downloadUrl: `${apiUrl}/api/download/${result}`
+            downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
           })
           setWorkflowState('result')
         } else {

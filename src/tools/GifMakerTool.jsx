@@ -138,7 +138,7 @@ export default function GifMakerTool() {
           }
                       if (state === 'SUCCESS' && result) {
               // Fetch the actual GIF from /api/download/<result>
-              const downloadResp = await fetch(`${apiUrl}/api/download/${result}`)
+              const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
               if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
               const gifBlob = await downloadResp.blob()
               
@@ -146,7 +146,7 @@ export default function GifMakerTool() {
               const url = URL.createObjectURL(gifBlob)
               setResultUrl({
                 previewUrl: url,
-                downloadUrl: `${apiUrl}/api/download/${result}`
+                downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
               })
               // Fire Google Ads conversion event after GIF is created
             if (window.gtag) {
