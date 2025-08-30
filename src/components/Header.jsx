@@ -21,7 +21,8 @@ export default function Header() {
       }
     }
     checkHealth()
-    const interval = setInterval(checkHealth, 15000)
+    // Run health check only once per day (every 24 hours)
+    const interval = setInterval(checkHealth, 24 * 60 * 60 * 1000)
     return () => { cancelled = true; clearInterval(interval) }
   }, [])
 
