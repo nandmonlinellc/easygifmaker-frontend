@@ -75,11 +75,6 @@
     </script>
     <script defer>
       window.addEventListener('DOMContentLoaded', function () {
-        fetch('/api/health').catch(() => {});
-      });
-    </script>
-    <script defer>
-      window.addEventListener('DOMContentLoaded', function () {
         function removeBaseDescriptionWhenReady() {
           const base = document.querySelector('meta[name="description"]:not([data-rh])');
           const helmet = document.querySelector('meta[name="description"][data-rh="true"]');
