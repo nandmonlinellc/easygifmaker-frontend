@@ -45,11 +45,7 @@ export default function Header() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      {siteDown && (
-        <div className="w-full bg-red-600 text-white text-center py-2 font-semibold z-50">
-          Service is temporarily unavailable. Please try again later.
-        </div>
-      )}
+  {/* Service down banner removed as requested */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
