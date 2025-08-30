@@ -1,30 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X, RefreshCcw } from 'lucide-react'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [siteDown, setSiteDown] = useState(false)
   const location = useLocation()
-
-  // Health check polling
-  useEffect(() => {
-    let cancelled = false
-    const checkHealth = async () => {
-      try {
-        const resp = await fetch('/api/health', { method: 'GET', cache: 'no-store' })
-        if (!resp.ok) throw new Error('Health check failed')
-        if (!cancelled) setSiteDown(false)
-      } catch {
-        if (!cancelled) setSiteDown(true)
-      }
-    }
-    checkHealth()
-    // Run health check only once per day (every 24 hours)
-    const interval = setInterval(checkHealth, 24 * 60 * 60 * 1000)
-    return () => { cancelled = true; clearInterval(interval) }
-  }, [])
 
   const tools = [
     { id: 'gif-maker', title: 'GIF Maker', icon: Image, path: '/gif-maker' },
