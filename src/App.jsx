@@ -41,10 +41,6 @@ const AddTextTool = lazy(() => import('./tools/AddTextTool'))
 function App() {
   return (
     <HelmetProvider>
-      {/* Maintenance Banner */}
-      <div style={{background: '#f44336', color: '#fff', padding: '12px', textAlign: 'center', fontWeight: 'bold', zIndex: 1000}}>
-        The application is currently not working. Sorry for the inconvenience — we are working on it!
-      </div>
       <Router>
         <Suspense fallback={<Loader />}>
           <Routes>
