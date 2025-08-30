@@ -137,15 +137,13 @@ export default function AddTextTool() {
 
   // Handle text position change from InteractiveCanvas
   const handleTextPositionChange = useCallback((position) => {
-    // Keep both absolute x,y and offsetX,offsetY in sync so backend can place layers reliably
+    // Keep absolute x,y and mirror into offsets without forcing alignment
     setTextSettings(prev => ({
       ...prev,
       x: position.x,
       y: position.y,
       offsetX: position.x,
       offsetY: position.y,
-      horizontalAlign: 'left',
-      verticalAlign: 'top',
     }))
     if (selectedLayerIndex >= 0) {
       setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? {
@@ -154,8 +152,6 @@ export default function AddTextTool() {
         y: position.y,
         offsetX: position.x,
         offsetY: position.y,
-        horizontalAlign: 'left',
-        verticalAlign: 'top',
       } : layer))
     }
   }, [selectedLayerIndex])
@@ -213,9 +209,9 @@ export default function AddTextTool() {
           color: l.color || '#ffffff',
           stroke_color: l.strokeColor || '#000000',
           stroke_width: Number(l.strokeWidth || 0),
-          // If absolute x,y provided, use left/top + offsets so layers don't overlap at center
-          horizontal_align: (typeof l.x === 'number' ? 'left' : (l.horizontalAlign || 'center')),
-          vertical_align: (typeof l.y === 'number' ? 'top' : (l.verticalAlign || 'middle')),
+          // Respect layer alignment from UI; provide offsets based on x/y if present
+          horizontal_align: l.horizontalAlign || 'center',
+          vertical_align: l.verticalAlign || 'middle',
           offset_x: Number((l.offsetX != null ? l.offsetX : l.x) || 0),
           offset_y: Number((l.offsetY != null ? l.offsetY : l.y) || 0),
           start_time: (l.startTime !== undefined ? l.startTime : startTime) ?? 0,
