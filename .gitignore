@@ -4,3 +4,4 @@ build/
 client_secret_*.json
 bundle-analysis.html
 node_modules/
+.env

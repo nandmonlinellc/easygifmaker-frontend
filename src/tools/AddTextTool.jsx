@@ -137,15 +137,28 @@ export default function AddTextTool() {
 
   // Handle text position change from InteractiveCanvas
   const handleTextPositionChange = useCallback((position) => {
+    // Keep both absolute x,y and offsetX,offsetY in sync so backend can place layers reliably
     setTextSettings(prev => ({
       ...prev,
       x: position.x,
-      y: position.y
+      y: position.y,
+      offsetX: position.x,
+      offsetY: position.y,
+      horizontalAlign: 'left',
+      verticalAlign: 'top',
     }))
     if (selectedLayerIndex >= 0) {
-      setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? { ...layer, x: position.x, y: position.y } : layer))
+      setLayers(curr => curr.map((layer, idx) => idx === selectedLayerIndex ? {
+        ...layer,
+        x: position.x,
+        y: position.y,
+        offsetX: position.x,
+        offsetY: position.y,
+        horizontalAlign: 'left',
+        verticalAlign: 'top',
+      } : layer))
     }
-  }, [])
+  }, [selectedLayerIndex])
 
   // Reset workflow to upload state
   const resetWorkflow = () => {
@@ -200,10 +213,11 @@ export default function AddTextTool() {
           color: l.color || '#ffffff',
           stroke_color: l.strokeColor || '#000000',
           stroke_width: Number(l.strokeWidth || 0),
-          horizontal_align: l.horizontalAlign || 'center',
-          vertical_align: l.verticalAlign || 'middle',
-          offset_x: Number(l.offsetX || 0),
-          offset_y: Number(l.offsetY || 0),
+          // If absolute x,y provided, use left/top + offsets so layers don't overlap at center
+          horizontal_align: (typeof l.x === 'number' ? 'left' : (l.horizontalAlign || 'center')),
+          vertical_align: (typeof l.y === 'number' ? 'top' : (l.verticalAlign || 'middle')),
+          offset_x: Number((l.offsetX != null ? l.offsetX : l.x) || 0),
+          offset_y: Number((l.offsetY != null ? l.offsetY : l.y) || 0),
           start_time: (l.startTime !== undefined ? l.startTime : startTime) ?? 0,
           end_time: (l.endTime !== undefined ? l.endTime : endTime) ?? '',
           animation_style: l.animationStyle || 'none',
