@@ -124,6 +124,8 @@ export default function GifMakerTool() {
           let state = null
           let result = null
           let pollCount = 0
+          const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
+          let delay = isNaN(baseDelay) ? 1500 : baseDelay
           while (pollCount < 60) { // up to 60s
             const statusResp = await fetch(`${apiUrl}/api/task-status/${data.task_id}`)
             if (statusResp.ok) {
@@ -133,7 +135,8 @@ export default function GifMakerTool() {
               if (state === 'SUCCESS' && result) break
               if (state === 'FAILURE') throw new Error(statusData.error || 'Processing failed.')
             }
-            await new Promise(res => setTimeout(res, 1000))
+            await new Promise(res => setTimeout(res, delay))
+            delay = Math.min(delay + 250, 3000)
             pollCount++
           }
                       if (state === 'SUCCESS' && result) {

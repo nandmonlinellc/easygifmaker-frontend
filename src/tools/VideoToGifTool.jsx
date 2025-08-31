@@ -155,6 +155,8 @@ export default function VideoToGifTool() {
         if (!taskId) throw new Error('No task_id returned from backend.')
         let status = null
         let result = null
+        const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
+        let delay = isNaN(baseDelay) ? 1500 : baseDelay
         for (let i = 0; i < 60; i++) {
           const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
           if (statusResp.ok) {
@@ -167,7 +169,8 @@ export default function VideoToGifTool() {
               throw new Error(statusData.error || 'GIF conversion failed.')
             }
           }
-          await new Promise(res => setTimeout(res, 1000))
+          await new Promise(res => setTimeout(res, delay))
+          delay = Math.min(delay + 250, 3000)
         }
         if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
           // If result is an object with gif/mp4, show both download links
