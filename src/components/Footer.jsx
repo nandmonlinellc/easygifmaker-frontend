@@ -58,10 +58,10 @@ export default function Footer() {
               <span className="text-xs text-gray-400 dark:text-gray-300">© {currentYear} EasyGIFMaker</span>
               <span className="text-xs text-gray-300 dark:text-gray-500">|</span>
               <a
-                href="mailto:nandmonlinellc@gmail.com"
+                href="mailto:support@easygifmaker.com"
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
               >
-                nandmonlinellc@gmail.com
+                support@easygifmaker.com
               </a>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function Footer() {
           </p>
           <div className="flex space-x-4">
             <a
-              href="mailto:nandmonlinellc@gmail.com"
+              href="mailto:support@easygifmaker.com"
               className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
             >
               Contact Support

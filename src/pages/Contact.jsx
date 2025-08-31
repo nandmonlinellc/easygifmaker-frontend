@@ -64,7 +64,7 @@ export default function Contact() {
             "contactPoint": [{
               "@type": "ContactPoint",
               "contactType": "customer support",
-              "email": "nandmonlinellc@gmail.com",
+              "email": "support@easygifmaker.com",
               "availableLanguage": ["English"],
               "areaServed": "Worldwide"
             }],
@@ -90,7 +90,7 @@ export default function Contact() {
               <div className="py-3 grid grid-cols-4 gap-4 items-center">
                 <dt className="font-semibold text-gray-800 col-span-1">Email</dt>
                 <dd className="col-span-3">
-                  <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline" aria-label="Email EasyGIFMaker">nandmonlinellc@gmail.com</a>
+                  <a href="mailto:support@easygifmaker.com" className="text-blue-600 hover:underline" aria-label="Email EasyGIFMaker">support@easygifmaker.com</a>
                 </dd>
               </div>
               <div className="py-3 grid grid-cols-4 gap-4 items-center">

@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">8. Contact Us</h2>
             <p>If you have any questions about this Privacy Policy, you can contact us:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
-              <li>By email: <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline">nandmonlinellc@gmail.com</a></li>
+              <li>By email: <a href="mailto:support@easygifmaker.com" className="text-blue-600 hover:underline">support@easygifmaker.com</a></li>
             </ul>
           </div>
         </section>

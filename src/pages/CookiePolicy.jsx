@@ -104,7 +104,7 @@ export default function CookiePolicy() {
 
           <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">5. Contact Us</h2>
-            <p>If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:nandmonlinellc@gmail.com" className="text-blue-600 hover:underline">nandmonlinellc@gmail.com</a>.</p>
+            <p>If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:support@easygifmaker.com" className="text-blue-600 hover:underline">support@easygifmaker.com</a>.</p>
           </div>
         </section>
         </div>
