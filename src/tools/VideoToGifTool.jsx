@@ -185,7 +185,24 @@ export default function VideoToGifTool() {
         }
       } else {
         const errorData = await response.json()
-        setErrorMessage(errorData.error || 'An unknown error occurred during processing.')
+        // Map backend error to user-friendly message
+        let userMessage = errorData.error || 'An unknown error occurred during processing.'
+        if (userMessage.includes('Brightness must be between')) {
+          userMessage = 'Brightness setting is out of range. Please choose a value between -1.0 and 1.0.'
+        } else if (userMessage.includes('Contrast must be between')) {
+          userMessage = 'Contrast setting is out of range. Please choose a value between 0 and 2.0.'
+        } else if (userMessage.includes('Segments must be a non-empty list')) {
+          userMessage = 'Please select at least one valid segment for conversion.'
+        } else if (userMessage.includes('Each segment must have numeric start and end')) {
+          userMessage = 'Segment start/end times must be numbers. Please check your segment settings.'
+        } else if (userMessage.includes('Invalid segment timing')) {
+          userMessage = 'Segment timing is invalid. Ensure start is >= 0 and end > start.'
+        } else if (userMessage.includes('Segment exceeds video length')) {
+          userMessage = 'One of your segments is longer than the video. Please adjust segment end times.'
+        } else if (userMessage.includes('Invalid segments JSON')) {
+          userMessage = 'There was a problem with your segment selection. Please reselect your segments.'
+        }
+        setErrorMessage(userMessage)
         setWorkflowState('editing')
       }
     } catch (error) {
