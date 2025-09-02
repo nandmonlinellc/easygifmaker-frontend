@@ -3,7 +3,7 @@ import { isBrowser, isProd, isConsentGranted, loadAdSenseScript, pushAd, onConse
 
 const CLIENT = 'ca-pub-2276892930727265'
 
-export default function DisplayAd({ slot = '1125232950', className = '' }) {
+export default function DisplayAd({ slot = '1125232950', className = '', minHeight = 250 }) {
   const insRef = useRef(null)
 
   useEffect(() => {
@@ -31,11 +31,11 @@ export default function DisplayAd({ slot = '1125232950', className = '' }) {
   }, [])
 
   return (
-    <div className={className} aria-label="Advertisement">
+    <div className={className} aria-label="Advertisement" style={{ minHeight }}>
       <ins
         ref={insRef}
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{ display: 'block', minHeight }}
         data-ad-client={CLIENT}
         data-ad-slot={slot}
         data-ad-format="auto"

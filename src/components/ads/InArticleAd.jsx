@@ -3,7 +3,7 @@ import { isBrowser, isProd, isConsentGranted, loadAdSenseScript, pushAd, onConse
 
 const CLIENT = 'ca-pub-2276892930727265'
 
-export default function InArticleAd({ slot = '8336674411', className = '' }) {
+export default function InArticleAd({ slot = '8336674411', className = '', minHeight = 250 }) {
   useEffect(() => {
     if (!isBrowser()) return
 
@@ -29,10 +29,10 @@ export default function InArticleAd({ slot = '8336674411', className = '' }) {
   }, [])
 
   return (
-    <div className={className} aria-label="Advertisement">
+    <div className={className} aria-label="Advertisement" style={{ minHeight }}>
       <ins
         className="adsbygoogle"
-        style={{ display: 'block', textAlign: 'center' }}
+        style={{ display: 'block', textAlign: 'center', minHeight }}
         data-ad-layout="in-article"
         data-ad-format="fluid"
         data-ad-client={CLIENT}
