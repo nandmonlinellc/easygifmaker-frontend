@@ -163,12 +163,12 @@ export default function OptimizeTool() {
   return (
     <>
       <ToolPageLayout
-        title="Optimize GIF"
+        title="Optimize GIF for Smaller Size"
         description="Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing."
         icon={RotateCw}
         seoProps={{
-          title: "Optimize GIF - Compress and Optimize GIFs Online | EasyGIFMaker",
-          description: "Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing.",
+          title: "Optimize GIF Online | Compress Animated GIFs | EasyGIFMaker",
+          description: "Compress GIFs online and reduce file size while keeping quality. Perfect for faster sharing and page speed.",
           keywords: "optimize gif, compress gif, reduce gif size, gif optimizer, gif compression, optimize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker, high quality gif maker",
           canonical: "https://easygifmaker.com/optimize"
         }}
@@ -218,6 +218,53 @@ export default function OptimizeTool() {
         />
 
   {/* Value content moved to end of page */}
+      {/* FAQ + HowTo Schema */}
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'How can I reduce the size of a GIF?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Upload your GIF, lower the color count or quality, and enable lossy compression. Then download the optimized GIF.'
+              }
+            },
+            {
+              '@type': 'Question',
+              name: 'Will my GIF lose animation when optimized?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'No. The tool preserves animation while applying compression techniques to reduce file size.'
+              }
+            }
+          ]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'HowTo',
+          name: 'How to Optimize a GIF',
+          totalTime: 'PT1M',
+          step: [
+            { '@type': 'HowToStep', name: 'Upload', text: 'Select a GIF or paste a direct URL.' },
+            { '@type': 'HowToStep', name: 'Adjust settings', text: 'Choose quality, colors, and lossy level. Optionally set dithering.' },
+            { '@type': 'HowToStep', name: 'Download', text: 'Process and save a smaller GIF file.' }
+          ]
+        })}</script>
+      </Helmet>
+
+      {/* Tutorial section */}
+      <section className="mt-10 space-y-3" aria-label="Tutorial: Optimize GIF">
+        <h2 className="text-2xl font-semibold text-gray-900">Tutorial: How to Optimize a GIF</h2>
+        <ol className="list-decimal pl-6 text-gray-700 space-y-2">
+          <li>Upload a GIF or paste a direct URL.</li>
+          <li>Lower <strong>colors</strong> (e.g., 128) and set a reasonable <strong>lossy</strong> value (e.g., 10–30).</li>
+          <li>Click Optimize GIF and download a smaller file.</li>
+        </ol>
+        <p className="text-gray-700">Need exact dimensions? Use the <a href="/resize" className="text-blue-600 hover:underline">GIF Resizer</a>. Want to remove borders or background? Start with the <a href="/crop" className="text-blue-600 hover:underline">GIF Cropper</a>.</p>
+      </section>
 
           {/* Upload State */}
           {workflowState === 'upload' && (

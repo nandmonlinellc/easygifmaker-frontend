@@ -156,12 +156,12 @@ export default function ResizeTool() {
   return (
     <>
     <ToolPageLayout
-      title="Resize GIF"
+      title="Resize GIF Easily"
       description="Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps."
       icon={Maximize2}
       seoProps={{
-        title: "Resize GIF - Resize and Scale GIFs Online | EasyGIFMaker",
-        description: "Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps.",
+        title: "Resize GIF Online | EasyGIFMaker",
+        description: "Resize GIFs quickly and easily. Set exact width and height or keep aspect ratio for perfect social media sizes.",
         keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker",
         canonical: "https://easygifmaker.com/resize"
       }}
@@ -209,6 +209,54 @@ export default function ResizeTool() {
           }
         ]}
       />
+
+      {/* FAQ + HowTo Schema */}
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'How do I resize a GIF without losing quality?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Upload your GIF, choose width/height or keep aspect ratio enabled, then download the resized animated GIF.'
+              }
+            },
+            {
+              '@type': 'Question',
+              name: 'What size should a GIF be for social media?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Square (1:1) or vertical (4:5) often works best. Use Resize to set exact dimensions, then Optimize to reduce size.'
+              }
+            }
+          ]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'HowTo',
+          name: 'How to Resize a GIF',
+          totalTime: 'PT1M',
+          step: [
+            { '@type': 'HowToStep', name: 'Upload', text: 'Add a GIF file or paste a direct GIF URL.' },
+            { '@type': 'HowToStep', name: 'Set size', text: 'Enter a new width/height or keep aspect ratio to scale proportionally.' },
+            { '@type': 'HowToStep', name: 'Download', text: 'Process and save the resized animated GIF.' }
+          ]
+        })}</script>
+      </Helmet>
+
+      {/* Tutorial section */}
+      <section className="mt-10 space-y-3" aria-label="Tutorial: Resize GIF">
+        <h2 className="text-2xl font-semibold text-gray-900">Tutorial: How to Resize a GIF</h2>
+        <ol className="list-decimal pl-6 text-gray-700 space-y-2">
+          <li>Upload a GIF or paste a direct URL.</li>
+          <li>Set a new width and height, or keep aspect ratio for proportional scaling.</li>
+          <li>Click Resize GIF and download your result.</li>
+        </ol>
+        <p className="text-gray-700">Need to crop first? Try the <a href="/crop" className="text-blue-600 hover:underline">GIF Cropper</a>. Want a smaller file? Use the <a href="/optimize" className="text-blue-600 hover:underline">GIF Optimizer</a>.</p>
+      </section>
 
   {/* Value content moved to end of page */}
 

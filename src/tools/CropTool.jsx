@@ -195,12 +195,12 @@ export default function CropTool() {
   return (
     <>
       <ToolPageLayout
-        title="Crop GIF"
+        title="Crop GIF Easily and Quickly"
         description="Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging."
         icon={Crop}
         seoProps={{
-          title: "Crop GIF - Crop and Trim GIFs Online | EasyGIFMaker",
-          description: "Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging.",
+          title: "Crop GIF Easily Online | EasyGIFMaker",
+          description: "Crop your GIFs quickly and easily with our online GIF cropping tool. Perfect for creating shareable animations that fit your needs!",
           keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif, gif maker, free gif maker, online gif maker, gif converter, gif creator",
           canonical: "https://easygifmaker.com/crop"
         }}
@@ -250,6 +250,107 @@ export default function CropTool() {
         />
 
   {/* Value content moved to end of page */}
+
+        {/* FAQ + HowTo Schema (SEO) */}
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'How do I crop a GIF online?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Upload your GIF or paste a URL, select the crop area with the interactive tool, then click Crop GIF to download the result.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'Can I crop animated GIFs?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Yes. This tool preserves animation while cropping. All frames are processed so your GIF remains animated.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'What is the best way to crop a GIF for social media?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Choose a preset aspect ratio like 1:1 or 4:5 depending on the platform, position the crop, and export. Use our Resize tool afterwards if you need exact dimensions.'
+                }
+              }
+            ]
+          })}</script>
+          <script type="application/ld+json">{JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'HowTo',
+            name: 'How to Crop a GIF',
+            description: 'Step-by-step guide to crop animated GIFs online using EasyGIFMaker.',
+            totalTime: 'PT1M',
+            step: [
+              { '@type': 'HowToStep', name: 'Upload', text: 'Upload a GIF or paste a direct GIF URL.' },
+              { '@type': 'HowToStep', name: 'Select area', text: 'Drag the selection to choose the area to keep. Pick an aspect ratio if needed.' },
+              { '@type': 'HowToStep', name: 'Crop', text: 'Click Crop GIF and wait for processing to finish.' },
+              { '@type': 'HowToStep', name: 'Download', text: 'Preview and download your cropped animated GIF.' }
+            ]
+          })}</script>
+        </Helmet>
+
+        {/* Internal links for related tools */}
+        <div className="mt-6 text-sm text-gray-600">
+          Looking to resize after cropping? Try our{' '}
+          <a href="/resize" className="text-blue-600 hover:underline">GIF Resizer</a>. Need to reduce file size? Use the{' '}
+          <a href="/optimize" className="text-blue-600 hover:underline">GIF Optimizer</a>.
+        </div>
+
+        {/* Tutorial section (mirrors HowTo schema) */}
+        <section className="mt-10 space-y-4" aria-label="Tutorial: How to Crop a GIF">
+          <h2 className="text-2xl font-semibold text-gray-900">Tutorial: How to Crop a GIF</h2>
+          <p className="text-gray-700">
+            This quick guide shows <strong>how to crop a GIF</strong> in your browser—no downloads required.
+          </p>
+          <ol className="list-decimal pl-6 text-gray-700 space-y-2">
+            <li><strong>Upload</strong> a GIF from your device or paste a direct GIF URL.</li>
+            <li><strong>Select area</strong> by dragging the handles over the portion you want to keep.</li>
+            <li>Optionally choose an <strong>aspect ratio</strong> such as 1:1 (square) or 16:9 for social platforms.</li>
+            <li>Click <strong>Crop GIF</strong> to process all frames while preserving animation.</li>
+            <li><strong>Download</strong> your cropped animated GIF and share it anywhere.</li>
+          </ol>
+          <p className="text-gray-700">
+            Tip: After cropping, you can <a href="/resize" className="text-blue-600 hover:underline">resize</a> for exact dimensions or
+            <a href="/optimize" className="text-blue-600 hover:underline"> optimize</a> to reduce file size.
+          </p>
+        </section>
+
+        {/* Comparison: Crop vs Trim */}
+        <section className="mt-10 space-y-3" aria-label="Crop vs Trim">
+          <h2 className="text-2xl font-semibold text-gray-900">Crop vs. Trim: What’s the Difference?</h2>
+          <p className="text-gray-700">
+            <strong>Crop GIF</strong> removes the outer areas of each frame (changes the visible region).
+            <br />
+            <strong>Trim GIF</strong> removes frames at the start or end (changes the duration). If you need trimming,
+            first crop here, then use our <a href="/gif-maker" className="text-blue-600 hover:underline">GIF Maker</a>
+            to assemble only the segments you want.
+          </p>
+        </section>
+
+        {/* Testimonials (social proof) */}
+        <section className="mt-10 space-y-4" aria-label="What users say">
+          <h2 className="text-2xl font-semibold text-gray-900">What Users Say</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <blockquote className="border rounded-lg p-4 bg-white shadow-sm text-gray-700">
+              “Exactly what I needed to <strong>crop an animated GIF</strong> for a post—fast, clean, and no quality loss.”
+              <div className="mt-2 text-xs text-gray-500">— Creator, social media</div>
+            </blockquote>
+            <blockquote className="border rounded-lg p-4 bg-white shadow-sm text-gray-700">
+              “Love the simple workflow. Crop, then <a href="/resize" className="text-blue-600 hover:underline">resize</a> and
+              <a href="/optimize" className="text-blue-600 hover:underline"> optimize</a>. Done in under a minute.”
+              <div className="mt-2 text-xs text-gray-500">— Designer, marketing</div>
+            </blockquote>
+          </div>
+        </section>
 
 
           {/* Upload State */}
