@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { isBrowser, isProd, isConsentGranted, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
 
 // Reserve space to avoid CLS; allow override via prop
 const AdsenseAd = ({
@@ -11,11 +12,32 @@ const AdsenseAd = ({
   className = ''
 }) => {
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error('AdSense error:', e);
+    if (!isBrowser()) return
+
+    let dispose = () => {}
+
+    async function init() {
+      if (!isProd()) return
+      if (!isConsentGranted()) return
+      try {
+        await loadAdSenseScript('ca-pub-2276892930727265')
+        // queue render
+        // eslint-disable-next-line no-unused-expressions
+        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+      } catch (e) {
+        // ignore
+      }
     }
+
+    // Early queue to be safe; script will process later
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}) } catch {}
+
+    init()
+    dispose = onConsentChange((status) => {
+      if (status === 'accepted') init()
+    })
+
+    return () => dispose()
   }, []);
 
   return (

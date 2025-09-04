@@ -16,7 +16,10 @@ export default function CookieConsentBanner() {
             ad_storage: 'denied',
             analytics_storage: 'denied',
             functionality_storage: 'granted',
-            security_storage: 'granted'
+            security_storage: 'granted',
+            // Consent Mode v2 additional signals (recommended)
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
           })
         }
       }
@@ -47,7 +50,9 @@ export default function CookieConsentBanner() {
     if (window.gtag) {
       window.gtag('consent', 'update', {
         ad_storage: 'granted',
-        analytics_storage: 'granted'
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
       })
     }
   try { window.dispatchEvent(new CustomEvent('egm:consent', { detail: 'accepted' })) } catch {}
@@ -59,7 +64,9 @@ export default function CookieConsentBanner() {
     if (window.gtag) {
       window.gtag('consent', 'update', {
         ad_storage: 'denied',
-        analytics_storage: 'denied'
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
       })
     }
   try { window.dispatchEvent(new CustomEvent('egm:consent', { detail: 'declined' })) } catch {}

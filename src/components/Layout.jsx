@@ -3,22 +3,23 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import CookieConsentBanner from './CookieConsentBanner'
-import { isProd, isConsentGranted, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
+import { isProd, loadAdSenseScript, onConsentChange } from '@/lib/adsense'
 
 export default function Layout() {
-  // Preload AdSense script once consent is granted to avoid FOUC when ad components mount
+  // Load AdSense script in prod regardless of consent; Consent Mode defaults control behavior
   useEffect(() => {
     if (!isProd()) return
     let dispose = () => {}
-    const maybeLoad = async () => {
-      if (isConsentGranted()) {
-        try { await loadAdSenseScript('ca-pub-2276892930727265') } catch {}
-      }
+    const load = async () => { try { await loadAdSenseScript('ca-pub-2276892930727265') } catch {} }
+    if ('requestIdleCallback' in window) {
+      // Defer a bit to reduce contention with main work
+      // @ts-ignore
+      requestIdleCallback(load, { timeout: 2000 })
+    } else {
+      setTimeout(load, 0)
     }
-    maybeLoad()
-    dispose = onConsentChange((status) => {
-      if (status === 'accepted') maybeLoad()
-    })
+    // Still listen for consent to prompt re-render of ad slots if needed
+    dispose = onConsentChange((status) => { if (status === 'accepted') load() })
     return () => dispose()
   }, [])
 
