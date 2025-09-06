@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import InArticleAd from '@/components/ads/InArticleAd.jsx';
 import { Helmet } from 'react-helmet-async'
@@ -25,6 +25,8 @@ import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
+import FrameSequencePreview from '@/components/FrameSequencePreview.jsx'
+import { getApiBase } from '@/lib/api'
           {/* Bottom Ad - Before value content */}
           <div className="my-8 flex justify-center">
             <DisplayAd 
@@ -42,6 +44,10 @@ export default function GifMakerTool() {
   // Each frame: { file, url, duration, effect }
   const [frames, setFrames] = useState([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const [elapsed, setElapsed] = useState(0)
+  const pollTimerRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [previewSpeed, setPreviewSpeed] = useState(1)
   const [resultUrl, setResultUrl] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   // GIF settings
@@ -52,6 +58,9 @@ export default function GifMakerTool() {
 
   // Add quality level state
   const [qualityLevel, setQualityLevel] = useState('high')
+  // Transitions
+  const [transitionType, setTransitionType] = useState('none')
+  const [transitionSteps, setTransitionSteps] = useState(6)
   // Handle file or URL upload
   // Accepts files or an array of URLs
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -95,6 +104,11 @@ export default function GifMakerTool() {
     setIsProcessing(true)
     setResultUrl(null)
     setWorkflowState('processing')
+    // Start elapsed timer
+    setElapsed(0)
+    const startTs = Date.now()
+    if (pollTimerRef.current) { clearInterval(pollTimerRef.current); pollTimerRef.current = null }
+    pollTimerRef.current = setInterval(() => setElapsed((Date.now() - startTs) / 1000), 500)
 
     try {
       const formData = new FormData()
@@ -110,8 +124,10 @@ export default function GifMakerTool() {
       formData.append('effects', JSON.stringify(frames.map(f => f.effect)))
       formData.append('loop_count', gifSettings.loopCount.toString())
       formData.append('quality_level', qualityLevel)
+      formData.append('transition_type', transitionType)
+      formData.append('transition_steps', String(transitionSteps))
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+      const apiUrl = getApiBase()
       const response = await fetch(`${apiUrl}/api/gif-maker`, {
         method: 'POST',
         body: formData
@@ -126,7 +142,7 @@ export default function GifMakerTool() {
           let pollCount = 0
           const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
           let delay = isNaN(baseDelay) ? 1500 : baseDelay
-          while (pollCount < 60) { // up to 60s
+          while (pollCount < 90) { // up to ~2 minutes with backoff
             const statusResp = await fetch(`${apiUrl}/api/task-status/${data.task_id}`)
             if (statusResp.ok) {
               const statusData = await statusResp.json()
@@ -136,7 +152,7 @@ export default function GifMakerTool() {
               if (state === 'FAILURE') throw new Error(statusData.error || 'Processing failed.')
             }
             await new Promise(res => setTimeout(res, delay))
-            delay = Math.min(delay + 250, 3000)
+            delay = Math.min(Math.round(delay * 1.25), 3500)
             pollCount++
           }
                       if (state === 'SUCCESS' && result) {
@@ -178,6 +194,7 @@ export default function GifMakerTool() {
       setWorkflowState('preview')
     } finally {
       setIsProcessing(false)
+      if (pollTimerRef.current) { clearInterval(pollTimerRef.current); pollTimerRef.current = null }
     }
   }, [uploadMethod, gifSettings, frames])
 
@@ -201,6 +218,37 @@ export default function GifMakerTool() {
     setDraggedIdx(idx)
   }
   const handleDragEnd = () => setDraggedIdx(null)
+
+  // Accessible move helpers
+  const moveFrame = (from, to) => {
+    if (from === to || from < 0 || to < 0 || from >= frames.length || to >= frames.length) return
+    setFrames(prev => {
+      const updated = [...prev]
+      const [item] = updated.splice(from, 1)
+      updated.splice(to, 0, item)
+      return updated
+    })
+  }
+  const [announce, setAnnounce] = useState('')
+  const announceMove = (i, dir) => {
+    const to = i + (dir === 'left' ? -1 : 1)
+    moveFrame(i, to)
+    const msg = `Moved image ${i + 1} to position ${to + 1}`
+    setAnnounce(msg)
+    setTimeout(() => setAnnounce(''), 600)
+  }
+  // Stable thumbnail object URLs (no revoke in dev to avoid StrictMode issues)
+  const thumbUrlMapRef = useRef(new Map())
+  const getThumbSrc = (frame) => {
+    if (frame?.file instanceof File) {
+      let u = thumbUrlMapRef.current.get(frame.file)
+      if (!u) {
+        try { u = URL.createObjectURL(frame.file); thumbUrlMapRef.current.set(frame.file, u) } catch {}
+      }
+      return u
+    }
+    return frame?.url
+  }
 
   // --- Render ---
   return (
@@ -297,28 +345,61 @@ export default function GifMakerTool() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
+                    {/* Live Playback Preview */}
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-gray-800">Live Preview</div>
+                        <div className="flex items-center gap-2">
+                          <button className="px-3 py-1 rounded border" onClick={() => setIsPlaying(p => !p)} aria-pressed={isPlaying}>
+                            {isPlaying ? 'Pause' : 'Play'}
+                          </button>
+                          <label className="text-sm text-gray-600" htmlFor="previewSpeed">Speed</label>
+                          <select id="previewSpeed" className="border rounded px-2 py-1 text-sm" value={previewSpeed} onChange={e => setPreviewSpeed(parseFloat(e.target.value))}>
+                            <option value={0.5}>0.5x</option>
+                            <option value={1}>1x</option>
+                            <option value={2}>2x</option>
+                          </select>
+                        </div>
+                      </div>
+                      <FrameSequencePreview frames={frames} playing={isPlaying} speed={previewSpeed} loopCount={gifSettings.loopCount || 0} height={260} />
+                    </div>
                     {/* Enhanced Preview Grid */}
                     <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {frames.map((frame, idx) => (
                           <div
                             key={idx}
-                            className="relative group transform transition-all duration-300 hover:scale-105"
+                            className="relative group transform transition-all duration-300 hover:scale-105 focus:outline focus:outline-2 focus:outline-blue-500"
                             draggable
                             onDragStart={() => handleDragStart(idx)}
                             onDragOver={handleDragOver(idx)}
                             onDragEnd={handleDragEnd}
                             onDrop={handleDragEnd}
+                            tabIndex={0}
+                            role="listitem"
+                            aria-label={`Image ${idx + 1}`}
+                            onKeyDown={(e) => {
+                              if (e.key === 'ArrowLeft') { e.preventDefault(); if (idx > 0) announceMove(idx, 'left') }
+                              if (e.key === 'ArrowRight') { e.preventDefault(); if (idx < frames.length - 1) announceMove(idx, 'right') }
+                            }}
                           >
                             <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
                               <img
-                                src={frame.file ? URL.createObjectURL(frame.file) : frame.url}
+                                src={getThumbSrc(frame)}
                                 alt={frame.file ? frame.file.name : `URL #${idx + 1}`}
                                 className="w-full h-28 object-cover transition-transform duration-300 group-hover:scale-110"
                                 loading="lazy"
                                 style={{ pointerEvents: 'auto' }}
                                 title={`${frame.file ? frame.file.name : `Image ${idx + 1}`} - Drag to reorder`}
                               />
+                              <div className="absolute bottom-2 left-2 flex gap-2 opacity-0 group-hover:opacity-100 transition" style={{ pointerEvents: 'auto' }}>
+                                <button className="px-2 py-1 text-xs rounded bg-white/80 border" onClick={() => announceMove(idx, 'left')} aria-label={`Move image ${idx + 1} left`} disabled={idx === 0}>
+                                  ←
+                                </button>
+                                <button className="px-2 py-1 text-xs rounded bg-white/80 border" onClick={() => announceMove(idx, 'right')} aria-label={`Move image ${idx + 1} right`} disabled={idx === frames.length - 1}>
+                                  →
+                                </button>
+                              </div>
                               <div className="absolute top-2 left-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
                                 {idx + 1}
                               </div>
@@ -367,6 +448,7 @@ export default function GifMakerTool() {
                           </div>
                         ))}
                       </div>
+                      <div className="sr-only" role="status" aria-live="polite">{announce}</div>
                       <div className="mt-4 text-center">
                         <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm text-gray-700 font-medium shadow-sm">
                           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -440,6 +522,25 @@ export default function GifMakerTool() {
                         <p className="text-xs text-gray-600 mt-3 leading-relaxed">
                           Controls animation speed. Lower values create faster, more energetic animations, while higher values create slower, more dramatic effects.
                         </p>
+                      </div>
+                      {/* Transition Settings */}
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
+                        <label className="block font-semibold mb-3 text-gray-800 text-base">
+                          Transition Between Images
+                        </label>
+                        <div className="flex items-center gap-3 mb-2">
+                          <select className="border rounded px-3 py-2" value={transitionType} onChange={(e) => setTransitionType(e.target.value)}>
+                            <option value="none">None</option>
+                            <option value="crossfade">Crossfade</option>
+                          </select>
+                          {transitionType !== 'none' && (
+                            <>
+                              <label className="text-sm text-gray-600" htmlFor="transitionSteps">Steps</label>
+                              <input id="transitionSteps" type="number" min={2} max={12} value={transitionSteps} onChange={(e) => setTransitionSteps(Math.max(2, Math.min(12, parseInt(e.target.value || '6', 10))))} className="w-20 border rounded px-2 py-1" />
+                            </>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-600">Crossfade inserts blended frames between images. More steps = smoother transition, larger file.</p>
                       </div>
                       
                       <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
@@ -529,6 +630,7 @@ export default function GifMakerTool() {
             <ProcessingState
               title="Processing Your GIF"
               description="Creating your animated GIF..."
+              elapsedSeconds={elapsed}
               useGradient={false}
             />
           )}
