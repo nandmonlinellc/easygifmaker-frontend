@@ -37,6 +37,8 @@ import ToolPageLayout from '../components/ToolPageLayout'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
+import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
 export default function CropTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -227,6 +229,7 @@ export default function CropTool() {
           }
         ]}
       >
+        
         <HowToUseSection
           title="How to Use the GIF Cropper"
           steps={[
@@ -370,6 +373,23 @@ export default function CropTool() {
               useGradient={false}
             />
           )}
+
+          {/* Quick features + Limits (after upload section) */}
+          <QuickFeaturesBox
+            features={[
+              { emoji: '✂️', text: 'Freeform or preset aspect ratios' },
+              { emoji: '🖱️', text: 'Interactive crop selection' },
+              { emoji: '🔍', text: 'Preview before download' },
+              { emoji: '⚡', text: 'Fast, no watermark' },
+            ]}
+          />
+          <LimitsTable
+            acceptedFormats={[ 'GIF' ]}
+            maxFps={null}
+            maxFrames={null}
+            maxResolution={'Very large GIFs may process slower; crop first then optimize for best results'}
+            recommendedDuration={null}
+          />
 
           {/* Editing State */}
           {workflowState === 'editing' && (

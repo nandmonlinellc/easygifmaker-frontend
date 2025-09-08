@@ -21,6 +21,29 @@ export default function FAQ() {
           <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-8">Frequently Asked Questions</h1>
         </header>
         <section className="space-y-8 text-gray-800" aria-label="FAQ Content">
+          {/* Limits & Supported Formats */}
+          <div>
+            <h2 className="text-2xl font-semibold text-blue-700 mb-4 border-b pb-2">Limits & Supported Formats</h2>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <ul className="text-sm text-blue-900 space-y-2">
+                <li><strong>Max file size:</strong> 200MB</li>
+                <li><strong>Accepted formats:</strong> Images — GIF, JPG, PNG, WebP, APNG, HEIC/HEIF, MNG, JP2, AVIF, JXL, BMP, PDF. Video — MP4, WebM, AVI, MOV, MKV, FLV.</li>
+                <li><strong>FPS:</strong> up to ~30 FPS (higher FPS increases file size)</li>
+                <li><strong>Frames:</strong> ~300 frame safety cap on complex operations</li>
+                <li><strong>Resolution:</strong> up to ~800×800 px equivalent for heavy edits; higher sizes supported for simple conversions</li>
+                <li><strong>Recommended duration:</strong> keep clips ≤ 15s for fast, shareable GIFs</li>
+              </ul>
+              <div className="mt-3 text-sm">
+                <div className="font-semibold">If it fails:</div>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Trim duration and/or lower FPS</li>
+                  <li>Resize to a smaller width (e.g. 480–720 px)</li>
+                  <li>Ensure the file is a supported type and under 200MB</li>
+                  <li>Try another browser or clear cache</li>
+                </ul>
+              </div>
+            </div>
+          </div>
           {/* General Questions */}
           <div>
             <h2 className="text-2xl font-semibold text-blue-700 mb-4 border-b pb-2">General Questions</h2>

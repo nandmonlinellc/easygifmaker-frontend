@@ -27,6 +27,8 @@ import ToolPageLayout from '../components/ToolPageLayout'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
+import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
 export default function AddTextTool() {
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001'
@@ -298,6 +300,7 @@ export default function AddTextTool() {
           canonical: "https://easygifmaker.com/add-text"
         }}
       >
+        
         <HowToUseSection
           title="How to Add Text to GIFs"
           steps={[
@@ -338,6 +341,22 @@ export default function AddTextTool() {
               toolName="GIF"
             />
           )}
+
+          {/* Quick features + Limits (after upload section) */}
+          <QuickFeaturesBox
+            features={[
+              { emoji: '🔤', text: 'Custom fonts (.ttf/.otf) embedded into output' },
+              { emoji: '🧩', text: 'Multiple text layers with timing/animations' },
+              { emoji: '🖊️', text: 'Outline/stroke for clear legibility' },
+              { emoji: '📐', text: 'Alignment, offsets, wrapping, auto‑fit' },
+            ]}
+          />
+          <LimitsTable
+            acceptedFormats={[ 'GIF' ]}
+            maxFps={null}
+            maxResolution={'For very large GIFs, reduce dimensions for faster text rendering'}
+            recommendedDuration={null}
+          />
 
           {/* Editing State */}
           {workflowState === 'editing' && (
@@ -538,7 +557,7 @@ export default function AddTextTool() {
           icon={Type}
           title="Add Text to GIF"
           description1="Transform your GIFs with layered text overlays. Add multiple captions, watermarks, and callouts with per-layer timing and animation."
-          description2="Customize fonts (including uploads), colors, sizes, alignment, and wrapping. Fine-tune line height, max text width, and auto-fit for crisp, readable captions."
+          description2="Customize fonts (including uploads), colors, sizes, alignment, and wrapping. Uploaded fonts are embedded (rasterized) into the output frames so your text looks correct everywhere. Add outlines/strokes for legibility over busy backgrounds."
           features1={[
             { emoji: "🧩", text: "Multiple text layers with per-layer settings" },
             { emoji: "🔤", text: "Custom fonts (.ttf/.otf) per layer" },

@@ -19,6 +19,7 @@ import DisplayAd from '@/components/ads/DisplayAd.jsx'
 import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import AdsenseAd from '../components/AdsenseAd'
 import { Slider } from '@/components/ui/slider.jsx'
+import LimitsTable from '../components/LimitsTable'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -33,7 +34,8 @@ export default function VideoToGifTool() {
     width: 480,
     height: 360,
     quality: 'medium',
-    includeAudio: false
+    includeAudio: false,
+    includeWebp: false
   })
   // Segments state
   const [segments, setSegments] = useState([{ start: 0, end: 10 }])
@@ -144,6 +146,7 @@ export default function VideoToGifTool() {
       formData.append('height', videoSettings.height.toString())
       formData.append('quality', videoSettings.quality)
       formData.append('include_audio', videoSettings.includeAudio ? 'true' : 'false')
+      formData.append('include_webp', videoSettings.includeWebp ? 'true' : 'false')
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/video-to-gif`, {
         method: 'POST',
@@ -175,7 +178,11 @@ export default function VideoToGifTool() {
         if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
           // If result is an object with gif/mp4, show both download links
           if (typeof result === 'object' && result.gif) {
-            setResultUrl({ gif: `${apiUrl}/api/download/${result.gif}?proxy=1`, mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}?proxy=1` : null })
+            setResultUrl({
+              gif: `${apiUrl}/api/download/${result.gif}?proxy=1`,
+              mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}?proxy=1` : null,
+              webp: result.webp ? `${apiUrl}/api/download/${result.webp}?proxy=1` : null,
+            })
           } else {
             setResultUrl(`${apiUrl}/api/download/${result}?proxy=1`)
           }
@@ -261,6 +268,7 @@ export default function VideoToGifTool() {
           }
         ]}
       >
+        
         <HowToUseSection
           title="How to Use the Video to GIF Converter"
           steps={[
@@ -323,6 +331,23 @@ export default function VideoToGifTool() {
               </p>
             </>
           )}
+
+          {/* Quick features and limits (placed after upload section) */}
+          <section className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
+            <h3 className="text-sm font-bold text-blue-700 mb-1">Quick features</h3>
+            <ul className="grid sm:grid-cols-2 gap-2 text-sm text-blue-900">
+              <li>🧩 Multi‑segment trimming & stitching</li>
+              <li>🎚️ Brightness & Contrast adjustments</li>
+              <li>🎞️ Exports: GIF {videoSettings.includeAudio ? '+ MP4 ' : '+ MP4 (optional) '} {videoSettings.includeWebp ? '+ WebP' : '+ WebP (optional)'}</li>
+              <li>⚡ Fast processing, no watermark</li>
+            </ul>
+          </section>
+          <LimitsTable
+            acceptedFormats={[ 'MP4', 'WebM', 'AVI', 'MOV', 'MKV', 'FLV' ]}
+            maxFrames={null}
+            maxResolution={'Choose width/height (e.g., 480–720 px for faster results)'}
+            recommendedDuration={'Keep combined segments ≤ 15s for shareable sizes'}
+          />
 
           {/* Editing State */}
           {workflowState === 'editing' && (
@@ -424,6 +449,25 @@ export default function VideoToGifTool() {
                         </p>
                       </div>
 
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label className="flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                          <input
+                            type="checkbox"
+                            checked={videoSettings.includeAudio}
+                            onChange={e => handleSettingChange('includeAudio', e.target.checked)}
+                          />
+                          <span className="text-sm">Also export MP4 (with audio)</span>
+                        </label>
+                        <label className="flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                          <input
+                            type="checkbox"
+                            checked={videoSettings.includeWebp}
+                            onChange={e => handleSettingChange('includeWebp', e.target.checked)}
+                          />
+                          <span className="text-sm">Also export animated WebP</span>
+                        </label>
+                      </div>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/20">
                           <label className="block font-semibold mb-2 sm:mb-3 text-gray-800 text-sm sm:text-base">
@@ -466,23 +510,7 @@ export default function VideoToGifTool() {
                         <Slider min={0} max={3} step={0.1} value={[contrast]} onValueChange={handleContrastChange} />
                       </div>
 
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                        <div className="flex items-center gap-3 mb-4">
-                          <input
-                            type="checkbox"
-                            id="include-audio"
-                            checked={videoSettings.includeAudio}
-                            onChange={e => handleSettingChange('includeAudio', e.target.checked)}
-                            className="w-5 h-5 text-blue-600 bg-white/90 border-white/30 rounded focus:ring-blue-500 focus:ring-2"
-                          />
-                          <label htmlFor="include-audio" className="font-semibold text-gray-800 text-lg">
-                            Include Audio
-                          </label>
-                        </div>
-                        <p className="text-sm text-gray-600 leading-relaxed">
-                          Output as .mp4 with audio in addition to GIF. Perfect for preserving sound effects or music.
-                        </p>
-                      </div>
+                      {/* Export options are controlled above */}
                     </div>
 
                     {/* Enhanced Summary Section */}
@@ -639,6 +667,35 @@ export default function VideoToGifTool() {
                     >
                       <Video className="h-4 w-4 mr-2" />
                       Download MP4 (with Audio)
+                    </Button>
+                  )}
+
+                  {/* WebP Download (only show if WebP exists) */}
+                  {typeof resultUrl === 'object' && resultUrl.webp && (
+                    <Button 
+                      onClick={async () => {
+                        try {
+                          const response = await fetch(resultUrl.webp)
+                          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+                          const blob = await response.blob()
+                          const url = window.URL.createObjectURL(blob)
+                          const link = document.createElement('a')
+                          link.href = url
+                          link.download = 'converted.webp'
+                          document.body.appendChild(link)
+                          link.click()
+                          document.body.removeChild(link)
+                          window.URL.revokeObjectURL(url)
+                        } catch (error) {
+                          console.error('Download failed:', error)
+                          alert('Download failed. Please try again.')
+                        }
+                      }}
+                      variant="outline"
+                      className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Download WebP
                     </Button>
                   )}
                 </div>

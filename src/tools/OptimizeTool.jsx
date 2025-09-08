@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import InArticleAd from '@/components/ads/InArticleAd.jsx';
 import { Helmet } from 'react-helmet-async'
@@ -36,6 +36,7 @@ import ToolPageLayout from '../components/ToolPageLayout'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
 
 // Unified workflow states: 'upload', 'editing', 'processing', 'result'
 export default function OptimizeTool() {
@@ -44,6 +45,8 @@ export default function OptimizeTool() {
   const [mediaUrl, setMediaUrl] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [resultUrl, setResultUrl] = useState(null)
+  const [originalSize, setOriginalSize] = useState(null)
+  const [optimizedSize, setOptimizedSize] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [settings, setSettings] = useState({
     quality: 80,
@@ -66,6 +69,17 @@ export default function OptimizeTool() {
     }
     setMediaUrl(url)
     setWorkflowState('editing')
+    // Try to record original size (best-effort)
+    try {
+      if (uploadMethod === 'url' && urlInput) {
+        fetch(urlInput, { method: 'HEAD' }).then(res => {
+          const len = res.headers.get('content-length')
+          if (len) setOriginalSize(parseInt(len, 10))
+        }).catch(() => {})
+      } else if (files && files[0]) {
+        setOriginalSize(files[0].size)
+      }
+    } catch {}
   }, [uploadMethod])
 
   // Handle optimize process
@@ -123,6 +137,7 @@ export default function OptimizeTool() {
           if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
           const gifBlob = await downloadResp.blob()
           const url = URL.createObjectURL(gifBlob)
+          try { setOptimizedSize(gifBlob.size) } catch {}
           setResultUrl({
             previewUrl: url,
             downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
@@ -195,6 +210,7 @@ export default function OptimizeTool() {
           }
         ]}
       >
+        
         <HowToUseSection
           title="How to Use the GIF Optimizer"
           steps={[
@@ -283,6 +299,26 @@ export default function OptimizeTool() {
               useGradient={false}
             />
           )}
+
+          {/* Quick features and Limits (after upload section) */}
+          <div className="grid gap-4">
+            <section className="bg-green-50 border border-green-200 rounded-2xl p-4">
+              <h3 className="text-sm font-bold text-green-700 mb-1">Quick features</h3>
+              <ul className="grid sm:grid-cols-2 gap-2 text-sm text-green-900">
+                <li>⚡ Up to 80% reduction</li>
+                <li>🎨 Color count, quality, and dithering</li>
+                <li>🔍 Visual preview before download</li>
+                <li>🧪 Lossy level control</li>
+              </ul>
+            </section>
+            <LimitsTable
+              acceptedFormats={[ 'GIF' ]}
+              maxFps={null}
+              maxFrames={null}
+              maxResolution={'For very large GIFs, reduce dimensions first for best results'}
+              recommendedDuration={null}
+            />
+          </div>
 
           {/* Editing State */}
           {workflowState === 'editing' && (
@@ -505,14 +541,41 @@ export default function OptimizeTool() {
 
           {/* Result State */}
           {workflowState === 'result' && resultUrl && (
-            <ResultSection
-              title="Your Optimized GIF is Ready!"
-              description="Your GIF has been successfully optimized with reduced file size."
-              imageUrl={resultUrl.previewUrl}
-              downloadFileName="optimized.gif"
-              downloadUrl={resultUrl.downloadUrl}
-              onReset={resetWorkflow}
-            />
+            <>
+              <section className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white rounded-xl border p-4">
+                  <h4 className="font-semibold mb-2">Before</h4>
+                  <img src={mediaUrl} alt="Original GIF" className="max-w-full h-auto rounded" />
+                  {originalSize != null && (
+                    <p className="text-sm text-gray-600 mt-2">Size: {(originalSize/1024).toFixed(1)} KB</p>
+                  )}
+                </div>
+                <div className="bg-white rounded-xl border p-4">
+                  <h4 className="font-semibold mb-2">After</h4>
+                  <img src={resultUrl.previewUrl} alt="Optimized GIF" className="max-w-full h-auto rounded" />
+                  {optimizedSize != null && (
+                    <p className="text-sm text-gray-600 mt-2">Size: {(optimizedSize/1024).toFixed(1)} KB</p>
+                  )}
+                </div>
+              </section>
+              <div className="mt-3 text-sm">
+                {(originalSize && optimizedSize) ? (
+                  <p className="text-gray-800 font-medium">
+                    Reduction: {Math.max(0, (1 - optimizedSize / originalSize) * 100).toFixed(0)}%
+                  </p>
+                ) : (
+                  <p className="text-gray-600">Tip: We often achieve up to 80% reduction.</p>
+                )}
+              </div>
+              <ResultSection
+                title="Your Optimized GIF is Ready!"
+                description="Your GIF has been successfully optimized with reduced file size."
+                imageUrl={resultUrl.previewUrl}
+                downloadFileName="optimized.gif"
+                downloadUrl={resultUrl.downloadUrl}
+                onReset={resetWorkflow}
+              />
+            </>
           )}
 
         <ToolSeoSection

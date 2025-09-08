@@ -35,6 +35,8 @@ import ToolPageLayout from '../components/ToolPageLayout'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
+import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
 export default function ResizeTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -187,7 +189,8 @@ export default function ResizeTool() {
           "text": "Download your resized GIF with new dimensions!"
         }
       ]}
-    >
+      >
+        
       <HowToUseSection
         title="How to Use the GIF Resizer"
         steps={[
@@ -277,6 +280,23 @@ export default function ResizeTool() {
               useGradient={false}
             />
           )}
+
+          {/* Quick features + Limits (after upload section) */}
+          <QuickFeaturesBox
+            features={[
+              { emoji: '📏', text: 'Custom width & height' },
+              { emoji: '⚖️', text: 'Maintain aspect ratio' },
+              { emoji: '📐', text: 'Percentage-based scaling' },
+              { emoji: '💎', text: 'High-quality resizing' },
+            ]}
+          />
+          <LimitsTable
+            acceptedFormats={[ 'GIF' ]}
+            maxFps={null}
+            maxFrames={null}
+            maxResolution={'Up to ~800×800 px equivalent for complex edits; larger may work for simple cases'}
+            recommendedDuration={null}
+          />
 
           {/* Editing State */}
           {workflowState === 'editing' && (

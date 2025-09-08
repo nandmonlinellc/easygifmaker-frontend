@@ -36,6 +36,8 @@ import { getApiBase } from '@/lib/api'
           </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
+import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
 export default function GifMakerTool() {
   // Workflow: upload, preview, processing, result
@@ -286,6 +288,7 @@ export default function GifMakerTool() {
         }
       ]}
     >
+      
       <HowToUseSection
         title="How to Use the GIF Maker"
         steps={[
@@ -331,6 +334,23 @@ export default function GifMakerTool() {
               }}
             />
           )}
+
+          {/* Quick features + Limits (after upload section) */}
+          <QuickFeaturesBox
+            features={[
+              { emoji: '✨', text: 'Per-frame effects (Fade, Zoom)' },
+              { emoji: '🔁', text: 'Custom timing and loop count' },
+              { emoji: '🧲', text: 'Drag-and-drop reordering' },
+              { emoji: '👀', text: 'Live preview before download' },
+            ]}
+          />
+          <LimitsTable
+            acceptedFormats={[ 'JPG', 'PNG', 'GIF', 'WebP', 'APNG', 'HEIC', 'HEIF', 'MNG', 'JP2', 'AVIF', 'JXL', 'BMP', 'PDF' ]}
+            maxFps={null}
+            maxFrames={'~300 frames (safety cap in complex edits)'}
+            maxResolution={'Up to ~800×800 px equivalent (complex ops)'}
+            recommendedDuration={null}
+          />
 
           {/* Preview State */}
           {workflowState === 'preview' && (

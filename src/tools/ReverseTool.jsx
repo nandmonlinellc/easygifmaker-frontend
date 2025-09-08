@@ -14,6 +14,8 @@ import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import LimitsTable from '../components/LimitsTable'
+import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
 export default function ReverseTool() {
   const [workflowState, setWorkflowState] = useState('upload')
@@ -131,6 +133,7 @@ export default function ReverseTool() {
           { '@type': 'HowToStep', name: 'Download', text: 'Download your reversed GIF.' }
         ]}
       >
+        
         <HowToUseSection
           title="How to Use the GIF Reverser"
           steps={[
@@ -157,6 +160,23 @@ export default function ReverseTool() {
             useGradient={false}
           />
         )}
+
+        {/* Quick features + Limits (after upload section) */}
+        <QuickFeaturesBox
+          features={[
+            { emoji: '↩️', text: 'Play animation backwards' },
+            { emoji: '🎞️', text: 'Preserves frames & timing' },
+            { emoji: '⚡', text: 'Fast processing, no watermark' },
+            { emoji: '🧰', text: 'Works with animated GIFs' },
+          ]}
+        />
+        <LimitsTable
+          acceptedFormats={[ 'GIF' ]}
+          maxFps={null}
+          maxFrames={'~300 frames (safety cap in complex edits)'}
+          maxResolution={'Up to ~800×800 px equivalent for heavy edits'}
+          recommendedDuration={null}
+        />
 
         {workflowState === 'editing' && mediaUrl && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
