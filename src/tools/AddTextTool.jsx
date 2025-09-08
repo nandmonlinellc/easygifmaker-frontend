@@ -297,7 +297,8 @@ export default function AddTextTool() {
           title: "Add Text to GIF - Overlay Text on GIFs Online | EasyGIFMaker",
           description: "Add multiple text layers, upload custom fonts, and control per-layer timing and animations. Precise alignment, max-width wrapping, and auto-fit for perfect captions and watermarks.",
           keywords: "add text to gif, multiple text layers gif, custom fonts gif, gif text editor, gif caption, gif watermark, text overlay gif, animated text gif, line height, max width",
-          canonical: "https://easygifmaker.com/add-text"
+          canonical: "https://easygifmaker.com/add-text",
+          ogImage: "https://easygifmaker.com/blog/add-text-to-gifs-guide.svg"
         }}
       >
         

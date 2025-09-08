@@ -165,7 +165,8 @@ export default function ResizeTool() {
         title: "Resize GIF Online | EasyGIFMaker",
         description: "Resize GIFs quickly and easily. Set exact width and height or keep aspect ratio for perfect social media sizes.",
         keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker",
-        canonical: "https://easygifmaker.com/resize"
+        canonical: "https://easygifmaker.com/resize",
+        ogImage: "https://easygifmaker.com/blog/complete-guide-to-resize-gif.svg"
       }}
       howToSteps={[
         {

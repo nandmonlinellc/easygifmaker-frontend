@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
@@ -25,6 +26,33 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        {/* Organization */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://easygifmaker.com/og-image.svg'
+            },
+            sameAs: [
+              'https://x.com/NMToolbox'
+            ]
+          })}
+        </script>
+        {/* WebSite */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'EasyGIFMaker',
+            url: 'https://easygifmaker.com'
+          })}
+        </script>
+      </Helmet>
       <Header />
       <main className="flex-1 container mx-auto p-4 md:p-8">
         <Outlet />

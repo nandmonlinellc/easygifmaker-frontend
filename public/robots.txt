@@ -1,8 +1,12 @@
-# robots.txt for easygifmaker
-
 User-agent: *
-Disallow: /admin/
-Disallow: /private/
+Allow: /
+
+# AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 Sitemap: https://easygifmaker.com/sitemap.xml
+

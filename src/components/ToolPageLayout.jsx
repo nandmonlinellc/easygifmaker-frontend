@@ -10,19 +10,27 @@ const ToolPageLayout = ({
   howToSteps,
   children
 }) => {
-  // Create structured data for the tool page
-  const webAppStructuredData = {
+  // Create structured data for the tool page (SoftwareApplication fits tools better)
+  const softwareStructuredData = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     "name": seoProps.title,
     "description": seoProps.description,
     "url": seoProps.canonical,
     "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "Web Browser",
+    "operatingSystem": "Web",
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
+    },
+    "potentialAction": {
+      "@type": "CreateAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": seoProps.canonical
+      },
+      "name": title
     },
     "author": {
       "@type": "Organization",
@@ -85,7 +93,7 @@ const ToolPageLayout = ({
         <meta property="og:description" content={seoProps.description} />
         <meta property="og:url" content={seoProps.canonical} />
         <meta property="og:site_name" content="EasyGIFMaker" />
-        <meta property="og:image" content="https://easygifmaker.com/og-image.png" />
+        <meta property="og:image" content={seoProps.ogImage || "https://easygifmaker.com/og-image.png"} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         
@@ -93,7 +101,7 @@ const ToolPageLayout = ({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoProps.title} />
         <meta name="twitter:description" content={seoProps.description} />
-        <meta name="twitter:image" content="https://easygifmaker.com/og-image.png" />
+        <meta name="twitter:image" content={seoProps.ogImage || "https://easygifmaker.com/og-image.png"} />
   <meta name="twitter:site" content="@NMToolbox" />
   <meta name="twitter:creator" content="@NMToolbox" />
         
@@ -101,9 +109,9 @@ const ToolPageLayout = ({
         <meta name="robots" content="index, follow" />
         <meta name="author" content="EasyGIFMaker" />
         
-        {/* Structured Data - WebApplication */}
+        {/* Structured Data - SoftwareApplication */}
         <script type="application/ld+json">
-          {JSON.stringify(webAppStructuredData)}
+          {JSON.stringify(softwareStructuredData)}
         </script>
         
         {/* Structured Data - HowTo (only if steps provided) */}

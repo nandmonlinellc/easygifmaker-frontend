@@ -204,7 +204,8 @@ export default function CropTool() {
           title: "Crop GIF Easily Online | EasyGIFMaker",
           description: "Crop your GIFs quickly and easily with our online GIF cropping tool. Perfect for creating shareable animations that fit your needs!",
           keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif, gif maker, free gif maker, online gif maker, gif converter, gif creator",
-          canonical: "https://easygifmaker.com/crop"
+          canonical: "https://easygifmaker.com/crop",
+          ogImage: "https://easygifmaker.com/blog/professional-gif-cropping-and-composition-guide.svg"
         }}
         howToSteps={[
           {

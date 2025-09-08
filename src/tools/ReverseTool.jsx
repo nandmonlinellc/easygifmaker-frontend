@@ -125,7 +125,8 @@ export default function ReverseTool() {
           title: 'Reverse GIF - Play GIFs Backwards Online | EasyGIFMaker',
           description: 'Reverse the playback of animated GIFs online for free. Upload a GIF or paste a URL to reverse its animation direction instantly.',
           keywords: 'reverse gif, play gif backwards, gif reverser, reverse animation, gif editor',
-          canonical: 'https://easygifmaker.com/reverse'
+          canonical: 'https://easygifmaker.com/reverse',
+          ogImage: 'https://easygifmaker.com/og-image.svg'
         }}
         howToSteps={[
           { '@type': 'HowToStep', name: 'Upload GIF', text: 'Select a GIF file or enter a GIF URL.' },

@@ -17,6 +17,7 @@ const Help = lazy(() => import('./pages/Help'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const Terms = lazy(() => import('./pages/Terms'))
 const Blog = lazy(() => import('./pages/Blog'))
+const Api = lazy(() => import('./pages/Api'))
 const HowToMakeGifsFromVideos = lazy(() => import('./pages/blog/HowToMakeGifsFromVideos'))
 const Top5GifOptimizationTips = lazy(() => import('./pages/blog/Top5GifOptimizationTips'))
 const AddTextToGifsGuide = lazy(() => import('./pages/blog/AddTextToGifsGuide'))
@@ -54,6 +55,7 @@ function App() {
                 <Route path="reverse" element={<ReverseTool />} />
               <Route path="add-text" element={<AddTextTool />} />
               <Route path="blog" element={<Blog />} />
+              <Route path="api" element={<Api />} />
               <Route path="blog/how-to-make-gifs-from-videos" element={<HowToMakeGifsFromVideos />} />
               <Route path="blog/top-5-gif-optimization-tips" element={<Top5GifOptimizationTips />} />
               <Route path="blog/add-text-to-gifs-guide" element={<AddTextToGifsGuide />} />

@@ -185,7 +185,8 @@ export default function OptimizeTool() {
           title: "Optimize GIF Online | Compress Animated GIFs | EasyGIFMaker",
           description: "Compress GIFs online and reduce file size while keeping quality. Perfect for faster sharing and page speed.",
           keywords: "optimize gif, compress gif, reduce gif size, gif optimizer, gif compression, optimize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker, high quality gif maker",
-          canonical: "https://easygifmaker.com/optimize"
+          canonical: "https://easygifmaker.com/optimize",
+          ogImage: "https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.svg"
         }}
         howToSteps={[
           {
