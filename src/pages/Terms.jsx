@@ -7,7 +7,7 @@ export default function Terms() {
   return (
     <>
       <Meta
-        title="Terms of Service"
+        title="Terms of Service | EasyGIFMaker"
         description="Read the Terms of Service for EasyGIFMaker. Understand the rules and guidelines for using our online GIF and video editing tools."
         url="/terms"
       />

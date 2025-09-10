@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
   return (
     <>
       <Meta
-        title="Privacy Policy"
+        title="Privacy Policy | EasyGIFMaker"
         description="Read the Privacy Policy for EasyGIFMaker. Learn how we protect your data and privacy when using our GIF and video editing tools."
         url="/privacy-policy"
       />

@@ -23,10 +23,18 @@ function extractRoutes(fileText) {
   return Array.from(routes)
 }
 
+function isoDate() {
+  return new Date().toISOString().slice(0, 10)
+}
+
 function buildSitemap(urls) {
+  const lastmod = isoDate()
   const items = urls
     .filter(Boolean)
-    .map(u => `  <url><loc>${SITE}${u.replace(/\/$/, '')}</loc></url>`) // normalize
+    .map(u => {
+      const loc = `${SITE}${u.replace(/\/$/, '')}`
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`
+    })
     .join('\n')
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${items}\n</urlset>\n`
 }
@@ -42,4 +50,3 @@ try {
   console.error('Failed to generate sitemap:', e) // eslint-disable-line no-console
   process.exit(1)
 }
-

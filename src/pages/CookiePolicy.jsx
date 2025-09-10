@@ -7,7 +7,7 @@ export default function CookiePolicy() {
   return (
     <>
       <Meta
-        title="Cookie Policy"
+        title="Cookie Policy | EasyGIFMaker"
         description="Read the Cookie Policy for EasyGIFMaker. Learn how we use cookies to enhance your experience with our GIF and video editing tools."
         url="/cookie-policy"
       />
