@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename)
 
 const ROOT = path.resolve(__dirname, '..')
 const APP = path.join(ROOT, 'src', 'App.jsx')
+// Path to backend SEO pages file
+const SEO_PAGES_PY = path.join(ROOT, '..', 'easygifmaker_api', 'src', 'seo_pages.py')
 const PUBLIC = path.join(ROOT, 'public')
 const OUT = path.join(PUBLIC, 'sitemap.xml')
 const SITE = process.env.SITE_ORIGIN || 'https://easygifmaker.com'
@@ -25,6 +27,24 @@ function extractRoutes(fileText) {
     routes.add(p)
   }
   return Array.from(routes)
+}
+
+function extractSeoRoutes(pyText) {
+  // Very loose parse: find objects containing slug and category fields
+  const urls = new Set()
+  const objRe = /\{[\s\S]*?\}/g
+  let m
+  while ((m = objRe.exec(pyText))) {
+    const obj = m[0]
+    const slugM = obj.match(/\"slug\"\s*:\s*\"([^\"]+)\"/)
+    const catM = obj.match(/\"category\"\s*:\s*\"([^\"]+)\"/)
+    if (slugM && catM) {
+      const slug = slugM[1]
+      const cat = catM[1]
+      if (slug && cat) urls.add(`/${cat}/${slug}`)
+    }
+  }
+  return Array.from(urls)
 }
 
 function isoDate() {
@@ -46,6 +66,14 @@ function buildSitemap(urls) {
 try {
   const text = fs.readFileSync(APP, 'utf8')
   const routes = extractRoutes(text)
+  // Try to include backend SEO pages if file is accessible
+  try {
+    const py = fs.readFileSync(SEO_PAGES_PY, 'utf8')
+    const seoRoutes = extractSeoRoutes(py)
+    for (const u of seoRoutes) routes.push(u)
+  } catch (e) {
+    // Ignore if backend file not present in this environment
+  }
   const xml = buildSitemap(routes)
   if (!fs.existsSync(PUBLIC)) fs.mkdirSync(PUBLIC, { recursive: true })
   fs.writeFileSync(OUT, xml, 'utf8')
