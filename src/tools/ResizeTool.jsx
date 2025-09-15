@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Input } from '@/components/ui/input.jsx'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 import { RotateCw, Settings, Maximize2 } from 'lucide-react'
 import ResultSection from '../components/ResultSection'
 import FileUploadSection from '../components/FileUploadSection'
@@ -49,8 +50,65 @@ export default function ResizeTool() {
     width: 300,
     height: 300,
     maintainAspectRatio: true,
-    percentage: 100
+    percentage: 100,
+    aspectPreset: 'free' // 'free' | '1:1' | '16:9' | '9:16'
   })
+  const [originalSize, setOriginalSize] = useState({ width: null, height: null })
+
+  const presetToRatio = (preset) => {
+    if (preset === '1:1') return 1
+    if (preset === '16:9') return 16/9
+    if (preset === '9:16') return 9/16
+    return null
+  }
+
+  const handleWidthChange = (value) => {
+    const newWidth = parseInt(value, 10)
+    if (!Number.isFinite(newWidth) || newWidth <= 0) {
+      setSettings({ ...settings, width: 1 })
+      return
+    }
+    let newHeight = settings.height
+    const ratio = presetToRatio(settings.aspectPreset)
+    if (ratio) {
+      newHeight = Math.max(1, Math.round(newWidth / ratio))
+    } else if (settings.maintainAspectRatio && originalSize.width && originalSize.height) {
+      const origRatio = originalSize.width / originalSize.height
+      newHeight = Math.max(1, Math.round(newWidth / origRatio))
+    }
+    setSettings({ ...settings, width: newWidth, height: newHeight })
+  }
+
+  const handleHeightChange = (value) => {
+    const newHeight = parseInt(value, 10)
+    if (!Number.isFinite(newHeight) || newHeight <= 0) {
+      setSettings({ ...settings, height: 1 })
+      return
+    }
+    let newWidth = settings.width
+    const ratio = presetToRatio(settings.aspectPreset)
+    if (ratio) {
+      newWidth = Math.max(1, Math.round(newHeight * ratio))
+    } else if (settings.maintainAspectRatio && originalSize.width && originalSize.height) {
+      const origRatio = originalSize.width / originalSize.height
+      newWidth = Math.max(1, Math.round(newHeight * origRatio))
+    }
+    setSettings({ ...settings, width: newWidth, height: newHeight })
+  }
+
+  const handleAspectPresetChange = (value) => {
+    const next = { ...settings, aspectPreset: value }
+    const ratio = presetToRatio(value)
+    if (ratio) {
+      // Recalculate height based on current width for immediate feedback
+      next.height = Math.max(1, Math.round(next.width / ratio))
+    } else if (next.maintainAspectRatio && originalSize.width && originalSize.height) {
+      // Back to original ratio if maintainAspectRatio is enabled
+      const origRatio = originalSize.width / originalSize.height
+      next.height = Math.max(1, Math.round(next.width / origRatio))
+    }
+    setSettings(next)
+  }
 
   // Unified upload handler for file or URL
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -319,6 +377,17 @@ export default function ResizeTool() {
                           alt="GIF Preview" 
                           className="max-w-full h-auto rounded-xl shadow-lg mx-auto" 
                           style={{ maxHeight: '300px' }}
+                          onLoad={(e) => {
+                            const img = e.currentTarget
+                            if (img && img.naturalWidth && img.naturalHeight) {
+                              setOriginalSize({ width: img.naturalWidth, height: img.naturalHeight })
+                              // If maintaining aspect by original and free preset, align height to original ratio
+                              if (settings.aspectPreset === 'free' && settings.maintainAspectRatio) {
+                                const origRatio = img.naturalWidth / img.naturalHeight
+                                setSettings((prev) => ({ ...prev, height: Math.max(1, Math.round(prev.width / origRatio)) }))
+                              }
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -359,7 +428,7 @@ export default function ResizeTool() {
                           id="width"
                           type="number"
                           value={settings.width}
-                          onChange={e => setSettings({...settings, width: parseInt(e.target.value, 10)})}
+                          onChange={e => handleWidthChange(e.target.value)}
                           min="1"
                           max="2000"
                           className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -375,11 +444,28 @@ export default function ResizeTool() {
                           id="height"
                           type="number"
                           value={settings.height}
-                          onChange={e => setSettings({...settings, height: parseInt(e.target.value, 10)})}
+                          onChange={e => handleHeightChange(e.target.value)}
                           min="1"
                           max="2000"
                           className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
                         />
+                      </div>
+
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                        <label htmlFor="aspect-preset" className="block font-semibold mb-3 text-gray-800">
+                          Aspect Ratio Preset
+                        </label>
+                        <Select value={settings.aspectPreset} onValueChange={handleAspectPresetChange}>
+                          <SelectTrigger className="w-full bg-white/80 backdrop-blur-sm">
+                            <SelectValue placeholder="Select aspect ratio" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="free">Free (Original)</SelectItem>
+                            <SelectItem value="1:1">Square (1:1)</SelectItem>
+                            <SelectItem value="16:9">16:9</SelectItem>
+                            <SelectItem value="9:16">9:16</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">

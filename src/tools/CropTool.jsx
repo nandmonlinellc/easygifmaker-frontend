@@ -93,6 +93,8 @@ export default function CropTool() {
       setAspect(4/3)
     } else if (value === '16:9') {
       setAspect(16/9)
+    } else if (value === '9:16') {
+      setAspect(9/16)
     } else if (value === '3:2') {
       setAspect(3/2)
     } else if (value === '2:1') {
@@ -531,6 +533,7 @@ export default function CropTool() {
                         aspect === 1 ? 'square' :
                         aspect === 4/3 ? '4:3' :
                         aspect === 16/9 ? '16:9' :
+                        aspect === 9/16 ? '9:16' :
                         aspect === 3/2 ? '3:2' :
                         aspect === 2 ? '2:1' :
                         aspect === 1.618 ? 'golden' : 'free'} 
@@ -543,6 +546,7 @@ export default function CropTool() {
                           <SelectItem value="square">Square (1:1)</SelectItem>
                           <SelectItem value="4:3">4:3</SelectItem>
                           <SelectItem value="16:9">16:9</SelectItem>
+                          <SelectItem value="9:16">9:16</SelectItem>
                           <SelectItem value="3:2">3:2</SelectItem>
                           <SelectItem value="2:1">2:1</SelectItem>
                           <SelectItem value="golden">Golden Ratio (1.618:1)</SelectItem>
