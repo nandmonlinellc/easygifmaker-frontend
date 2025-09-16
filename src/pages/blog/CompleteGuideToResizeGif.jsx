@@ -76,6 +76,13 @@ export default function CompleteGuideToResizeGif() {
             <li><a href="#math" className="underline">Math & ratios</a></li>
           </ul>
         </aside>
+        {/* New Feature Callout */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-8">
+          <h2 className="text-lg font-bold text-emerald-800">New: Aspect Ratio Presets in GIF Resizer</h2>
+          <p className="text-emerald-900 mt-1 text-sm">
+            The <Link to="/resize" className="text-emerald-700 underline font-semibold">Resize Tool</Link> now includes <strong>aspect ratio presets</strong> — Free (original), 1:1, 16:9, and 9:16. Enter either width or height and the other dimension auto-adjusts to match the selected preset. For exact framing before resizing, try the <Link to="/crop" className="text-emerald-700 underline font-semibold">Crop Tool</Link>.
+          </p>
+        </div>
         <div className="my-8">
             <AdsenseAd
               adSlot="8336674411"

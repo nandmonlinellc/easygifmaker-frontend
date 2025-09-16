@@ -215,7 +215,7 @@ export default function Top5GifOptimizationTips() {
           </div>
 
           <p className="mb-6">
-            Use our <Link to="/resize" className="text-blue-600 underline font-semibold">Resize Tool</Link> to change dimensions, or our <Link to="/crop" className="text-blue-600 underline font-semibold">Crop Tool</Link> to trim your GIF to the perfect aspect ratio for your target platform.
+            Use our <Link to="/resize" className="text-blue-600 underline font-semibold">Resize Tool</Link> to change dimensions, or our <Link to="/crop" className="text-blue-600 underline font-semibold">Crop Tool</Link> to trim your GIF to the perfect aspect ratio for your target platform. New: the Resizer now includes <strong>aspect ratio presets</strong> (Free, 1:1, 16:9, 9:16), and the Cropper offers preset ratios including <strong>9:16</strong> for vertical formats.
           </p>
 
           <h2 id="tip-4" className="text-3xl font-bold text-blue-700 mt-12 mb-6">Tip 4: Limit the Color Palette Strategically</h2>
