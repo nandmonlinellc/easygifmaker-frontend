@@ -75,6 +75,13 @@ export default function ComprehensiveGifMakingGuide() {
             <li><a href="#conclusion" className="underline">Conclusion</a></li>
           </ul>
         </aside>
+        {/* What's New Callout */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-8">
+          <h2 className="text-lg font-bold text-emerald-800">What’s New in Our GIF Optimizer</h2>
+          <p className="text-emerald-900 mt-1 text-sm">
+            We’ve added <strong>one‑click presets</strong> — Optimize for Social, Optimize for Web, and Max Compression — plus an <strong>Estimated reduction</strong> preview before you run optimization. Try it in the <Link to="/optimize" className="text-emerald-700 underline font-semibold">GIF Optimizer</Link>.
+          </p>
+        </div>
         <div className="my-8">
             <AdsenseAd
               adSlot="8336674411"

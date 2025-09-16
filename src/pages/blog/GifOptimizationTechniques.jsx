@@ -81,6 +81,13 @@ export default function GifOptimizationTechniques() {
             <li><a href="#conclusion" className="underline">Conclusion</a></li>
           </ul>
         </aside>
+        {/* What's New Callout */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-8">
+          <h2 className="text-lg font-bold text-emerald-800">What’s New in Our GIF Optimizer</h2>
+          <p className="text-emerald-900 mt-1 text-sm">
+            We added <strong>one‑click presets</strong> — Optimize for Social, Optimize for Web, and Max Compression — plus an <strong>Estimated reduction</strong> indicator before you run optimization. Try it in the <Link to="/optimize" className="text-emerald-700 underline font-semibold">GIF Optimizer</Link>.
+          </p>
+        </div>
         <article className="prose prose-blue max-w-none mb-8">
           <p>
             In today's fast-paced digital environment, web performance directly impacts user experience, search engine rankings, and conversion rates. GIFs, while powerful for engagement and storytelling, can significantly impact loading times if not properly optimized. This comprehensive guide explores advanced optimization techniques that professional developers and content creators use to balance visual impact with performance requirements.

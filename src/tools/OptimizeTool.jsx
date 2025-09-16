@@ -56,6 +56,21 @@ export default function OptimizeTool() {
     optimize_level: 3
   })
 
+  // Heuristic estimate of reduction based on current settings
+  const estimatedReduction = useMemo(() => {
+    const q = Math.min(100, Math.max(1, settings.quality || 80))
+    const c = Math.min(256, Math.max(2, settings.colors || 256))
+    const l = Math.min(100, Math.max(0, settings.lossy || 0))
+    let est = 0.15 + 0.004 * (100 - q) + 0.0015 * (256 - c) + 0.006 * l
+    est = Math.max(0.05, Math.min(0.85, est))
+    return est
+  }, [settings])
+  const estimatedSizeKB = useMemo(() => {
+    if (!originalSize) return null
+    const estSize = Math.max(1, Math.round(originalSize * (1 - estimatedReduction)))
+    return (estSize / 1024)
+  }, [originalSize, estimatedReduction])
+
   // Unified upload handler for file or URL
   const handleFileUpload = useCallback((files, urlInput = null) => {
     if ((!files || files.length === 0) && !urlInput) return
@@ -235,6 +250,13 @@ export default function OptimizeTool() {
         />
 
   {/* Value content moved to end of page */}
+        {/* What's New Callout */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 my-6">
+          <h3 className="text-sm font-bold text-emerald-800">What’s New</h3>
+          <p className="text-emerald-900 text-sm mt-1">
+            One‑click presets are now available: <strong>Optimize for Social</strong>, <strong>Optimize for Web</strong>, and <strong>Max Compression</strong>. You’ll also see an <strong>Estimated reduction</strong> indicator before optimizing.
+          </p>
+        </div>
       {/* FAQ + HowTo Schema */}
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
@@ -356,6 +378,12 @@ export default function OptimizeTool() {
                         {isProcessing ? 'Optimizing...' : 'Optimize GIF'}
                       </Button>
                     </div>
+                    <div className="mt-2 text-xs text-gray-600 text-center">
+                      Estimated reduction: ~{(estimatedReduction * 100).toFixed(0)}%
+                      {estimatedSizeKB != null && originalSize && (
+                        <> · → ~{estimatedSizeKB.toFixed(0)} KB</>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -372,6 +400,37 @@ export default function OptimizeTool() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-6">
+                      {/* Quick Presets */}
+                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <span className="font-semibold text-gray-800">One-click presets</span>
+                          <div className="flex gap-2 flex-wrap">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setSettings(s => ({ ...s, quality: 75, colors: 128, lossy: 20 }))}
+                              className="bg-white/80"
+                            >
+                              Optimize for Social
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setSettings(s => ({ ...s, quality: 85, colors: 128, lossy: 10 }))}
+                              className="bg-white/80"
+                            >
+                              Optimize for Web
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => setSettings(s => ({ ...s, quality: 60, colors: 64, lossy: 30 }))}
+                            >
+                              Max Compression
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                       <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
                         <label htmlFor="quality" className="block font-semibold mb-3 text-gray-800 text-base">
                           Quality Level

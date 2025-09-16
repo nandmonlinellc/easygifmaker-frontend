@@ -118,6 +118,13 @@ export default function HowToMakeGifsFromVideos() {
             <li><a href="#faq" className="underline">FAQ</a></li>
           </ul>
         </aside>
+        {/* What's New Callout */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-8">
+          <h2 className="text-lg font-bold text-emerald-800">What’s New: Faster Optimization</h2>
+          <p className="text-emerald-900 mt-1 text-sm">
+            After converting, use the <Link to="/optimize" className="text-emerald-700 underline font-semibold">GIF Optimizer</Link> with new <strong>one‑click presets</strong> (Social, Web, Max Compression) and an <strong>Estimated reduction</strong> indicator to quickly shrink file size while keeping quality.
+          </p>
+        </div>
         
         <article className="prose prose-blue max-w-none mb-8">
           <p className="text-lg text-gray-700 mb-8">
