@@ -14,6 +14,7 @@ import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
+import { toolContent } from '@/data/toolContent.js'
 import LimitsTable from '../components/LimitsTable'
 import QuickFeaturesBox from '../components/QuickFeaturesBox'
 
@@ -304,18 +305,7 @@ export default function ReverseTool() {
           description="Share your reversed GIF on social media. Tag us with #EasyGIFMaker."
         />
 
-        <ValueContentSection
-          toolTitle="Reverse GIF"
-          relatedLinks={[
-            { href: '/blog/ultimate-guide-to-viral-gifs', label: 'Ultimate Guide to Viral GIFs' },
-            { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' }
-          ]}
-          altTools={[
-            { href: '/gif-maker', label: 'GIF Maker', desc: 'Create animated GIFs from images.' },
-            { href: '/video-to-gif', label: 'Video to GIF', desc: 'Convert video clips to GIFs.' },
-            { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions and watermarks.' }
-          ]}
-        />
+        <ValueContentSection content={toolContent.reverseGif} />
       </ToolPageLayout>
     </>
   )

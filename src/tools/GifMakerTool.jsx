@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
-import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';
-import { Helmet } from 'react-helmet-async'
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import DisplayAd from '@/components/ads/DisplayAd.jsx'
+import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
 import { Image, Settings } from 'lucide-react'
@@ -14,30 +13,18 @@ import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSec
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
-
-          {/* Mid-content Ad */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import FrameSequencePreview from '@/components/FrameSequencePreview.jsx'
 import { getApiBase } from '@/lib/api'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 import LimitsTable from '../components/LimitsTable'
 import QuickFeaturesBox from '../components/QuickFeaturesBox'
+import { toolContent } from '@/data/toolContent.js'
+import useTaskPolling from '@/hooks/useTaskPolling.js'
+import { safeJson } from '@/utils/http.js'
 
 export default function GifMakerTool() {
   // Workflow: upload, preview, processing, result
@@ -63,6 +50,84 @@ export default function GifMakerTool() {
   // Transitions
   const [transitionType, setTransitionType] = useState('none')
   const [transitionSteps, setTransitionSteps] = useState(6)
+
+  const { runTask, isProcessing: isPolling, reset: resetTask } = useTaskPolling({
+    maxAttempts: 90,
+    maxDelay: 3500
+  })
+  const busy = isProcessing || isPolling
+
+  const adSlots = useMemo(() => ({
+    header: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />,
+    mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
+    footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
+  }), [])
+
+  const afterContent = useMemo(() => (
+    <>
+      <ToolSeoSection
+        icon={Image}
+        title="GIF Maker"
+        description1="Combine images or URLs into looping GIFs in minutes. Control frame timing, add transitions, and preview sequences before you export."
+        description2="Perfect for designers, marketers, and educators who need lightweight animations without heavyweight editors."
+        features1={[
+          { emoji: '🗂️', text: 'Batch upload images or paste remote URLs' },
+          { emoji: '⏱️', text: 'Per-frame duration and preview playback' },
+          { emoji: '✨', text: 'Optional transitions and quality presets' }
+        ]}
+        features2={[
+          { emoji: '📐', text: 'Supports aspect-consistent frame sequencing' },
+          { emoji: '📤', text: 'Exports high-quality GIFs ready for sharing' }
+        ]}
+        useCases={[
+          { color: 'bg-yellow-400', text: 'Storyboard UI flows for product updates' },
+          { color: 'bg-green-400', text: 'Create educational step-by-step image guides' },
+          { color: 'bg-blue-400', text: 'Show before-and-after design changes' },
+          { color: 'bg-purple-400', text: 'Animate photo sequences for social posts' }
+        ]}
+      />
+
+      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
+      <TipsFaqsBestPracticesSection
+        proTips={[
+          { color: 'bg-blue-500', text: 'Keep images the same dimensions to avoid jump cuts.' },
+          { color: 'bg-green-500', text: 'Use shorter frame durations (200-400 ms) for lively motion.' },
+          { color: 'bg-purple-500', text: 'Add transitions sparingly to highlight key slides.' },
+          { color: 'bg-orange-500', text: 'Export at high quality first, then optimise for distribution.' }
+        ]}
+        faqs={[
+          { question: 'Can I mix files and URLs?', answer: 'Yes. Upload local files, paste direct image URLs, or combine both in one sequence.' },
+          { question: 'How do I change frame order?', answer: 'Use the frame list to drag frames or remove and re-add them in your preferred sequence.' },
+          { question: 'What size should I use?', answer: '480-720px width works well for most social platforms; export larger if you plan to optimise later.' }
+        ]}
+        relatedResources={[
+          { href: '/blog/comprehensive-gif-making-guide', icon: '🛠️', text: 'Comprehensive GIF making guide' },
+          { href: '/blog/creative-gif-design-tutorial', icon: '🎨', text: 'Creative GIF design tutorial' }
+        ]}
+      />
+
+      <TroubleshootingSection
+        commonIssues={[
+          { color: 'bg-yellow-500', text: 'If frames appear out of order, double-check the sequence list before exporting.' },
+          { color: 'bg-orange-500', text: 'Large images? Resize or compress before upload to speed up processing.' },
+          { color: 'bg-red-500', text: 'Need assistance? Contact support and include your session ID.' }
+        ]}
+        quickFixes={[
+          { icon: '🔁', text: 'Reorder or remove duplicate frames in the preview list.' },
+          { icon: '🖼️', text: 'Use consistent aspect ratios to avoid borders.' },
+          { icon: '⚙️', text: 'Switch quality presets if export size is too large.' }
+        ]}
+      />
+
+      <SocialSharingSection
+        title="Share your new GIF"
+        description="Drop it into release notes, blog posts, or social threads. Tag #EasyGIFMaker so we can celebrate your creation."
+      />
+
+      <ValueContentSection content={toolContent.gifMaker} />
+    </>
+  ), [])
   // Handle file or URL upload
   // Accepts files or an array of URLs
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -91,114 +156,131 @@ export default function GifMakerTool() {
   }
 
   // Reset workflow to upload state
-  const resetWorkflow = () => {
+  const resetWorkflow = useCallback(() => {
+    resetTask()
+    if (pollTimerRef.current) {
+      clearInterval(pollTimerRef.current)
+      pollTimerRef.current = null
+    }
     setWorkflowState('upload')
     setFrames([])
     setResultUrl(null)
     setErrorMessage(null)
-  }
+    setIsProcessing(false)
+    setElapsed(0)
+  }, [resetTask])
 
   // Handle GIF creation
   const handleConvert = useCallback(async () => {
     if (!frames || frames.length === 0) return
 
     setErrorMessage(null)
-    setIsProcessing(true)
     setResultUrl(null)
     setWorkflowState('processing')
-    // Start elapsed timer
+    setIsProcessing(true)
     setElapsed(0)
+    if (pollTimerRef.current) {
+      clearInterval(pollTimerRef.current)
+      pollTimerRef.current = null
+    }
     const startTs = Date.now()
-    if (pollTimerRef.current) { clearInterval(pollTimerRef.current); pollTimerRef.current = null }
     pollTimerRef.current = setInterval(() => setElapsed((Date.now() - startTs) / 1000), 500)
 
+    const apiUrl = getApiBase()
+
     try {
-      const formData = new FormData()
-      frames.forEach((frame) => {
-        if (frame.file) {
-          formData.append('files', frame.file)
-        } else if (frame.url) {
-          formData.append('urls', frame.url)
-        }
-      })
-      // Send durations and effects as JSON arrays
-      formData.append('frame_durations', JSON.stringify(frames.map(f => f.duration)))
-      formData.append('effects', JSON.stringify(frames.map(f => f.effect)))
-      formData.append('loop_count', gifSettings.loopCount.toString())
-      formData.append('quality_level', qualityLevel)
-      formData.append('transition_type', transitionType)
-      formData.append('transition_steps', String(transitionSteps))
-
-      const apiUrl = getApiBase()
-      const response = await fetch(`${apiUrl}/api/gif-maker`, {
-        method: 'POST',
-        body: formData
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        if (data.task_id) {
-          // Poll for result
-          let state = null
-          let result = null
-          let pollCount = 0
-          const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
-          let delay = isNaN(baseDelay) ? 1500 : baseDelay
-          while (pollCount < 90) { // up to ~2 minutes with backoff
-            const statusResp = await fetch(`${apiUrl}/api/task-status/${data.task_id}`)
-            if (statusResp.ok) {
-              const statusData = await statusResp.json()
-              state = statusData.state
-              result = statusData.result
-              if (state === 'SUCCESS' && result) break
-              if (state === 'FAILURE') throw new Error(statusData.error || 'Processing failed.')
+      const resultKey = await runTask({
+        startTask: async () => {
+          const formData = new FormData()
+          frames.forEach((frame) => {
+            if (frame.file) {
+              formData.append('files', frame.file)
+            } else if (frame.url) {
+              formData.append('urls', frame.url)
             }
-            await new Promise(res => setTimeout(res, delay))
-            delay = Math.min(Math.round(delay * 1.25), 3500)
-            pollCount++
+          })
+          formData.append('frame_durations', JSON.stringify(frames.map(f => f.duration)))
+          formData.append('effects', JSON.stringify(frames.map(f => f.effect)))
+          formData.append('loop_count', gifSettings.loopCount.toString())
+          formData.append('quality_level', qualityLevel)
+          formData.append('transition_type', transitionType)
+          formData.append('transition_steps', String(transitionSteps))
+
+          const response = await fetch(`${apiUrl}/api/gif-maker`, {
+            method: 'POST',
+            body: formData
+          })
+
+          if (!response.ok) {
+            const errorData = await safeJson(response)
+            throw new Error(errorData.error || 'Failed to start GIF creation task.')
           }
-                      if (state === 'SUCCESS' && result) {
-              // Fetch the actual GIF from /api/download/<result>
-              const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
-              if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
-              const gifBlob = await downloadResp.blob()
-              
-              // Create blob URL for preview
-              const url = URL.createObjectURL(gifBlob)
-              setResultUrl({
-                previewUrl: url,
-                downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
-              })
-              // Fire Google Ads conversion event after GIF is created
-            if (window.gtag) {
-              window.gtag('event', 'conversion', {
-                'send_to': 'AW-355581212/jpJHCIiCqI8DEJz6xqkB',
-                'value': 1.0,
-                'currency': 'USD',
-                'transaction_id': ''
-              });
-            }
-            setWorkflowState('result')
-          } else {
-            throw new Error('Timed out waiting for processing.')
+
+          const data = await safeJson(response)
+          if (!data?.task_id) {
+            throw new Error('No task_id returned from backend.')
           }
-        } else {
-          setErrorMessage('Unexpected response from server.')
-          setWorkflowState('preview')
-        }
-      } else {
-        const errorData = await response.json()
-        setErrorMessage(errorData.error || 'An unknown error occurred during processing.')
-        setWorkflowState('preview')
+          return { taskId: data.task_id }
+        },
+        pollTask: async (taskId) => {
+          const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
+          if (!statusResp.ok) {
+            throw new Error('Failed to fetch task status.')
+          }
+          return statusResp.json()
+        },
+        isSuccess: (payload) => {
+          const stateSuccess = payload?.state === 'SUCCESS'
+          const statusSuccess = payload?.status === 'Task completed!'
+          return (stateSuccess || statusSuccess) && payload?.result
+        },
+        isFailure: (payload) => payload?.state === 'FAILURE',
+        extractResult: (payload) => payload?.result
+      })
+
+      let gifPath = null
+      if (typeof resultKey === 'string') {
+        gifPath = resultKey
+      } else if (Array.isArray(resultKey)) {
+        gifPath = resultKey[0]
+      } else if (resultKey && typeof resultKey === 'object') {
+        gifPath = resultKey.gif || resultKey.path || null
       }
+
+      if (!gifPath) {
+        throw new Error('GIF generation completed but returned no file path.')
+      }
+
+      const downloadResp = await fetch(`${apiUrl}/api/download/${gifPath}?proxy=1`)
+      if (!downloadResp.ok) {
+        throw new Error('Failed to fetch generated GIF.')
+      }
+      const gifBlob = await downloadResp.blob()
+      const url = URL.createObjectURL(gifBlob)
+      setResultUrl({
+        previewUrl: url,
+        downloadUrl: `${apiUrl}/api/download/${gifPath}?proxy=1`
+      })
+      if (window.gtag) {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-355581212/jpJHCIiCqI8DEJz6xqkB',
+          value: 1.0,
+          currency: 'USD',
+          transaction_id: ''
+        })
+      }
+      setWorkflowState('result')
     } catch (error) {
       setErrorMessage(error.message || 'Network error or unexpected issue.')
       setWorkflowState('preview')
     } finally {
       setIsProcessing(false)
-      if (pollTimerRef.current) { clearInterval(pollTimerRef.current); pollTimerRef.current = null }
+      if (pollTimerRef.current) {
+        clearInterval(pollTimerRef.current)
+        pollTimerRef.current = null
+      }
     }
-  }, [uploadMethod, gifSettings, frames])
+  }, [frames, gifSettings.loopCount, qualityLevel, runTask, transitionSteps, transitionType])
 
   // Settings panel change handler
   const handleSettingsChange = (key, value) => {
@@ -252,19 +334,29 @@ export default function GifMakerTool() {
     return frame?.url
   }
 
+  useEffect(() => {
+    return () => {
+      if (pollTimerRef.current) {
+        clearInterval(pollTimerRef.current)
+        pollTimerRef.current = null
+      }
+      resetTask()
+    }
+  }, [resetTask])
+
   // --- Render ---
   return (
     <>
     <ToolPageLayout
       title="GIF Maker"
-      description="Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly."
+      description="Arrange images or URLs, fine-tune timing, and export high-quality GIF loops in minutes."
       icon={Image}
       seoProps={{
-        title: "GIF Maker - Create Animated GIFs from Images | EasyGIFMaker",
-        description: "Create animated GIFs from multiple images online for free. Upload images, set custom timing, and generate high-quality GIFs instantly. No registration required.",
-        keywords: "gif maker, animated gif maker, make a gif from photos, make your own gif, create gif from images, create your own gif, make a gif from pictures, create a gif from pictures, gif creator, gif builder, custom gif, high quality gif maker, free gif maker, online gif maker, gif creator online, gif maker app, make my own gif, easy gif animator, gifmaker, gif maker free, gif maker online free, make a gif, gif animation maker, EZ GIF maker alternative",
-        canonical: "https://easygifmaker.com/gif-maker",
-        ogImage: "https://easygifmaker.com/og-image.svg"
+        title: 'GIF Maker Online | EasyGIFMaker',
+        description: 'Upload images or paste URLs, adjust frame timing and transitions, and export a polished animated GIF ready to share.',
+        keywords: 'gif maker, make a gif, gif creator, create gif from images, gif maker online',
+        canonical: 'https://easygifmaker.com/gif-maker',
+        ogImage: 'https://easygifmaker.com/og-image.svg'
       }}
       howToSteps={[
         {
@@ -288,6 +380,9 @@ export default function GifMakerTool() {
           "text": "Click 'Create GIF' to generate your animation, then download and share it!"
         }
       ]}
+      adSlots={adSlots}
+      midAdPosition={2}
+      afterContent={afterContent}
     >
       
       <HowToUseSection
@@ -321,7 +416,7 @@ export default function GifMakerTool() {
               setUploadMethod={setUploadMethod}
               onFileSelect={(files) => handleFileUpload(files)}
               onUrlSubmit={(urls) => handleFileUpload(null, urls)}
-              isProcessing={isProcessing}
+              isProcessing={busy}
               supportedFormats="Supported formats: JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, PDF"
               accept="image/*"
               toolName="Image"
@@ -484,10 +579,10 @@ export default function GifMakerTool() {
                       </Button>
                       <Button 
                         onClick={handleConvert}
-                        disabled={isProcessing || frames.length === 0}
+                        disabled={busy || frames.length === 0}
                         className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
-                        {isProcessing ? 'Processing...' : 'Create GIF'}
+                        {busy ? 'Processing...' : 'Create GIF'}
                       </Button>
                     </div>
                   </CardContent>
@@ -620,13 +715,6 @@ export default function GifMakerTool() {
                       </div>
                       </div>
                     </div>
-                    {/* Mid-content Ad */}
-                    <div className="my-8 flex justify-center">
-                      <InArticleAd 
-                        slot="8336674411"
-                        className="max-w-2xl w-full"
-                      />
-                      </div>
                     <EnhancedTipsSection
 
           
@@ -668,155 +756,6 @@ export default function GifMakerTool() {
             />
           )}
 
-        <ToolSeoSection
-          icon={Image}
-          title="Animated GIF Maker, Easy GIF Animator"
-          description1="Create stunning animated GIFs from multiple images with our advanced online animated GIF maker. Now with per-frame effects (fade, zoom), custom timing, and drag-and-drop reordering. Perfect for memes, tutorials, banners, and more! Whether you want to make a gif from images, create a gif online, or are looking for a free gif maker, our tool is for you. This is a great tool for making animated gifs for your blog or social media."
-          description2="Our intuitive drag-and-drop interface lets you arrange images in the perfect sequence, while advanced settings allow you to fine-tune timing, loops, quality, and per-frame animation effects. Ideal for content creators, marketers, educators, and anyone who wants to bring their images to life. You can use this tool to create a gif from pictures, make your own gif, and much more. It's a full-featured gif creator and gif generator."
-          features1={[
-            { emoji: "🖼️", text: "Upload multiple image formats (JPG, PNG, GIF, WebP, etc.)" },
-            { emoji: "🎬", text: "Drag-and-drop image reordering for perfect sequences" },
-            { emoji: "✨", text: "Per-frame effects: Fade and Zoom for animated transitions" },
-            { emoji: "⏱️", text: "Customizable frame duration and loop settings (per-frame and global)" }
-          ]}
-          features2={[
-            { emoji: "👀", text: "Live preview of your animation before downloading" },
-            { emoji: "💎", text: "High-quality output with optimization options" },
-            { emoji: "💸", text: "Completely free to use, no watermarks or registration" }
-          ]}
-          useCases={[
-            { color: "bg-yellow-400", text: "Make animated memes and social posts for Instagram, Twitter, and TikTok" },
-            { color: "bg-green-400", text: "Create step-by-step tutorials and how-to GIFs for blogs and help centers" },
-            { color: "bg-blue-400", text: "Design fun birthday, holiday, or event GIFs to share with friends" },
-            { color: "bg-purple-400", text: "Build product demos, banners, and marketing visuals for your business" }
-          ]}
-        />
-        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-        <TipsFaqsBestPracticesSection 
-          proTips={[
-            {
-              color: "bg-blue-500",
-              text: "Use the drag-and-drop interface to quickly reorder your images for the perfect animation."
-            },
-            {
-              color: "bg-green-500",
-              text: "Try the optimization settings to reduce file size without losing quality."
-            },
-            {
-              color: "bg-purple-500",
-              text: "Set a lower frame duration for faster, more energetic GIFs, or a higher value for slower animations."
-            },
-            {
-              color: "bg-pink-500",
-              text: "Apply Fade or Zoom effects to individual frames for eye-catching animated transitions."
-            },
-            {
-              color: "bg-orange-500",
-              text: "Use the live preview to check your animation before downloading—make adjustments as needed!"
-            }
-          ]}
-          tips={["For best results, use images of similar dimensions.", "You can mix JPG, PNG, GIF, and WebP images.", "Set a lower frame duration (e.g. 100ms) for faster animation.", "Use drag-and-drop to reorder frames.", "Try the Fade or Zoom effect for eye-catching animated transitions.", "Set loop count to 0 for infinite looping.", "Preview your GIF before downloading.", "Animated GIF Maker supports per-frame customization for advanced users."]}
-          faqs={[
-            {
-              question: "What image formats are supported?",
-              answer: "You can upload JPG, PNG, GIF, WebP, APNG, HEIC, HEIF, MNG, JP2, AVIF, JXL, BMP, and PDF images."
-            },
-            {
-              question: "How do I add effects to individual frames?",
-              answer: "After uploading, use the dropdown under each image to select an effect: None, Fade, or Zoom. Each effect will animate that frame in the final GIF."
-            },
-            {
-              question: "Can I set different durations for each frame?",
-              answer: "Yes! Enter a custom duration (in ms) for each image. This controls how long each frame is shown."
-            },
-            {
-              question: "Why is my GIF blank or white?",
-              answer: "If you use the Fade effect, the frame will fade in from white. This is normal for fade-in transitions."
-            },
-            {
-              question: "What does the Zoom effect do?",
-              answer: "Zoom creates a smooth zoom-in animation for the selected frame."
-            },
-            {
-              question: "Is this tool free?",
-              answer: "Yes, EasyGIFMaker is 100% free and does not require registration."
-            },
-            {
-              question: "Is this an animated gif maker?",
-              answer: "Yes! This tool is a full-featured animated gif maker with per-frame effects, timing, and drag-and-drop reordering."
-            }
-          ]}
-          relatedResources={[
-            {
-              href: "/blog/how-to-make-gifs-from-videos",
-              icon: "📹",
-              text: "How to Make GIFs from Videos"
-            },
-            {
-              href: "/blog/top-5-gif-optimization-tips",
-              icon: "⚡",
-              text: "Top 5 GIF Optimization Tips"
-            }
-          ]}
-        />
-
-        <TroubleshootingSection 
-          commonIssues={[
-            {
-              color: "bg-yellow-500",
-              text: "If your GIF doesn't look right, try adjusting the frame duration or reordering your images."
-            },
-            {
-              color: "bg-orange-500",
-              text: "If upload fails, check your file size (max 200MB) and supported formats."
-            },
-            {
-              color: "bg-red-500",
-              text: "Still having issues?",
-              link: "/contact"
-            }
-          ]}
-          quickFixes={[
-            {
-              icon: "🔄",
-              text: "Clear browser cache if images aren't loading"
-            },
-            {
-              icon: "📱",
-              text: "Try a different browser if you're having issues"
-            },
-            {
-              icon: "⚡",
-              text: "Check your internet connection for large files"
-            }
-          ]}
-        />
-
-        <SocialSharingSection 
-          title="Share Your GIF!"
-          description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
-        />
-
-        {/* Value Content Section (end of page for additional context and internal links) */}
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
-        <ValueContentSection
-          toolTitle="GIF Maker"
-          relatedLinks={[
-            { href: '/blog/comprehensive-gif-making-guide', label: 'Comprehensive GIF Making Guide' },
-            { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' }
-          ]}
-          altTools={[
-            { href: '/video-to-gif', label: 'Video to GIF', desc: 'Convert video clips into animated GIFs.' },
-            { href: '/optimize', label: 'Optimize GIF', desc: 'Reduce file size without losing quality.' },
-            { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions, watermarks, and callouts.' }
-          ]}
-        />
       </ToolPageLayout>
     </>
   )

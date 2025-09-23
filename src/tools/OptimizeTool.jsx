@@ -16,27 +16,15 @@ import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSec
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
-
-          {/* Mid-content Ad */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 import LimitsTable from '../components/LimitsTable'
+import { toolContent } from '@/data/toolContent.js'
+import useTaskPolling from '@/hooks/useTaskPolling.js'
+import { safeJson } from '@/utils/http.js'
 
 // Unified workflow states: 'upload', 'editing', 'processing', 'result'
 export default function OptimizeTool() {
@@ -55,6 +43,81 @@ export default function OptimizeTool() {
     dither: 'floyd-steinberg',
     optimize_level: 3
   })
+
+  const { runTask, isProcessing: isPolling, reset: resetTask } = useTaskPolling()
+  const busy = isProcessing || isPolling
+
+  const adSlots = useMemo(() => ({
+    header: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />,
+    mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
+    footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
+  }), [])
+
+  const afterContent = useMemo(() => (
+    <>
+      <ToolSeoSection
+        icon={Zap}
+        title="GIF Optimizer"
+        description1="Shrink GIF file sizes without crushing quality. Balance colour depth, lossy compression, and dithering to hit strict limits for email, chat, or in-app tooltips."
+        description2="Quick presets and granular sliders help you test combinations fast. Compare estimated sizes, preview the result, and export a leaner GIF ready for production."
+        features1={[
+          { emoji: '🎯', text: 'Fine-grained control over palette size and quality' },
+          { emoji: '⚙️', text: 'Lossy and dithering tweaks for colour-rich loops' },
+          { emoji: '📉', text: 'Real-time reduction estimates while you adjust' }
+        ]}
+        features2={[
+          { emoji: '📬', text: 'Ideal for email headers under 1 MB' },
+          { emoji: '💬', text: 'Optimize loops for chat apps and knowledge bases' }
+        ]}
+        useCases={[
+          { color: 'bg-yellow-400', text: 'Compress support GIFs for documentation and tickets' },
+          { color: 'bg-green-400', text: 'Deliver lightweight animated banners via email' },
+          { color: 'bg-blue-400', text: 'Prepare micro-animations for onboarding tooltips' },
+          { color: 'bg-purple-400', text: 'Batch optimize marketing GIFs before campaigns' }
+        ]}
+      />
+
+      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
+      <TipsFaqsBestPracticesSection
+        proTips={[
+          { color: 'bg-blue-500', text: 'Drop colours gradually (256 -> 128 -> 64) to spot the quality sweet spot.' },
+          { color: 'bg-green-500', text: 'Use lossy compression on busy backgrounds and keep text overlays sharp.' },
+          { color: 'bg-purple-500', text: 'Switch dithering to "none" for flat brand colours; keep Floyd-Steinberg for gradients.' },
+          { color: 'bg-orange-500', text: 'Trim loops to the essentials before optimising - shorter clips compress better.' }
+        ]}
+        faqs={[
+          { question: 'Will optimisation reduce animation smoothness?', answer: 'Not if you keep the original frame rate. Optimisation focuses on palette and compression.' },
+          { question: 'How low can I set colours?', answer: 'Most UI demos look good at 128 colours; go lower only after previewing text and gradients.' },
+          { question: 'Does lossy compression add artefacts?', answer: 'Mild lossy (10-20) smooths noise with minimal artefacts; push higher values only for photographic footage.' }
+        ]}
+        relatedResources={[
+          { href: '/blog/gif-optimization-techniques', icon: '⚡', text: 'GIF optimisation techniques' },
+          { href: '/blog/ultimate-guide-to-viral-gifs', icon: '🚀', text: 'Ultimate guide to viral GIFs' }
+        ]}
+      />
+
+      <TroubleshootingSection
+        commonIssues={[
+          { color: 'bg-yellow-500', text: 'If output looks grainy, reduce lossy compression or increase colour count.' },
+          { color: 'bg-orange-500', text: 'For flashing frames, ensure the source GIF is not interlaced before optimising.' },
+          { color: 'bg-red-500', text: 'Need help? Contact support with the original GIF attached.' }
+        ]}
+        quickFixes={[
+          { icon: '🎚️', text: 'Toggle dithering options to tame banding.' },
+          { icon: '🔁', text: 'Run optimisation after resizing or cropping for best results.' },
+          { icon: '📊', text: 'Compare estimated vs actual size to validate your settings.' }
+        ]}
+      />
+
+      <SocialSharingSection
+        title="Share your optimised GIF"
+        description="Drop your lighter loop into email campaigns, support docs, or social replies without worrying about load times."
+      />
+
+      <ValueContentSection content={toolContent.optimizeGif} />
+    </>
+  ), [])
 
   // Heuristic estimate of reduction based on current settings
   const estimatedReduction = useMemo(() => {
@@ -104,82 +167,88 @@ export default function OptimizeTool() {
     setIsProcessing(true)
     setResultUrl(null)
     setWorkflowState('processing')
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
     try {
-      const formData = new FormData()
-      if (uploadMethod === 'url') {
-        formData.append('url', mediaUrl)
-      } else {
-        const response = await fetch(mediaUrl)
-        const blob = await response.blob()
-        formData.append('file', blob, 'image.gif')
-      }
-      formData.append('quality', settings.quality.toString())
-      formData.append('colors', settings.colors.toString())
-      formData.append('lossy', settings.lossy.toString())
-      formData.append('dither', settings.dither)
-      formData.append('optimize_level', settings.optimize_level.toString())
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-      const response = await fetch(`${apiUrl}/api/optimize`, {
-        method: 'POST',
-        body: formData
-      })
-      if (response.ok) {
-        const data = await response.json()
-        const taskId = data.task_id
-        if (!taskId) throw new Error('No task_id returned from backend.')
-        let status = null
-        let result = null
-        const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
-        let delay = isNaN(baseDelay) ? 1500 : baseDelay
-        for (let i = 0; i < 60; i++) {
-          const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
-          if (statusResp.ok) {
-            const statusData = await statusResp.json()
-            status = statusData.state
-            result = statusData.result
-            if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-              break
-            } else if (status === 'FAILURE') {
-              throw new Error(statusData.error || 'GIF optimization failed.')
-            }
+      const resultKey = await runTask({
+        startTask: async () => {
+          const formData = new FormData()
+          if (uploadMethod === 'url') {
+            formData.append('url', mediaUrl)
+          } else {
+            const response = await fetch(mediaUrl)
+            const blob = await response.blob()
+            formData.append('file', blob, 'image.gif')
           }
-          await new Promise(res => setTimeout(res, delay))
-          delay = Math.min(delay + 250, 3000)
-        }
-        if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-          // Fetch the actual GIF from /api/download/<result>
-          const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
-          if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
-          const gifBlob = await downloadResp.blob()
-          const url = URL.createObjectURL(gifBlob)
-          try { setOptimizedSize(gifBlob.size) } catch {}
-          setResultUrl({
-            previewUrl: url,
-            downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
+          formData.append('quality', settings.quality.toString())
+          formData.append('colors', settings.colors.toString())
+          formData.append('lossy', settings.lossy.toString())
+          formData.append('dither', settings.dither)
+          formData.append('optimize_level', settings.optimize_level.toString())
+
+          const response = await fetch(`${apiUrl}/api/optimize`, {
+            method: 'POST',
+            body: formData
           })
-          setWorkflowState('result')
-        } else {
-          throw new Error('GIF optimization timed out. Please try again.')
-        }
-      } else {
-        const errorData = await response.json()
-        setErrorMessage(errorData.error || 'An unknown error occurred during processing.')
-        setWorkflowState('editing')
+
+          if (!response.ok) {
+            const errorData = await safeJson(response)
+            throw new Error(errorData.error || 'Failed to start optimisation task.')
+          }
+
+          const data = await safeJson(response)
+          if (!data?.task_id) {
+            throw new Error('No task_id returned from backend.')
+          }
+          return { taskId: data.task_id }
+        },
+        pollTask: async (taskId) => {
+          const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
+          if (!statusResp.ok) {
+            throw new Error('Failed to fetch task status.')
+          }
+          return statusResp.json()
+        },
+        isSuccess: (payload) => {
+          const stateSuccess = payload?.state === 'SUCCESS'
+          const statusSuccess = payload?.status === 'Task completed!'
+          return (stateSuccess || statusSuccess) && payload?.result
+        },
+        isFailure: (payload) => payload?.state === 'FAILURE',
+        extractResult: (payload) => payload?.result
+      })
+
+      const downloadResp = await fetch(`${apiUrl}/api/download/${resultKey}?proxy=1`)
+      if (!downloadResp.ok) {
+        throw new Error('Failed to fetch optimised GIF.')
       }
+      const gifBlob = await downloadResp.blob()
+      const url = URL.createObjectURL(gifBlob)
+      try {
+        setOptimizedSize(gifBlob.size)
+      } catch {}
+      setResultUrl({
+        previewUrl: url,
+        downloadUrl: `${apiUrl}/api/download/${resultKey}?proxy=1`
+      })
+      setWorkflowState('result')
     } catch (error) {
       setErrorMessage(error.message || 'Network error or unexpected issue.')
       setWorkflowState('editing')
     } finally {
       setIsProcessing(false)
     }
-  }, [uploadMethod, settings, mediaUrl])
+  }, [mediaUrl, runTask, settings.colors, settings.dither, settings.lossy, settings.optimize_level, settings.quality, uploadMethod])
 
   // Reset workflow to upload state
-  const resetWorkflow = () => {
+  const resetWorkflow = useCallback(() => {
+    resetTask()
     setWorkflowState('upload')
     setMediaUrl(null)
     setResultUrl(null)
     setErrorMessage(null)
+    setOriginalSize(null)
+    setOptimizedSize(null)
     setSettings({
       quality: 80,
       colors: 256,
@@ -187,21 +256,22 @@ export default function OptimizeTool() {
       dither: 'floyd-steinberg',
       optimize_level: 3
     })
-  }
+    setIsProcessing(false)
+  }, [resetTask])
 
   // --- Render ---
   return (
     <>
       <ToolPageLayout
         title="Optimize GIF for Smaller Size"
-        description="Optimize and compress GIFs online for free. Reduce file size while maintaining quality. Perfect for faster loading and sharing."
+        description="Compress GIFs without losing clarity. Adjust palette size, dithering, and lossy compression to meet strict file-size targets."
         icon={RotateCw}
         seoProps={{
-          title: "Optimize GIF Online | Compress Animated GIFs | EasyGIFMaker",
-          description: "Compress GIFs online and reduce file size while keeping quality. Perfect for faster sharing and page speed.",
-          keywords: "optimize gif, compress gif, reduce gif size, gif optimizer, gif compression, optimize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker, high quality gif maker",
-          canonical: "https://easygifmaker.com/optimize",
-          ogImage: "https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.svg"
+          title: 'Optimize GIF Online | EasyGIFMaker',
+          description: 'Reduce GIF file size in minutes. Tune colours, lossy compression, and dithering while previewing results before download.',
+          keywords: 'optimize gif, compress gif, reduce gif size, gif optimizer, gif compression',
+          canonical: 'https://easygifmaker.com/optimize',
+          ogImage: 'https://easygifmaker.com/blog/top-5-gif-optimization-tips-2.svg'
         }}
         howToSteps={[
           {
@@ -225,6 +295,9 @@ export default function OptimizeTool() {
             "text": "Download your optimized GIF with reduced file size!"
           }
         ]}
+        adSlots={adSlots}
+        midAdPosition={2}
+        afterContent={afterContent}
       >
         
         <HowToUseSection
@@ -372,16 +445,16 @@ export default function OptimizeTool() {
                       </Button>
                       <Button 
                         onClick={handleProcess}
-                        disabled={isProcessing}
+                        disabled={busy}
                         className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
-                        {isProcessing ? 'Optimizing...' : 'Optimize GIF'}
+                        {busy ? 'Optimizing...' : 'Optimize GIF'}
                       </Button>
                     </div>
                     <div className="mt-2 text-xs text-gray-600 text-center">
                       Estimated reduction: ~{(estimatedReduction * 100).toFixed(0)}%
                       {estimatedSizeKB != null && originalSize && (
-                        <> · → ~{estimatedSizeKB.toFixed(0)} KB</>
+                        <> · -> ~{estimatedSizeKB.toFixed(0)} KB</>
                       )}
                     </div>
                   </CardContent>
@@ -566,13 +639,6 @@ export default function OptimizeTool() {
                         </p>
                       </div>
                     </div>
-                    {/* Mid-content Ad */}
-                    <div className="my-8 flex justify-center">
-                      <InArticleAd 
-                        slot="8336674411"
-                        className="max-w-2xl w-full"
-                      />
-                    </div>
                     <EnhancedTipsSection
 
                       title="Pro Tips for Perfect Optimization"
@@ -638,136 +704,6 @@ export default function OptimizeTool() {
             </>
           )}
 
-        <ToolSeoSection
-          icon={Zap}
-          title="GIF Optimizer"
-          description1="Speed up your website and social media posts with our powerful GIF optimization tool. Reduce file sizes by up to 80% while maintaining visual quality, making your GIFs load faster and perform better across all platforms."
-          description2="Our advanced compression algorithms intelligently reduce colors and optimize frame data without sacrificing the visual appeal of your GIFs. Perfect for web developers, content creators, and anyone who wants faster-loading animations."
-          features1={[
-            { emoji: "⚡", text: "Reduce file size by up to 80%" },
-            { emoji: "🎨", text: "Intelligent color optimization" },
-            { emoji: "🔧", text: "Customizable quality settings" }
-          ]}
-          features2={[
-            { emoji: "📊", text: "Real-time size comparison" },
-            { emoji: "💎", text: "Maintain visual quality" }
-          ]}
-          useCases={[
-            { color: "bg-yellow-400", text: "Optimize GIFs for faster website loading" },
-            { color: "bg-green-400", text: "Reduce file sizes for social media sharing" },
-            { color: "bg-blue-400", text: "Compress GIFs for email attachments" },
-            { color: "bg-purple-400", text: "Optimize GIFs for mobile devices" }
-          ]}
-        />
-        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-          
-          <TipsFaqsBestPracticesSection 
-            proTips={[
-              {
-                color: "bg-blue-500",
-                text: "Start with quality 80-85 for a good balance of size and quality."
-              },
-              {
-                color: "bg-green-500",
-                text: "Use fewer colors (64-128) for simpler GIFs to reduce file size."
-              },
-              {
-                color: "bg-purple-500",
-                text: "Test different settings to find the perfect balance for your use case."
-              },
-              {
-                color: "bg-orange-500",
-                text: "Compare original and optimized versions to ensure quality meets your needs."
-              }
-            ]}
-            faqs={[
-              {
-                question: "How much can I reduce the file size?",
-                answer: "Typically 50-80% reduction depending on the original GIF and settings."
-              },
-              {
-                question: "Will the optimization affect quality?",
-                answer: "Some quality loss is expected, but our tool minimizes it while maximizing compression."
-              },
-              {
-                question: "What's the best quality setting?",
-                answer: "80-90 for most use cases, 70-80 for social media, 60-70 for email."
-              },
-              {
-                question: "Can I optimize any GIF?",
-                answer: "Yes, our tool works with all GIF files regardless of size or complexity."
-              }
-            ]}
-            relatedResources={[
-              {
-                href: "/blog/top-5-gif-optimization-tips",
-                icon: "⚡",
-                text: "Top 5 GIF Optimization Tips"
-              },
-              {
-                href: "/blog/how-to-make-gifs-from-videos",
-                icon: "📹",
-                text: "How to Make GIFs from Videos"
-              }
-            ]}
-          />
-
-          <TroubleshootingSection 
-            commonIssues={[
-              {
-                color: "bg-yellow-500",
-                text: "If file size reduction is minimal, try lowering the quality setting."
-              },
-              {
-                color: "bg-orange-500",
-                text: "If quality loss is too high, increase the quality setting."
-              },
-              {
-                color: "bg-red-500",
-                text: "Still having issues?",
-                link: "/contact"
-              }
-            ]}
-            quickFixes={[
-              {
-                icon: "📊",
-                text: "Compare file sizes before and after optimization"
-              },
-              {
-                icon: "🎨",
-                text: "Adjust color count for better compression"
-              },
-              {
-                icon: "⚡",
-                text: "Test different quality settings for optimal results"
-              }
-            ]}
-          />
-
-          <SocialSharingSection 
-            title="Share Your Optimized GIF!"
-            description="Share your optimized GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
-          />
-          {/* Value Content Section (moved to end) */}
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
-          <ValueContentSection
-            toolTitle="GIF Optimizer"
-            relatedLinks={[
-              { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' },
-              { href: '/blog/gif-accessibility-guide', label: 'GIF Accessibility Guide' }
-            ]}
-            altTools={[
-              { href: '/resize', label: 'Resize GIF', desc: 'Adjust dimensions for platform fit.' },
-              { href: '/crop', label: 'Crop GIF', desc: 'Remove unwanted edges and black bars.' },
-              { href: '/video-to-gif', label: 'Video to GIF', desc: 'Start from MP4 or WebM clips.' }
-            ]}
-          />
       </ToolPageLayout>
     </>
   )

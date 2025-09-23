@@ -15,11 +15,14 @@ import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import ValueContentSection from '../components/ValueContentSection'
+import { toolContent } from '@/data/toolContent.js'
 import DisplayAd from '@/components/ads/DisplayAd.jsx'
 import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import AdsenseAd from '../components/AdsenseAd'
 import { Slider } from '@/components/ui/slider.jsx'
 import LimitsTable from '../components/LimitsTable'
+import useTaskPolling from '@/hooks/useTaskPolling.js'
+import { safeJson } from '@/utils/http.js'
 
 export default function VideoToGifTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -59,6 +62,90 @@ export default function VideoToGifTool() {
     () => segments.reduce((sum, s) => sum + (s.end - s.start), 0),
     [segments]
   )
+
+  const { runTask, isProcessing: isPolling, reset: resetTask } = useTaskPolling({
+    maxAttempts: 90,
+    maxDelay: 5000
+  })
+
+  const busy = isProcessing || isPolling
+
+  const adSlots = useMemo(() => ({
+    header: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />,
+    mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
+    footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
+  }), [])
+
+  const afterContent = useMemo(() => (
+    <>
+      <ToolSeoSection
+        icon={Video}
+        title="Video to GIF Converter"
+        description1="Transform your videos into shareable GIFs with our precise converter. Trim highlights, tweak colour, and export formats tailored for social posts, chats, and presentations."
+        description2="Interactive timelines, brightness/contrast controls, and optional MP4/WebP outputs make this tool ideal for creators and teams who need fast, polished loops."
+        features1={[
+          { emoji: '🎬', text: 'Frame-accurate timeline trimming' },
+          { emoji: '⚡', text: 'Fast, watermark-free processing' },
+          { emoji: '🔧', text: 'Advanced controls for fps, size, and colour' }
+        ]}
+        features2={[
+          { emoji: '🌐', text: 'Works with MP4, WebM, MOV, AVI, and more' },
+          { emoji: '📱', text: 'Outputs tuned for social, blogs, and support docs' }
+        ]}
+        useCases={[
+          { color: 'bg-yellow-400', text: 'Clip reaction highlights for community chats' },
+          { color: 'bg-green-400', text: 'Convert product walkthroughs into short GIF demos' },
+          { color: 'bg-blue-400', text: 'Repurpose webinar intros into looping teasers' },
+          { color: 'bg-purple-400', text: 'Create meme-ready loops from stream recordings' }
+        ]}
+      />
+
+      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
+      <TipsFaqsBestPracticesSection
+        proTips={[
+          { color: 'bg-blue-500', text: 'Stitch multiple segments to build a narrative highlight reel.' },
+          { color: 'bg-green-500', text: 'Target 6-12 seconds total duration to keep file sizes shareable.' },
+          { color: 'bg-purple-500', text: 'Adjust brightness/contrast in small steps to correct dim footage.' },
+          { color: 'bg-orange-500', text: 'Lower FPS to 12-15 to slash file weight without losing clarity.' },
+          { color: 'bg-pink-500', text: 'Resize down to ~480px width before exporting for chat apps.' },
+          { color: 'bg-indigo-500', text: 'Enable audio only when you need the MP4 companion clip.' }
+        ]}
+        faqs={[
+          { question: 'How do multiple segments export?', answer: 'Each segment is trimmed and concatenated in order into one GIF and optional MP4/WebP output.' },
+          { question: 'Why is there no MP4 download?', answer: 'The input video likely had no audio track or you left “Include audio” turned off.' },
+          { question: 'What brightness/contrast ranges are safe?', answer: 'Stay between -0.3 and +0.3 brightness and 0.8–1.6 contrast for natural results.' },
+          { question: 'Can I rearrange segments?', answer: 'Segments export in the order you add them. Delete and re-add to adjust sequence (drag-and-drop is on the roadmap).' },
+          { question: 'What FPS should I use?', answer: '15 FPS balances smooth motion and compact size; go higher only for fast action.' },
+          { question: 'Why is my GIF large?', answer: 'High resolution, long duration, and high FPS compound. Lower one or two settings for leaner files.' }
+        ]}
+        relatedResources={[
+          { href: '/blog/how-to-make-gifs-from-videos', icon: '📹', text: 'How to make GIFs from videos' },
+          { href: '/blog/top-5-gif-optimization-tips', icon: '⚡', text: 'Top GIF optimisation tips' }
+        ]}
+      />
+
+      <TroubleshootingSection
+        commonIssues={[
+          { color: 'bg-yellow-500', text: 'If conversion fails, double-check video format and reduce length.' },
+          { color: 'bg-orange-500', text: 'For URL uploads, confirm the link is public and downloadable.' },
+          { color: 'bg-red-500', text: 'Still stuck? Contact support and include the failing video URL.' }
+        ]}
+        quickFixes={[
+          { icon: '🔄', text: 'Clear cached blobs if previews seem stale.' },
+          { icon: '📱', text: 'Try another browser or device for very large uploads.' },
+          { icon: '⚡', text: 'Use a wired or stable connection for files over 200 MB.' }
+        ]}
+      />
+
+      <SocialSharingSection
+        title="Share your converted GIF"
+        description="Drop your loop into Slack, Discord, product updates, or social feeds. Tag #EasyGIFMaker so we can cheer you on."
+      />
+
+      <ValueContentSection content={toolContent.videoToGif} />
+    </>
+  ), [])
 
   // Reset segments when video changes to prevent stale state
   useEffect(() => {
@@ -128,99 +215,111 @@ export default function VideoToGifTool() {
     }))
   }, [])
 
-  const handleFinalProcess = async () => {
+  const mapBackendError = useCallback((message) => {
+    if (!message) return 'An unknown error occurred during processing.'
+    if (message.includes('Brightness must be between')) {
+      return 'Brightness setting is out of range. Please choose a value between -1.0 and 1.0.'
+    }
+    if (message.includes('Contrast must be between')) {
+      return 'Contrast setting is out of range. Please choose a value between 0 and 2.0.'
+    }
+    if (message.includes('Segments must be a non-empty list')) {
+      return 'Please select at least one valid segment for conversion.'
+    }
+    if (message.includes('Each segment must have numeric start and end')) {
+      return 'Segment start/end times must be numbers. Please check your segment settings.'
+    }
+    if (message.includes('Invalid segment timing')) {
+      return 'Segment timing is invalid. Ensure start is >= 0 and end > start.'
+    }
+    if (message.includes('Segment exceeds video length')) {
+      return 'One of your segments is longer than the video. Please adjust segment end times.'
+    }
+    if (message.includes('Invalid segments JSON')) {
+      return 'There was a problem with your segment selection. Please reselect your segments.'
+    }
+    return message
+  }, [])
+
+  const handleFinalProcess = useCallback(async () => {
     if (!videoUrl) return
-    setIsProcessing(true)
     setErrorMessage(null)
+    setResultUrl(null)
+    setIsProcessing(true)
     setWorkflowState('processing')
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
     try {
-      const formData = new FormData()
-      const videoBlobResponse = await fetch(videoUrl)
-      const blob = await videoBlobResponse.blob()
-      formData.append('file', blob, 'video.mp4')
-      formData.append('segments', JSON.stringify(segments))
-      formData.append('brightness', brightness.toString())
-      formData.append('contrast', contrast.toString())
-      formData.append('fps', videoSettings.fps.toString())
-      formData.append('width', videoSettings.width.toString())
-      formData.append('height', videoSettings.height.toString())
-      formData.append('quality', videoSettings.quality)
-      formData.append('include_audio', videoSettings.includeAudio ? 'true' : 'false')
-      formData.append('include_webp', videoSettings.includeWebp ? 'true' : 'false')
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-      const response = await fetch(`${apiUrl}/api/video-to-gif`, {
-        method: 'POST',
-        body: formData
-      })
-      if (response.ok) {
-        const data = await response.json()
-        const taskId = data.task_id
-        if (!taskId) throw new Error('No task_id returned from backend.')
-        let status = null
-        let result = null
-        const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
-        let delay = isNaN(baseDelay) ? 1500 : baseDelay
-        for (let i = 0; i < 60; i++) {
+      const taskResult = await runTask({
+        startTask: async () => {
+          const formData = new FormData()
+          const videoBlobResponse = await fetch(videoUrl)
+          const blob = await videoBlobResponse.blob()
+          formData.append('file', blob, 'video.mp4')
+          formData.append('segments', JSON.stringify(segments))
+          formData.append('brightness', brightness.toString())
+          formData.append('contrast', contrast.toString())
+          formData.append('fps', videoSettings.fps.toString())
+          formData.append('width', videoSettings.width.toString())
+          formData.append('height', videoSettings.height.toString())
+          formData.append('quality', videoSettings.quality)
+          formData.append('include_audio', videoSettings.includeAudio ? 'true' : 'false')
+          formData.append('include_webp', videoSettings.includeWebp ? 'true' : 'false')
+
+          const response = await fetch(`${apiUrl}/api/video-to-gif`, {
+            method: 'POST',
+            body: formData
+          })
+
+          if (!response.ok) {
+            const errorData = await safeJson(response)
+            throw new Error(mapBackendError(errorData.error))
+          }
+
+          const data = await safeJson(response)
+          if (!data?.task_id) {
+            throw new Error('No task_id returned from backend.')
+          }
+          return { taskId: data.task_id }
+        },
+        pollTask: async (taskId) => {
           const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
-          if (statusResp.ok) {
-            const statusData = await statusResp.json()
-            status = statusData.status
-            result = statusData.result
-            if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-              break
-            } else if (status === 'FAILURE') {
-              throw new Error(statusData.error || 'GIF conversion failed.')
-            }
+          if (!statusResp.ok) {
+            throw new Error('Failed to fetch task status.')
           }
-          await new Promise(res => setTimeout(res, delay))
-          delay = Math.min(delay + 250, 3000)
-        }
-        if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-          // If result is an object with gif/mp4, show both download links
-          if (typeof result === 'object' && result.gif) {
-            setResultUrl({
-              gif: `${apiUrl}/api/download/${result.gif}?proxy=1`,
-              mp4: result.mp4 ? `${apiUrl}/api/download/${result.mp4}?proxy=1` : null,
-              webp: result.webp ? `${apiUrl}/api/download/${result.webp}?proxy=1` : null,
-            })
-          } else {
-            setResultUrl(`${apiUrl}/api/download/${result}?proxy=1`)
-          }
-          setWorkflowState('result')
-        } else {
-          throw new Error('GIF conversion timed out. Please try again.')
-        }
+          return statusResp.json()
+        },
+        isSuccess: (payload) => {
+          const stateSuccess = payload?.state === 'SUCCESS'
+          const statusSuccess = payload?.status === 'Task completed!'
+          return (stateSuccess || statusSuccess) && payload?.result
+        },
+        isFailure: (payload) => payload?.state === 'FAILURE',
+        extractResult: (payload) => payload?.result
+      })
+
+      if (taskResult && typeof taskResult === 'object' && taskResult.gif) {
+        setResultUrl({
+          gif: `${apiUrl}/api/download/${taskResult.gif}?proxy=1`,
+          mp4: taskResult.mp4 ? `${apiUrl}/api/download/${taskResult.mp4}?proxy=1` : null,
+          webp: taskResult.webp ? `${apiUrl}/api/download/${taskResult.webp}?proxy=1` : null
+        })
+      } else if (taskResult) {
+        setResultUrl(`${apiUrl}/api/download/${taskResult}?proxy=1`)
       } else {
-        const errorData = await response.json()
-        // Map backend error to user-friendly message
-        let userMessage = errorData.error || 'An unknown error occurred during processing.'
-        if (userMessage.includes('Brightness must be between')) {
-          userMessage = 'Brightness setting is out of range. Please choose a value between -1.0 and 1.0.'
-        } else if (userMessage.includes('Contrast must be between')) {
-          userMessage = 'Contrast setting is out of range. Please choose a value between 0 and 2.0.'
-        } else if (userMessage.includes('Segments must be a non-empty list')) {
-          userMessage = 'Please select at least one valid segment for conversion.'
-        } else if (userMessage.includes('Each segment must have numeric start and end')) {
-          userMessage = 'Segment start/end times must be numbers. Please check your segment settings.'
-        } else if (userMessage.includes('Invalid segment timing')) {
-          userMessage = 'Segment timing is invalid. Ensure start is >= 0 and end > start.'
-        } else if (userMessage.includes('Segment exceeds video length')) {
-          userMessage = 'One of your segments is longer than the video. Please adjust segment end times.'
-        } else if (userMessage.includes('Invalid segments JSON')) {
-          userMessage = 'There was a problem with your segment selection. Please reselect your segments.'
-        }
-        setErrorMessage(userMessage)
-        setWorkflowState('editing')
+        throw new Error('GIF conversion produced no output. Please try again.')
       }
+      setWorkflowState('result')
     } catch (error) {
-      setErrorMessage(error.message || 'Network error or unexpected issue.')
+      setErrorMessage(mapBackendError(error.message))
       setWorkflowState('editing')
     } finally {
       setIsProcessing(false)
     }
-  }
+  }, [videoUrl, runTask, segments, brightness, contrast, videoSettings, mapBackendError])
 
-  const resetWorkflow = () => {
+  const resetWorkflow = useCallback(() => {
+    resetTask()
     setWorkflowState('upload')
     setVideoUrl(null)
     setErrorMessage(null)
@@ -235,21 +334,22 @@ export default function VideoToGifTool() {
     setSegments([{ start: 0, end: 10 }])
     setBrightness(0)
     setContrast(1)
-  }
+    setIsProcessing(false)
+  }, [resetTask])
 
   // --- Render ---
   return (
     <>
       <ToolPageLayout
         title="Video to GIF Converter"
-        description="Convert videos to GIFs online for free. Upload video files or paste URLs to create animated GIFs instantly."
+        description="Trim highlights, adjust colour, and export polished GIFs (plus optional MP4/WebP) from any video."
         icon={Video}
         seoProps={{
-          title: "Video to GIF Converter - Convert Videos to GIFs Online | EasyGIFMaker",
-          description: "Free, high-quality video to GIF conversion. Upload files or paste a YouTube or other video URL to create GIFs instantly.",
-          keywords: "video to gif, mp4 to gif, turn video into gif, make a gif from video, video to gif converter, create gif from video, convert mp4 to gif, mov to gif, mp4 to animated gif, video to animated gif, video to gif high quality, gif converter, gif kiss, gify, gif, converter, gif maker, ezgif, 视频转gif, imgflip, video video, screen to gif, gif converter, make a gif, gif creator, gif editor, ezgif.com, gifmaker, video to gif converter, gif downloader, how to make a gif, image to gif, gif generator, 视频转动图, 转gif, convert video to gif, mov to gif, youtube to gif, ezgif maker, make gif, ez gif, create gif, convert to gif, discord gif maker, gif maker free, ez gif maker, img flip, easygif, video a gif, gif to video, gif转换, 视频转gif 在线, turn video into gif, 视频转换gif, gif转视频, convertir video a gif, giif, gif maker online, com.smile.gifmaker, how to create a gif, mov转gif, transformar video em gif, 视频怎么转gif, imgflip.com, how to make gifs, 在线视频转gif, ezgif.com free, gif 변환, avi to gif, how to make gif, mkv to gif, youtube video to gif, lovegif, video into gif, видео в гиф, youtube gif, video gif, gif maker from video, gidf, gif animator, 動画をgifに変換, video to gif maker, 视频转gif工具, gif creator free, 转gif在线, ezgi, make gif from video, create gif from video, 视频变gif, gif to video converter, yt to gif, mov to gif converter, gif video, make your own gif, transformar vídeo em gif, 视频转为gif, ezgif video to gif, gifmaker.me, convertir video en gif, how to create gif, togif, ghif, 视频制作gif, adobe gif, 動画 gif 変換, gif変換, de video a gif, how to turn a video into a gif, video to, converter video em gif, adobe gif maker, picture to gif, to gif, turn video to gif,  create gif online, blog gif, link to gif, video para gif, convert mov to gif, из视频 вgif, 视频转gif软件, 视频转gif在线, 实况转gif, 视频转gif图, video to gif online, сделать гиф из видео, video to gif converter online, how to make a gif from a video, make video into gif, convert gif, convertir en gif, how to turn video into gif, convert gif to video, transformar em gif, gif化, converter to gif, 视频转gif动图, video to gif converter free, video to gif online, vid to gif, youtube video to gif converter, gif maker from video",
-          canonical: "https://easygifmaker.com/video-to-gif",
-          ogImage: "https://easygifmaker.com/blog/how-to-make-gifs-from-videos.svg"
+          title: 'Video to GIF Converter | EasyGIFMaker',
+          description: 'Convert MP4, WebM, MOV, or URLs into crisp GIFs. Trim segments, tweak brightness/contrast, and export GIF, MP4, or WebP in one workflow.',
+          keywords: 'video to gif, mp4 to gif, video to gif converter, convert video to gif, gif from video',
+          canonical: 'https://easygifmaker.com/video-to-gif',
+          ogImage: 'https://easygifmaker.com/blog/how-to-make-gifs-from-videos.svg'
         }}
         howToSteps={[
           {
@@ -268,6 +368,9 @@ export default function VideoToGifTool() {
             "text": "Click 'Generate GIF' to create and download your animated GIF."
           }
         ]}
+        adSlots={adSlots}
+        midAdPosition={2}
+        afterContent={afterContent}
       >
         
         <HowToUseSection
@@ -321,7 +424,7 @@ export default function VideoToGifTool() {
                 setUploadMethod={setUploadMethod}
                 onFileSelect={(files) => handleFileUpload(files)}
                 onUrlSubmit={(url) => handleFileUpload(null, url)}
-                isProcessing={isProcessing}
+                isProcessing={busy}
                 supportedFormats="Supported formats: MP4, WebM, AVI, MOV, MKV, FLV. Public video URLs (e.g., YouTube) are supported if accessible."
                 accept="video/*"
                 toolName="Video"
@@ -389,10 +492,10 @@ export default function VideoToGifTool() {
                       </Button>
                       <Button 
                         onClick={handleFinalProcess}
-                        disabled={isProcessing}
+                        disabled={busy}
                         className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       >
-                        {isProcessing ? 'Converting...' : 'Convert to GIF'}
+                        {busy ? 'Converting...' : 'Convert to GIF'}
                       </Button>
                     </div>
                   </CardContent>
@@ -715,117 +818,6 @@ export default function VideoToGifTool() {
           )}
 
 
-        <ToolSeoSection
-          icon={Video}
-          title="Video to GIF Converter"
-          description1="Transform your videos into shareable GIFs with our powerful online converter. Whether you're creating memes, tutorials, or social media content, our tool makes it easy to extract the perfect moment from any video and convert it into a high-quality animated GIF."
-          description2="Our interactive timeline lets you precisely select the segment you want to convert, while advanced settings allow you to control frame rate, quality, and size. Perfect for content creators, marketers, and anyone who wants to bring their video moments to life as GIFs."
-          features1={[
-            { emoji: "🎬", text: "Interactive timeline for precise segment selection" },
-            { emoji: "⚡", text: "Fast conversion with high-quality output" },
-            { emoji: "🔧", text: "Advanced settings for frame rate and quality control" }
-          ]}
-          features2={[
-            { emoji: "🌐", text: "Supports MP4, WebM, AVI, MOV, and more" },
-            { emoji: "📱", text: "Optimized for social media sharing" }
-          ]}
-          useCases={[
-            { color: "bg-yellow-400", text: "Create reaction GIFs from TV shows and movies" },
-            { color: "bg-green-400", text: "Convert tutorial videos into step-by-step GIFs" },
-            { color: "bg-blue-400", text: "Extract funny moments for social media sharing" },
-            { color: "bg-purple-400", text: "Create product demos and marketing content" }
-          ]}
-        />
-
-          <TipsFaqsBestPracticesSection 
-            proTips={[
-              { color: "bg-blue-500", text: "Use multiple segments to stitch highlights into one seamless GIF." },
-              { color: "bg-green-500", text: "Keep the combined duration under ~15s for shareable file sizes." },
-              { color: "bg-purple-500", text: "Subtle Brightness (±0.1) & Contrast (+0.2) tweaks enhance clarity without banding." },
-              { color: "bg-orange-500", text: "Lower FPS (10–15) drastically reduces size with minimal motion loss." },
-              { color: "bg-pink-500", text: "Resize down (e.g. 480px width) before sharing on chats to speed load times." },
-              { color: "bg-indigo-500", text: "Enable audio only if you need an MP4 – GIFs never contain sound." }
-            ]}
-            faqs={[
-              { question: "How do multi‑segment GIFs work?", answer: "Each segment you add is trimmed and concatenated in order into one output animation (and MP4 if audio enabled)." },
-              { question: "Why did my MP4 not appear?", answer: "Your source likely had no audio track or you left 'Include Audio' off." },
-              { question: "What Brightness / Contrast range is safe?", answer: "Stay within −0.3 to +0.3 brightness and 0.8–1.6 contrast for natural results." },
-              { question: "Can I rearrange segments?", answer: "Currently they render in the order created. Delete & re‑add to change ordering (reorder UI coming soon)." },
-              { question: "Best FPS for quality vs size?", answer: "15 FPS balances smoothness and size; use 24–30 only for fast motion clips." },
-              { question: "Why is my GIF larger than expected?", answer: "High resolution + high FPS + long duration compounds size. Reduce one or two factors." }
-            ]}
-            relatedResources={[
-              { href: "/blog/how-to-make-gifs-from-videos", icon: "📹", text: "How to Make GIFs from Videos" },
-              { href: "/blog/top-5-gif-optimization-tips", icon: "⚡", text: "Top 5 GIF Optimization Tips" }
-            ]}
-          />
-          {/* Mid-content Ad - After troubleshooting */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
-
-          <TroubleshootingSection 
-
-          commonIssues={[
-              {
-                color: "bg-yellow-500",
-                text: "If conversion fails, check your video format and file size."
-              },
-              {
-                color: "bg-orange-500",
-                text: "For URL videos, ensure the link is publicly accessible."
-              },
-              {
-                color: "bg-red-500",
-                text: "Still having issues?",
-                link: "/contact"
-              }
-            ]}
-            quickFixes={[
-              {
-                icon: "🔄",
-                text: "Clear browser cache if video isn't loading"
-              },
-              {
-                icon: "📱",
-                text: "Try a different browser if you're having issues"
-              },
-              {
-                icon: "⚡",
-                text: "Check your internet connection for large files"
-              }
-            ]}
-          />
-
-          <SocialSharingSection 
-            title="Share Your GIF!"
-            description="Share your new GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
-          />
-
-          {/* Value Content Section (moved to end) */}
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
-          <ValueContentSection
-            toolTitle="Video to GIF Converter"
-            relatedLinks={[
-              { href: '/blog/how-to-make-gifs-from-videos', label: 'How to Make GIFs from Videos (Step-by-Step)' },
-              { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' },
-              { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
-            ]}
-            altTools={[
-              { href: '/gif-maker', label: 'GIF Maker', desc: 'Create GIFs from images and short clips.' },
-              { href: '/optimize', label: 'Optimize GIF', desc: 'Compress and reduce GIF size.' },
-              { href: '/add-text', label: 'Add Text to GIF', desc: 'Caption and annotate your GIFs.' }
-            ]}
-          />
       </ToolPageLayout>
     </>
   )

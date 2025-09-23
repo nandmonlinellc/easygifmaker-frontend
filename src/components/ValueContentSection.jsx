@@ -2,46 +2,64 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ValueContentSection({
-  toolTitle,
-  relatedLinks = [],
-  altTools = []
+  content
 }) {
+  if (!content) {
+    return null
+  }
+
+  const {
+    introHeading,
+    intro,
+    useCases = [],
+    tipsHeading = 'Tips for best results',
+    tips = [],
+    privacyHeading = 'Privacy and safety',
+    privacy,
+    relatedLinks = [],
+    altTools = [],
+    footnote
+  } = content
+
   return (
     <section className="mt-10 border-t pt-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold text-blue-700">Practical ways to use {toolTitle}</h2>
-            <p className="text-gray-700 mt-2">
-              {toolTitle} helps creators, marketers, and casual users share ideas faster. Popular use cases include
-              social posts, product demos, bug reports, quick tutorials, and fun reactions. Keep clips short (3–10s),
-              add clear captions, and export at the smallest size that still looks sharp.
-            </p>
-            <ul className="list-disc pl-6 mt-3 text-gray-700 space-y-1">
-              <li>Social media: eye‑catching posts, Stories, and replies</li>
-              <li>Product and support: tiny demos, feature highlights, bug repros</li>
-              <li>Education: step guides, visual notes, before/after visuals</li>
-            </ul>
-          </div>
+          {(introHeading || intro) && (
+            <div>
+              {introHeading && (
+                <h2 className="text-2xl font-bold text-blue-700">{introHeading}</h2>
+              )}
+              {intro && (
+                <p className="text-gray-700 mt-2">{intro}</p>
+              )}
+              {useCases.length > 0 && (
+                <ul className="list-disc pl-6 mt-3 text-gray-700 space-y-1">
+                  {useCases.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
 
-          <div>
-            <h3 className="text-xl font-semibold text-blue-700">Tips for best results</h3>
-            <ul className="list-disc pl-6 mt-2 text-gray-700 space-y-1">
-              <li>Keep duration tight and focus on one idea; aim for 480–640px width for social.</li>
-              <li>Prefer 12–20 FPS for smooth motion without heavy file sizes.</li>
-              <li>Use text overlays for context; high‑contrast colors improve readability.</li>
-              <li>Optimize before sharing—smaller GIFs load faster and rank better for UX.</li>
-            </ul>
-          </div>
+          {tips.length > 0 && (
+            <div>
+              <h3 className="text-xl font-semibold text-blue-700">{tipsHeading}</h3>
+              <ul className="list-disc pl-6 mt-2 text-gray-700 space-y-1">
+                {tips.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div>
-            <h3 className="text-xl font-semibold text-blue-700">Privacy and safety</h3>
-            <p className="text-gray-700 mt-2">
-              We don’t keep your files longer than needed for processing. Avoid uploading sensitive
-              information, and prefer MP4 for longer clips to reduce size. See our{' '}
-              <Link to="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>{' '}for details.
-            </p>
-          </div>
+          {privacy && (
+            <div>
+              <h3 className="text-xl font-semibold text-blue-700">{privacyHeading}</h3>
+              <p className="text-gray-700 mt-2">{privacy}</p>
+            </div>
+          )}
 
           {relatedLinks?.length > 0 && (
             <div>
@@ -69,7 +87,7 @@ export default function ValueContentSection({
               </li>
             ))}
           </ul>
-          <div className="mt-4 text-xs text-gray-500">No watermarks. Free to use.</div>
+          <div className="mt-4 text-xs text-gray-500">{footnote || 'No watermarks. Free to use.'}</div>
         </aside>
       </div>
     </section>

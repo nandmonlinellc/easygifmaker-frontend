@@ -17,28 +17,14 @@ import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSec
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
-
-          {/* Mid-content Ad */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 import LimitsTable from '../components/LimitsTable'
 import QuickFeaturesBox from '../components/QuickFeaturesBox'
+import { toolContent } from '@/data/toolContent.js'
 
 export default function CropTool() {
   const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
@@ -717,18 +703,7 @@ export default function CropTool() {
               className="max-w-3xl w-full"
             />
           </div>
-          <ValueContentSection
-            toolTitle="GIF Cropper"
-            relatedLinks={[
-              { href: '/blog/professional-gif-cropping-and-composition-guide', label: 'Professional GIF Cropping and Composition Guide' },
-              { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
-            ]}
-            altTools={[
-              { href: '/resize', label: 'Resize GIF', desc: 'Change dimensions without cropping.' },
-              { href: '/optimize', label: 'Optimize GIF', desc: 'Compress for faster loading.' },
-              { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions and labels.' }
-            ]}
-          />
+          <ValueContentSection content={toolContent.cropGif} />
 
         </ToolPageLayout>
     </>

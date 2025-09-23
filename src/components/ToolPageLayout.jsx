@@ -1,5 +1,4 @@
 import React from 'react';
-import DisplayAd from '@/components/ads/DisplayAd.jsx';
 import { Helmet } from 'react-helmet-async';
 
 const ToolPageLayout = ({
@@ -8,6 +7,9 @@ const ToolPageLayout = ({
   icon: Icon,
   seoProps,
   howToSteps,
+  adSlots = {},
+  midAdPosition,
+  afterContent,
   children
 }) => {
   // Create structured data for the tool page (SoftwareApplication fits tools better)
@@ -78,6 +80,13 @@ const ToolPageLayout = ({
       }
     ]
   };
+
+  const { header: headerAd, mid: midAd, footer: footerAd } = adSlots
+  const contentSections = React.Children.toArray(children)
+  const insertionIndex = typeof midAdPosition === 'number'
+    ? midAdPosition
+    : Math.ceil(contentSections.length / 2)
+  let midInserted = false
 
   return (
     <>
@@ -152,18 +161,45 @@ const ToolPageLayout = ({
             </p>
           </div>
 
-          {/* Header Ad - High visibility after tool introduction */}
-          <div className="mb-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
+          {headerAd && (
+            <div className="mb-8 flex justify-center">
+              {headerAd}
+            </div>
+          )}
 
           {/* Tool-specific content */}
-          {children}
+          {contentSections.map((section, index) => {
+            const shouldInsertMid = midAd && !midInserted && index === insertionIndex
+            if (shouldInsertMid) {
+              midInserted = true
+            }
+            return (
+              <React.Fragment key={section?.key ?? index}>
+                {shouldInsertMid && (
+                  <div className="my-8 flex justify-center">
+                    {midAd}
+                  </div>
+                )}
+                {section}
+              </React.Fragment>
+            )
+          })}
+
+          {midAd && !midInserted && (
+            <div className="my-8 flex justify-center">
+              {midAd}
+            </div>
+          )}
+
+          {afterContent}
         </div>
       </div>
+
+      {footerAd && (
+        <div className="flex justify-center py-8">
+          {footerAd}
+        </div>
+      )}
     </>
   );
 };

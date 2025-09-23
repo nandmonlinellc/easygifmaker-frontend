@@ -18,17 +18,11 @@ import HowToUseSection from '../components/HowToUseSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 import LimitsTable from '../components/LimitsTable'
 import QuickFeaturesBox from '../components/QuickFeaturesBox'
+import { toolContent } from '@/data/toolContent.js'
 
 export default function AddTextTool() {
   const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001'
@@ -682,18 +676,7 @@ export default function AddTextTool() {
               className="max-w-3xl w-full"
             />
           </div>
-        <ValueContentSection
-          toolTitle="Add Text to GIF"
-          relatedLinks={[
-            { href: '/blog/master-the-art-of-adding-text-to-gifs', label: 'Master the Art of Adding Text to GIFs' },
-            { href: '/blog/creative-gif-design-tutorial', label: 'Creative GIF Design Tutorial' }
-          ]}
-          altTools={[
-            { href: '/gif-maker', label: 'GIF Maker', desc: 'Create GIFs from images or short clips.' },
-            { href: '/resize', label: 'Resize GIF', desc: 'Make your GIF fit any platform.' },
-            { href: '/optimize', label: 'Optimize GIF', desc: 'Reduce size for faster sharing.' }
-          ]}
-        />
+        <ValueContentSection content={toolContent.addText} />
       </ToolPageLayout>
     </>
   )

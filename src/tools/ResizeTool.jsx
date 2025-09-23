@@ -1,278 +1,469 @@
-import React, { useState, useCallback } from 'react'
-import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';
+import React, { useState, useCallback, useMemo } from 'react'
+import DisplayAd from '@/components/ads/DisplayAd.jsx'
+import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
-import { RotateCw, Settings, Maximize2 } from 'lucide-react'
+import { Maximize2 } from 'lucide-react'
 import ResultSection from '../components/ResultSection'
-import FileUploadSection from '../components/FileUploadSection'
 import SocialSharingSection from '../components/SocialSharingSection'
 import TroubleshootingSection from '../components/TroubleshootingSection'
 import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
 import ToolSeoSection from '../components/ToolSeoSection'
 import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
-
-          {/* Mid-content Ad */}
-          <div className="my-8 flex justify-center">
-            <InArticleAd 
-              slot="8336674411"
-              className="max-w-2xl w-full"
-            />
-          </div>
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
 import ValueContentSection from '../components/ValueContentSection'
 import AdsenseAd from '../components/AdsenseAd'
 import LimitsTable from '../components/LimitsTable'
 import QuickFeaturesBox from '../components/QuickFeaturesBox'
+import useTaskPolling from '@/hooks/useTaskPolling.js'
+import { toolContent } from '@/data/toolContent.js'
+import { safeJson } from '@/utils/http.js'
+
+const DEFAULT_SETTINGS = {
+  width: 300,
+  height: 300,
+  maintainAspectRatio: true,
+  percentage: 100,
+  aspectPreset: 'free'
+}
+
+const presetToRatio = (preset) => {
+  if (preset === '1:1') return 1
+  if (preset === '16:9') return 16 / 9
+  if (preset === '9:16') return 9 / 16
+  return null
+}
 
 export default function ResizeTool() {
-  const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
+  const [workflowState, setWorkflowState] = useState('upload')
   const [uploadMethod, setUploadMethod] = useState('file')
   const [mediaUrl, setMediaUrl] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [resultUrl, setResultUrl] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [settings, setSettings] = useState({
-    width: 300,
-    height: 300,
-    maintainAspectRatio: true,
-    percentage: 100,
-    aspectPreset: 'free' // 'free' | '1:1' | '16:9' | '9:16'
-  })
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [originalSize, setOriginalSize] = useState({ width: null, height: null })
 
-  const presetToRatio = (preset) => {
-    if (preset === '1:1') return 1
-    if (preset === '16:9') return 16/9
-    if (preset === '9:16') return 9/16
-    return null
-  }
+  const { runTask, isProcessing: isPolling, reset: resetTask } = useTaskPolling()
 
-  const handleWidthChange = (value) => {
+  const adSlots = useMemo(() => ({
+    header: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />,
+    mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
+    footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
+  }), [])
+
+  const busy = isProcessing || isPolling
+
+  const handleWidthChange = useCallback((value) => {
     const newWidth = parseInt(value, 10)
     if (!Number.isFinite(newWidth) || newWidth <= 0) {
-      setSettings({ ...settings, width: 1 })
+      setSettings((prev) => ({ ...prev, width: 1 }))
       return
     }
-    let newHeight = settings.height
-    const ratio = presetToRatio(settings.aspectPreset)
-    if (ratio) {
-      newHeight = Math.max(1, Math.round(newWidth / ratio))
-    } else if (settings.maintainAspectRatio && originalSize.width && originalSize.height) {
-      const origRatio = originalSize.width / originalSize.height
-      newHeight = Math.max(1, Math.round(newWidth / origRatio))
-    }
-    setSettings({ ...settings, width: newWidth, height: newHeight })
-  }
+    setSettings((prev) => {
+      const next = { ...prev, width: newWidth }
+      const ratio = presetToRatio(prev.aspectPreset)
+      if (ratio) {
+        next.height = Math.max(1, Math.round(newWidth / ratio))
+      } else if (prev.maintainAspectRatio && originalSize.width && originalSize.height) {
+        const origRatio = originalSize.width / originalSize.height
+        next.height = Math.max(1, Math.round(newWidth / origRatio))
+      }
+      return next
+    })
+  }, [originalSize.height, originalSize.width])
 
-  const handleHeightChange = (value) => {
+  const handleHeightChange = useCallback((value) => {
     const newHeight = parseInt(value, 10)
     if (!Number.isFinite(newHeight) || newHeight <= 0) {
-      setSettings({ ...settings, height: 1 })
+      setSettings((prev) => ({ ...prev, height: 1 }))
       return
     }
-    let newWidth = settings.width
-    const ratio = presetToRatio(settings.aspectPreset)
-    if (ratio) {
-      newWidth = Math.max(1, Math.round(newHeight * ratio))
-    } else if (settings.maintainAspectRatio && originalSize.width && originalSize.height) {
-      const origRatio = originalSize.width / originalSize.height
-      newWidth = Math.max(1, Math.round(newHeight * origRatio))
-    }
-    setSettings({ ...settings, width: newWidth, height: newHeight })
-  }
+    setSettings((prev) => {
+      const next = { ...prev, height: newHeight }
+      const ratio = presetToRatio(prev.aspectPreset)
+      if (ratio) {
+        next.width = Math.max(1, Math.round(newHeight * ratio))
+      } else if (prev.maintainAspectRatio && originalSize.width && originalSize.height) {
+        const origRatio = originalSize.width / originalSize.height
+        next.width = Math.max(1, Math.round(newHeight * origRatio))
+      }
+      return next
+    })
+  }, [originalSize.height, originalSize.width])
 
-  const handleAspectPresetChange = (value) => {
-    const next = { ...settings, aspectPreset: value }
-    const ratio = presetToRatio(value)
-    if (ratio) {
-      // Recalculate height based on current width for immediate feedback
-      next.height = Math.max(1, Math.round(next.width / ratio))
-    } else if (next.maintainAspectRatio && originalSize.width && originalSize.height) {
-      // Back to original ratio if maintainAspectRatio is enabled
-      const origRatio = originalSize.width / originalSize.height
-      next.height = Math.max(1, Math.round(next.width / origRatio))
-    }
-    setSettings(next)
-  }
+  const handleAspectPresetChange = useCallback((value) => {
+    setSettings((prev) => {
+      const next = { ...prev, aspectPreset: value }
+      const ratio = presetToRatio(value)
+      if (ratio) {
+        next.height = Math.max(1, Math.round(prev.width / ratio))
+      } else if (prev.maintainAspectRatio && originalSize.width && originalSize.height) {
+        const origRatio = originalSize.width / originalSize.height
+        next.height = Math.max(1, Math.round(prev.width / origRatio))
+      }
+      return next
+    })
+  }, [originalSize.height, originalSize.width])
 
-  // Unified upload handler for file or URL
+  const handlePercentageChange = useCallback((value) => {
+    const pct = parseInt(value, 10)
+    if (!Number.isFinite(pct) || pct <= 0) {
+      setSettings((prev) => ({ ...prev, percentage: 1 }))
+      return
+    }
+    setSettings((prev) => {
+      const next = { ...prev, percentage: pct }
+      if (originalSize.width && originalSize.height) {
+        next.width = Math.max(1, Math.round((originalSize.width * pct) / 100))
+        next.height = Math.max(1, Math.round((originalSize.height * pct) / 100))
+      }
+      return next
+    })
+  }, [originalSize.height, originalSize.width])
+
+  const handleMaintainAspect = useCallback((value) => {
+    setSettings((prev) => {
+      const next = { ...prev, maintainAspectRatio: value }
+      if (value && originalSize.width && originalSize.height) {
+        const origRatio = originalSize.width / originalSize.height
+        next.height = Math.max(1, Math.round(prev.width / origRatio))
+      }
+      return next
+    })
+  }, [originalSize.height, originalSize.width])
+
   const handleFileUpload = useCallback((files, urlInput = null) => {
     if ((!files || files.length === 0) && !urlInput) return
     setErrorMessage(null)
     setResultUrl(null)
+
     let url
     if (uploadMethod === 'url' && urlInput) {
       url = urlInput
-    } else {
+    } else if (files && files[0]) {
       url = URL.createObjectURL(files[0])
     }
+
+    if (!url) return
+
     setMediaUrl(url)
     setWorkflowState('editing')
+    setSettings({ ...DEFAULT_SETTINGS })
+    setOriginalSize({ width: null, height: null })
   }, [uploadMethod])
 
-  // Handle resize process
   const handleProcess = useCallback(async () => {
     if (!mediaUrl) return
     setErrorMessage(null)
-    setIsProcessing(true)
     setResultUrl(null)
+    setIsProcessing(true)
     setWorkflowState('processing')
+
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
     try {
-      const formData = new FormData()
-      if (uploadMethod === 'url') {
-        formData.append('url', mediaUrl)
-      } else {
-        const response = await fetch(mediaUrl)
-        const blob = await response.blob()
-        formData.append('file', blob, 'image.gif')
-      }
-      formData.append('width', settings.width.toString())
-      formData.append('height', settings.height.toString())
-      formData.append('maintain_aspect_ratio', settings.maintainAspectRatio.toString())
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-      const response = await fetch(`${apiUrl}/api/resize`, {
-        method: 'POST',
-        body: formData
-      })
-      if (response.ok) {
-        const data = await response.json()
-        const taskId = data.task_id
-        if (!taskId) throw new Error('No task_id returned from backend.')
-        let status = null
-        let result = null
-        const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
-        let delay = isNaN(baseDelay) ? 1500 : baseDelay
-        for (let i = 0; i < 60; i++) {
-          const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
-          if (statusResp.ok) {
-            const statusData = await statusResp.json()
-            status = statusData.status
-            result = statusData.result
-            if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-              break
-            } else if (status === 'FAILURE') {
-              throw new Error(statusData.error || 'GIF resize failed.')
-            }
+      const resultKey = await runTask({
+        startTask: async () => {
+          const formData = new FormData()
+          if (uploadMethod === 'url') {
+            formData.append('url', mediaUrl)
+          } else {
+            const response = await fetch(mediaUrl)
+            const blob = await response.blob()
+            formData.append('file', blob, 'image.gif')
           }
-          await new Promise(res => setTimeout(res, delay))
-          delay = Math.min(delay + 250, 3000)
-        }
-        if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-          // Fetch the actual GIF from /api/download/<result>
-          const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
-          if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
-          const gifBlob = await downloadResp.blob()
-          const url = URL.createObjectURL(gifBlob)
-          setResultUrl({
-            previewUrl: url,
-            downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
+          formData.append('width', settings.width.toString())
+          formData.append('height', settings.height.toString())
+          formData.append('maintain_aspect_ratio', settings.maintainAspectRatio.toString())
+
+          const response = await fetch(`${apiUrl}/api/resize`, {
+            method: 'POST',
+            body: formData
           })
-          setWorkflowState('result')
-        } else {
-          throw new Error('GIF resize timed out. Please try again.')
-        }
-      } else {
-        const errorData = await response.json()
-        setErrorMessage(errorData.error || 'An unknown error occurred during processing.')
-        setWorkflowState('editing')
+
+          if (!response.ok) {
+            const errorData = await safeJson(response)
+            throw new Error(errorData.error || 'Unable to start resize task.')
+          }
+
+          const data = await safeJson(response)
+          if (!data?.task_id) {
+            throw new Error('No task_id returned from backend.')
+          }
+          return { taskId: data.task_id }
+        },
+        pollTask: async (taskId) => {
+          const resp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
+          if (!resp.ok) {
+            throw new Error('Failed to retrieve task status.')
+          }
+          return resp.json()
+        },
+        isSuccess: (payload) => {
+          const stateSuccess = payload?.state === 'SUCCESS'
+          const statusSuccess = payload?.status === 'Task completed!'
+          return (stateSuccess || statusSuccess) && payload?.result
+        },
+        isFailure: (payload) => payload?.state === 'FAILURE',
+        extractResult: (payload) => payload?.result
+      })
+
+      const downloadResp = await fetch(`${apiUrl}/api/download/${resultKey}?proxy=1`)
+      if (!downloadResp.ok) {
+        throw new Error('Failed to fetch resized GIF.')
       }
+      const gifBlob = await downloadResp.blob()
+      const url = URL.createObjectURL(gifBlob)
+      setResultUrl({
+        previewUrl: url,
+        downloadUrl: `${apiUrl}/api/download/${resultKey}?proxy=1`
+      })
+      setWorkflowState('result')
     } catch (error) {
       setErrorMessage(error.message || 'Network error or unexpected issue.')
       setWorkflowState('editing')
     } finally {
       setIsProcessing(false)
     }
-  }, [uploadMethod, settings, mediaUrl])
+  }, [mediaUrl, runTask, settings.height, settings.maintainAspectRatio, settings.width, uploadMethod])
 
-  // Reset workflow to upload state
-  const resetWorkflow = () => {
+  const resetWorkflow = useCallback(() => {
+    resetTask()
     setWorkflowState('upload')
     setMediaUrl(null)
     setResultUrl(null)
     setErrorMessage(null)
-    setSettings({
-      width: 300,
-      height: 300,
-      maintainAspectRatio: true
-    })
-  }
+    setSettings({ ...DEFAULT_SETTINGS })
+    setOriginalSize({ width: null, height: null })
+    setIsProcessing(false)
+  }, [resetTask])
 
-  // --- Render ---
-  return (
+  const renderUploadSection = () => (
+    workflowState === 'upload' && (
+      <UploadState
+        key="upload"
+        title="Upload GIF to Resize"
+        description="Select a GIF file or paste a direct GIF URL to start"
+        errorMessage={errorMessage}
+        uploadMethod={uploadMethod}
+        setUploadMethod={setUploadMethod}
+        onFileSelect={(files) => handleFileUpload(files)}
+        onUrlSubmit={(url) => handleFileUpload(null, url)}
+        isProcessing={busy}
+        supportedFormats="GIF only"
+        accept="image/gif"
+        toolName="GIF"
+        useGradient={false}
+      />
+    )
+  )
+
+  const renderContextInfo = () => (
+    <div key="context" className="space-y-4">
+      <QuickFeaturesBox
+        features={[
+          { emoji: '📏', text: 'Pixel-perfect width & height control' },
+          { emoji: '⚖️', text: 'Maintain aspect ratio automatically' },
+          { emoji: '📐', text: 'Percentage-based scaling' },
+          { emoji: '💎', text: 'High-quality resizing algorithms' }
+        ]}
+      />
+      <LimitsTable
+        acceptedFormats={['GIF']}
+        maxFrames={null}
+        maxResolution={'Best results up to ~1600 px on the longest edge'}
+        recommendedDuration={'Keep loops short (≤15s) for quicker uploads'}
+      />
+    </div>
+  )
+
+  const renderEditingSection = () => (
+    workflowState === 'editing' && mediaUrl && (
+      <div key="editing" className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Review your GIF and confirm the new dimensions
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
+                  <div className="text-center">
+                    <img
+                      src={mediaUrl}
+                      alt="GIF Preview"
+                      className="max-w-full h-auto rounded-xl shadow-lg mx-auto"
+                      style={{ maxHeight: '320px' }}
+                      onLoad={(event) => {
+                        const img = event.currentTarget
+                        if (img?.naturalWidth && img?.naturalHeight) {
+                          setOriginalSize({ width: img.naturalWidth, height: img.naturalHeight })
+                          if (settings.aspectPreset === 'free' && settings.maintainAspectRatio) {
+                            const ratio = img.naturalWidth / img.naturalHeight
+                            setSettings((prev) => ({ ...prev, height: Math.max(1, Math.round(prev.width / ratio)) }))
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
+                    Upload Different GIF
+                  </Button>
+                  <Button
+                    onClick={handleProcess}
+                    disabled={busy}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    {busy ? 'Resizing...' : 'Resize GIF'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div>
+            <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
+                  <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                    <Maximize2 className="h-5 w-5 text-white" />
+                  </div>
+                  Resize Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label htmlFor="width" className="block font-semibold mb-3 text-gray-800">
+                      Width (px)
+                    </Label>
+                    <Input
+                      id="width"
+                      type="number"
+                      min="1"
+                      value={settings.width}
+                      onChange={(event) => handleWidthChange(event.target.value)}
+                      className="mb-4"
+                    />
+                    <Label htmlFor="height" className="block font-semibold mb-3 text-gray-800">
+                      Height (px)
+                    </Label>
+                    <Input
+                      id="height"
+                      type="number"
+                      min="1"
+                      value={settings.height}
+                      onChange={(event) => handleHeightChange(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-gray-800">Maintain aspect ratio</span>
+                      <Button
+                        type="button"
+                        variant={settings.maintainAspectRatio ? 'default' : 'outline'}
+                        onClick={() => handleMaintainAspect(!settings.maintainAspectRatio)}
+                        className="h-8 px-3 text-sm"
+                      >
+                        {settings.maintainAspectRatio ? 'On' : 'Off'}
+                      </Button>
+                    </div>
+                    <div>
+                      <Label className="block font-semibold mb-2 text-gray-800">Aspect preset</Label>
+                      <Select value={settings.aspectPreset} onValueChange={handleAspectPresetChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Free" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="free">Free</SelectItem>
+                          <SelectItem value="1:1">1:1 Square</SelectItem>
+                          <SelectItem value="16:9">16:9 Landscape</SelectItem>
+                          <SelectItem value="9:16">9:16 Portrait</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label className="block font-semibold mb-3 text-gray-800">Scale by percentage</Label>
+                    <Input
+                      type="number"
+                      min="1"
+                      value={settings.percentage}
+                      onChange={(event) => handlePercentageChange(event.target.value)}
+                    />
+                    <p className="text-xs text-gray-600 mt-3">
+                      100% keeps the original size. Lower values shrink the GIF, higher values enlarge it.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <EnhancedTipsSection
+          title="Pro tips for sharp, lightweight GIFs"
+          tips={[
+            '<strong>Match the end-use.</strong> 480-640px wide is ideal for social feeds; go larger only when detail matters.',
+            '<strong>Stick to even numbers.</strong> Many platforms prefer even pixel dimensions for faster encoding.',
+            '<strong>Resize before optimising.</strong> Scaling first produces better colour preservation when you compress later.',
+            '<strong>Preview at target size.</strong> Small fonts can blur—consider adding text overlays after resizing if needed.'
+          ]}
+        />
+      </div>
+    )
+  )
+
+  const renderProcessingSection = () => (
+    workflowState === 'processing' && (
+      <ProcessingState
+        key="processing"
+        title="Resizing your GIF"
+        description="Changing dimensions and regenerating frames..."
+      />
+    )
+  )
+
+  const renderResultSection = () => (
+    workflowState === 'result' && resultUrl && (
+      <ResultSection
+        key="result"
+        title="Your resized GIF is ready!"
+        description="Download the new dimensions or share the preview link."
+        imageUrl={resultUrl.previewUrl}
+        downloadFileName="resized.gif"
+        downloadUrl={resultUrl.downloadUrl}
+        onReset={resetWorkflow}
+      />
+    )
+  )
+
+  const afterContent = (
     <>
-    <ToolPageLayout
-      title="Resize GIF Easily"
-      description="Resize and scale GIFs online for free. Change GIF dimensions while maintaining quality. Perfect for social media, websites, and messaging apps."
-      icon={Maximize2}
-      seoProps={{
-        title: "Resize GIF Online | EasyGIFMaker",
-        description: "Resize GIFs quickly and easily. Set exact width and height or keep aspect ratio for perfect social media sizes.",
-        keywords: "resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif, gif editor, gif converter, gif maker, free gif maker, online gif maker",
-        canonical: "https://easygifmaker.com/resize",
-        ogImage: "https://easygifmaker.com/blog/complete-guide-to-resize-gif.svg"
-      }}
-      howToSteps={[
-        {
-          "@type": "HowToStep",
-          "name": "Upload GIF",
-          "text": "Select a GIF file or enter a GIF URL to resize."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Set New Dimensions",
-          "text": "Choose width, height, or percentage scaling for your GIF."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Preview and Adjust",
-          "text": "See the resized GIF and make adjustments if needed."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Download Resized GIF",
-          "text": "Download your resized GIF with new dimensions!"
-        }
-      ]}
-      >
-        
       <HowToUseSection
-        title="How to Use the GIF Resizer"
+        title="How to use the GIF resizer"
         steps={[
-          {
-            title: "Upload your GIF",
-            description: "Select a GIF file or enter a GIF URL to resize."
-          },
-          {
-            title: "Set new dimensions",
-            description: "Choose width, height, or percentage scaling."
-          },
-          {
-            title: "Preview and adjust",
-            description: "See the resized GIF and make adjustments."
-          },
-          {
-            title: "Download resized GIF",
-            description: "Download your resized GIF with new dimensions!"
-          }
+          { title: 'Upload your GIF', description: 'Select a local file or paste a direct GIF URL.' },
+          { title: 'Choose new dimensions', description: 'Set width & height, lock aspect ratio, or use percentage scaling.' },
+          { title: 'Preview your loop', description: 'Confirm the resized result and tweak until it looks right.' },
+          { title: 'Download instantly', description: 'Export the resized GIF or send it straight to the optimizer.' }
         ]}
       />
 
-      {/* FAQ + HowTo Schema */}
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
@@ -283,7 +474,7 @@ export default function ResizeTool() {
               name: 'How do I resize a GIF without losing quality?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Upload your GIF, choose width/height or keep aspect ratio enabled, then download the resized animated GIF.'
+                text: 'Upload your GIF, keep maintain aspect ratio enabled, and export at the smallest width that still looks crisp.'
               }
             },
             {
@@ -291,7 +482,7 @@ export default function ResizeTool() {
               name: 'What size should a GIF be for social media?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Square (1:1) or vertical (4:5) often works best. Use Resize to set exact dimensions, then Optimize to reduce size.'
+                text: 'Square (1:1) or portrait (4:5) loops perform well on feeds. Use percentage mode to generate multiple variants quickly.'
               }
             }
           ]
@@ -299,7 +490,7 @@ export default function ResizeTool() {
         <script type="application/ld+json">{JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'HowTo',
-          name: 'How to Resize a GIF',
+          name: 'How to resize a GIF',
           totalTime: 'PT1M',
           step: [
             { '@type': 'HowToStep', name: 'Upload', text: 'Add a GIF file or paste a direct GIF URL.' },
@@ -309,380 +500,111 @@ export default function ResizeTool() {
         })}</script>
       </Helmet>
 
-      {/* Tutorial section */}
       <section className="mt-10 space-y-3" aria-label="Tutorial: Resize GIF">
-        <h2 className="text-2xl font-semibold text-gray-900">Tutorial: How to Resize a GIF</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Tutorial: Resize a GIF in 60 seconds</h2>
         <ol className="list-decimal pl-6 text-gray-700 space-y-2">
           <li>Upload a GIF or paste a direct URL.</li>
-          <li>Set a new width and height, or keep aspect ratio for proportional scaling.</li>
-          <li>Click Resize GIF and download your result.</li>
+          <li>Choose exact dimensions or percentage scaling.</li>
+          <li>Keep aspect ratio on to avoid stretching.</li>
+          <li>Click resize, preview, then download.</li>
         </ol>
-        <p className="text-gray-700">Need to crop first? Try the <a href="/crop" className="text-blue-600 hover:underline">GIF Cropper</a>. Want a smaller file? Use the <a href="/optimize" className="text-blue-600 hover:underline">GIF Optimizer</a>.</p>
+        <p className="text-gray-700">
+          Need to crop first? Try the <a href="/crop" className="text-blue-600 hover:underline">GIF cropper</a>.
+          Want a smaller file afterwards? Run the result through the <a href="/optimize" className="text-blue-600 hover:underline">GIF optimizer</a>.
+        </p>
       </section>
 
-  {/* Value content moved to end of page */}
+      <ValueContentSection content={toolContent.resizeGif} />
 
-          {/* Upload State */}
-          {workflowState === 'upload' && (
-            <UploadState
-              title="Upload GIF to Resize"
-              description="Select a GIF file or enter a GIF URL to resize and scale"
-              errorMessage={errorMessage}
-              uploadMethod={uploadMethod}
-              setUploadMethod={setUploadMethod}
-              onFileSelect={(files) => handleFileUpload(files)}
-              onUrlSubmit={(url) => handleFileUpload(null, url)}
-              isProcessing={isProcessing}
-              supportedFormats="Supported formats: GIF only"
-              accept="image/gif"
-              toolName="GIF"
-              useGradient={false}
-            />
-          )}
-
-          {/* Quick features + Limits (after upload section) */}
-          <QuickFeaturesBox
-            features={[
-              { emoji: '📏', text: 'Custom width & height' },
-              { emoji: '⚖️', text: 'Maintain aspect ratio' },
-              { emoji: '📐', text: 'Percentage-based scaling' },
-              { emoji: '💎', text: 'High-quality resizing' },
-            ]}
-          />
-          <LimitsTable
-            acceptedFormats={[ 'GIF' ]}
-            maxFps={null}
-            maxFrames={null}
-            maxResolution={'Up to ~800×800 px equivalent for complex edits; larger may work for simple cases'}
-            recommendedDuration={null}
-          />
-
-          {/* Editing State */}
-          {workflowState === 'editing' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* GIF Preview */}
-              <div className="lg:col-span-2">
-                <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview</CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Preview your GIF and set new dimensions
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
-                      <div className="text-center">
-                        <img 
-                          src={mediaUrl} 
-                          alt="GIF Preview" 
-                          className="max-w-full h-auto rounded-xl shadow-lg mx-auto" 
-                          style={{ maxHeight: '300px' }}
-                          onLoad={(e) => {
-                            const img = e.currentTarget
-                            if (img && img.naturalWidth && img.naturalHeight) {
-                              setOriginalSize({ width: img.naturalWidth, height: img.naturalHeight })
-                              // If maintaining aspect by original and free preset, align height to original ratio
-                              if (settings.aspectPreset === 'free' && settings.maintainAspectRatio) {
-                                const origRatio = img.naturalWidth / img.naturalHeight
-                                setSettings((prev) => ({ ...prev, height: Math.max(1, Math.round(prev.width / origRatio)) }))
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
-                        Upload Different GIF
-                      </Button>
-                      <Button 
-                        onClick={handleProcess}
-                        disabled={isProcessing}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        {isProcessing ? 'Resizing...' : 'Resize GIF'}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              {/* Resize Settings Panel */}
-              <div>
-                <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
-                      <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-                        <Maximize2 className="h-5 w-5 text-white" />
-                      </div>
-                      Resize Settings
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="width" className="block font-semibold mb-3 text-gray-800">
-                          Width
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="width"
-                          type="number"
-                          value={settings.width}
-                          onChange={e => handleWidthChange(e.target.value)}
-                          min="1"
-                          max="2000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        />
-                      </div>
-                      
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="height" className="block font-semibold mb-3 text-gray-800">
-                          Height
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="height"
-                          type="number"
-                          value={settings.height}
-                          onChange={e => handleHeightChange(e.target.value)}
-                          min="1"
-                          max="2000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="aspect-preset" className="block font-semibold mb-3 text-gray-800">
-                          Aspect Ratio Preset
-                        </label>
-                        <Select value={settings.aspectPreset} onValueChange={handleAspectPresetChange}>
-                          <SelectTrigger className="w-full bg-white/80 backdrop-blur-sm">
-                            <SelectValue placeholder="Select aspect ratio" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="free">Free (Original)</SelectItem>
-                            <SelectItem value="1:1">Square (1:1)</SelectItem>
-                            <SelectItem value="16:9">16:9</SelectItem>
-                            <SelectItem value="9:16">9:16</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-5 border border-white/20">
-                        <label htmlFor="percentage" className="block font-semibold mb-3 text-gray-800 text-base">
-                          Scale Percentage
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(%)</span>
-                        </label>
-                        <div className="flex items-center gap-4">
-                          <div className="flex-1 relative">
-                            <input
-                              id="percentage"
-                              type="range"
-                              min="10"
-                              max="200"
-                              step="5"
-                              value={settings.percentage}
-                              onChange={e => setSettings({...settings, percentage: parseInt(e.target.value, 10)})}
-                              className="w-full h-3 bg-gradient-to-r from-red-200 via-yellow-200 to-green-200 rounded-full appearance-none cursor-pointer slider-thumb-blue"
-                            />
-                            <div className="absolute -top-6 left-0 right-0 flex justify-between text-xs text-gray-500">
-                              <span className="font-medium">Small</span>
-                              <span className="font-medium">Large</span>
-                            </div>
-                          </div>
-                          <div className="relative">
-                            <input
-                              type="number"
-                              value={settings.percentage}
-                              onChange={e => setSettings({...settings, percentage: parseInt(e.target.value, 10)})}
-                              min="10"
-                              max="200"
-                              className="w-20 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-semibold text-base shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border border-white/30"
-                            />
-                            <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 font-medium">%</div>
-                          </div>
-                        </div>
-                        <p className="text-xs text-gray-600 mt-3 leading-relaxed">
-                          Controls the size of your GIF. 100% = original size, lower values = smaller, higher values = larger.
-                        </p>
-                      </div>
-                    </div>
-                    {/* Mid-content Ad */}
-                    <div className="my-8 flex justify-center">
-                      <InArticleAd 
-                        slot="8336674411"
-                        className="max-w-2xl w-full"
-                      />
-                    </div>
-                    <EnhancedTipsSection
-
-                      title="Pro Tips for Perfect Resizing"
-                      tips={[
-                        "<strong>Scale Percentage</strong> 50-150% works well for most GIFs. Smaller for faster loading, larger for better detail.",
-                        "<strong>Social Media</strong> 400-600px width is perfect for Instagram, Twitter, and other platforms.",
-                        "<strong>Website:</strong> Use 800-1200px width for web display",
-                        "<strong>Mobile:</strong> Use 300-500px width for mobile devices",
-                        "<strong>Quality:</strong> Larger sizes maintain better quality"
-                      ]}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-
-          {/* Processing State */}
-          {workflowState === 'processing' && (
-            <ProcessingState
-              title="Resizing Your GIF"
-              description="Changing dimensions and scaling your GIF..."
-            />
-          )}
-
-          {/* Result State */}
-          {workflowState === 'result' && resultUrl && (
-            <ResultSection
-              title="Your Resized GIF is Ready!"
-              description="Your GIF has been successfully resized with new dimensions."
-              imageUrl={resultUrl.previewUrl}
-              downloadFileName="resized.gif"
-              downloadUrl={resultUrl.downloadUrl}
-              onReset={resetWorkflow}
-            />
-          )}
-
-        <ToolSeoSection
-          icon={Maximize2}
-          title="Resize GIF"
-          description1="Resize your GIFs to fit any platform or purpose with our powerful online resizer. Whether you need smaller dimensions for social media, larger sizes for websites, or custom scaling for specific applications, our tool makes it easy to adjust GIF dimensions while maintaining quality."
-          description2="Our intelligent resizing algorithms preserve animation quality and ensure your GIFs look great at any size. Perfect for content creators, web developers, and anyone who needs to adapt GIFs for different platforms and use cases."
-          features1={[
-            { emoji: "📏", text: "Custom width and height dimensions" },
-            { emoji: "⚖️", text: "Percentage-based scaling options" },
-            { emoji: "🎯", text: "Maintain aspect ratio automatically" }
-          ]}
-          features2={[
-            { emoji: "💎", text: "High-quality resizing algorithms" },
-            { emoji: "📱", text: "Optimized for all platforms" }
-          ]}
-          useCases={[
-            { color: "bg-yellow-400", text: "Resize GIFs for social media platforms" },
-            { color: "bg-green-400", text: "Scale GIFs for website integration" },
-            { color: "bg-blue-400", text: "Adjust GIFs for mobile devices" },
-            { color: "bg-purple-400", text: "Create thumbnail versions of GIFs" }
-          ]}
-        />
-        <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-          
-        <TipsFaqsBestPracticesSection 
-          proTips={[
-            {
-              color: "bg-blue-500",
-              text: "Keep aspect ratio enabled to prevent distortion and maintain visual quality."
-            },
-            {
-              color: "bg-green-500",
-              text: "Use percentage scaling for proportional resizing to maintain original proportions."
-            },
-            {
-              color: "bg-purple-500",
-              text: "Consider your target platform's recommended dimensions for optimal display."
-            },
-            {
-              color: "bg-orange-500",
-              text: "Larger sizes maintain better quality and detail for high-resolution displays."
-            }
-          ]}
-          faqs={[
-            {
-              question: "Will resizing affect animation quality?",
-              answer: "Our tool maintains animation smoothness while resizing."
-            },
-            {
-              question: "Can I resize to any dimensions?",
-              answer: "Yes, you can set custom width and height values."
-            },
-            {
-              question: "What's the maximum size I can resize to?",
-              answer: "Up to 2000x2000 pixels for optimal performance."
-            },
-            {
-              question: "Does resizing affect file size?",
-              answer: "Generally, smaller dimensions result in smaller file sizes."
-            }
-          ]}
-          relatedResources={[
-            {
-              href: "/blog/top-5-gif-optimization-tips",
-              icon: "⚡",
-              text: "Top 5 GIF Optimization Tips"
-            },
-            {
-              href: "/blog/how-to-make-gifs-from-videos",
-              icon: "📹",
-              text: "How to Make GIFs from Videos"
-            }
-          ]}
-        />
-
-        <TroubleshootingSection 
-          commonIssues={[
-            {
-              color: "bg-yellow-500",
-              text: "If the GIF looks distorted, try maintaining aspect ratio."
-            },
-            {
-              color: "bg-orange-500",
-              text: "If upload fails, check your file format (GIF only) and file size."
-            },
-            {
-              color: "bg-red-500",
-              text: "Still having issues?",
-              link: "/contact"
-            }
-          ]}
-          quickFixes={[
-            {
-              icon: "📏",
-              text: "Use percentage scaling for proportional resizing"
-            },
-            {
-              icon: "⚖️",
-              text: "Keep aspect ratio to prevent distortion"
-            },
-            {
-              icon: "📱",
-              text: "Consider target platform dimensions"
-            }
-          ]}
-        />
-
-        <SocialSharingSection 
-          title="Share Your Resized GIF!"
-          description="Share your resized GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
-        />
-
-      {/* Value Content Section (moved to end) */}
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
-      <ValueContentSection
-        toolTitle="GIF Resizer"
-        relatedLinks={[
-          { href: '/blog/complete-guide-to-resize-gif', label: 'Complete Guide to Resize GIF' },
-          { href: '/blog/gif-optimization-techniques', label: 'GIF Optimization Techniques' }
+      <ToolSeoSection
+        icon={Maximize2}
+        title="Resize GIF"
+        description1="Resize your GIFs to fit any platform or purpose with our fast, precise resizer. Adjust dimensions for social feeds, landing pages, chat apps, or product screenshots without opening a heavy editor."
+        description2="Tune width, height, or percentage scaling while preserving quality. Great for content creators, marketers, and support teams who need polished loops across multiple canvases."
+        features1={[
+          { emoji: '📏', text: 'Custom width and height controls' },
+          { emoji: '⚖️', text: 'Maintain aspect ratio automatically' },
+          { emoji: '🎯', text: 'Percentage scaling for quick variants' }
         ]}
-        altTools={[
-          { href: '/optimize', label: 'Optimize GIF', desc: 'Compress and reduce GIF size.' },
-          { href: '/crop', label: 'Crop GIF', desc: 'Focus on the important area.' },
-          { href: '/add-text', label: 'Add Text to GIF', desc: 'Add captions and watermarks.' }
+        features2={[
+          { emoji: '💎', text: 'Quality-preserving resampling' },
+          { emoji: '📱', text: 'Outputs sized for every device' }
+        ]}
+        useCases={[
+          { color: 'bg-yellow-400', text: 'Resize GIFs for social media timelines' },
+          { color: 'bg-green-400', text: 'Scale loops for product walkthroughs' },
+          { color: 'bg-blue-400', text: 'Prepare GIFs for newsletters or blogs' },
+          { color: 'bg-purple-400', text: 'Generate variants for A/B testing' }
         ]}
       />
-      </ToolPageLayout>
+
+      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
+
+      <TipsFaqsBestPracticesSection
+        proTips={[
+          { color: 'bg-blue-500', text: 'Lock aspect ratio to avoid stretched logos or UI.' },
+          { color: 'bg-green-500', text: 'Scale down large source GIFs before optimising for the web.' },
+          { color: 'bg-purple-500', text: 'Generate multiple sizes (desktop, mobile, chat) for consistent branding.' },
+          { color: 'bg-orange-500', text: 'Test playback speed after resizing—smaller dimensions can feel faster.' }
+        ]}
+        faqs={[
+          { question: 'Will resizing affect animation quality?', answer: 'Our resizer uses high-quality sampling to preserve smooth motion, especially when scaling down.' },
+          { question: 'Can I resize to any dimensions?', answer: 'Yes—enter custom width and height or use percentage scaling to keep proportions intact.' },
+          { question: 'Does resizing change file size?', answer: 'Smaller dimensions usually reduce file size. Run the result through the optimizer for extra savings.' }
+        ]}
+        relatedResources={[
+          { href: '/blog/complete-guide-to-resize-gif', icon: '📘', text: 'Complete guide to resize GIF' },
+          { href: '/blog/gif-optimization-techniques', icon: '⚙️', text: 'GIF optimization techniques' }
+        ]}
+      />
+
+      <TroubleshootingSection
+        commonIssues={[
+          { color: 'bg-yellow-500', text: 'Distorted GIF? Re-enable aspect ratio or start from the original source file.' },
+          { color: 'bg-orange-500', text: 'Upload failing? Confirm you\'re using GIF format and under the 200 MB limit.' },
+          { color: 'bg-red-500', text: 'Still stuck? Contact support and attach the GIF so we can reproduce the issue.' }
+        ]}
+        quickFixes={[
+          { icon: '📏', text: 'Use percentage mode for quick proportional scaling.' },
+          { icon: '⚖️', text: 'Switch to a preset ratio when preparing assets for social stories.' },
+          { icon: '📱', text: 'Preview the resized loop on mobile before sharing widely.' }
+        ]}
+      />
+
+      <SocialSharingSection
+        title="Share your resized GIF"
+        description="Send your new loop to teammates, drop it in community threads, or share on socials. Tag #EasyGIFMaker so we can celebrate your work!"
+      />
     </>
+  )
+
+  return (
+    <ToolPageLayout
+      title="Resize GIF Easily"
+      description="Resize and scale GIFs online for free. Change dimensions while preserving quality—perfect for social media, landing pages, and chat apps."
+      icon={Maximize2}
+      seoProps={{
+        title: 'Resize GIF Online | EasyGIFMaker',
+        description: 'Resize GIFs quickly and accurately. Set exact width and height or scale by percentage for pixel-perfect results.',
+        keywords: 'resize gif, scale gif, change gif size, gif resizer, gif dimensions, resize animated gif, gif editor, gif converter, gif maker',
+        canonical: 'https://easygifmaker.com/resize',
+        ogImage: 'https://easygifmaker.com/blog/complete-guide-to-resize-gif.svg'
+      }}
+      howToSteps={[
+        { '@type': 'HowToStep', 'name': 'Upload GIF', 'text': 'Select a GIF file or paste a direct URL.' },
+        { '@type': 'HowToStep', 'name': 'Set new dimensions', 'text': 'Enter width/height or keep aspect ratio for proportional resizing.' },
+        { '@type': 'HowToStep', 'name': 'Preview and adjust', 'text': 'Check the updated GIF and tweak if needed.' },
+        { '@type': 'HowToStep', 'name': 'Download resized GIF', 'text': 'Export the resized animation instantly.' }
+      ]}
+      adSlots={adSlots}
+      midAdPosition={0}
+      afterContent={afterContent}
+    >
+      {renderUploadSection()}
+      {renderContextInfo()}
+      {renderEditingSection()}
+      {renderProcessingSection()}
+      {renderResultSection()}
+    </ToolPageLayout>
   )
 }
