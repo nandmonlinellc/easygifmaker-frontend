@@ -25,7 +25,8 @@ export default function Footer() {
     { title: 'Crop GIF', path: '/crop' },
     { title: 'Optimize GIF', path: '/optimize' },
     { title: 'Reverse GIF', path: '/reverse' },
-    { title: 'Add Text to GIF', path: '/add-text' }
+    { title: 'Add Text to GIF', path: '/add-text' },
+    { title: 'Prompt to GIF', path: '/prompt-gif' }
   ]
 
   return (

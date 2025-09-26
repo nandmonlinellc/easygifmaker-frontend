@@ -38,6 +38,7 @@ const CropTool = lazy(() => import('./tools/CropTool'))
 const OptimizeTool = lazy(() => import('./tools/OptimizeTool'))
 const ReverseTool = lazy(() => import('./tools/ReverseTool'))
 const AddTextTool = lazy(() => import('./tools/AddTextTool'))
+const PromptToGifTool = lazy(() => import('./tools/PromptToGifTool'))
 
 function App() {
   return (
@@ -52,8 +53,9 @@ function App() {
               <Route path="resize" element={<ResizeTool />} />
               <Route path="crop" element={<CropTool />} />
               <Route path="optimize" element={<OptimizeTool />} />
-                <Route path="reverse" element={<ReverseTool />} />
+              <Route path="reverse" element={<ReverseTool />} />
               <Route path="add-text" element={<AddTextTool />} />
+              <Route path="prompt-gif" element={<PromptToGifTool />} />
               <Route path="blog" element={<Blog />} />
               <Route path="api" element={<Api />} />
               <Route path="blog/how-to-make-gifs-from-videos" element={<HowToMakeGifsFromVideos />} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
-import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X, RefreshCcw } from 'lucide-react'
+import { Image, Video, Crop, RotateCw, Type, Zap, Menu, X, RefreshCcw, Sparkles } from 'lucide-react'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -14,7 +14,8 @@ export default function Header() {
     { id: 'crop', title: 'Crop', icon: Crop, path: '/crop' },
     { id: 'optimize', title: 'Optimize', icon: Zap, path: '/optimize' },
     { id: 'reverse', title: 'Reverse', icon: RefreshCcw, path: '/reverse' },
-    { id: 'add-text', title: 'Add Text', icon: Type, path: '/add-text' }
+    { id: 'add-text', title: 'Add Text', icon: Type, path: '/add-text' },
+    { id: 'prompt-gif', title: 'Prompt to GIF', icon: Sparkles, path: '/prompt-gif' }
   ]
 
   const staticPages = [

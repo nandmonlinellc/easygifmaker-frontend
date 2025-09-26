@@ -166,6 +166,30 @@ export const toolContent = {
       { label: 'Optimize a GIF', href: '/optimize-gif', desc: 'Compress the captioned export before sharing.' },
       { label: 'Video to GIF', href: '/video-to-gif', desc: 'Create source clips before applying text layers.' }
     ]
+  },
+  promptGif: {
+    introHeading: 'Prototype animated ideas with text prompts',
+    intro: 'Skip storyboards and jump straight into motion concepts. AnimateDiff turns short textual briefs into looping GIFs so you can validate a look before committing time to production.',
+    useCases: [
+      'Product marketers spin up atmospheric hero loops for launch pages.',
+      'Designers explore motion branding concepts without opening full desktop suites.',
+      'Educators generate visual metaphors or character loops for presentations.'
+    ],
+    tips: [
+      'Lead with subject, setting, and motion. Style cues (lens, lighting, art medium) tighten the result.',
+      'Keep generations short—12 to 16 frames at 8 fps produce natural loops while staying under the duration cap.',
+      'Reuse seeds to iterate on a composition without introducing random changes.',
+      'Use the negative prompt to exclude “text” or “watermark” artefacts in final renders.'
+    ],
+    privacy: 'Prompts and outputs follow the same temporary storage policy as other tools. Outputs live in isolated session directories and scheduled cleanup tasks remove them after processing. Avoid entering sensitive data in your prompts.',
+    relatedLinks: [
+      { label: 'Creative GIF Design Tutorial', href: '/blog/creative-gif-design-tutorial' },
+      { label: 'Gif Accessibility Guide', href: '/blog/gif-accessibility-guide' }
+    ],
+    altTools: [
+      { label: 'Optimize a GIF', href: '/optimize', desc: 'Compress AI loops before you share them widely.' },
+      { label: 'Add Text to GIF', href: '/add-text', desc: 'Caption AI animations with on-brand typography.' }
+    ]
   }
 }
 
