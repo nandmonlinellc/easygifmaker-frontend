@@ -5,3 +5,6 @@ client_secret_*.json
 bundle-analysis.html
 node_modules/
 .env
+
+# Local Netlify folder
+.netlify
