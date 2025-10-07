@@ -1,104 +1,85 @@
-import React, { useState, useCallback } from 'react'
-import DisplayAd from '@/components/ads/DisplayAd.jsx';
-import InArticleAd from '@/components/ads/InArticleAd.jsx';
-import { Helmet } from 'react-helmet-async'
+import React, { useState, useCallback, useMemo } from 'react'
+import DisplayAd from '@/components/ads/DisplayAd.jsx'
+import InArticleAd from '@/components/ads/InArticleAd.jsx'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Label } from '@/components/ui/label.jsx'
 import { Input } from '@/components/ui/input.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
-import { Crop, Settings } from 'lucide-react'
+import { Crop } from 'lucide-react'
 import ResultSection from '../components/ResultSection'
-import FileUploadSection from '../components/FileUploadSection'
 import CropperCanvas from '../components/CropperCanvas'
-import SocialSharingSection from '../components/SocialSharingSection'
-import TroubleshootingSection from '../components/TroubleshootingSection'
-import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
-import ToolSeoSection from '../components/ToolSeoSection'
-import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-import ValueContentSection from '../components/ValueContentSection'
-import AdsenseAd from '../components/AdsenseAd'
-import LimitsTable from '../components/LimitsTable'
-import QuickFeaturesBox from '../components/QuickFeaturesBox'
-import { toolContent } from '@/data/toolContent.js'
 
 export default function CropTool() {
-  const [workflowState, setWorkflowState] = useState('upload') // 'upload', 'editing', 'processing', 'result'
+  const [workflowState, setWorkflowState] = useState('upload')
   const [uploadMethod, setUploadMethod] = useState('file')
   const [mediaUrl, setMediaUrl] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [resultUrl, setResultUrl] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  // Cropper state - crop uses percentages (0-1), croppedAreaPixels uses actual pixel values
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState({ x: 0, y: 0, width: 100, height: 100 })
-  const [aspect, setAspect] = useState(null) // null = free
+  const [aspect, setAspect] = useState(null)
 
-  // Unified upload handler for file or URL
+  const adSlots = useMemo(() => ({
+    header: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />,
+    mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
+    footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
+  }), [])
+
   const handleFileUpload = useCallback((files, urlInput = null) => {
     if ((!files || files.length === 0) && !urlInput) return
     setErrorMessage(null)
     setResultUrl(null)
+
     let url
     if (uploadMethod === 'url' && urlInput) {
       url = urlInput
-    } else {
+    } else if (files && files[0]) {
       url = URL.createObjectURL(files[0])
     }
+
+    if (!url) return
+
     setMediaUrl(url)
-    // Reset crop state when new image is loaded
     setCrop({ x: 0, y: 0 })
     setZoom(1)
     setCroppedAreaPixels({ x: 0, y: 0, width: 100, height: 100 })
     setWorkflowState('editing')
   }, [uploadMethod])
 
-  // Handle crop complete from Cropper
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    if (croppedAreaPixels && 
-        typeof croppedAreaPixels.x === 'number' && 
-        typeof croppedAreaPixels.y === 'number' && 
-        typeof croppedAreaPixels.width === 'number' && 
-        typeof croppedAreaPixels.height === 'number') {
-      setCroppedAreaPixels(croppedAreaPixels)
+  const onCropComplete = useCallback((_, areaPixels) => {
+    if (!areaPixels) return
+    const { x, y, width, height } = areaPixels
+    if ([x, y, width, height].every(value => typeof value === 'number')) {
+      setCroppedAreaPixels(areaPixels)
     }
   }, [])
 
-  // Handle aspect ratio change
   const handleAspectChange = (value) => {
-    if (value === 'free') {
-      setAspect(null)
-    } else if (value === 'square') {
-      setAspect(1)
-    } else if (value === '4:3') {
-      setAspect(4/3)
-    } else if (value === '16:9') {
-      setAspect(16/9)
-    } else if (value === '9:16') {
-      setAspect(9/16)
-    } else if (value === '3:2') {
-      setAspect(3/2)
-    } else if (value === '2:1') {
-      setAspect(2)
-    } else if (value === 'golden') {
-      setAspect(1.618)
-    } else {
-      setAspect(null)
-    }
+    if (value === 'free') setAspect(null)
+    else if (value === 'square') setAspect(1)
+    else if (value === '4:3') setAspect(4 / 3)
+    else if (value === '16:9') setAspect(16 / 9)
+    else if (value === '9:16') setAspect(9 / 16)
+    else if (value === '3:2') setAspect(3 / 2)
+    else if (value === '2:1') setAspect(2)
+    else if (value === 'golden') setAspect(1.618)
+    else setAspect(null)
   }
 
-  // Handle crop process
   const handleProcess = useCallback(async () => {
     if (!mediaUrl || !croppedAreaPixels) return
     setErrorMessage(null)
     setIsProcessing(true)
     setResultUrl(null)
     setWorkflowState('processing')
+
     try {
       const formData = new FormData()
       if (uploadMethod === 'url') {
@@ -108,69 +89,76 @@ export default function CropTool() {
         const blob = await response.blob()
         formData.append('file', blob, 'image.gif')
       }
+
       formData.append('x', Math.round(croppedAreaPixels.x).toString())
       formData.append('y', Math.round(croppedAreaPixels.y).toString())
       formData.append('width', Math.round(croppedAreaPixels.width).toString())
       formData.append('height', Math.round(croppedAreaPixels.height).toString())
       formData.append('aspect_ratio', aspect || 'free')
+
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
       const response = await fetch(`${apiUrl}/api/crop`, {
         method: 'POST',
         body: formData
       })
-      if (response.ok) {
-        const data = await response.json()
-        const taskId = data.task_id
-        if (!taskId) throw new Error('No task_id returned from backend.')
-        let status = null
-        let result = null
-        const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
-        let delay = isNaN(baseDelay) ? 1500 : baseDelay
-        for (let i = 0; i < 60; i++) {
-          const statusResp = await fetch(`${apiUrl}/api/task-status/${taskId}`)
-          if (statusResp.ok) {
-            const statusData = await statusResp.json()
-            status = statusData.status || statusData.state
-            result = statusData.result
-            if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-              break
-            } else if (status === 'FAILURE') {
-              throw new Error(statusData.error || 'GIF crop failed.')
-            }
-          }
-          await new Promise(res => setTimeout(res, delay))
-          delay = Math.min(delay + 250, 3000)
-        }
-        if ((status === 'SUCCESS' || status === 'Task completed!') && result) {
-          // Fetch the actual GIF from /api/download/<result>
-          const downloadResp = await fetch(`${apiUrl}/api/download/${result}?proxy=1`)
-          if (!downloadResp.ok) throw new Error('Failed to fetch result GIF.')
-          const gifBlob = await downloadResp.blob()
-          const url = URL.createObjectURL(gifBlob)
-          const resultUrlObj = {
-            previewUrl: url,
-            downloadUrl: `${apiUrl}/api/download/${result}?proxy=1`
-          }
-          setResultUrl(resultUrlObj)
-          setWorkflowState('result')
-        } else {
-          throw new Error('GIF crop timed out. Please try again.')
-        }
-      } else {
-        const errorData = await response.json()
-        setErrorMessage(errorData.error || 'An unknown error occurred during processing.')
-        setWorkflowState('editing')
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'An unknown error occurred during processing.')
       }
+
+      const data = await response.json()
+      if (!data?.task_id) {
+        throw new Error('No task_id returned from backend.')
+      }
+
+      const baseDelay = parseInt(import.meta.env.VITE_TASK_POLL_MS || '1500', 10)
+      let delay = Number.isNaN(baseDelay) ? 1500 : baseDelay
+      let resultKey = null
+
+      for (let i = 0; i < 60; i++) {
+        const statusResp = await fetch(`${apiUrl}/api/task-status/${data.task_id}`)
+        if (statusResp.ok) {
+          const statusData = await statusResp.json()
+          const status = statusData.status || statusData.state
+          if ((status === 'SUCCESS' || status === 'Task completed!') && statusData.result) {
+            resultKey = statusData.result
+            break
+          }
+          if (status === 'FAILURE') {
+            throw new Error(statusData.error || 'GIF crop failed.')
+          }
+        }
+
+        await new Promise(res => setTimeout(res, delay))
+        delay = Math.min(delay + 250, 3000)
+      }
+
+      if (!resultKey) {
+        throw new Error('GIF crop timed out. Please try again.')
+      }
+
+      const downloadResp = await fetch(`${apiUrl}/api/download/${resultKey}?proxy=1`)
+      if (!downloadResp.ok) {
+        throw new Error('Failed to fetch result GIF.')
+      }
+
+      const gifBlob = await downloadResp.blob()
+      const previewUrl = URL.createObjectURL(gifBlob)
+      setResultUrl({
+        previewUrl,
+        downloadUrl: `${apiUrl}/api/download/${resultKey}?proxy=1`
+      })
+      setWorkflowState('result')
     } catch (error) {
       setErrorMessage(error.message || 'Network error or unexpected issue.')
       setWorkflowState('editing')
     } finally {
       setIsProcessing(false)
     }
-  }, [uploadMethod, mediaUrl, croppedAreaPixels, aspect])
+  }, [aspect, croppedAreaPixels, mediaUrl, uploadMethod])
 
-  // Reset workflow to upload state
-  const resetWorkflow = () => {
+  const resetWorkflow = useCallback(() => {
     setWorkflowState('upload')
     setMediaUrl(null)
     setResultUrl(null)
@@ -179,533 +167,242 @@ export default function CropTool() {
     setZoom(1)
     setCroppedAreaPixels({ x: 0, y: 0, width: 100, height: 100 })
     setAspect(null)
-  }
+  }, [])
 
-  // --- Render ---
   return (
-    <>
-      <ToolPageLayout
-        title="Crop GIF Easily and Quickly"
-        description="Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging."
-        icon={Crop}
-        seoProps={{
-          title: "Crop GIF Easily Online | EasyGIFMaker",
-          description: "Crop your GIFs quickly and easily with our online GIF cropping tool. Perfect for creating shareable animations that fit your needs!",
-          keywords: "crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif, gif maker, free gif maker, online gif maker, gif converter, gif creator",
-          canonical: "https://easygifmaker.com/crop",
-          ogImage: "https://easygifmaker.com/blog/professional-gif-cropping-and-composition-guide.svg"
-        }}
-        howToSteps={[
-          {
-            "@type": "HowToStep",
-            "name": "Upload GIF",
-            "text": "Select a GIF file or enter a GIF URL to crop."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Select Crop Area",
-            "text": "Use the interactive crop tool to select the area you want to keep."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Adjust and Preview",
-            "text": "Fine-tune your crop selection and preview the result."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Download Cropped GIF",
-            "text": "Download your cropped GIF with the selected area!"
-          }
-        ]}
-      >
-        
-        <HowToUseSection
-          title="How to Use the GIF Cropper"
-          steps={[
-            {
-              title: "Upload your GIF",
-              description: "Select a GIF file or enter a GIF URL to crop."
-            },
-            {
-              title: "Select crop area",
-              description: "Drag to create a selection box around the area you want to keep."
-            },
-            {
-              title: "Adjust and preview",
-              description: "Fine-tune your selection and preview the cropped result."
-            },
-            {
-              title: "Download cropped GIF",
-              description: "Download your perfectly cropped GIF!"
-            }
-          ]}
+    <ToolPageLayout
+      title="Crop GIF Easily and Quickly"
+      description="Crop and trim GIFs online for free. Remove unwanted parts and focus on the important content. Perfect for social media and messaging."
+      icon={Crop}
+      seoProps={{
+        title: 'Crop GIF Easily Online | EasyGIFMaker',
+        description: 'Crop your GIFs quickly and easily with our online GIF cropping tool. Perfect for creating shareable animations that fit your needs!',
+        keywords: 'crop gif, trim gif, cut gif, gif cropper, gif editor, crop animated gif, gif maker, free gif maker, online gif maker, gif converter, gif creator',
+        canonical: 'https://easygifmaker.com/crop',
+        ogImage: 'https://easygifmaker.com/blog/professional-gif-cropping-and-composition-guide.svg'
+      }}
+      toolKey="cropGif"
+      adSlots={adSlots}
+      midAdPosition={2}
+      howToSteps={[
+        {
+          '@type': 'HowToStep',
+          name: 'Upload GIF',
+          text: 'Select a GIF file or enter a GIF URL to crop.'
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Select Crop Area',
+          text: 'Use the interactive crop tool to select the area you want to keep.'
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Adjust and Preview',
+          text: 'Fine-tune your crop selection and preview the result.'
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Download Cropped GIF',
+          text: 'Download your cropped GIF with the selected area!'
+        }
+      ]}
+    >
+      {workflowState === 'upload' && (
+        <UploadState
+          title="Upload GIF to Crop"
+          description="Select a GIF file or enter a GIF URL to crop and trim"
+          errorMessage={errorMessage}
+          uploadMethod={uploadMethod}
+          setUploadMethod={setUploadMethod}
+          onFileSelect={(files) => handleFileUpload(files)}
+          onUrlSubmit={(url) => handleFileUpload(null, url)}
+          isProcessing={isProcessing}
+          supportedFormats="Supported formats: GIF only"
+          accept="image/gif"
+          toolName="GIF"
+          useGradient={false}
         />
+      )}
 
-  {/* Value content moved to end of page */}
+      {workflowState === 'editing' && mediaUrl && (
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview & Cropper</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Drag to select the area you want to keep in your GIF
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
+                  <CropperCanvas
+                    imageUrl={mediaUrl}
+                    aspect={aspect}
+                    crop={crop}
+                    zoom={zoom}
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={onCropComplete}
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <Button
+                    onClick={resetWorkflow}
+                    variant="outline"
+                    className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300"
+                  >
+                    Upload Different GIF
+                  </Button>
+                  <Button
+                    onClick={handleProcess}
+                    disabled={isProcessing}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    {isProcessing ? 'Cropping...' : 'Crop GIF'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* FAQ + HowTo Schema (SEO) */}
-        <Helmet>
-          <script type="application/ld+json">{JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              {
-                '@type': 'Question',
-                name: 'How do I crop a GIF online?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Upload your GIF or paste a URL, select the crop area with the interactive tool, then click Crop GIF to download the result.'
-                }
-              },
-              {
-                '@type': 'Question',
-                name: 'Can I crop animated GIFs?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Yes. This tool preserves animation while cropping. All frames are processed so your GIF remains animated.'
-                }
-              },
-              {
-                '@type': 'Question',
-                name: 'What is the best way to crop a GIF for social media?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: 'Choose a preset aspect ratio like 1:1 or 4:5 depending on the platform, position the crop, and export. Use our Resize tool afterwards if you need exact dimensions.'
-                }
-              }
-            ]
-          })}</script>
-          <script type="application/ld+json">{JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'HowTo',
-            name: 'How to Crop a GIF',
-            description: 'Step-by-step guide to crop animated GIFs online using EasyGIFMaker.',
-            totalTime: 'PT1M',
-            step: [
-              { '@type': 'HowToStep', name: 'Upload', text: 'Upload a GIF or paste a direct GIF URL.' },
-              { '@type': 'HowToStep', name: 'Select area', text: 'Drag the selection to choose the area to keep. Pick an aspect ratio if needed.' },
-              { '@type': 'HowToStep', name: 'Crop', text: 'Click Crop GIF and wait for processing to finish.' },
-              { '@type': 'HowToStep', name: 'Download', text: 'Preview and download your cropped animated GIF.' }
-            ]
-          })}</script>
-        </Helmet>
+          <div className="min-w-0">
+            <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
+                  <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                    <Crop className="h-5 w-5 text-white" />
+                  </div>
+                  Crop Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label htmlFor="crop-x" className="block font-semibold text-gray-800">
+                      X Position
+                      <span className="ml-1 text-sm font-normal text-gray-500">(px)</span>
+                    </Label>
+                    <Input
+                      id="crop-x"
+                      type="number"
+                      min="0"
+                      value={croppedAreaPixels.x || 0}
+                      onChange={({ target }) => {
+                        const newX = parseInt(target.value, 10) || 0
+                        setCroppedAreaPixels({ ...croppedAreaPixels, x: newX })
+                      }}
+                      className="mt-3 text-center"
+                    />
+                  </div>
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label htmlFor="crop-y" className="block font-semibold text-gray-800">
+                      Y Position
+                      <span className="ml-1 text-sm font-normal text-gray-500">(px)</span>
+                    </Label>
+                    <Input
+                      id="crop-y"
+                      type="number"
+                      min="0"
+                      value={croppedAreaPixels.y || 0}
+                      onChange={({ target }) => {
+                        const newY = parseInt(target.value, 10) || 0
+                        setCroppedAreaPixels({ ...croppedAreaPixels, y: newY })
+                      }}
+                      className="mt-3 text-center"
+                    />
+                  </div>
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label htmlFor="crop-width" className="block font-semibold text-gray-800">
+                      Width
+                      <span className="ml-1 text-sm font-normal text-gray-500">(px)</span>
+                    </Label>
+                    <Input
+                      id="crop-width"
+                      type="number"
+                      min="10"
+                      value={croppedAreaPixels.width || 0}
+                      onChange={({ target }) => {
+                        const newWidth = parseInt(target.value, 10) || 0
+                        setCroppedAreaPixels({ ...croppedAreaPixels, width: newWidth })
+                      }}
+                      className="mt-3 text-center"
+                    />
+                  </div>
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                    <Label htmlFor="crop-height" className="block font-semibold text-gray-800">
+                      Height
+                      <span className="ml-1 text-sm font-normal text-gray-500">(px)</span>
+                    </Label>
+                    <Input
+                      id="crop-height"
+                      type="number"
+                      min="10"
+                      value={croppedAreaPixels.height || 0}
+                      onChange={({ target }) => {
+                        const newHeight = parseInt(target.value, 10) || 0
+                        setCroppedAreaPixels({ ...croppedAreaPixels, height: newHeight })
+                      }}
+                      className="mt-3 text-center"
+                    />
+                  </div>
+                </div>
 
-        {/* Internal links for related tools */}
-        <div className="mt-6 text-sm text-gray-600">
-          Looking to resize after cropping? Try our{' '}
-          <a href="/resize" className="text-blue-600 hover:underline">GIF Resizer</a>. Need to reduce file size? Use the{' '}
-          <a href="/optimize" className="text-blue-600 hover:underline">GIF Optimizer</a>.
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
+                  <Label className="block font-semibold text-gray-800 mb-3">
+                    Aspect ratio presets
+                  </Label>
+                  <Select value={aspect ? aspect.toString() : 'free'} onValueChange={handleAspectChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Free" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="free">Free</SelectItem>
+                      <SelectItem value="square">1:1</SelectItem>
+                      <SelectItem value="4:3">4:3</SelectItem>
+                      <SelectItem value="16:9">16:9</SelectItem>
+                      <SelectItem value="9:16">9:16</SelectItem>
+                      <SelectItem value="3:2">3:2</SelectItem>
+                      <SelectItem value="2:1">2:1</SelectItem>
+                      <SelectItem value="golden">Golden Ratio (1.618:1)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <EnhancedTipsSection
+                  title="Pro Tips for Perfect Cropping"
+                  tips={[
+                    '<strong>Focus on Subject</strong> Crop to highlight the main action or subject and keep attention on what matters.',
+                    '<strong>Remove Distractions</strong> Trim away background elements that add noise to your animation.',
+                    '<strong>Maintain Quality</strong> Avoid very small crops to preserve detail—aim for at least 200x200px.',
+                    '<strong>Pick the Right Ratio</strong> Match your crop to the destination platform for a polished final result.',
+                    '<strong>Preview Every Frame</strong> Scrub through the animation to ensure the subject stays within the crop.',
+                    '<strong>Use Coordinates</strong> Fine-tune X/Y and size values for pixel-perfect framing.'
+                  ]}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </div>
+      )}
 
-        {/* Tutorial section (mirrors HowTo schema) */}
-        <section className="mt-10 space-y-4" aria-label="Tutorial: How to Crop a GIF">
-          <h2 className="text-2xl font-semibold text-gray-900">Tutorial: How to Crop a GIF</h2>
-          <p className="text-gray-700">
-            This quick guide shows <strong>how to crop a GIF</strong> in your browser—no downloads required.
-          </p>
-          <ol className="list-decimal pl-6 text-gray-700 space-y-2">
-            <li><strong>Upload</strong> a GIF from your device or paste a direct GIF URL.</li>
-            <li><strong>Select area</strong> by dragging the handles over the portion you want to keep.</li>
-            <li>Optionally choose an <strong>aspect ratio</strong> such as 1:1 (square) or 16:9 for social platforms.</li>
-            <li>Click <strong>Crop GIF</strong> to process all frames while preserving animation.</li>
-            <li><strong>Download</strong> your cropped animated GIF and share it anywhere.</li>
-          </ol>
-          <p className="text-gray-700">
-            Tip: After cropping, you can <a href="/resize" className="text-blue-600 hover:underline">resize</a> for exact dimensions or
-            <a href="/optimize" className="text-blue-600 hover:underline"> optimize</a> to reduce file size.
-          </p>
-        </section>
-
-        {/* Comparison: Crop vs Trim */}
-        <section className="mt-10 space-y-3" aria-label="Crop vs Trim">
-          <h2 className="text-2xl font-semibold text-gray-900">Crop vs. Trim: What’s the Difference?</h2>
-          <p className="text-gray-700">
-            <strong>Crop GIF</strong> removes the outer areas of each frame (changes the visible region).
-            <br />
-            <strong>Trim GIF</strong> removes frames at the start or end (changes the duration). If you need trimming,
-            first crop here, then use our <a href="/gif-maker" className="text-blue-600 hover:underline">GIF Maker</a>
-            to assemble only the segments you want.
-          </p>
-        </section>
-
-        {/* Testimonials (social proof) */}
-        <section className="mt-10 space-y-4" aria-label="What users say">
-          <h2 className="text-2xl font-semibold text-gray-900">What Users Say</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <blockquote className="border rounded-lg p-4 bg-white shadow-sm text-gray-700">
-              “Exactly what I needed to <strong>crop an animated GIF</strong> for a post—fast, clean, and no quality loss.”
-              <div className="mt-2 text-xs text-gray-500">— Creator, social media</div>
-            </blockquote>
-            <blockquote className="border rounded-lg p-4 bg-white shadow-sm text-gray-700">
-              “Love the simple workflow. Crop, then <a href="/resize" className="text-blue-600 hover:underline">resize</a> and
-              <a href="/optimize" className="text-blue-600 hover:underline"> optimize</a>. Done in under a minute.”
-              <div className="mt-2 text-xs text-gray-500">— Designer, marketing</div>
-            </blockquote>
-          </div>
-        </section>
-
-
-          {/* Upload State */}
-          {workflowState === 'upload' && (
-            <UploadState
-              title="Upload GIF to Crop"
-              description="Select a GIF file or enter a GIF URL to crop and trim"
-              errorMessage={errorMessage}
-              uploadMethod={uploadMethod}
-              setUploadMethod={setUploadMethod}
-              onFileSelect={(files) => handleFileUpload(files)}
-              onUrlSubmit={(url) => handleFileUpload(null, url)}
-              isProcessing={isProcessing}
-              supportedFormats="Supported formats: GIF only"
-              accept="image/gif"
-              toolName="GIF"
-              useGradient={false}
-            />
-          )}
-
-          {/* Quick features + Limits (after upload section) */}
-          <QuickFeaturesBox
-            features={[
-              { emoji: '✂️', text: 'Freeform or preset aspect ratios' },
-              { emoji: '🖱️', text: 'Interactive crop selection' },
-              { emoji: '🔍', text: 'Preview before download' },
-              { emoji: '⚡', text: 'Fast, no watermark' },
-            ]}
-          />
-          <LimitsTable
-            acceptedFormats={[ 'GIF' ]}
-            maxFps={null}
-            maxFrames={null}
-            maxResolution={'Very large GIFs may process slower; crop first then optimize for best results'}
-            recommendedDuration={null}
-          />
-
-          {/* Editing State */}
-          {workflowState === 'editing' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* GIF Preview and Cropper */}
-              <div className="lg:col-span-2">
-                <Card className="bg-gradient-to-br from-white to-blue-50/30 shadow-lg">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-2xl font-bold text-gray-800">GIF Preview & Cropper</CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Drag to select the area you want to keep in your GIF
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-gradient-to-br from-gray-50/50 to-blue-50/30 rounded-2xl p-6 mb-6 backdrop-blur-sm">
-                      <CropperCanvas
-                        imageUrl={mediaUrl}
-                        aspect={aspect}
-                        crop={crop}
-                        zoom={zoom}
-                        onCropChange={setCrop}
-                        onZoomChange={setZoom}
-                        onCropComplete={onCropComplete}
-                      />
-                    </div>
-                    <div className="flex gap-4">
-                      <Button onClick={resetWorkflow} variant="outline" className="flex-1 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300">
-                        Upload Different GIF
-                      </Button>
-                      <Button 
-                        onClick={handleProcess}
-                        disabled={isProcessing}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        {isProcessing ? 'Cropping...' : 'Crop GIF'}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              {/* Crop Settings Panel */}
-              <div>
-                <Card className="bg-gradient-to-br from-white to-indigo-50/30 shadow-lg">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
-                      <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-                        <Crop className="h-5 w-5 text-white" />
-                      </div>
-                      Crop Settings
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="crop-x" className="block font-semibold mb-3 text-gray-800">
-                          X Position
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="crop-x"
-                          type="number"
-                          value={croppedAreaPixels.x || 0}
-                          onChange={e => {
-                            const newX = parseInt(e.target.value, 10) || 0
-                            setCroppedAreaPixels({ ...croppedAreaPixels, x: newX })
-                          }}
-                          min="0"
-                          max="1000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        />
-                      </div>
-                      
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="crop-y" className="block font-semibold mb-3 text-gray-800">
-                          Y Position
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="crop-y"
-                          type="number"
-                          value={croppedAreaPixels.y || 0}
-                          onChange={e => {
-                            const newY = parseInt(e.target.value, 10) || 0
-                            setCroppedAreaPixels({ ...croppedAreaPixels, y: newY })
-                          }}
-                          min="0"
-                          max="1000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="crop-width" className="block font-semibold mb-3 text-gray-800">
-                          Width
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="crop-width"
-                          type="number"
-                          value={croppedAreaPixels.width || 0}
-                          onChange={e => {
-                            const newWidth = parseInt(e.target.value, 10) || 0
-                            setCroppedAreaPixels({ ...croppedAreaPixels, width: newWidth })
-                          }}
-                          min="10"
-                          max="1000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                        <label htmlFor="crop-height" className="block font-semibold mb-3 text-gray-800">
-                          Height
-                          <span className="text-sm text-gray-500 ml-2 font-normal">(pixels)</span>
-                        </label>
-                        <input
-                          id="crop-height"
-                          type="number"
-                          value={croppedAreaPixels.height || 0}
-                          onChange={e => {
-                            const newHeight = parseInt(e.target.value, 10) || 0
-                            setCroppedAreaPixels({ ...croppedAreaPixels, height: newHeight })
-                          }}
-                          min="10"
-                          max="1000"
-                          className="w-full bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 text-center font-medium shadow-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                    
-                    {/* Aspect Ratio Selector */}
-                    <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4">
-                      <label htmlFor="aspect-ratio" className="block font-semibold mb-3 text-gray-800">
-                        Aspect Ratio
-                        <span className="text-sm text-gray-500 ml-2 font-normal">(optional)</span>
-                      </label>
-                      <Select value={aspect === null ? 'free' : 
-                        aspect === 1 ? 'square' :
-                        aspect === 4/3 ? '4:3' :
-                        aspect === 16/9 ? '16:9' :
-                        aspect === 9/16 ? '9:16' :
-                        aspect === 3/2 ? '3:2' :
-                        aspect === 2 ? '2:1' :
-                        aspect === 1.618 ? 'golden' : 'free'} 
-                        onValueChange={handleAspectChange}>
-                        <SelectTrigger className="w-full bg-white/80 backdrop-blur-sm">
-                          <SelectValue placeholder="Select aspect ratio" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="free">Free (Custom)</SelectItem>
-                          <SelectItem value="square">Square (1:1)</SelectItem>
-                          <SelectItem value="4:3">4:3</SelectItem>
-                          <SelectItem value="16:9">16:9</SelectItem>
-                          <SelectItem value="9:16">9:16</SelectItem>
-                          <SelectItem value="3:2">3:2</SelectItem>
-                          <SelectItem value="2:1">2:1</SelectItem>
-                          <SelectItem value="golden">Golden Ratio (1.618:1)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-          
-          {/* Mid-content Ad */}
-                              <div className="my-8 flex justify-center">
-                                <InArticleAd 
-                                  slot="8336674411"
-                                  className="max-w-2xl w-full"
-                                />
-                                </div>
-                    
-          <EnhancedTipsSection
-            title="Pro Tips for Perfect Cropping"
-            tips={[
-              "<strong>Focus on Subject</strong> Crop to highlight the main action or subject. Keep the most important elements in frame.",
-              "<strong>Remove Distractions</strong> Eliminate unwanted background elements that don't add to your story.",
-              "<strong>Maintain Quality</strong> Don't crop too small to preserve detail. Keep at least 200x200px for good quality.",
-              "<strong>Consider Aspect Ratio</strong> Think about where you'll use the GIF. Square works well for Instagram, wider for Twitter.",
-              "<strong>Preview First</strong> Check the result before finalizing. Make sure the crop looks good throughout the animation.",
-              "<strong>Use Coordinates</strong> Use the X/Y position and width/height inputs for precise control over your crop area."
-            ]}
-          />
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-
-          {/* Processing State */}
-          {workflowState === 'processing' && (
-            <ProcessingState
-              title="Cropping Your GIF"
-              description="Processing your cropped GIF..."
-            />
-          )}
-
-          {/* Result State */}
-          {workflowState === 'result' && resultUrl && (
-            <ResultSection
-              title="Your Cropped GIF is Ready!"
-              description="Your GIF has been successfully cropped to your specifications."
-              imageUrl={resultUrl.previewUrl}
-              downloadFileName="cropped.gif"
-              downloadUrl={resultUrl.downloadUrl}
-              onReset={resetWorkflow}
-            />
-          )}
-        
-        <ToolSeoSection
-          icon={Crop}
-          title="Crop GIF"
-          description1="Perfect your GIFs with our powerful online cropping tool. Remove unwanted areas, focus on the most important parts, and create clean, professional GIFs that grab attention. Whether you're removing backgrounds, focusing on specific actions, or creating perfectly sized GIFs for different platforms."
-          description2="Our intuitive cropping interface lets you precisely select the area you want to keep, with real-time preview so you can see exactly what your final GIF will look like. Perfect for content creators, marketers, and anyone who wants to create polished, professional GIFs."
-          features1={[
-            { emoji: "✂️", text: "Precise cropping with pixel-perfect control" },
-            { emoji: "👁️", text: "Real-time preview of cropped results" },
-            { emoji: "🎯", text: "Focus on specific areas or subjects" }
-          ]}
-          features2={[
-            { emoji: "💎", text: "Maintain animation quality" },
-            { emoji: "📱", text: "Optimize for any platform" }
-          ]}
-          useCases={[
-            { color: "bg-yellow-400", text: "Remove unwanted backgrounds from GIFs" },
-            { color: "bg-green-400", text: "Focus on specific actions or subjects" },
-            { color: "bg-blue-400", text: "Create square GIFs for social media" },
-            { color: "bg-purple-400", text: "Trim GIFs to fit specific dimensions" }
-          ]}
+      {workflowState === 'processing' && (
+        <ProcessingState
+          title="Cropping Your GIF"
+          description="Processing your cropped GIF..."
         />
-          <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-          <TipsFaqsBestPracticesSection 
-            proTips={[
-              {
-                color: "bg-blue-500",
-                text: "Focus on the main subject or action in your GIF for better visual impact."
-              },
-              {
-                color: "bg-green-500",
-                text: "Remove distracting background elements for cleaner, more focused results."
-              },
-              {
-                color: "bg-purple-500",
-                text: "Choose appropriate aspect ratios for your target platform (square for Instagram, 16:9 for YouTube)."
-              },
-              {
-                color: "bg-orange-500",
-                text: "Don't crop too small to maintain quality and detail in your final GIF."
-              }
-            ]}
-            faqs={[
-              {
-                question: "Will cropping affect animation quality?",
-                answer: "No, our tool maintains animation smoothness while cropping."
-              },
-              {
-                question: "Can I crop to any size?",
-                answer: "Yes, you can set custom width and height values."
-              },
-              {
-                question: "What's the minimum crop size?",
-                answer: "Minimum 10x10 pixels for optimal results."
-              },
-              {
-                question: "Does cropping reduce file size?",
-                answer: "Yes, smaller cropped areas typically result in smaller files."
-              }
-            ]}
-            relatedResources={[
-              {
-                href: "/blog/top-5-gif-optimization-tips",
-                icon: "⚡",
-                text: "Top 5 GIF Optimization Tips"
-              },
-              {
-                href: "/blog/how-to-make-gifs-from-videos",
-                icon: "📹",
-                text: "How to Make GIFs from Videos"
-              }
-            ]}
-          />
+      )}
 
-          <TroubleshootingSection 
-            commonIssues={[
-              {
-                color: "bg-yellow-500",
-                text: "If the crop area is too small, increase the dimensions."
-              },
-              {
-                color: "bg-orange-500",
-                text: "If upload fails, check your file format (GIF only) and file size."
-              },
-              {
-                color: "bg-red-500",
-                text: "Still having issues?",
-                link: "/contact"
-              }
-            ]}
-            quickFixes={[
-              {
-                icon: "✂️",
-                text: "Use precise coordinates for accurate cropping"
-              },
-              {
-                icon: "👁️",
-                text: "Preview before finalizing your crop"
-              },
-              {
-                icon: "📏",
-                text: "Maintain aspect ratio for better results"
-              }
-            ]}
-          />
-
-          <SocialSharingSection 
-            title="Share Your Cropped GIF!"
-            description="Share your perfectly cropped GIF on Instagram, Twitter, TikTok, Facebook, or embed it in your blog or website. Tag us with #EasyGIFMaker for a chance to be featured!"
-          />
-
-          {/* Value Content Section (moved to end) */}
-          {/* Bottom Ad - Before value content */}
-          <div className="my-8 flex justify-center">
-            <DisplayAd 
-              slot="1125232950"
-              className="max-w-3xl w-full"
-            />
-          </div>
-          <ValueContentSection content={toolContent.cropGif} />
-
-        </ToolPageLayout>
-    </>
+      {workflowState === 'result' && resultUrl && (
+        <ResultSection
+          title="Your Cropped GIF is Ready!"
+          description="Your GIF has been successfully cropped to your specifications."
+          imageUrl={resultUrl.previewUrl}
+          downloadFileName="cropped.gif"
+          downloadUrl={resultUrl.downloadUrl}
+          onReset={resetWorkflow}
+        />
+      )}
+    </ToolPageLayout>
   )
 }

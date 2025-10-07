@@ -1,26 +1,16 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Video, Settings, Download } from 'lucide-react'
 import VideoTimeline from '../components/VideoTimeline'
-import SocialSharingSection from '../components/SocialSharingSection'
-import TroubleshootingSection from '../components/TroubleshootingSection'
-import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
-import ToolSeoSection from '../components/ToolSeoSection'
-import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
-import ValueContentSection from '../components/ValueContentSection'
-import { toolContent } from '@/data/toolContent.js'
 import DisplayAd from '@/components/ads/DisplayAd.jsx'
 import InArticleAd from '@/components/ads/InArticleAd.jsx'
-import AdsenseAd from '../components/AdsenseAd'
 import { Slider } from '@/components/ui/slider.jsx'
-import LimitsTable from '../components/LimitsTable'
 import useTaskPolling from '@/hooks/useTaskPolling.js'
 import { safeJson } from '@/utils/http.js'
 
@@ -75,77 +65,6 @@ export default function VideoToGifTool() {
     mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
     footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
   }), [])
-
-  const afterContent = useMemo(() => (
-    <>
-      <ToolSeoSection
-        icon={Video}
-        title="Video to GIF Converter"
-        description1="Transform your videos into shareable GIFs with our precise converter. Trim highlights, tweak colour, and export formats tailored for social posts, chats, and presentations."
-        description2="Interactive timelines, brightness/contrast controls, and optional MP4/WebP outputs make this tool ideal for creators and teams who need fast, polished loops."
-        features1={[
-          { emoji: '🎬', text: 'Frame-accurate timeline trimming' },
-          { emoji: '⚡', text: 'Fast, watermark-free processing' },
-          { emoji: '🔧', text: 'Advanced controls for fps, size, and colour' }
-        ]}
-        features2={[
-          { emoji: '🌐', text: 'Works with MP4, WebM, MOV, AVI, and more' },
-          { emoji: '📱', text: 'Outputs tuned for social, blogs, and support docs' }
-        ]}
-        useCases={[
-          { color: 'bg-yellow-400', text: 'Clip reaction highlights for community chats' },
-          { color: 'bg-green-400', text: 'Convert product walkthroughs into short GIF demos' },
-          { color: 'bg-blue-400', text: 'Repurpose webinar intros into looping teasers' },
-          { color: 'bg-purple-400', text: 'Create meme-ready loops from stream recordings' }
-        ]}
-      />
-
-      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-
-      <TipsFaqsBestPracticesSection
-        proTips={[
-          { color: 'bg-blue-500', text: 'Stitch multiple segments to build a narrative highlight reel.' },
-          { color: 'bg-green-500', text: 'Target 6-12 seconds total duration to keep file sizes shareable.' },
-          { color: 'bg-purple-500', text: 'Adjust brightness/contrast in small steps to correct dim footage.' },
-          { color: 'bg-orange-500', text: 'Lower FPS to 12-15 to slash file weight without losing clarity.' },
-          { color: 'bg-pink-500', text: 'Resize down to ~480px width before exporting for chat apps.' },
-          { color: 'bg-indigo-500', text: 'Enable audio only when you need the MP4 companion clip.' }
-        ]}
-        faqs={[
-          { question: 'How do multiple segments export?', answer: 'Each segment is trimmed and concatenated in order into one GIF and optional MP4/WebP output.' },
-          { question: 'Why is there no MP4 download?', answer: 'The input video likely had no audio track or you left “Include audio” turned off.' },
-          { question: 'What brightness/contrast ranges are safe?', answer: 'Stay between -0.3 and +0.3 brightness and 0.8–1.6 contrast for natural results.' },
-          { question: 'Can I rearrange segments?', answer: 'Segments export in the order you add them. Delete and re-add to adjust sequence (drag-and-drop is on the roadmap).' },
-          { question: 'What FPS should I use?', answer: '15 FPS balances smooth motion and compact size; go higher only for fast action.' },
-          { question: 'Why is my GIF large?', answer: 'High resolution, long duration, and high FPS compound. Lower one or two settings for leaner files.' }
-        ]}
-        relatedResources={[
-          { href: '/blog/how-to-make-gifs-from-videos', icon: '📹', text: 'How to make GIFs from videos' },
-          { href: '/blog/top-5-gif-optimization-tips', icon: '⚡', text: 'Top GIF optimisation tips' }
-        ]}
-      />
-
-      <TroubleshootingSection
-        commonIssues={[
-          { color: 'bg-yellow-500', text: 'If conversion fails, double-check video format and reduce length.' },
-          { color: 'bg-orange-500', text: 'For URL uploads, confirm the link is public and downloadable.' },
-          { color: 'bg-red-500', text: 'Still stuck? Contact support and include the failing video URL.' }
-        ]}
-        quickFixes={[
-          { icon: '🔄', text: 'Clear cached blobs if previews seem stale.' },
-          { icon: '📱', text: 'Try another browser or device for very large uploads.' },
-          { icon: '⚡', text: 'Use a wired or stable connection for files over 200 MB.' }
-        ]}
-      />
-
-      <SocialSharingSection
-        title="Share your converted GIF"
-        description="Drop your loop into Slack, Discord, product updates, or social feeds. Tag #EasyGIFMaker so we can cheer you on."
-      />
-
-      <ValueContentSection content={toolContent.videoToGif} />
-    </>
-  ), [])
 
   // Reset segments when video changes to prevent stale state
   useEffect(() => {
@@ -351,68 +270,10 @@ export default function VideoToGifTool() {
           canonical: 'https://easygifmaker.com/video-to-gif',
           ogImage: 'https://easygifmaker.com/blog/how-to-make-gifs-from-videos.svg'
         }}
-        howToSteps={[
-          {
-            "@type": "HowToStep",
-            "name": "Upload Video or Paste URL",
-            "text": "Select your video file or paste a YouTube/other video URL."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Trim and Customize",
-            "text": "Choose start and end time, crop, reverse, or overlay text on your video."
-          },
-          {
-            "@type": "HowToStep",
-            "name": "Generate and Download",
-            "text": "Click 'Generate GIF' to create and download your animated GIF."
-          }
-        ]}
+        toolKey="videoToGif"
         adSlots={adSlots}
         midAdPosition={2}
-        afterContent={afterContent}
       >
-        
-        <HowToUseSection
-          title="How to Use the Video to GIF Converter"
-          steps={[
-            {
-              title: "Upload your video or paste a URL",
-              description: "Select a local video file or paste a YouTube / public video URL. We fetch and prepare it automatically."
-            },
-            {
-              title: "Create one or multiple segments",
-              description: "Drag the timeline handles to set start/end. Click 'Add Segment' to append another portion – all segments are merged in order."
-            },
-            {
-              title: "Preview each segment",
-              description: "Use the Play Segment button to instantly preview the trimmed portion before processing."
-            },
-            {
-              title: "Fine‑tune visuals",
-              description: "Adjust Brightness (−1 to +1) and Contrast (0–3). Subtle tweaks (±0.1 / +0.2) preserve detail while improving clarity."
-            },
-            {
-              title: "Tune conversion settings",
-              description: "Pick FPS (smoothness vs size), choose quality level, and set output dimensions. Keep width ≤ 720 for faster processing."
-            },
-            {
-              title: "(Optional) Include audio",
-              description: "Enable 'Include Audio' to also produce an MP4 alongside your GIF (only if the source has an audio track)."
-            },
-            {
-              title: "Generate & download",
-              description: "Click Convert to process. When complete, download the GIF (and MP4 if enabled)."
-            },
-            {
-              title: "Share & iterate",
-              description: "Not perfect? Hit 'Convert Another Video' or adjust segments/settings and re‑run."
-            }
-          ]}
-        />
-
-  {/* Value content moved to end of page */}
-
           {/* Upload State */}
           {workflowState === 'upload' && (
             <>
@@ -435,23 +296,6 @@ export default function VideoToGifTool() {
               </p>
             </>
           )}
-
-          {/* Quick features and limits (placed after upload section) */}
-          <section className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
-            <h3 className="text-sm font-bold text-blue-700 mb-1">Quick features</h3>
-            <ul className="grid sm:grid-cols-2 gap-2 text-sm text-blue-900">
-              <li>🧩 Multi‑segment trimming & stitching</li>
-              <li>🎚️ Brightness & Contrast adjustments</li>
-              <li>🎞️ Exports: GIF {videoSettings.includeAudio ? '+ MP4 ' : '+ MP4 (optional) '} {videoSettings.includeWebp ? '+ WebP' : '+ WebP (optional)'}</li>
-              <li>⚡ Fast processing, no watermark</li>
-            </ul>
-          </section>
-          <LimitsTable
-            acceptedFormats={[ 'MP4', 'WebM', 'AVI', 'MOV', 'MKV', 'FLV' ]}
-            maxFrames={null}
-            maxResolution={'Choose width/height (e.g., 480–720 px for faster results)'}
-            recommendedDuration={'Keep combined segments ≤ 15s for shareable sizes'}
-          />
 
           {/* Editing State */}
           {workflowState === 'editing' && (

@@ -7,22 +7,12 @@ import { Image, Settings } from 'lucide-react'
 import FileUploadSection from '../components/FileUploadSection'
 import ResultSection from '../components/ResultSection'
 import GifConversionSettings from '../components/GifConversionSettings'
-import SocialSharingSection from '../components/SocialSharingSection'
-import TroubleshootingSection from '../components/TroubleshootingSection'
-import TipsFaqsBestPracticesSection from '../components/TipsFaqsBestPracticesSection'
-import ToolSeoSection from '../components/ToolSeoSection'
-import HowToUseSection from '../components/HowToUseSection'
 import EnhancedTipsSection from '../components/EnhancedTipsSection'
 import ProcessingState from '../components/ProcessingState'
 import UploadState from '../components/UploadState'
 import ToolPageLayout from '../components/ToolPageLayout'
 import FrameSequencePreview from '@/components/FrameSequencePreview.jsx'
 import { getApiBase } from '@/lib/api'
-import ValueContentSection from '../components/ValueContentSection'
-import AdsenseAd from '../components/AdsenseAd'
-import LimitsTable from '../components/LimitsTable'
-import QuickFeaturesBox from '../components/QuickFeaturesBox'
-import { toolContent } from '@/data/toolContent.js'
 import useTaskPolling from '@/hooks/useTaskPolling.js'
 import { safeJson } from '@/utils/http.js'
 
@@ -62,72 +52,6 @@ export default function GifMakerTool() {
     mid: <InArticleAd slot="8336674411" className="max-w-2xl w-full" />,
     footer: <DisplayAd slot="1125232950" className="max-w-3xl w-full" />
   }), [])
-
-  const afterContent = useMemo(() => (
-    <>
-      <ToolSeoSection
-        icon={Image}
-        title="GIF Maker"
-        description1="Combine images or URLs into looping GIFs in minutes. Control frame timing, add transitions, and preview sequences before you export."
-        description2="Perfect for designers, marketers, and educators who need lightweight animations without heavyweight editors."
-        features1={[
-          { emoji: '🗂️', text: 'Batch upload images or paste remote URLs' },
-          { emoji: '⏱️', text: 'Per-frame duration and preview playback' },
-          { emoji: '✨', text: 'Optional transitions and quality presets' }
-        ]}
-        features2={[
-          { emoji: '📐', text: 'Supports aspect-consistent frame sequencing' },
-          { emoji: '📤', text: 'Exports high-quality GIFs ready for sharing' }
-        ]}
-        useCases={[
-          { color: 'bg-yellow-400', text: 'Storyboard UI flows for product updates' },
-          { color: 'bg-green-400', text: 'Create educational step-by-step image guides' },
-          { color: 'bg-blue-400', text: 'Show before-and-after design changes' },
-          { color: 'bg-purple-400', text: 'Animate photo sequences for social posts' }
-        ]}
-      />
-
-      <AdsenseAd adSlot="8336674411" adFormat="fluid" adLayout="in-article" />
-
-      <TipsFaqsBestPracticesSection
-        proTips={[
-          { color: 'bg-blue-500', text: 'Keep images the same dimensions to avoid jump cuts.' },
-          { color: 'bg-green-500', text: 'Use shorter frame durations (200-400 ms) for lively motion.' },
-          { color: 'bg-purple-500', text: 'Add transitions sparingly to highlight key slides.' },
-          { color: 'bg-orange-500', text: 'Export at high quality first, then optimise for distribution.' }
-        ]}
-        faqs={[
-          { question: 'Can I mix files and URLs?', answer: 'Yes. Upload local files, paste direct image URLs, or combine both in one sequence.' },
-          { question: 'How do I change frame order?', answer: 'Use the frame list to drag frames or remove and re-add them in your preferred sequence.' },
-          { question: 'What size should I use?', answer: '480-720px width works well for most social platforms; export larger if you plan to optimise later.' }
-        ]}
-        relatedResources={[
-          { href: '/blog/comprehensive-gif-making-guide', icon: '🛠️', text: 'Comprehensive GIF making guide' },
-          { href: '/blog/creative-gif-design-tutorial', icon: '🎨', text: 'Creative GIF design tutorial' }
-        ]}
-      />
-
-      <TroubleshootingSection
-        commonIssues={[
-          { color: 'bg-yellow-500', text: 'If frames appear out of order, double-check the sequence list before exporting.' },
-          { color: 'bg-orange-500', text: 'Large images? Resize or compress before upload to speed up processing.' },
-          { color: 'bg-red-500', text: 'Need assistance? Contact support and include your session ID.' }
-        ]}
-        quickFixes={[
-          { icon: '🔁', text: 'Reorder or remove duplicate frames in the preview list.' },
-          { icon: '🖼️', text: 'Use consistent aspect ratios to avoid borders.' },
-          { icon: '⚙️', text: 'Switch quality presets if export size is too large.' }
-        ]}
-      />
-
-      <SocialSharingSection
-        title="Share your new GIF"
-        description="Drop it into release notes, blog posts, or social threads. Tag #EasyGIFMaker so we can celebrate your creation."
-      />
-
-      <ValueContentSection content={toolContent.gifMaker} />
-    </>
-  ), [])
   // Handle file or URL upload
   // Accepts files or an array of URLs
   const handleFileUpload = useCallback((files, urlInput = null) => {
@@ -358,54 +282,10 @@ export default function GifMakerTool() {
         canonical: 'https://easygifmaker.com/gif-maker',
         ogImage: 'https://easygifmaker.com/og-image.svg'
       }}
-      howToSteps={[
-        {
-          "@type": "HowToStep",
-          "name": "Upload Images",
-          "text": "Select multiple image files or paste image URLs to create your GIF."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Arrange and Preview",
-          "text": "Reorder your images using drag-and-drop and preview them in the gallery."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Set Frame Duration",
-          "text": "Adjust the frame duration and loop count in the GIF settings panel."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Create and Download",
-          "text": "Click 'Create GIF' to generate your animation, then download and share it!"
-        }
-      ]}
+      toolKey="gifMaker"
       adSlots={adSlots}
       midAdPosition={2}
-      afterContent={afterContent}
     >
-      
-      <HowToUseSection
-        title="How to Use the GIF Maker"
-        steps={[
-          {
-            title: "Upload your images",
-            description: "Click \"Upload Images\" or drag and drop your files. You can also paste image URLs."
-          },
-          {
-            title: "Arrange and preview",
-            description: "Reorder your images using drag-and-drop, and preview them in the gallery."
-          },
-          {
-            title: "Adjust settings",
-            description: "Set frame duration and loop count in the GIF Settings panel."
-          },
-          {
-            title: "Create and download",
-            description: "Click \"Create GIF\" to generate your animation, then download and share it!"
-          }
-        ]}
-      />
           {/* Upload State */}
           {workflowState === 'upload' && (
             <UploadState
@@ -426,27 +306,10 @@ export default function GifMakerTool() {
               urlList={frames.filter(f => f.url).map(f => f.url)}
               setUrlList={urls => {
                 setFrames(urls.map(url => ({ url, duration: gifSettings.frameDuration, effect: 'none' })));
-                setWorkflowState('preview');
-              }}
-            />
+              setWorkflowState('preview');
+            }}
+          />
           )}
-
-          {/* Quick features + Limits (after upload section) */}
-          <QuickFeaturesBox
-            features={[
-              { emoji: '✨', text: 'Per-frame effects (Fade, Zoom)' },
-              { emoji: '🔁', text: 'Custom timing and loop count' },
-              { emoji: '🧲', text: 'Drag-and-drop reordering' },
-              { emoji: '👀', text: 'Live preview before download' },
-            ]}
-          />
-          <LimitsTable
-            acceptedFormats={[ 'JPG', 'PNG', 'GIF', 'WebP', 'APNG', 'HEIC', 'HEIF', 'MNG', 'JP2', 'AVIF', 'JXL', 'BMP', 'PDF' ]}
-            maxFps={null}
-            maxFrames={'~300 frames (safety cap in complex edits)'}
-            maxResolution={'Up to ~800×800 px equivalent (complex ops)'}
-            recommendedDuration={null}
-          />
 
           {/* Preview State */}
           {workflowState === 'preview' && (
